@@ -1,32 +1,32 @@
 <div align="center">
-<h1>库名</h1>
+<h1>oauth4cj</h1>
 </div>
 
 <p align="center">
 <img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjc-v0.30.4-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjcov-50%25-red" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjc-v0.37.2-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjcov-0%25-red" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
 
 ## 介绍
 
-介绍库或者框架符合的标准，应用领域，解决什么问题。有哪些主要的特点，与同类库相比有哪些优点。
+OAuth 协议为用户资源的授权提供了一个安全的、开放而又简易的标准。与以往的授权方式不同之处是 OAuth 的授权不会使第三方触及到用户的帐号信息，即第三方无需使用用户的用户名与密码就可以申请获得该用户资源的授权，因此 OAuth 是安全的。OAuth 是 Open Authorization 的简写。
+
+代码参考:
+1. https://github.com/scribejava/scribejava
+
 
 ### 特性
 
-- 🚀 特性1
+- 🚀 授权码模式授权
 
-- 🚀 特性2
+- 🚀 简化模式授权
 
-- 💪 特性3
+- 💪 密码模式授权
 
-- 🛠️ 特性4
-
-- 🌍 特性5
-
-- 💡  特性6
+- 🛠️ 客户端模式授权
 
 ### 路线
 
@@ -55,7 +55,6 @@
 │   ├── assets
 │   ├── cjcov
 │   ├── design.md
-│   ├── proposal.md
 │   └── xxx_lib.md
 ├── src
 │   └── Template.cj
@@ -71,7 +70,7 @@
 
 ### 接口说明
 
-主要类和函数接口说明详见 [API](./doc/api.md)
+主要类和函数接口说明详见 [feature_api](./doc/feature_api.md)
 
 
 ## 使用说明
@@ -81,8 +80,11 @@
 描述具体的编译过程：
 
 ```shell
-cpm update
-cpm build
+git clone https://gitee.com/HW-PLLab/oauth.git       ---> 拉取代码
+git clone https://gitee.com/HW-PLLab/testJekins.git  ---> 拉取编译脚本
+cd oauth4cj                                          ---> 进入到oauth4cj目录下
+cp -r ../testJekins/src/ci_test .                    ---> 将ci_test复制到oauth4cj的根目录
+python3 ci_test/main.py build                        ---> 编译
 ```
 
 ### 功能示例
@@ -125,7 +127,7 @@ xxx
 ```
 
 ## 开源协议
-xx License
+The MIT License
 
 ## 参与贡献
 
