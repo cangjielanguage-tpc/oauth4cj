@@ -1,7 +1,7 @@
 {
   "cjc_version": "0.37.2",
   "organization": "cangjie",
-  "name": "OAuth",
+  "name": "oauth4cj",
   "description": "nothing here",
   "version": "0.0.1",
   "requires": {},

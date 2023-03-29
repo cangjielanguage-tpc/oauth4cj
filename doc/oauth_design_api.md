@@ -28,11 +28,11 @@ public open class Base64Utils {
 ```cangjie
 from OAuth import utils.*
 main(): Int64 {
-	let bytes: Array<UInt8> = "Hello World".toUtf8Array()
-	let encoded: String = "SGVsbG8gV29ybGQ="
-	let str: String = Base64Utils.encode(bytes)
-	println("encoded == str: ${encoded == str}")
-	return 0
+    let bytes: Array<UInt8> = "Hello World".toUtf8Array()
+    let encoded: String = "SGVsbG8gV29ybGQ="
+    let str: String = Base64Utils.encode(bytes)
+    println("encoded == str: ${encoded == str}")
+    return 0
 }
 ```
 
