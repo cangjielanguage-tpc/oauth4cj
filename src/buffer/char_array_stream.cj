@@ -1,6 +1,5 @@
 /*
  * Copyright (c) Cangjie Library Team 2023-2023. All rights reserved.
- * Description:
  */
 
 /**
@@ -42,7 +41,7 @@ public class CharArrayStream {
         get(){return this.myData.size}
     }
 
-    /* Convert to character write buffer. */
+    // Convert to character write buffer.
     public func write(ch: Int32): Unit {
         let item: Char = Char(ch)
         this.append(item)

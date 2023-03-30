@@ -1,6 +1,5 @@
 /*
  * Copyright (c) Cangjie Library Team 2023-2023. All rights reserved.
- * Description:
  */
 
 /**
@@ -27,7 +26,7 @@ public open class OAuth4cjParametersMissingException <: OAuth4cjException {
     }
 }
 
-/* A private exception indicating a problem in the signature. */
+// A private exception indicating a problem in the signature.
 public open class OAuth4cjSignatureException <: OAuth4cjException {
     public init() {
         super()
