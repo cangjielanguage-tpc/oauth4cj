@@ -26,7 +26,7 @@ public open class Base64Utils {
 #### 1.2 示例
 
 ```cangjie
-from OAuth import utils.*
+from oauth4cj import utils.*
 main(): Int64 {
     let bytes: Array<UInt8> = "Hello World".toUtf8Array()
     let encoded: String = "SGVsbG8gV29ybGQ="
@@ -61,7 +61,7 @@ Verb + URL + params
 ##### 2.1.1.1 interface BaseStringExtractor
 
 ```cangjie
-/* 从 OAuthRequest 中提取基字符串的简单命令对象 */
+// 从 OAuthRequest 中提取基字符串的简单命令对象
 public interface BaseStringExtractor {
     /*
     * 从 OAuthRequest 中提取 url 编码的基字符串
