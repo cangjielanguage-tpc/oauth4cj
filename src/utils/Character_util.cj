@@ -66,5 +66,4 @@ class CharacterUtil  {
         }
         return Char(CHAR_a - 10 + digit)
     }
-
 }

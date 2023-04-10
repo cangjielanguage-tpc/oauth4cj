@@ -35,6 +35,3 @@ public open class OAuth4cjSignatureException <: OAuth4cjException {
         super(string)
     }
 }
-
-
-

@@ -23,5 +23,4 @@ public open class Base64Utils {
     public static func encode(bytes: Array<UInt8>): String {
         return toBase64String(bytes)
     }
-
 }
