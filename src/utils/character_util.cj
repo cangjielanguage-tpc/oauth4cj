@@ -26,6 +26,7 @@ let CHAR_B2: Int64 = 95 // '_'：95
 let CHAR_B3: Int64 = 46 // '.'：46
 let CHAR_B4: Int64 = 42 // '*'：42
 
+
 /**
  * The class is CharacterUtil
  * @since 0.37.2
