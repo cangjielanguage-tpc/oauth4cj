@@ -43,7 +43,7 @@ public open class BodyPartPayload {
     }
 
     /**
-     * Gets the headers value of BodyPartPayload.
+     * Get the headers value of BodyPartPayload.
      *
      * @return Type of HashMap<String, String>
      * @since 0.37.2
