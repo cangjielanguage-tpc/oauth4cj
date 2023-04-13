@@ -163,19 +163,13 @@ public class FileByteArrayBodyPartPayload <: ByteArrayBodyPartPayload {
     private static func composeHeaders(contentType: String, name: String, filename: String): HashMap<String, String> {
 
         var contentDispositionHeader: String = "form-data"
-        if (!name.isEmpty()) {
-            contentDispositionHeader += "; name=\"" + name + '"'
-        }
-        if (!filename.isEmpty()) {
-            contentDispositionHeader += "; filename=\"" + filename + '"'
-        }
-        if (contentType.isEmpty()) {
-            return HashMap<String, String>([("Content-Disposition", contentDispositionHeader)])
-        } else {
-            let headers: HashMap<String, String> = HashMap<String, String>()
-            headers.put(CONTENT_TYPE, contentType)
-            headers.put("Content-Disposition", contentDispositionHeader)
-            return headers
-        }
+
+        contentDispositionHeader += "; name=\"" + name + '"'
+        contentDispositionHeader += "; filename=\"" + filename + '"'
+
+        let headers: HashMap<String, String> = HashMap<String, String>()
+        headers.put(CONTENT_TYPE, contentType)
+        headers.put("Content-Disposition", contentDispositionHeader)
+        return headers
     }
 }

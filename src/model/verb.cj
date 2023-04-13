@@ -6,7 +6,7 @@ package model
 /**
  * An enumeration containing the most common HTTP Verbs.
  */
-public enum Verb <: ToString{
+public enum Verb <: ToString {
     | GET
     | POST
     | PUT

@@ -24,7 +24,7 @@ public class OAuthEncoder  {
      */
     public static func encode(src: String): String {
         if (src.isEmpty()) {
-            throw IllegalArgumentException("Cannot encode empty String!")
+            return ""
         }
         var encoded: String = ""
         try {
@@ -50,7 +50,7 @@ public class OAuthEncoder  {
      */
     public static func decode(encoded: String): String {
         if (encoded.isEmpty()) {
-            throw IllegalArgumentException("Cannot decode empty String!")
+            return ""
         }
         try {
             return URLEncoder.decode(encoded, CHARSET)

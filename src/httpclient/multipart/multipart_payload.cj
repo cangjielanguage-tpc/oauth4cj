@@ -93,12 +93,8 @@ public class MultipartPayload <: BodyPartPayload {
             contentTypeHeader = headersIn.get(CONTENT_TYPE) ?? ""
         }
 
-        if (contentTypeHeader.isEmpty()) {
-            contentTypeHeader = "multipart/" + subtype
-            if (subtype.isEmpty()) {
-                contentTypeHeader += DEFAULT_SUBTYPE
-            }
-            contentTypeHeader += ("; boundary=\"" + boundary + '"')
+        if (!headersIn.contains(CONTENT_TYPE)) {
+            contentTypeHeader = "multipart/" + subtype + "; boundary=\"" + boundary + '"'
             if (!headersIn.isEmpty()) {
                 headersOut = headersIn
             }

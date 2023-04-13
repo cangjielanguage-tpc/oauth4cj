@@ -10,7 +10,6 @@ package model
 from std import collection.*
 
 import utils.*
-import exceptions.*
 
 public class ParameterList {
 
@@ -69,10 +68,7 @@ public class ParameterList {
      * @since 0.37.2
      */
     public func appendTo(url: String): String {
-        if (url.isEmpty()) {
-            throw OAuth4cjParametersMissingException("cannot append to null URL!")
-        }
-        let queryString: String = asFormUrlEncodedString();
+        let queryString: String = asFormUrlEncodedString()
         if (queryString.equals(EMPTY_STRING)) {
             return url
         } else {
