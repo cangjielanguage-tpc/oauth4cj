@@ -87,7 +87,7 @@ OAuth 定义了四种角色：
 描述具体的编译过程：
 
 ```shell
-git clone https://gitee.com/HW-PLLab/oauth4cj.git       ---> 拉取代码
+git clone https://gitee.com/HW-PLLab/oauth4cj.git    ---> 拉取代码
 git clone https://gitee.com/HW-PLLab/testJekins.git  ---> 拉取编译脚本
 cd oauth4cj                                          ---> 进入到oauth4cj目录下
 cp -r ../testJekins/src/ci_test .                    ---> 将ci_test复制到oauth4cj的根目录
@@ -98,7 +98,7 @@ python3 ci_test/main.py build                        ---> 编译
 #### 提供 base64 编码功能示例
 
 功能示例描述:
-    提供 base64 编码功能
+提供 base64 编码功能
 
 示例代码如下：
 
@@ -122,7 +122,7 @@ encoded == str: true
 ####  提供 URL 编解码功能示例
 
 功能示例描述:
-    以UTF-8编码字符串的形式返回流内容
+以UTF-8编码字符串的形式返回流内容
 
 示例代码如下：
 
@@ -152,8 +152,8 @@ decoded == str: true
 
 #### 提供OAuth的请求/响应/令牌对象功能示例
 
-功能示例描述: 
-    提供 OAuth 的 HTTP响应表示形式，Response
+功能示例描述:
+提供 OAuth 的 HTTP响应表示形式，Response
 
 示例代码如下：
 ```cangjie
