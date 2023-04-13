@@ -1,11 +1,11 @@
 [
     {
-        "Name": " xxx",
-        "License": " Apache License ",
-        "License File": " LICENSE ",
-        "Version Number": " v2.0 ",
-        "Owner": "xxx"
-        "Upstream URL": "https://github.com/xxx",
-        "Description": " xxx."
+        "Name": "Scribejava",
+        "License": "MIT license",
+        "License File": "LICENSE",
+        "Version Number": "v8.3.3",
+        "Owner": ""
+        "Upstream URL": "https://github.com/scribejava/scribejava",
+        "Description": "Simple OAuth library for Java"
     }
 ]
