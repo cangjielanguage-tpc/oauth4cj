@@ -7,6 +7,8 @@ from oauth4cj import model.*
 
 public func testAuthorization_01():Int32 {
     var oauth2Authorization:OAuth2Authorization = OAuth2Authorization()
+    oauth2Authorization.setCode("")
+    oauth2Authorization.setState("")
     if (!"".equals(oauth2Authorization.getCode())) {
         return -1
     } 
