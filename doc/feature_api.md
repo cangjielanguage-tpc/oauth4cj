@@ -26,11 +26,25 @@ public open class Base64Utils {
     
     /**
      * 使用 Base64 编码方案将指定的字节数组编码为字符串。
+     * 注: 
+     *    1. 使用 RFC2045（和 RFC4648）的“表1: Base64 字母表”;
+     *    2. 使用“=”填充剩余的1或2个字节。
      *
      * @参数 bytes - 要编码的字节数组
      * @返回值 String - 包含结果 Base64 编码字符的字符串
      */
     public static func encode(bytes: Array<UInt8>): String
+    
+    /**
+     * 使用 Base64 编码方案将指定的字节数组编码为字符串，无需填充。
+     * 注：
+     *    1. 使用 RFC4648 的表2（“URL 和文件名安全 Base64”），将“+”和“/”更改为“-”和“_”;
+     *    2. 不使用'='填充剩余的1或2个字节。
+     *
+     * @参数 bytes - 要编码的字节数组
+     * @返回值 String - 包含结果 Base64 编码字符的字符串
+     */
+    public static func encodeUrlWithoutPadding(bytes: Array<UInt8>): String
 }
 ```
 
@@ -59,10 +73,9 @@ encoded == str: true
 
 ##### 1.2.1 主要接口
 
+######
+URL编解码类
 ```cangjie
-/**
- * URL编解码类
- */
 public class URLEncoder {
     /**
      * 使用特定的编码方案将字符串转换为application/x-www-form-urlencoded格式
@@ -104,10 +117,9 @@ public class URLEncoder {
 } 
 ```
 
+######
+OAuth编解码工具类
 ```cangjie
-/**
- * OAuth编解码工具类
- */
 public class OAuthEncoder {
     /**
      * 使用特定的字符集将字符串转换为application/x-www-form-urlencoded格式
@@ -129,10 +141,9 @@ public class OAuthEncoder {
 }
 ```
 
+######
+Stream流工具类
 ```cangjie
-/**
- * Stream流工具类
- */
 public class StreamUtils {
     /**
      * 以UTF-8编码的字符串形式返回流内容
@@ -154,10 +165,9 @@ public class StreamUtils {
 }
 ```
 
+######
+判空工具
 ```cangjie
-/**
- * 判空工具
- */
 public class Preconditions {
     /**
      * 检测字符串是否为空
@@ -212,10 +222,9 @@ decoded == str: true
 
 提供 OAuth 请求或访问令牌 Token 和 oauth1、oauth2不同版本的子类
 
+######
+OAuth令牌
 ```cangjie
-/**
- * OAuth令牌
- */
 public open class Token {
     /**
      * 构造方法
@@ -247,10 +256,9 @@ public open class Token {
 }
 ```
 
+######
+OAuth1令牌
 ```cangjie
-/**
- * OAuth1令牌
- */
 public open class OAuth1Token <: Token {
     /**
      * 构造方法
@@ -289,10 +297,9 @@ public open class OAuth1Token <: Token {
 }
 ```
 
+######
+OAuth1访问令牌
 ```cangjie
-/**
- * OAuth1访问令牌
- */
 public class OAuth1AccessToken <: OAuth1Token {
     /**
      * 构造方法
@@ -338,10 +345,9 @@ public class OAuth1AccessToken <: OAuth1Token {
 }
 ```
 
+######
+OAuth1请求令牌
 ```cangjie
-/**
- * OAuth1请求令牌
- */
 public class OAuth1RequestToken <: OAuth1Token {
     /**
      * 构造方法
@@ -404,10 +410,9 @@ public class OAuth1RequestToken <: OAuth1Token {
 }
 ```
 
+######
+OAuth2访问令牌
 ```cangjie
-/**
- * OAuth2访问令牌
- */
 public class OAuth2AccessToken <: Token {
     /**
      * 构造方法
@@ -483,10 +488,9 @@ public class OAuth2AccessToken <: Token {
 }
 ```
 
+######
+设备授权
 ```cangjie
-/**
- * 设备授权
- */
 public class DeviceAuthorization {
     /**
      * 构造方法
@@ -561,10 +565,9 @@ public class DeviceAuthorization {
 }
 ```
 
+######
+OAuth2授权
 ```cangjie
-/**
- * OAuth2授权
- */
 public class OAuth2Authorization {
     /**
      * 构造函数
@@ -603,10 +606,9 @@ public class OAuth2Authorization {
 
 提供 OAuth 的 HTTP响应表示形式，Response
 
+######
+响应
 ```cangjie
-/**
- * 响应
- */
 public class Response <: Closeable {
     /**
      * 构造方法
@@ -695,19 +697,17 @@ public class Response <: Closeable {
 }
 ```
 
+######
+可以关闭的数据源接口
 ```cangjie
-/**
- * 可以关闭的数据源接口
- */
 public interface Closeable {
     func close():Unit
 }
 ```
 
+######
+响应异常类
 ```cangjie
-/**
- * 响应异常类
- */
 public class OAuthResponseException <: OAuth4cjException {
     /**
      * 构造函数
@@ -736,10 +736,9 @@ public class OAuthResponseException <: OAuth4cjException {
 
 提供 OAuth4cj Http请求的表示形式，OAuth4cjRequest
 
+######
+请求
 ```cangjie
-/**
- * 请求
- */
 public class OAuth4cjRequest {
     /**
      * 构造函数
@@ -1011,10 +1010,9 @@ public class OAuth4cjRequest {
 }
 ```
 
+######
+参数类
 ```cangjie
-/**
- * 参数类
- */
 public class Parameter {
     /**
      * 构造函数
@@ -1073,10 +1071,9 @@ public class Parameter {
 }
 ```
 
+######
+参数集合类
 ```cangjie
-/**
- * 参数集合类
- */
 public class ParameterList {
     /**
      * 构造函数
@@ -1165,10 +1162,9 @@ public class ParameterList {
 }
 ```
 
+######
+包含最常见HTTP请求类型的枚举
 ```cangjie
-/**
- * 包含最常见HTTP请求类型的枚举
- */
 public enum Verb <: ToString{
     | GET
     | POST
@@ -1203,10 +1199,9 @@ public enum Verb <: ToString{
 }
 ```
 
+######
+OAuth常量类
 ```cangjie
-/**
- * OAuth常量类
- */
 public class OAuthConstants {
     /**
      * oauth时间戳参数名字符串
@@ -1410,4 +1405,172 @@ abcdefg
 Response{code=200, message='message', body='', headers=[]}
 ```
 
+### 2 支持授权码模式
 
+前置条件：NA     
+场景：    
+1.客户端以自己的名义，而不是以用户的名义，向“服务提供方”进行认证.即在这种模式下，用户并不需要对客户端授权，用户直接向客户端注册，客户端以自己的名义要求“服务提供商”提供服务。   
+约束： 只支持UTF-8字符编码     
+性能： NA    
+可靠性： NA
+
+#### 2.1 提供用于通过 OAuth4cj 公共客户端实现代码交换的证明密钥。
+
+##### 2.1.1 主要接口
+
+######
+PKCECodeChallengeMethod 枚举。
+```cangjie
+public enum PKCECodeChallengeMethod <: ToString {
+    | S256
+    | PLAIN
+
+    /**
+     * 返回已处理的字符串，S256 和 PLAIN 处理逻辑不同。
+     *
+     * @参数 codeVerifier 待处理字符串
+     * @返回值 String 处理后的字符串。
+     */
+    public func transform2CodeChallenge(codeVerifier: String): String
+
+    /**
+     * 将 PKCECodeChallengeMethod 名称转换为字符串。
+     *
+     * @返回值 String 转换后的字符串。
+     */
+    public func toString(): String
+}
+```
+
+######
+PKCE 类，用于保存 code_challenge、code_challenge_method 和 code_verifier。
+```cangjie
+public class PKCE {
+    /**
+     * 创建一个 PKCE 实例。
+     */
+    public init()
+
+    /**
+     * 获取 codeChallenge 值。
+     *
+     * @返回值 String codeChallenge 值
+     */
+    public func getCodeChallenge(): String
+
+    /**
+     * 设置 codeChallenge 值。
+     *
+     * @参数 codeVerifier 设置 codeChallenge 值
+     */
+    public func setCodeChallenge(codeChallenge: String): Unit
+
+    /**
+     * 获取 codeChallengeMethod 值。
+     *
+     * @返回值 PKCECodeChallengeMethod codeChallengeMethod 值
+     */
+    public func getCodeChallengeMethod(): PKCECodeChallengeMethod
+
+    /**
+     * 设置 codeChallengeMethod 值。
+     *
+     * @参数 codeChallengeMethod 设置 codeChallengeMethod 值
+     */
+    public func setCodeChallengeMethod(codeChallengeMethod: PKCECodeChallengeMethod): Unit
+
+    /**
+     * 获取 codeVerifier 值。
+     *
+     * @返回值 String codeVerifier 值
+     */
+    public func getCodeVerifier(): String
+
+    /**
+     * 设置 codeVerifier 值。
+     *
+     * @参数 codeVerifier 设置 codeVerifier 值
+     */
+    public func setCodeVerifier(codeVerifier: String): Unit
+
+    /**
+     * 创建一个 HashMap<String, String> 实例，将 code_challenge 和 code_challenge_method 键值对放入其中。
+     *
+     * @返回值 HashMap<String, String> 包含 code_challenge 和 code_challenge_method 键值对
+     */
+    public func getAuthorizationUrlParams(): HashMap<String, String>
+}
+```
+
+######
+PKCEService，用于实现 OAuth4cj 公共客户端进行代码交换的证明密钥。
+```cangjie
+public class PKCEService {
+
+    /**
+     * 根据参数创建一个 PKCEService 实例。
+     *
+     * @参数 numberOFOctets Int32类型数据
+     */
+    public init(numberOFOctets: Int32)
+
+    /**
+     * 创建PKCEService实例。将创建具有推荐参数（32个八位字节）的随机生成器。
+     */
+    public init()
+
+    /**
+     * 生成一个新的 PKCEService 实例。
+     *
+     * @返回值 PKCEService 生成的 PKCEService 实例。
+     */
+    public static func defaultInstance(): PKCEService
+
+    /**
+     * 生成一个新的 PKCE 实例。
+     *
+     * @返回值 PKCE 生成的 PKCE 实例。
+     */
+    public func generatePKCE(): PKCE
+
+    /**
+     * 根据参数生成一个新的 PKCE 实例。
+     * 参数 randomBytes 处理后，将确定并赋值给 code_challenge, code_challenge_method 和 code_verifier。
+     *
+     * @参数 randomBytes 处理后，将确定并赋值给 code_challenge, code_challenge_method 和 code_verifier
+     * @返回值 PKCE 生成的 PKCE 实例。
+     */
+    public func generatePKCE(randomBytes: Array<UInt8>): PKCE
+}
+```
+
+##### 1.1.2 示例
+
+```cangjie
+from oauth4cj import pkce.*
+
+let RANDOM_BYTES: Array<UInt8> = Array<UInt8>([116, 24, 223, 180, 151, 153,
+            224, 37, 79, 250, 96, 125, 216, 173, 187, 186, 22, 212, 37, 77,
+            105, 214, 191, 240, 91, 88, 5, 88, 83, 132, 141, 121])
+
+main (){
+    let pkce: PKCE = PKCEService.defaultInstance().generatePKCE(RANDOM_BYTES)
+
+    let str0: String = pkce.getCodeChallengeMethod().toString()
+    let str1: String = pkce.getCodeVerifier()
+    let str2: String = pkce.getCodeChallenge()
+
+    println(str0)
+    println(str1)
+    println(str2)
+    return 0
+}
+```
+
+执行结果如下：
+
+```shell
+S256
+dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk
+E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM
+```
