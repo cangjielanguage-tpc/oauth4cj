@@ -1,4 +1,4 @@
-
+主要接口
 ## OAuth4cj 库
 
 ### 介绍
@@ -1405,7 +1405,7 @@ abcdefg
 Response{code=200, message='message', body='', headers=[]}
 ```
 
-### 2 支持授权码模式
+### 2 支持客户端模式
 
 前置条件：NA     
 场景：    
