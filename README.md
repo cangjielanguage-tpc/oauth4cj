@@ -6,7 +6,7 @@
 <img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjc-v0.38.2-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjcov-92.2%25-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjcov-92.9%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
 
@@ -66,6 +66,7 @@ OAuth 定义了四种角色：
 |   ├── exceptions
 |   ├── httpclient
 |   ├── model
+|   ├── pkce
 │   └── utils  
 └── test
     ├── HLT
@@ -189,6 +190,41 @@ main (){
 ```cangjie
 abcdefg
 Response{code=200, message='message', body='', headers=[]}
+```
+
+#### 支持客户端模式
+
+功能示例描述:
+提供用于通过 OAuth4cj 公共客户端实现代码交换的证明密钥
+
+示例代码如下：
+```cangjie
+from oauth4cj import pkce.*
+
+let RANDOM_BYTES: Array<UInt8> = Array<UInt8>([116, 24, 223, 180, 151, 153,
+            224, 37, 79, 250, 96, 125, 216, 173, 187, 186, 22, 212, 37, 77,
+            105, 214, 191, 240, 91, 88, 5, 88, 83, 132, 141, 121])
+
+main (){
+    let pkce: PKCE = PKCEService.defaultInstance().generatePKCE(RANDOM_BYTES)
+
+    let str0: String = pkce.getCodeChallengeMethod().toString()
+    let str1: String = pkce.getCodeVerifier()
+    let str2: String = pkce.getCodeChallenge()
+
+    println(str0)
+    println(str1)
+    println(str2)
+    return 0
+}
+```
+
+执行结果如下：
+
+```shell
+S256
+dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk
+E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM
 ```
 
 ## 开源协议

@@ -16,5 +16,10 @@ main (){
         println(1)
         return 1
     }
+
+    if (!PKCECodeChallengeMethod.S256.toString().equals("S256")) {
+        return -1
+    }
+    
     return 0
 }
