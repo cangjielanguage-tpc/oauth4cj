@@ -73,8 +73,8 @@ encoded == str: true
 
 ##### 1.2.1 主要接口
 
-######
-URL编解码类
+###### 1.2.1.1 URL编解码类
+
 ```cangjie
 public class URLEncoder {
     /**
@@ -117,8 +117,8 @@ public class URLEncoder {
 } 
 ```
 
-######
-OAuth编解码工具类
+###### 1.2.1.2 OAuth编解码工具类
+
 ```cangjie
 public class OAuthEncoder {
     /**
@@ -141,8 +141,8 @@ public class OAuthEncoder {
 }
 ```
 
-######
-Stream流工具类
+###### 1.2.1.3 Stream流工具类
+
 ```cangjie
 public class StreamUtils {
     /**
@@ -165,8 +165,8 @@ public class StreamUtils {
 }
 ```
 
-######
-判空工具
+###### 1.2.1.4 判空工具
+
 ```cangjie
 public class Preconditions {
     /**
@@ -222,8 +222,8 @@ decoded == str: true
 
 提供 OAuth 请求或访问令牌 Token 和 oauth1、oauth2不同版本的子类
 
-######
-OAuth令牌
+###### 1.3.1.1 OAuth令牌
+
 ```cangjie
 public open class Token {
     /**
@@ -256,8 +256,8 @@ public open class Token {
 }
 ```
 
-######
-OAuth1令牌
+###### 1.3.1.2 OAuth1令牌
+
 ```cangjie
 public open class OAuth1Token <: Token {
     /**
@@ -297,8 +297,8 @@ public open class OAuth1Token <: Token {
 }
 ```
 
-######
-OAuth1访问令牌
+###### 1.3.1.3 OAuth1访问令牌
+
 ```cangjie
 public class OAuth1AccessToken <: OAuth1Token {
     /**
@@ -345,8 +345,8 @@ public class OAuth1AccessToken <: OAuth1Token {
 }
 ```
 
-######
-OAuth1请求令牌
+###### 1.3.1.4 OAuth1请求令牌
+
 ```cangjie
 public class OAuth1RequestToken <: OAuth1Token {
     /**
@@ -410,8 +410,8 @@ public class OAuth1RequestToken <: OAuth1Token {
 }
 ```
 
-######
-OAuth2访问令牌
+###### 1.3.1.5 OAuth2访问令牌
+
 ```cangjie
 public class OAuth2AccessToken <: Token {
     /**
@@ -488,8 +488,8 @@ public class OAuth2AccessToken <: Token {
 }
 ```
 
-######
-设备授权
+###### 1.3.1.6 设备授权
+
 ```cangjie
 public class DeviceAuthorization {
     /**
@@ -565,8 +565,8 @@ public class DeviceAuthorization {
 }
 ```
 
-######
-OAuth2授权
+###### 1.3.1.7 OAuth2授权
+
 ```cangjie
 public class OAuth2Authorization {
     /**
@@ -606,8 +606,8 @@ public class OAuth2Authorization {
 
 提供 OAuth 的 HTTP响应表示形式，Response
 
-######
-响应
+###### 1.3.1.8 响应
+
 ```cangjie
 public class Response <: Closeable {
     /**
@@ -697,16 +697,16 @@ public class Response <: Closeable {
 }
 ```
 
-######
-可以关闭的数据源接口
+###### 1.3.1.9 可以关闭的数据源接口
+
 ```cangjie
 public interface Closeable {
     func close():Unit
 }
 ```
 
-######
-响应异常类
+###### 1.3.1.10 响应异常类
+
 ```cangjie
 public class OAuthResponseException <: OAuth4cjException {
     /**
@@ -736,8 +736,8 @@ public class OAuthResponseException <: OAuth4cjException {
 
 提供 OAuth4cj Http请求的表示形式，OAuth4cjRequest
 
-######
-请求
+###### 1.3.1.11 请求
+
 ```cangjie
 public class OAuth4cjRequest {
     /**
@@ -1010,8 +1010,8 @@ public class OAuth4cjRequest {
 }
 ```
 
-######
-参数类
+###### 1.3.1.12 参数类
+
 ```cangjie
 public class Parameter {
     /**
@@ -1071,8 +1071,8 @@ public class Parameter {
 }
 ```
 
-######
-参数集合类
+###### 1.3.1.13 参数集合类
+
 ```cangjie
 public class ParameterList {
     /**
@@ -1162,8 +1162,8 @@ public class ParameterList {
 }
 ```
 
-######
-包含最常见HTTP请求类型的枚举
+###### 1.3.1.14 包含最常见HTTP请求类型的枚举
+
 ```cangjie
 public enum Verb <: ToString{
     | GET
@@ -1199,8 +1199,8 @@ public enum Verb <: ToString{
 }
 ```
 
-######
-OAuth常量类
+###### 1.3.1.15 OAuth常量类
+
 ```cangjie
 public class OAuthConstants {
     /**
@@ -1418,8 +1418,8 @@ Response{code=200, message='message', body='', headers=[]}
 
 ##### 2.1.1 主要接口
 
-######
-PKCECodeChallengeMethod 枚举。
+###### 2.1.1.1 PKCECodeChallengeMethod 枚举。
+
 ```cangjie
 public enum PKCECodeChallengeMethod <: ToString {
     | S256
@@ -1442,8 +1442,9 @@ public enum PKCECodeChallengeMethod <: ToString {
 }
 ```
 
-######
-PKCE 类，用于保存 code_challenge、code_challenge_method 和 code_verifier。
+###### 2.1.1.2 PKCE 类
+用于保存 code_challenge、code_challenge_method 和 code_verifier。
+
 ```cangjie
 public class PKCE {
     /**
@@ -1502,8 +1503,9 @@ public class PKCE {
 }
 ```
 
-######
+###### 2.1.1.3 PKCEService 类
 PKCEService，用于实现 OAuth4cj 公共客户端进行代码交换的证明密钥。
+
 ```cangjie
 public class PKCEService {
 
