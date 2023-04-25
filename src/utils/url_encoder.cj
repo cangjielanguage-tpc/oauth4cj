@@ -69,7 +69,7 @@ public class URLEncoder {
      */
     public static func encode(s: String, enc: String): String {
         if (enc.isEmpty()) {
-            throw OAuth4cjException("charsetName")
+            throw OAuth4cjException("charsetName can not be empty!")
         }
         if (!(enc.equals("UTF-8") || enc.equals("utf-8") || enc.equals("UTF8") || enc.equals("utf8"))) {
             throw OAuth4cjException("only UTF-8 is supported!")

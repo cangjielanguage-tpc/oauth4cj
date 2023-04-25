@@ -52,6 +52,9 @@ public class StreamUtils  {
         } catch (e: Exception) {
             throw OAuth4cjException("read from ins failed!\n" + e.message)
         }
+        if (out.length <= 0 && isGzipStream) {
+            throw OAuth4cjException("Unable to obtain decompressed string from an empty InputStream.")
+        }
         let res: Array<Byte> = out.readToEnd()
 
         out.clear()
@@ -69,9 +72,6 @@ public class StreamUtils  {
      * @since 0.37.2
      */
     public static func getGzipStreamContents(ins: InputStream): String {
-        if (ins.length <= 0) {
-            throw OAuth4cjException("Cannot get a decompress String from a Null InputStream.")
-        }
 
         /*
          * GZIPInputStream:
