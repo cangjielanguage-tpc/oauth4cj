@@ -23,7 +23,7 @@ public class OAuthConstants {
     /**
      * to indicate an out-of-band configuration
      */
-    public static let BOOB: String = "oob"
+    public static let OOB: String = "oob"
 
     // OAuth 2.0
     public static let ACCESS_TOKEN: String = "access_token"

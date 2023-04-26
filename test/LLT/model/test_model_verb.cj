@@ -28,7 +28,7 @@ public func testVerb_01():Int32 {
     if (Verb.TRACE.isRequiresBody()) {
         return -1
     }
-    if (Verb.PATCH.isRequiresBody()) {
+    if (!Verb.PATCH.isRequiresBody()) {
         return -1
     }
     return 0
@@ -39,10 +39,10 @@ public func testVerb_02():Int32 {
     if (Verb.GET.isPermitBody()) {
         return -1
     }
-    if (Verb.POST.isPermitBody()) {
+    if (!Verb.POST.isPermitBody()) {
         return -1
     }
-    if (Verb.PUT.isPermitBody()) {
+    if (!Verb.PUT.isPermitBody()) {
         return -1
     }
     if (!Verb.DELETE.isPermitBody()) {
@@ -57,7 +57,7 @@ public func testVerb_02():Int32 {
     if (Verb.TRACE.isPermitBody()) {
         return -1
     }
-    if (Verb.PATCH.isPermitBody()) {
+    if (!Verb.PATCH.isPermitBody()) {
         return -1
     }
     return 0

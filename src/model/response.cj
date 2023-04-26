@@ -63,10 +63,14 @@ public class Response <: Closeable {
     }
 
     private func parseBodyContents(): String {
-        if ("gzip".equals(getHeader("Content-Encoding"))) {
-            body = StreamUtils.getGzipStreamContents(stream)
-        } else {
-            body = StreamUtils.getStreamContents(stream)
+        try {
+            if ("gzip".equals(getHeader("Content-Encoding"))) {
+                body = StreamUtils.getGzipStreamContents(stream)
+            } else {
+                body = StreamUtils.getStreamContents(stream)
+            }
+        } catch (e: NoneValueException) {
+            body = ""
         }
         return body
     }
