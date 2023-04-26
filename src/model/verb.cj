@@ -32,7 +32,7 @@ public enum Verb <: ToString {
             case HEAD => false
             case OPTIONS => false
             case TRACE => false
-            case PATCH => false
+            case PATCH => true
         }
     }
 
@@ -43,8 +43,14 @@ public enum Verb <: ToString {
      */
     public func isPermitBody(): Bool {
         match (this) {
+            case GET => false
+            case POST => true
+            case PUT => true
             case DELETE => true
-            case _ => false
+            case HEAD => false
+            case OPTIONS => false
+            case TRACE => false
+            case PATCH => true
         }
     }
 
