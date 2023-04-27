@@ -114,6 +114,7 @@ public open class OAuth4cjRequest {
     
     /**
      * Add an HTTP Header to the Request.
+     * Convert string key to uppercase storage.
      *
      * @param key of String, key the header name
      * @param value of String, value the header value

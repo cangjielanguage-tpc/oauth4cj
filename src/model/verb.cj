@@ -21,7 +21,7 @@ public enum Verb <: ToString {
      *
      * @Return Bool The return value varies depending on the operation
      *              GET=false POST=true PUT=true DELETE=false
-     *              HEAD=false OPTIONS=false TRACE=false PATCH=false
+     *              HEAD=false OPTIONS=false TRACE=false PATCH=true
      */
     public func isRequiresBody(): Bool {
         match (this) {
@@ -39,7 +39,9 @@ public enum Verb <: ToString {
     /**
      * Whether permission is required
      *
-     * @Return Bool Only DELETE is true, and all other cases are false
+     * @Return Bool The return value varies depending on the operation
+     *              GET=false POST=true PUT=true DELETE=true
+     *              HEAD=false OPTIONS=false TRACE=false PATCH=false
      */
     public func isPermitBody(): Bool {
         match (this) {

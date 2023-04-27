@@ -12,7 +12,7 @@
 
 ## 介绍
 
-OAuth4cj 支持协议 OAuth1.0a 和 OAuth2.0，允许第三方程序通过访问令牌访问受保护的资源，而无需暴露用户的凭据。支持授权码模式，简化模式，密码模式，客户端模式四种模式。
+OAuth4cj 支持协议 OAuth1.0 和 OAuth2.0，允许第三方程序通过访问令牌访问受保护的资源，而无需暴露用户的凭据。支持授权码模式，简化模式，密码模式，客户端模式四种模式。
 
 代码参考:
 1. https://github.com/scribejava/scribejava 版本8.3.3
@@ -104,7 +104,7 @@ python3 ci_test/main.py build                        ---> 编译
 示例代码如下：
 
 ```cangjie
-from OAuth import utils.*
+from oauth4cj import utils.*
 main(): Int64 {
     let bytes: Array<UInt8> = "Hello World".toUtf8Array()
     let encoded: String = "SGVsbG8gV29ybGQ="

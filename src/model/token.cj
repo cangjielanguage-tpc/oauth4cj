@@ -29,7 +29,6 @@ public open class Token {
      * get raw response information
      *
      * @Return String raw response information
-     * @Exception IllegalArgumentException if rawResponse is ""
      */
     public func getRawResponse(): String {
         return rawResponse
