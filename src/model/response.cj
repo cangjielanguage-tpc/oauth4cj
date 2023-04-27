@@ -122,7 +122,6 @@ public class Response <: Closeable {
      * otains the HTTP status message
      *
      * @return String the status message
-     *                if the message can not be discerned from the response return ""
      * @since 0.37.2
      */
     public func getMessage(): String {
@@ -140,10 +139,10 @@ public class Response <: Closeable {
     }
 
     /**
-     * otains a single HTTP Header value
+     * otains a single HTTP Header value, if it does not exist, throw an exception.
      *
      * @param name the header name
-     * @return String header value or ""
+     * @return String header value
      * @since 0.37.2
      */
     public func getHeader(name: String): String {

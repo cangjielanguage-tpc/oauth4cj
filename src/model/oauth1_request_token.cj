@@ -27,7 +27,7 @@ public class OAuth1RequestToken <: OAuth1Token {
      *
      * @Param token token
      * @Param tokenSecret tokenSecret
-     * @Param oauthCallbackConfirmed oauth callback confirmed flag
+     * @Param rawResponse rawResponse
      * @since 0.37.2
      */
     public init(token: String, tokenSecret: String, rawResponse: String) {

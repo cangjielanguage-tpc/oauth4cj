@@ -2,7 +2,7 @@
 ## OAuth4cj 库
 
 ### 介绍
-OAuth4cj 支持协议 OAuth1.0a 和 OAuth2.0，允许第三方程序通过访问令牌访问受保护的资源，而无需暴露用户的凭据。支持授权码模式，简化模式，密码模式，客户端模式四种模式。
+OAuth4cj 支持协议 OAuth1.0 和 OAuth2.0，允许第三方程序通过访问令牌访问受保护的资源，而无需暴露用户的凭据。支持授权码模式，简化模式，密码模式，客户端模式四种模式。
 
 ### 1 支持授权码模式
 
@@ -14,7 +14,6 @@ OAuth4cj 支持协议 OAuth1.0a 和 OAuth2.0，允许第三方程序通过访问
 可靠性： NA  
 
 #### 1.1 提供 base64 编码功能
-直接封装标准库 base64 库。
 
 ##### 1.1.1 主要接口
 
@@ -31,7 +30,7 @@ public open class Base64Utils {
      *    2. 使用“=”填充剩余的1或2个字节。
      *
      * @参数 bytes - 要编码的字节数组
-     * @返回值 String - 包含结果 Base64 编码字符的字符串
+     * @返回值 String - Base64 编码生成的字符串
      */
     public static func encode(bytes: Array<UInt8>): String
     
@@ -42,7 +41,7 @@ public open class Base64Utils {
      *    2. 不使用'='填充剩余的1或2个字节。
      *
      * @参数 bytes - 要编码的字节数组
-     * @返回值 String - 包含结果 Base64 编码字符的字符串
+     * @返回值 String - Base64 编码生成的字符串
      */
     public static func encodeUrlWithoutPadding(bytes: Array<UInt8>): String
 }
@@ -51,7 +50,7 @@ public open class Base64Utils {
 ##### 1.1.2 示例
 
 ```cangjie
-from OAuth import utils.*
+from oauth4cj import utils.*
 main(): Int64 {
     let bytes: Array<UInt8> = "Hello World".toUtf8Array()
     let encoded: String = "SGVsbG8gV29ybGQ="
@@ -69,8 +68,6 @@ encoded == str: true
 
 #### 1.2 提供 URL 编解码功能和处理Streams的工具
 
-以UTF-8编码字符串的形式返回流内容，从gzip流返回字符串内容。
-
 ##### 1.2.1 主要接口
 
 ###### 1.2.1.1 URL编解码类
@@ -82,7 +79,7 @@ public class URLEncoder {
      * 当前只支持UTF-8
      *
      * @参数 s 要编码的字符串
-     * @参数 enc 支持的字符编码的名称
+     * @参数 enc 支持的字符编码的名称，当前只支持UTF-8
      * @返回值 String 编码后的字符串
      */
     public static func encode(s: String, enc: String): String
@@ -101,7 +98,7 @@ public class URLEncoder {
      * 当前只支持UTF-8
      *
      * @参数 s 要解码的字符串
-     * @参数 enc 支持的字符解码的名称
+     * @参数 enc 支持的字符解码的名称，当前只支持UTF-8
      * @返回值 String 解码后的字符串
      */
     public static func decode(s: String, enc: String): String
@@ -216,11 +213,11 @@ decoded == str: true
 
 #### 1.3 提供OAuth的请求/响应/令牌对象
 
-提供 OAuth4cj HttpRequest的表示形式，OAuth4cjRequest；提供 OAuth4cj 请求或访问令牌 Token；提供 OAuth4cj 的 HTTP响应表示形式，Response。
+OAuth4cj 提供 OAuth4cjRequest 类表示 HttpRequest，提供 Response 类表示 HttpResponse, 提供 Token 及其子类表示访问令牌。
 
 ##### 1.3.1 主要接口
 
-提供 OAuth 请求或访问令牌 Token 和 oauth1、oauth2不同版本的子类
+提供 Token 及其子类表示访问令牌。
 
 ###### 1.3.1.1 OAuth令牌
 
@@ -242,7 +239,6 @@ public open class Token {
      * 获取原始响应信息
      *
      * @返回值 String 原始响应信息
-     * @异常 IllegalArgumentException 如果rawResponse值为空抛出异常
      */
     public func getRawResponse(): String
     
@@ -391,9 +387,9 @@ public class OAuth1RequestToken <: OAuth1Token {
     public override func getTokenSecret():String
     
     /**
-     * 是否已确认oauth回调
+     * 获取确认 oauth 回调状态
      *
-     * @返回值 Bool 已确认oauth回调的标识
+     * @返回值 Bool oauth 回调状态
      */
     public func isOauthCallbackConfirmed():Bool
     
@@ -604,9 +600,9 @@ public class OAuth2Authorization {
 }
 ```
 
-提供 OAuth 的 HTTP响应表示形式，Response
-
 ###### 1.3.1.8 响应
+
+提供 Response 表示 Http 响应形式
 
 ```cangjie
 public class Response <: Closeable {
@@ -639,16 +635,16 @@ public class Response <: Closeable {
     public func isSuccessful():Bool
     
     /**
-     * 以字符串形式返回响应体，关闭返回该响应体的流
+     * 以字符串形式返回响应体
      *
      * @返回值 String 字符串形式的响应体
      */
     public func getBody():String
     
     /**
-     * 获取HttpUrlConnection的流，可以是inputStream或者errorInputStream
+     * 获取响应体中的流
      *
-     * @返回值 InputStream 根据状态码获取输入流/错误流
+     * @返回值 InputStream 获取响应体中的流
      */
     public func getStream():InputStream 
     
@@ -662,7 +658,7 @@ public class Response <: Closeable {
     /**
      * 获取HTTP状态消息
      *
-     * @返回值 String 状态消息 如果不能从响应中识别出消息，则返回""
+     * @返回值 String 状态消息
      */
     public func getMessage():String
     
@@ -674,10 +670,10 @@ public class Response <: Closeable {
     public func getHeaders():HashMap<String, String>
     
     /**
-     * 获取指定HTTP响应头参数值
+     * 获取指定HTTP响应头参数值，如果不存在，抛出异常
      *
      * @参数 name 响应头参数名
-     * @返回值 String 响应头参数值，没有该参数或者参数没有值返回""
+     * @返回值 String 响应头参数值
      */
     public func getHeader(name:String):String
     
@@ -724,19 +720,18 @@ public class OAuthResponseException <: OAuth4cjException {
     public func getResponse(): Response
     
     /**
-     * 确定两个OAuthResponseException对象是否相等
-     * 如果两个对象的内存地址一致直接返回true，不一致时再判断字符串内容是否一致
+     * 确定两个 OAuthResponseException 对象是否相等
      *
      * @参数 obj 要比较的对象
-     * @返回值 Bool 两个对象内存相同或者字符串内容一致返回true，否则返回false
+     * @返回值 Bool 相等返回 true，否则返回 false
      */
     public func equals(obj: OAuthResponseException): Bool
 }
 ```
 
-提供 OAuth4cj Http请求的表示形式，OAuth4cjRequest
-
 ###### 1.3.1.11 请求
+
+提供 OAuth4cj Http请求的表示形式，OAuth4cjRequest
 
 ```cangjie
 public class OAuth4cjRequest {
@@ -778,15 +773,15 @@ public class OAuth4cjRequest {
     public func getRealm(): String
     
     /**
-     * 返回完整的url字符串
-     * (主机ip+资源路径+编码的查询字符串参数)
+     * 返回完整的url字符串。
+     * 查询参数进行了编码处理。
      *
      * @返回值 String 完整的url字符串
      */
     public func getCompleteUrl(): String
     
     /**
-     * 向请求中添加HTTP报头
+     * 向请求中添加HTTP报头,字符串key转换为大写存入.
      *
      * @参数 key 参数名
      * @参数 value 参数值
@@ -816,78 +811,6 @@ public class OAuth4cjRequest {
      * @参数 value 参数值
      */
     public func addParameter(key: String, value: String):Unit
-    
-    /**
-     * 获取MultipartPayload对象
-     *
-     * @返回值 MultipartPayload MultipartPayload对象
-     */
-    public func getMultipartPayload(): MultipartPayload
-    
-    /**
-     * 设置MultipartPayload对象
-     *
-     * @参数 multipartPayload MultipartPayload对象
-     */
-    public func setMultipartPayload(multipartPayload: MultipartPayload): Unit
-    
-    /**
-     * 初始化MultipartPayload对象
-     */
-    public func initMultipartPayload(): Unit
-    
-    /**
-     * 初始化MultipartPayload对象
-     *
-     * @参数 boundary 边界值
-     */
-    public func initMultipartPayload(boundary: String): Unit
-    
-    /**
-     * 初始化MultipartPayload对象
-     *
-     * @参数 subtype multipart类型(默认是form-data)
-     * @参数 boundary 边界值
-     */
-    public func initMultipartPayload(subtype: String, boundary: String): Unit
-    
-    /**
-     * 初始化MultipartPayload对象
-     *
-     * @参数 headers 请求头
-     */
-    public func initMultipartPayload(headers: HashMap<String, String>): Unit
-    
-    /**
-     * 初始化MultipartPayload对象
-     *
-     * @参数 boundary 边界值
-     * @参数 headers 请求头
-     */
-    public func initMultipartPayload(boundary: String, headers: HashMap<String, String>): Unit
-
-    /**
-     * 初始化MultipartPayload对象
-     *
-     * @参数 subtype multipart类型(默认是form-data)
-     * @参数 boundary 边界值
-     * @参数 headers 请求头
-     */
-    public func initMultipartPayload(subtype: String, boundary: String, headers: HashMap<String, String>): Unit
-    
-    /**
-     * 设置BodyPartPayload对象
-     *
-     * @参数 bodyPartPayload BodyPartPayload对象
-     */
-    public func setBodyPartPayloadInMultipartPayload(bodyPartPayload: BodyPartPayload): Unit
-    
-    /**
-     * 添加BodyPartPayload对象
-     *
-     * @参数 bodyPartPayload BodyPartPayload对象
-     */
-    public func addBodyPartPayloadInMultipartPayload(bodyPartPayload: BodyPartPayload): Unit
     
     /**
      * 设置请求数据
@@ -995,7 +918,7 @@ public class OAuth4cjRequest {
      * 设置请求体的字符集
      * 当前仅支持UTF-8
      *
-     * @参数 charsetName 字符集名称
+     * @参数 charsetName 字符集名称,当前仅支持UTF-8
      */
     public func setCharset(charsetName: String): Unit
     
@@ -1179,14 +1102,15 @@ public enum Verb <: ToString{
      * 是否需要请求体
      * 
      * @返回值 Bool 不同操作返回值不同 GET=false POST=true PUT=true DELETE=false
-     *         HEAD=false OPTIONS=false TRACE=false PATCH=false
+     *         HEAD=false OPTIONS=false TRACE=false PATCH=true
      */
     public func isRequiresBody():Bool
     
     /**
-     * 是否需要许可证
+     * 是否有权限操作请求体
      *
-     * @返回值 Bool 只有DELETE为true，其他都为false
+     * @返回值 Bool 不同操作返回值不同 GET=false POST=true PUT=true DELETE=true
+     *         HEAD=false OPTIONS=false TRACE=false PATCH=true
      */
     public func isPermitBody():Bool
     
@@ -1288,7 +1212,7 @@ public class OAuthConstants {
      * 带外配置
      * 传输层协议使用带外数据（out-of-band，OOB）来发送一些重要的数据
      */
-    public static let BOOB: String = "oob"
+    public static let OOB: String = "oob"
 
     // OAuth 2.0
     /**
