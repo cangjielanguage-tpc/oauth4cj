@@ -24,6 +24,7 @@ public class Response <: Closeable {
     private var stream: InputStream
     private var closed: Bool = false
     private var closeables: ArrayList<Closeable> = ArrayList<Closeable>()
+    private var hasBody: Bool = false
 
     /**
      * Constructor
@@ -41,6 +42,7 @@ public class Response <: Closeable {
         this.headers = headers
         this.body = body
         this.stream = ByteArrayStream()
+        this.hasBody = true
     }
 
     /**
@@ -60,6 +62,7 @@ public class Response <: Closeable {
         this.headers = headers
         this.stream = stream
         this.closeables = closeables
+        this.hasBody = false
     }
 
     private func parseBodyContents(): String {
@@ -70,7 +73,7 @@ public class Response <: Closeable {
                 body = StreamUtils.getStreamContents(stream)
             }
         } catch (e: NoneValueException) {
-            body = ""
+            body = StreamUtils.getStreamContents(stream)
         }
         return body
     }
@@ -92,7 +95,7 @@ public class Response <: Closeable {
      * @since 0.37.2
      */
     public func getBody(): String {
-        if (body.isEmpty()) {
+        if (!hasBody) {
             return parseBodyContents()
         }
         return body
