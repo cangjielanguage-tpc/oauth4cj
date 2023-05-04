@@ -1,0 +1,19 @@
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj
+// dependence: ../../common_Values.cj
+
+from std import unittest.*
+from std import unittest.testmacro.*
+from encoding import base64.*
+from std import collection.*
+
+from oauth4cj import pkce.*
+
+@Test
+public class TestPKCEServiceV002{
+    @TestCase
+    func testPKCEServicedefaultInstance01(): Unit {
+        var pkceService=PKCEService.defaultInstance()
+        var pkce01=pkceService.generatePKCE()
+        @Assert(pkce01 is PKCE,true)
+    }
+}

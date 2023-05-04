@@ -1,0 +1,29 @@
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj
+// dependence: ../../common_Values.cj
+from std import unittest.*
+from std import unittest.testmacro.*
+from encoding import base64.*
+from std import collection.*
+from oauth4cj import utils.*
+from oauth4cj import model.*
+from oauth4cj import exceptions.*
+@Test
+public class TestURLEncoder01{
+    /***
+        编码后变化的字符，能被正常解码：
+        1.“+”被正常解码为空格
+        2.%之后有两个字符
+        3.%之后有超过两个字符
+    ***/
+	public var params=Array<String>(["+","%21%22","%21%222"])
+    public var res=Array<String>([" ","!\"","!\"2"])
+    public var re=""
+
+    @TestCase
+    func testURLEncoderDecode0102(): Unit {
+        for (index in 0..params.size){
+            re=URLEncoder.decode(params[index])
+            @Assert(re,res[index])
+        }
+    }
+}
