@@ -1329,6 +1329,590 @@ abcdefg
 Response{code=200, message='message', body='', headers=[]}
 ```
 
+#### 1.4 提供对基字符串使用算法进行签名，返回 OAuth4cj 签名，提供 unix 时间戳生成器。
+
+##### 1.4.1 主要接口
+
+###### 1.4.1.1 SignatureService 接口
+
+```cangjie
+/**
+ * 对基本字符串进行签名并返回 OAuth4cj 签名。
+ */
+public interface SignatureService {
+
+    /**
+     * 返回签名。
+     *
+     * @参数 baseString 要签名的 url 编码字符串
+     * @参数 apiSecret 你的应用程序 api 密钥
+     * @参数 tokenSecret 令牌密钥（请求令牌步骤的空字符串）
+     * @返回值 String 签名
+     */
+    func getSignature(baseString: String, apiSecret: String, tokenSecret: String): String
+
+    /**
+     * 返回签名方法名称。
+     *
+     * @返回值 String 签名方法名称。
+     */
+    func getSignatureMethod(): String
+}
+```
+
+###### 1.4.1.2 HMACSha1SignatureService 类
+
+```cangjie
+/**
+ * SignatureService 接口的 HMAC-SHA1 实现。
+ */
+public class HMACSha1SignatureService <: SignatureService {
+
+    /**
+     * 返回签名。
+     *
+     * @参数 baseString 要签名的 url 编码字符串
+     * @参数 apiSecret 你的应用程序 api 密钥
+     * @参数 tokenSecret 令牌密钥（请求令牌步骤的空字符串）
+     * @返回值 String 签名
+     * @异常 OAuth4cjSignatureException 获取 signature 失败时抛出
+     */
+    public func getSignature(baseString: String, apiSecret: String, tokenSecret: String): String
+
+    /**
+     * 返回签名方法名称。
+     *
+     * @返回值 String 签名方法名称。
+     */
+    public func getSignatureMethod(): String
+}
+```
+
+###### 1.4.1.3 PlaintextSignatureService 类
+
+```cangjie
+/**
+ * SignatureService 接口的明文实现。
+ */
+public class PlaintextSignatureService <: SignatureService {
+
+    /**
+     * 返回签名。
+     *
+     * @参数 baseString 获取 signature 失败时，baseString 是抛出的异常中的部分信息
+     * @参数 apiSecret 你的应用程序 api 密钥
+     * @参数 tokenSecret 令牌密钥（请求令牌步骤的空字符串）
+     * @返回值 String 签名
+     * @异常 OAuth4cjSignatureException 获取 signature 失败时抛出
+     */
+    public func getSignature(baseString: String, apiSecret: String, tokenSecret: String): String
+
+    /**
+     * 返回签名方法名称。
+     *
+     * @返回值 String 签名方法名称。
+     */
+    public func getSignatureMethod(): String
+}
+```
+
+###### 1.4.1.4 RSASha1SignatureServicee 类
+
+```cangjie
+/**
+ * SignatureService 接口的 RSA-SHA1 实现。
+ * 一种使用 RSA-SHA1 算法的签名服务。
+ */
+public class RSASha1SignatureService <: SignatureService {
+
+    /**
+     * 根据参数创建一个 RSASha1SignatureService 实例。
+     *
+     * @参数 privateKey 私钥文件路径,文件必须是 .pem 格式
+     */
+    public init(privateKey: String)
+
+    /**
+     * 返回签名。
+     *
+     * @参数 baseString 要签名的 url 编码字符串
+     * @参数 apiSecret 在此子类 RSASha1SignatureService 中，此参数未使用
+     * @参数 tokenSecret 在此子类 RSASha1SignatureService 中，此参数未使用
+     * @返回值 String 签名
+     * @异常 OAuth4cjSignatureException 获取 signature 失败时抛出
+     */
+    public func getSignature(baseString: String, apiSecret: String, tokenSecret: String): String
+
+    /**
+     * 返回签名方法名称。
+     *
+     * @返回值 String 签名方法名称。
+     */
+    public func getSignatureMethod(): String
+}
+```
+
+###### 1.4.1.5 TimestampService 接口
+
+```cangjie
+/**
+ * 时间戳生成器。
+ */
+public interface TimestampService {
+
+    /**
+     * 以秒为单位返回 unix 时间戳。
+     *
+     * @返回值 String 时间戳
+     */
+    func getTimestampInSeconds(): String
+
+    /**
+     * 返回一个 nonce（每个请求的唯一值）。
+     *
+     * @返回值 String 一个 nonce
+     */
+    func getNonce(): String
+}
+```
+
+###### 1.4.1.6 TimestampServiceImpl 类
+
+```cangjie
+/**
+ * TimestampServiceImpl 是接口 TimestampService 的实现类。
+ */
+public class TimestampServiceImpl <: TimestampService {
+
+    /**
+     * 创建一个 TimestampServiceImpl 实例。
+     */
+    public init()
+
+    /**
+     * 返回一个 nonce（每个请求的唯一值）。
+     *
+     * @返回值 String 一个 nonce
+     */
+    public func getNonce(): String
+
+    /**
+     * 以秒为单位返回 unix 时间戳。
+     *
+     * @返回值 String 时间戳
+     */
+    public func getTimestampInSeconds(): String
+}
+```
+
+##### 1.4.2 示例
+
+```cangjie
+from oauth4cj import services.*
+from oauth4cj import utils.*
+
+public func testHMACSha1SignatureService_01(): Int32 {
+    let hmac: HMACSha1SignatureService = HMACSha1SignatureService()
+    let str: String = hmac.getSignatureMethod()
+    let result: String = "HMAC-SHA1"
+	println("str = ${str}")
+
+    if (!str.equals(result)) {
+        println(1)
+        return 1
+    }
+    return 0
+}
+
+public func testHMACSha1SignatureService_02(): Int32 {
+    let hmac: HMACSha1SignatureService = HMACSha1SignatureService()
+    let apiSecret: String = "api secret"
+    let tokenSecret: String = "token secret"
+    let baseString: String = "base string"
+    
+    let signature: String = "uGymw2KHOTWI699YEaoi5xyLT50="
+    
+    let str: String = hmac.getSignature(baseString, apiSecret, tokenSecret)
+    println("str = ${str}")
+    if (!str.equals(signature)) {
+        println(2)
+        return 2
+    }
+    return 0
+}
+
+main() {
+    var test_01 = testHMACSha1SignatureService_01()
+    if (test_01 != 0){
+        println(test_01)
+        return test_01
+    }
+
+    test_01 = testHMACSha1SignatureService_02()
+    if (test_01 != 0){
+        println(test_01)
+        return test_01
+    }
+	println("ok!")
+    return test_01
+}
+```
+
+执行结果如下：
+
+```shell
+str = HMAC-SHA1
+str = uGymw2KHOTWI699YEaoi5xyLT50=
+ok!
+```
+
+#### 1.5 提供从 OAuth4cj 的请求/响应中，解析 base 字符串，生成指定签名请求，获取响应中令牌。
+
+##### 1.5.1 主要接口
+
+###### 1.5.1.1 TokenExtractor 接口
+
+```cangjie
+/**
+ * 一个简单的命令对象，用于从字符串中提取特定的令牌。
+ * T 的具体类型是 Token。
+ */
+public interface TokenExtractor<T> where T <: Token {
+    /**
+     * 从 HTTP 响应的内容中提取特定类型的令牌。
+     *
+     * @参数 response 从响应中获取令牌
+     * @返回值 T 特定类型的 Token
+     * @异常 IOException 从响应中检索正文失败时抛出
+     */
+    func extract(response: Response): T
+}
+```
+
+###### 1.5.1.2 AbstractJsonExtractor 类
+
+```cangjie
+/**
+ * 抽象类 AbstractJsonExtractor，用于获取响应中的参数值。
+ */
+public abstract class AbstractJsonExtractor {
+}
+```
+
+###### 1.5.1.3 AbstractOAuth1JSONTokenExtractor 类
+
+```cangjie
+/**
+ * AbstractOAuth1JSONTokenExtractor 是接口 TokenExtractor 的实现类。
+ */
+public abstract class AbstractOAuth1JSONTokenExtractor<T> <: TokenExtractor<T> where T <: OAuth1Token {
+    /**
+     * 从 HTTP 响应的内容中提取特定类型的令牌。
+     *
+     * @参数 response 从响应中获取令牌
+     * @返回值 T 特定类型的 Token
+     * @异常 IOException 从响应中检索正文失败时抛出
+     */
+    public func extract(response: Response): T
+}
+```
+
+###### 1.5.1.4 AbstractOAuth1TokenExtractor 类
+
+```cangjie
+/**
+ * 用于 OAuth 1.0a 的 TokenExtractor 的抽象基础实现。
+ * 提取访问令牌和请求令牌的过程是相似的，所以这个类可以同时执行这两种操作。
+ * T - OAuth1Token 的具体类型。访问或请求。
+ */
+public abstract class AbstractOAuth1TokenExtractor<T> <: TokenExtractor<T> where T <: OAuth1Token {
+    /**
+     * 从 HTTP 响应的内容中提取特定类型的令牌。
+     *
+     * @参数 response 从响应中获取令牌
+     * @返回值 T 特定类型的 Token
+     * @异常 IOException 从响应中检索正文失败时抛出
+     */
+    public func extract(response: Response): T
+}
+```
+
+###### 1.5.1.5 BaseStringExtractor 接口
+
+```cangjie
+/**
+ * 一个简单的命令对象，用于从 OAuth4cjRequest 中提取基本字符串。
+ */
+public interface BaseStringExtractor {
+    /**
+     * 从 OAuth4cjRequest 中提取 url 编码的基本字符串。
+     *
+     * @参数 request OAuth4cjRequest 类型
+     * @返回值 String url 编码的基本字符串
+     */
+    func extract(request: OAuth4cjRequest): String
+}
+```
+
+###### 1.5.1.6 BaseStringExtractorImpl 类
+
+```cangjie
+/**
+ * BaseStringExtractor 接口的默认实现。符合 OAuth 1.0a。
+ */
+public class BaseStringExtractorImpl <: BaseStringExtractor {
+    /**
+     * 从 OAuth4cjRequest 中提取 url 编码的基本字符串。
+     *
+     * @参数 request OAuth4cjRequest 类型
+     * @返回值 String url 编码的基本字符串
+     */
+    public func extract(request: OAuth4cjRequest): String
+}
+```
+
+###### 1.5.1.7 DeviceAuthorizationJsonExtractor 类
+
+```cangjie
+/**
+ * DeviceAuthorizationJsonExtractor 是抽象类 AbstractJsonExtractor 的子类。
+ */
+public class DeviceAuthorizationJsonExtractor <: AbstractJsonExtractor {
+
+    /**
+     * 生成一个新的 DeviceAuthorizationJsonExtractor 实例。
+     *
+     * @返回值 DeviceAuthorizationJsonExtractor 生成的 DeviceAuthorizationJsonExtractor 实例。
+     */
+    public static func instance(): DeviceAuthorizationJsonExtractor
+
+    /**
+     * 如果响应的状态码是200，从响应主体中获取设备授权响应对应的字段信息，封装成一个 DeviceAuthorization 对象并返回。
+     * 如果响应的状态代码不是200，则调用 generateError 函数，抛出异常 OAuth2AccessTokenErrorResponse。
+     *
+     * @参数 response 从此响应中获取消息
+     * @返回值 DeviceAuthorization 返回生成的 DeviceAuthorization 实例。
+     * @异常 IOException 如果在以字符串形式获取响应主体时发生错误，则会抛出 IOException。
+     */
+    public func extract(response: Response): DeviceAuthorization
+
+    /**
+     * 从响应主体中获取错误响应的字段信息，封装成一个 OAuth2AccessTokenErrorResponse 异常并抛出。
+     *
+     * @参数 response 从此响应中获取错误消息
+     * @异常 IOException 如果在以字符串形式获取响应主体时发生错误，则会抛出 IOException。
+     * @异常 OAuth2AccessTokenErrorResponse 从响应主体中获取错误响应的字段信息，封装并抛出 OAuth2AccessTokenErrorResponse。
+     */
+    public func generateError(response: Response): Unit
+}
+```
+
+###### 1.5.1.8 HeaderExtractor 接口
+
+```cangjie
+/**
+ * 生成 OAuth4cj Authorization 标头，以便在请求中包含一个简单的命令对象。
+ */
+public interface HeaderExtractor {
+    /**
+     * 生成一个 OAuth4cj “Authorization” Http 标头，作为签名包含在请求中。
+     *
+     * @参数 request 检查请求并生成标头
+     * @返回值 String Http 标头
+     */
+    func extract(request: OAuth4cjRequest): String
+}
+```
+
+###### 1.5.1.9 HeaderExtractorImpl 类
+
+```cangjie
+/**
+ * HeaderExtractor 接口的默认实现。符合 OAuth 1.0a。
+ */
+public class HeaderExtractorImpl <: HeaderExtractor {
+    /**
+     * 生成一个 OAuth4cj “Authorization” Http 标头，作为签名包含在请求中。
+     *
+     * @参数 request 检查请求并生成标头
+     * @返回值 String Http 标头
+     */
+    public func extract(request: OAuth4cjRequest): String
+}
+```
+
+###### 1.5.1.10 OAuth1AccessTokenExtractor 类
+
+```cangjie
+/**
+ * OAuth1AccessTokenExtractor 是抽象类 AbstractOAuth1TokenExtractor 的子类。
+ */
+public class OAuth1AccessTokenExtractor <: AbstractOAuth1TokenExtractor<OAuth1AccessToken> {
+    /**
+     * 生成一个新的 OAuth1AccessTokenExtractor 实例。
+     *
+     * @返回值 OAuth1AccessTokenExtractor 生成的 OAuth1AccessTokenExtractor 实例。
+     */
+    public static func instance(): OAuth1AccessTokenExtractor
+}
+```
+
+###### 1.5.1.11 OAuth1AccessTokenJSONExtractor 类
+
+```cangjie
+/**
+ * OAuth1AccessTokenJSONExtractor 是抽象类 AbstractOAuth1JSONTokenExtractor 的子类。
+ */
+public class OAuth1AccessTokenJSONExtractor <: AbstractOAuth1JSONTokenExtractor<OAuth1AccessToken> {
+    /**
+     * 生成一个新的 OAuth1AccessTokenJSONExtractor 实例。
+     *
+     * @返回值 OAuth1AccessTokenJSONExtractor 生成的 OAuth1AccessTokenJSONExtractor 实例。
+     */
+    public static func instance(): OAuth1AccessTokenJSONExtractor
+}
+```
+
+###### 1.5.1.12 OAuth1RequestTokenExtractor 类
+
+```cangjie
+/**
+ * OAuth1RequestTokenExtractor 是抽象类 AbstractOAuth1TokenExtractor 的子类。
+ */
+public class OAuth1RequestTokenExtractor <: AbstractOAuth1TokenExtractor<OAuth1RequestToken> {
+    /**
+     * 生成一个新的 OAuth1RequestTokenExtractor 实例。
+     *
+     * @返回值 OAuth1RequestTokenExtractor 生成的 OAuth1RequestTokenExtractor 实例。
+     */
+    public static func instance(): OAuth1RequestTokenExtractor
+}
+```
+
+###### 1.5.1.13 OAuth1RequestTokenJSONExtractor 类
+
+```cangjie
+/**
+ * OAuth1RequestTokenJSONExtractor 是抽象类 AbstractOAuth1JSONTokenExtractor 的子类。
+ */
+public class OAuth1RequestTokenJSONExtractor <: AbstractOAuth1JSONTokenExtractor<OAuth1RequestToken> {
+    /**
+     * 生成一个新的 OAuth1RequestTokenJSONExtractor 实例。
+     *
+     * @返回值 OAuth1RequestTokenJSONExtractor 生成的 OAuth1RequestTokenJSONExtractor 实例。
+     */
+    public static func instance(): OAuth1RequestTokenJSONExtractor
+}
+```
+
+###### 1.5.1.14 OAuth2AccessTokenExtractor 类
+
+```cangjie
+/**
+ * 用于 OAuth 2.0 的 TokenExtractor 的自定义实现。
+ */
+public class OAuth2AccessTokenExtractor <: TokenExtractor<OAuth2AccessToken> {
+    /**
+     * 生成一个新的 OAuth2AccessTokenExtractor 实例。
+     *
+     * @返回值 OAuth2AccessTokenExtractor 生成的 OAuth2AccessTokenExtractor 实例。
+     */
+    public static func instance(): OAuth2AccessTokenExtractor
+
+    /**
+     * 从 HTTP 响应的内容中提取特定类型的令牌。
+     *
+     * @参数 response 从此响应中获取令牌
+     * @返回值 OAuth2AccessToken Token 的子类型
+     * @异常 IOException 从响应中检索正文失败时抛出
+     */
+    public func extract(response: Response): OAuth2AccessToken
+}
+```
+
+###### 1.5.1.15 OAuth2AccessTokenJsonExtractor 类
+
+```cangjie
+/**
+ * OAuth 2.0 的 AbstractJsonExtractor 抽象类和 TokenExtractor 接口的实现类。
+ * 用于 OAuth 2.0 的 TokenExtractor 的 JSON 实现.
+ */
+public class OAuth2AccessTokenJsonExtractor <: AbstractJsonExtractor & TokenExtractor<OAuth2AccessToken> {
+    /**
+     * 生成一个新的 OAuth2AccessTokenJsonExtractor 实例。
+     *
+     * @返回值 OAuth2AccessTokenJsonExtractor 生成的 OAuth2AccessTokenJsonExtractor 实例。
+     */
+    public static func instance(): OAuth2AccessTokenJsonExtractor
+
+    /**
+     * 从 HTTP 响应的内容中提取特定类型的令牌。
+     *
+     * @参数 response 从响应中获取令牌
+     * @返回值 OAuth2AccessToken Token 的子类型
+     * @异常 IOException 从响应中检索正文失败时抛出
+     */
+    public func extract(response: Response): OAuth2AccessToken
+
+    /**
+     * 从响应主体中获取错误响应的字段信息，封装成一个 OAuth2AccessTokenErrorResponse 异常并抛出。
+     *
+     * @参数 response 从此响应中获取错误消息
+     * @异常 IOException 如果在以字符串形式获取响应主体时发生错误，则会抛出 IOException。
+     * @异常 OAuth2AccessTokenErrorResponse 从响应主体中获取错误响应的字段信息，封装并抛出 OAuth2AccessTokenErrorResponse。
+     */
+    public func generateError(response: Response): Unit
+}
+```
+
+##### 1.5.2 示例
+
+```cangjie
+from oauth4cj import extractors.*
+from oauth4cj import model.*
+
+public func createSampleOAuthRequest(): OAuth4cjRequest {
+    let request: OAuth4cjRequest = OAuth4cjRequest(Verb.GET, "http://example.com")
+    request.addOAuthParameter(OAuthConstants.TIMESTAMP, "123456")
+    request.addOAuthParameter(OAuthConstants.CONSUMER_KEY, "AS#$^*@&")
+    request.addOAuthParameter(OAuthConstants.CALLBACK, "http://example/callback")
+    request.addOAuthParameter(OAuthConstants.SIGNATURE, "OAuth-Signature")
+    return request
+}
+
+public func testBaseStringExtractor_01(): Int32 {
+    let extractor: BaseStringExtractorImpl = BaseStringExtractorImpl()
+    let expected: String = "GET&http%3A%2F%2Fexample.com&oauth_callback%3Dhttp%253A%252F%252Fexample%252Fcallback" +
+            "%26oauth_consumer_key%3DAS%2523%2524%255E%252A%2540%2526%26oauth_signature%3DOAuth-Signature" +
+            "%26oauth_timestamp%3D123456"
+    
+    let request: OAuth4cjRequest = createSampleOAuthRequest()
+    let baseString: String = extractor.extract(request)
+
+    println("baseString.equals(expected) = ${baseString.equals(expected)}")
+    if (!baseString.equals(expected)) {
+        println(1)
+        return 1
+    }
+    return 0
+}
+
+main() {
+    var test_01 = testBaseStringExtractor_01()
+    if (test_01 != 0){
+        println(test_01)
+        return test_01
+    }
+    return test_01
+}
+```
+
+执行结果如下：
+
+```shell
+baseString.equals(expected) = true
+```
+
 ### 2 支持客户端模式
 
 前置条件：NA     
