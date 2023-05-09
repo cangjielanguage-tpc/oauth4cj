@@ -9,7 +9,7 @@ package model
 
 import exceptions.*
 
-public class OAuthResponseException <: OAuth4cjException {
+public open class OAuthResponseException <: OAuth4cjException {
 
     private let response: Response
 
