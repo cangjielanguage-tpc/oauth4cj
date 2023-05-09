@@ -16,13 +16,12 @@ public abstract class AbstractJsonExtractor {
     protected static func extractRequiredParameter(errorNode: JsonObject, parameterName: String,
                                                     rawResponse: String): JsonValue  {
         var value: JsonValue = errorNode
-        if (errorNode.containsKey(parameterName)) {
+        let flag: Bool = errorNode.containsKey(parameterName)
+        if (flag) {
             value = errorNode.get(parameterName).getOrThrow()
-        }
-
-        if (value.toString().isEmpty()) {
-            let err: String = "Response body is incorrect. Can't extract a '" +
-                                parameterName + "' from this: '" + rawResponse + "'"
+        } else {
+            let err: String =
+                "Response body is incorrect. Can't extract a '${parameterName}' from this: '${rawResponse}'"
             throw OAuth4cjException(err)
         }
 

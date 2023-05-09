@@ -31,17 +31,11 @@ public abstract class AbstractOAuth1JSONTokenExtractor<T> <: TokenExtractor<T> w
         var token: String = ""
         var secret: String = ""
         if (body.containsKey(OAuthConstants.TOKEN)) {
-            token = body.get(OAuthConstants.TOKEN).getOrThrow().toString()
+            token = body.get(OAuthConstants.TOKEN).getOrThrow().asString().getValue()
         }
         if (body.containsKey(OAuthConstants.TOKEN_SECRET)) {
-            secret = body.get(OAuthConstants.TOKEN_SECRET).getOrThrow().toString()
+            secret = body.get(OAuthConstants.TOKEN_SECRET).getOrThrow().asString().getValue()
         }
-
-        if (token.isEmpty() || secret.isEmpty()) {
-            err = "Response body is incorrect. Can't extract token and secret from this: '" + rawBody + '\''
-            throw OAuth4cjException(err)
-        }
-
         return createToken(token, secret, rawBody)
     }
 
