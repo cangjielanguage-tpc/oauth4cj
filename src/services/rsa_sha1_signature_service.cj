@@ -24,6 +24,12 @@ public class RSASha1SignatureService <: SignatureService {
     //private key file path
     private let privateKey: String
 
+    /**
+     * Create a RSASha1SignatureService instance according to the parameter.
+     *
+     * @param private key file path, the file must be in .pem format
+     * @since 0.38.2
+     */
     public init(privateKey: String) {
         this.privateKey = privateKey
     }
@@ -36,6 +42,7 @@ public class RSASha1SignatureService <: SignatureService {
      * @Param in the subclass RSASha1SignatureService, this parameter is not used
      *
      * @Return String the signature
+     * @throws OAuth4cjSignatureException failed to obtain signature
      */
     public func getSignature(baseString: String, apiSecret: String, tokenSecret: String): String {
         try {
@@ -44,13 +51,9 @@ public class RSASha1SignatureService <: SignatureService {
             sha1(data, md)
             let rsa: RSA = pemReadRsaPri(privateKey, false)
             let (ret, signArray): (Int32, Array<UInt8>) = rsaSign(NID_sha1, md, UInt32(SHA_DIGEST_LENGTH), rsa)
-            var out: Array<UInt8> = signArray
-            if (ret == -1) {
-                out = Array<UInt8>(1, item: 0)
-            }
             rsaFree(rsa)
 
-            return Base64Utils.encode(out)
+            return Base64Utils.encode(signArray)
         } catch (e: Exception) {
             throw OAuth4cjSignatureException(baseString + e.message)
         }
