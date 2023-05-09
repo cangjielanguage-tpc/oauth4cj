@@ -49,11 +49,6 @@ public class TimestampServiceImpl <: TimestampService {
     private func getTs(): Int64 {
         return timer.getMilis() / 1000
     }
-
-    func setTimer(timer: ServiceTimer): Unit {
-        this.timer = timer
-    }
-
 }
 
 /**

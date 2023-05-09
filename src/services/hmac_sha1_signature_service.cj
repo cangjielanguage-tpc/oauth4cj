@@ -28,6 +28,7 @@ public class HMACSha1SignatureService <: SignatureService {
      * @Param Token Secret (empty string of request token step)
      *
      * @Return String the signature
+     * @throws OAuth4cjSignatureException failed to obtain signature
      */
     public func getSignature(baseString: String, apiSecret: String, tokenSecret: String): String {
         try {
