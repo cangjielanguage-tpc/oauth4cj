@@ -1291,6 +1291,62 @@ public class OAuthConstants {
     public static let USER_AGENT_HEADER_NAME: String = "User-Agent"
 }
 ```
+###### 1.3.1.16 OAuth异步请求回调
+
+```cangjie
+public interface OAuthAsyncRequestCallback<T> {
+    /**
+     * 请求完成后调用此方法
+     *
+     * @参数 response 响应对象
+     */
+    func onCompleted(response: T): Unit
+
+    /**
+     * 发生异常时调用此方法
+     *
+     * @参数 e 异常对象
+     */
+    func onThrowable(e: Exception): Unit
+}
+```
+
+###### 1.3.1.17 OAuth2访问令牌错误响应
+
+```cangjie
+public class OAuth2AccessTokenErrorResponse <: OAuthResponseException {
+    /**
+     * 构造方法
+     *
+     * @参数 error Option<OAuth2Error>实例
+     * @参数 errorDescription  错误信息描述
+     * @参数 errorUrl 错误信息URL实例
+     * @参数 rawResponse 响应信息
+     */
+    public init(error: Option<OAuth2Error>, errorDescription: String, errorUrl: URL, rawResponse: Response)
+
+    /**
+     * 获取OAuth2Error实例
+     *
+     * @返回值 Option<OAuth2Error> OAuth2Error实例
+     */
+    public func getError(): Option<OAuth2Error>
+
+    /**
+     * 获取错误信息描述
+     *
+     * @返回值 String 错误信息描述
+     */
+    public func getErrorDescription(): String
+
+    /**
+     * 获取错误信息URL实例
+     *
+     * @返回值 URL 错误信息URL实例
+     */
+    public func getErrorUri(): URL
+}
+```
 
 ##### 1.3.2 示例
 
@@ -1911,6 +1967,803 @@ main() {
 
 ```shell
 baseString.equals(expected) = true
+```
+#### 1.6 Builder模式的实现，具有创建OAuthService的流畅接口，OAuth协议1.0a/2.0版的默认实现
+
+1.Builder模式的实现，具有创建OAuthService的流畅接口
+2.OAuth协议1.0a/2.0版的默认实现, 通过API的具体实现进行扩展，提供端点和端点http请求类型
+
+##### 1.6.1 主要接口
+
+###### 1.6.1.1 BearerSignature签名接口
+
+```cangjie
+public interface BearerSignature {
+    /**
+     * 签名请求
+     *
+     * @参数 accessToken 访问令牌
+     * @参数 request oauth请求
+     */
+    func signRequest(accessToken: String, request: OAuth4cjRequest): Unit
+}
+```
+
+```cangjie
+public class BearerSignatureAuthorizationRequestHeaderField {
+    /**
+     * 获取签名授权请求头字段的实例
+     * 
+     * @返回值 BearerSignatureAuthorizationRequestHeaderField实例
+     */
+    public static func instance(): BearerSignatureAuthorizationRequestHeaderField 
+}
+
+extend BearerSignatureAuthorizationRequestHeaderField <: BearerSignature {
+    /**
+     * 签名请求
+     *
+     * @参数 accessToken 访问令牌
+     * @参数 request oauth请求
+     */
+    public func signRequest(accessToken: String, request: OAuth4cjRequest): Unit 
+}
+```
+
+```cangjie
+public class BearerSignatureURIQueryParameter {
+    /**
+     * 获取签名URI查询参数的实例
+     * 
+     * @返回值 BearerSignatureURIQueryParameter BearerSignatureURIQueryParameter实例
+     */
+    public static func instance(): BearerSignatureURIQueryParameter
+}
+
+extend BearerSignatureURIQueryParameter <: BearerSignature {
+    /**
+     * 签名请求
+     *
+     * @参数 accessToken 访问令牌
+     * @参数 request oauth请求
+     */
+    public func signRequest(accessToken: String, request: OAuth4cjRequest): Unit
+}
+```
+###### 1.6.1.2 ClientAuthentication接口
+
+```cangjie
+public interface ClientAuthentication {
+    /**
+     * 向请求添加客户端身份验证
+     *
+     * @参数 request oauth请求
+     * @参数 apiKey api密钥
+     * @参数 apiSecret api加密
+     */
+    func addClientAuthentication(request: OAuth4cjRequest, apiKey: String, apiSecret: String): Unit
+}
+```
+
+```cangjie
+public class HttpBasicAuthenticationScheme {
+    /**
+     * 获取HttpBasic身份验证方案的实例
+     * 
+     * @返回值 HttpBasicAuthenticationScheme HttpBasicAuthenticationScheme实例
+     */
+    public static func instance(): HttpBasicAuthenticationScheme
+}
+
+extend HttpBasicAuthenticationScheme <: ClientAuthentication {
+    /**
+     * 向请求添加客户端身份验证
+     *
+     * @参数 request oauth请求
+     * @参数 apiKey api密钥
+     * @参数 apiSecret api加密
+     */
+    public func addClientAuthentication(request: OAuth4cjRequest, apiKey: String, apiSecret: String): Unit 
+}
+```
+
+```cangjie
+public class RequestBodyAuthenticationScheme {
+    /**
+     * 获取请求体身份验证方案的实例
+     * 
+     * @返回值 RequestBodyAuthenticationScheme RequestBodyAuthenticationScheme实例
+     */
+    public static func instance(): RequestBodyAuthenticationScheme 
+}
+
+extend RequestBodyAuthenticationScheme <: ClientAuthentication {
+    /**
+     * 向请求添加客户端身份验证
+     *
+     * @参数 request oauth请求
+     * @参数 apiKey api密钥
+     * @参数 apiSecret api加密
+     */
+    public func addClientAuthentication(request: OAuth4cjRequest, apiKey: String, apiSecret: String): Unit
+}
+```
+
+###### 1.6.1.3 OAuth2Error错误类型枚举
+
+```cangjie
+public enum OAuth2Error {
+    | INVALID_REQUEST
+    | UNAUTHORIZED_CLIENT
+    | ACCESS_DENIED
+    | UNSUPPORTED_RESPONSE_TYPE
+    | INVALID_SCOPE
+    | SERVER_ERROR
+    | TEMPORARILY_UNAVAILABLE
+    | INVALID_CLIENT
+    | INVALID_GRANT
+    | UNSUPPORTED_GRANT_TYPE
+    | INVALID_TOKEN
+    | INSUFFICIENT_SCOPE
+    | UNSUPPORTED_TOKEN_TYPE
+    | AUTHORIZATION_PENDING
+    | SLOW_DOWN
+    | EXPIRED_TOKEN
+
+    /**
+     * 解析字符串生成OAuth2Error对象
+     *
+     * @返回值 OAuth2Error OAuth2Error对象
+     */
+    public static func parseFrom(errorString: String): OAuth2Error 
+
+    /**
+     * 获取错误类型字符串
+     *
+     * @返回值 String 错误类型字符串
+     */
+    public func getErrorString(): String
+}
+
+```
+
+###### 1.6.1.4 OAuth2撤销令牌响应转换器
+
+```cangjie
+public class OAuth2RevokeTokenResponseConverter {
+
+    /**
+     * 检测响应是否成功，如果失败会根据错误信息抛出异常
+     * 
+     * @参数 response 撤销操作响应信息
+     */
+    public func convert(response: Response): Unit
+}
+```
+
+###### 1.6.1.5 撤销请求类型枚举
+
+```cangjie
+public enum TokenTypeHint {
+    | ACCESS_TOKEN_HINT
+    | REFRESH_TOKEN_HINT
+
+    /**
+     * 获取token类型字符串
+     * 
+     * @返回值 String token类型字符串
+     */
+    public func getValue(): String 
+}
+```
+
+###### 1.6.1.6 范围字符串构造器
+
+```cangjie
+public class ScopeBuilder {
+    /**
+     * 构造函数
+     */
+    public init()
+
+    /**
+     * 构造函数
+     *
+     * @参数 scope 范围字符串
+     */
+    public init(scope: String)
+
+    /**
+     * 构造函数
+     *
+     * @参数 scopes 范围字符串数组
+     */
+    public init(scopes: Array<String>)
+
+    /**
+     * 构造函数
+     *
+     * @参数 scopes 范围字符串集合
+     */
+    public init(scopes: Collection<String>)
+
+    /**
+     * Add scope
+     *
+     * @参数 scope 范围字符串
+     * @返回值 ScopeBuilder ScopeBuilder实例
+     */
+    public func withScope(scope: String): ScopeBuilder
+
+    /**
+     * Add scopes
+     *
+     * @参数 scopes 范围字符串数组
+     * @返回值 ScopeBuilder ScopeBuilder实例
+     */
+    public func withScopes(scopes: Array<String>): ScopeBuilder
+
+    /**
+     * Add scopes
+     *
+     * @参数 scopes 范围字符串集合
+     * @返回值 ScopeBuilder ScopeBuilder实例
+     */
+    public func withScopes(scopes: Collection<String>): ScopeBuilder
+
+    /**
+     * 构造完整的范围字符串
+     *
+     * @返回值 String 完整的范围字符串
+     */
+    public func build(): String
+}
+```
+
+###### 1.6.1.7 service构造器通用接口 
+
+```cangjie
+public interface ServiceBuilderCommon {
+    /**
+     * 添加回调url
+     *
+     * @参数 callback 回调url。必须是有效的url或“oob”
+     * @返回值 ServiceBuilderCommon ServiceBuilderCommon实例
+     */
+    func setCallback(callback: String): ServiceBuilderCommon
+
+    /**
+     * 配置 api key
+     *
+     * @参数 apiKey 应用程序的api密钥
+     * @返回值 ServiceBuilderCommon ServiceBuilderCommon实例
+     */
+    func setApiKey(apiKey: String): ServiceBuilderCommon
+
+    /**
+     * 配置 api secret
+     *
+     * @参数 apiSecret 应用程序的api密码
+     * @返回值 ServiceBuilderCommon ServiceBuilderCommon实例
+     */
+    func setApiSecret(apiSecret: String): ServiceBuilderCommon
+
+    /**
+     * 配置空 api secret
+     *
+     * @返回值 ServiceBuilderCommon ServiceBuilderCommon实例
+     */
+    func setApiSecretIsEmptyStringUnsafe(): ServiceBuilderCommon
+
+    /**
+     * 配置 HttpClientConfig
+     *
+     * @参数 httpClientConfig Http客户端配置实例
+     * @返回值 ServiceBuilderCommon ServiceBuilderCommon实例
+     */
+    func setHttpClientConfig(httpClientConfig: Option<HttpClientConfig>): ServiceBuilderCommon
+
+    /**
+     * 配置 HttpClient
+     *
+     * @参数 httpClient 外部创建的HTTP客户端
+     * @返回值 ServiceBuilderCommon ServiceBuilderCommon实例
+     */
+    func setHttpClient(httpClient: Option<HttpClient>): ServiceBuilderCommon
+
+    /**
+     * 配置用户代理
+     *
+     * @参数 userAgent 用户代理
+     * @返回值 ServiceBuilderCommon ServiceBuilderCommon实例
+     */
+    func setUserAgent(userAgent: String): ServiceBuilderCommon
+}
+```
+
+###### 1.6.1.8 service构造器oauth1.0补充接口  
+
+```cangjie
+public interface ServiceBuilderOAuth10a <: ServiceBuilderCommon {
+    /**
+     * 配置 OAuth 1.0a 范围
+     *
+     * @参数 scope OAuth范围
+     * @返回值 ServiceBuilderOAuth10a ServiceBuilderOAuth10a实例
+     */
+    func withScope(scope: String): ServiceBuilderOAuth10a
+
+    /**
+     * 构建OAuth10aService实例
+     *
+     * @参数 api DefaultApi10a实例
+     * @返回值 OAuth10aService OAuth10aService实例
+     */
+    func build(api: DefaultApi10a): OAuth10aService
+}
+```
+
+###### 1.6.1.9 service构造器oauth2.0补充接口  
+
+```cangjie
+public interface ServiceBuilderOAuth20 <: ServiceBuilderCommon {
+    /**
+     * 配置响应类型
+     *
+     * @参数 responseType 响应类型
+     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    func setResponseType(responseType: String): ServiceBuilderOAuth20
+
+    /**
+     * 配置默认的 OAuth 2.0 范围
+     *
+     * @参数 defaultScope OAuth作用域，用作默认作用域
+     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    func setDefaultScope(defaultScope: String): ServiceBuilderOAuth20
+
+    /**
+     * 配置默认的 OAuth 2.0 范围
+     *
+     * @参数 scopeBuilder ScopeBuilder实例
+     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    func setDefaultScope(scopeBuilder: ScopeBuilder): ServiceBuilderOAuth20
+
+    /**
+     * 构建OAuth20Service实例
+     *
+     * @参数 api DefaultApi20实例
+     * @返回值 OAuth20Service OAuth20Service实例
+     */
+    func build(api: DefaultApi20): OAuth20Service
+}
+```
+
+###### 1.6.1.10 service构造器
+
+```cangjie
+public class ServiceBuilder <: ServiceBuilderOAuth10a & ServiceBuilderOAuth20 {
+    /**
+     * 构造函数
+     *
+     * @参数 apiKey apikey字符串
+     */
+    public init(apiKey: String)
+
+    /**
+     * 设置回调url字符串
+     *
+     * @参数 callback 回调url字符串
+     * @返回值 ServiceBuilder ServiceBuilder实例
+     */
+    public func setCallback(callback: String): ServiceBuilder
+
+    /**
+     * 设置 Api Key
+     *
+     * @参数 apiKey apikey字符串
+     * @返回值 ServiceBuilder ServiceBuilder实例
+     */
+    public func setApiKey(apiKey: String): ServiceBuilder
+
+    /**
+     * 设置 Api Secret
+     *
+     * @参数 apiSecret apiSecret字符串
+     * @返回值 ServiceBuilder ServiceBuilder实例
+     */
+    public func setApiSecret(apiSecret: String): ServiceBuilder
+
+    /**
+     * 设置空的 Api Secret
+     *
+     * @返回值 ServiceBuilder ServiceBuilder实例
+     */
+    public func setApiSecretIsEmptyStringUnsafe(): ServiceBuilder
+
+    /**
+     * 设置默认范围
+     *
+     * @参数 defaultScope 范围字符串
+     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    public func setDefaultScope(defaultScope: String): ServiceBuilderOAuth20
+
+    /**
+     * 设置默认范围
+     *
+     * @参数 scopeBuilder ServiceBuilder实例
+     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    public func setDefaultScope(scopeBuilder: ScopeBuilder): ServiceBuilderOAuth20
+
+    /**
+     * 设置范围
+     *
+     * @参数 scope 范围字符串
+     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    public func withScope(scope: String): ServiceBuilderOAuth10a
+
+    /**
+     * 设置响应类型字符串
+     *
+     * @参数 responseType 响应类型字符串
+     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    public func setResponseType(responseType: String): ServiceBuilderOAuth20
+
+    /**
+     * 设置 HttpClientConfig
+     *
+     * @参数 httpClientConfig httpClientConfig实例
+     * @返回值 ServiceBuilder ServiceBuilder实例
+     */
+    public func setHttpClientConfig(httpClientConfig: Option<HttpClientConfig>): ServiceBuilder
+
+    /**
+     * 设置 HttpClient
+     *
+     * @参数 httpClient httpClient实例
+     * @返回值 ServiceBuilder ServiceBuilder实例
+     */
+    public func setHttpClient(httpClient: Option<HttpClient>): ServiceBuilder
+
+    /**
+     * 设置用户代理
+     *
+     * @参数 userAgent 用户代理
+     * @返回值 ServiceBuilder ServiceBuilder实例
+     */
+    public func setUserAgent(userAgent: String): ServiceBuilder
+
+    /**
+     * 构造OAuth10aService实例
+     *
+     * @参数 api DefaultApi10a实例
+     * @返回值 OAuth10aService OAuth10aService实例
+     */
+    public func build(api: DefaultApi10a): OAuth10aService
+
+    /**
+     * 构造OAuth20Service实例
+     *
+     * @参数 api DefaultApi20实例
+     * @返回值 OAuth20Service OAuth20Service实例
+     */
+    public func build(api: DefaultApi20): OAuth20Service
+}
+```
+
+##### 1.6.2 示例
+
+```cangjie
+from std import collection.*
+from oauth4cj import builder.*
+
+main() {
+    var scopeString: ArrayList<String> = ArrayList<String>()
+    scopeString.append("scope_1")
+    scopeString.append("scope_2")
+    scopeString.append("scope_3")
+    var scopeString_add: String = "scope_4"
+    var scope: String = ScopeBuilder(scopeString).withScopes(scopeString_add).build()
+    var montageString: String = "scope_1 scope_2 scope_3 scope_4"
+    if (montageString.equals(scope)) {
+        println("scope = ${scope}")
+        return 0
+    } else {
+        return -1
+    }
+}
+```
+
+执行结果如下：
+```cangjie
+scope = scope_1 scope_2 scope_3 scope_4
+```
+
+#### 1.7 Builder模式的实现，提供 OAuth 和 OAuthService 的接口
+
+Builder模式的实现，提供 OAuth 和 OAuthService 的接口
+
+##### 1.7.1 主要接口
+
+###### 1.7.1.1 OAuth1签名类型
+
+```cangjie
+public enum OAuth1SignatureType <: ToString  {
+    | HEADER
+    | QUERY_STRING
+    
+    /**
+     * 获取OAuth1签名类型字符串
+     * 
+     * @返回值 String OAuth1签名类型字符串
+     */
+    public func toString(): String
+}
+```
+
+###### 1.7.1.2 Oauth1.0的默认Api抽象类
+
+```cangjie
+public abstract class DefaultApi10a {
+    /**
+     * 返回访问令牌提取器
+     *
+     * @返回值 TokenExtractor<OAuth1AccessToken> 访问令牌提取器
+     */
+    public open func getAccessTokenExtractor(): TokenExtractor<OAuth1AccessToken>
+
+    /**
+     * 返回基础信息提取器
+     *
+     * @返回值 BaseStringExtractor 基础信息提取器
+     */
+    public open func getBaseStringExtractor(): BaseStringExtractor
+
+    /**
+     * 返回头信息提取器
+     *
+     * @返回值 HeaderExtractor 头信息提取器
+     */
+    public open func getHeaderExtractor(): HeaderExtractor
+
+    /**
+     * 返回请求令牌提取器
+     *
+     * @返回值 TokenExtractor<OAuth1RequestToken> 请求令牌提取器
+     */
+    public open func getRequestTokenExtractor(): TokenExtractor<OAuth1RequestToken>
+
+    /**
+     * 返回签名服务
+     *
+     * @返回值 SignatureService 签名服务
+     */
+    public open func getSignatureService(): SignatureService
+
+    /**
+     * 返回签名类型
+     * 
+     * @返回值 OAuth1SignatureType 签名类型, 在header、querystring等之间进行选择。默认为header
+     */
+    public open func getSignatureType(): OAuth1SignatureType
+
+    /**
+     * 返回时间戳服务
+     *
+     * @返回值 TimestampService 时间戳服务
+     */
+    public open func getTimestampService(): TimestampService
+
+    /**
+     * 返回访问令牌端点的操作类型，默认为POST
+     *
+     * @返回值 Verb 访问令牌端点的操作类型
+     */
+    public open func getAccessTokenVerb(): Verb
+
+    /**
+     * 返回请求令牌端点的操作类型，默认为POST
+     *
+     * @返回值 Verb 请求令牌端点的操作类型
+     */
+    public open func getRequestTokenVerb(): Verb
+
+    /**
+     * 返回接收请求令牌请求的URL
+     *
+     * @返回值 String 接收请求令牌请求的URL
+     */
+    public func getRequestTokenEndpoint(): String
+
+    /**
+     * 返回接收访问令牌请求的URL
+     *
+     * @返回值 String 接收访问令牌请求的URL
+     */
+    public func getAccessTokenEndpoint(): String 
+
+    /**
+     * 返回应该重定向用户以验证应用程序的URL
+     *
+     * @参数 requestToken 您需要授权的请求令牌
+     * @返回值 String 应该重定向用户的URL
+     */
+    public open func getAuthorizationUrl(requestToken: OAuth1RequestToken): String
+
+    /**
+     * 创建OAuth10aService实例
+     *
+     * @参数 apiKey api key
+     * @参数 apiSecret api secret
+     * @参数 callback 回调url
+     * @参数 scope 范围信息
+     * @参数 debugStream debug流（java中标注为后续优化使用，暂时保留，传空即可）
+     * @参数 userAgent 用户代理
+     * @参数 httpClientConfig HTTP客户端配置信息
+     * @参数 httpClient HTTP客户端
+     * @返回值 OAuth10aService OAuth10aService实例
+     */
+    public func createService(apiKey:String, apiSecret: String, callback: String, scope: String,
+            debugStream: Option<OutputStream>, userAgent: String, httpClientConfig: Option<HttpClientConfig>,
+            httpClient: Option<HttpClient>): OAuth10aService
+
+    /**
+     * 是否在请求中加入空的oauth_token参数
+     * 客户端可能会从请求中省略空的“oauth_token”协议参数，但并非所有的oauth服务器都支持
+     *
+     * @返回值 Bool 是否在请求中加入空的oauth_token参数
+     */
+    public open func isEmptyOAuthTokenParamIsRequired(): Bool
+}
+```
+
+###### 1.7.1.3 Oauth2.0的默认Api抽象类
+
+```cangjie
+public abstract class DefaultApi20 {
+
+    /**
+     * 返回访问令牌提取器
+     *
+     * @返回值 TokenExtractor<OAuth2AccessToken> 访问令牌提取器
+     */
+    public open func getAccessTokenExtractor(): TokenExtractor<OAuth2AccessToken>
+
+    /**
+     * 返回访问令牌端点的操作类型，默认为POST
+     *
+     * @返回值 Verb 访问令牌端点的操作类型
+     */
+    public open func getAccessTokenVerb(): Verb
+
+    /**
+     * 返回接收访问令牌请求的URL
+     *
+     * @返回值 String 接收访问令牌请求的URL
+     */
+    public func getAccessTokenEndpoint(): String
+
+    /**
+     * 返回刷新令牌的端点
+     *
+     * @返回值 String 刷新令牌的端点
+     */
+    public open func getRefreshTokenEndpoint(): String
+
+    /**
+     * 返回OAuth 2.0 令牌撤销端点
+     *
+     * @返回值 String 令牌撤销端点，允许客户端通知授权服务器不再需要以前获得的刷新或访问令牌
+     * @异常 IllegalArgumentException API不支持撤销令牌时抛出，默认不支持，子类实现时可以覆写该方法
+     */
+    public open func getRevokeTokenEndpoint(): String
+
+    /**
+     * 返回应该重定向用户以验证应用程序的URL
+     *
+     * @参数 responseType 响应类型
+     * @参数 apiKey apiKey
+     * @参数 additionalParams 要添加到URL的GET参数
+     * @参数 callback 回调url
+     * @参数 state 状态信息
+     * @参数 scope 范围信息
+     * @返回值 String 应该重定向用户的URL
+     */
+    public open func getAuthorizationUrl(responseType: String, apiKey: String, callback: ?String, scope: ?String,
+            state: ?String, additionalParams: HashMap<String, String>): String
+
+    /**
+     * 创建OAuth20Service实例
+     *
+     * @参数 apiKey api key
+     * @参数 apiSecret api secret
+     * @参数 callback 回调url
+     * @参数 defaultScope 范围信息
+     * @参数 responseType 响应类型
+     * @参数 debugStream debug流（java中标注为后续优化使用，暂时保留，传空即可）
+     * @参数 userAgent 用户代理
+     * @参数 httpClientConfig HTTP客户端配置信息
+     * @参数 httpClient HTTP客户端
+     * @返回值 OAuth20Service OAuth20Service实例
+     */
+    public func createService(apiKey: String, apiSecret: String, callback: String, defaultScope: String,
+            responseType: String, debugStream: Option<OutputStream>, userAgent: String, 
+            httpClientConfig: Option<HttpClientConfig>, httpClient: Option<HttpClient>): OAuth20Service
+
+    /**
+     * 返回签名
+     *
+     * @返回值 BearerSignature BearerSignature实例
+     */
+    public func getBearerSignature(): BearerSignature
+
+    /**
+     * 返回客户端身份验证
+     *
+     * @返回值 ClientAuthentication ClientAuthentication实例
+     */
+    public open func getClientAuthentication(): ClientAuthentication
+
+    /**
+     * 返回OAuth 2.0设备授权端点
+     *
+     * @返回值 String 设备授权端点
+     * @异常 IllegalArgumentException API不支持设备授权时抛出，默认不支持，子类实现时可以覆写该方法
+     */
+    public open func getDeviceAuthorizationEndpoint(): String 
+
+    /**
+     * 返回设备授权信息提取器
+     *
+     * @返回值 DeviceAuthorizationJsonExtractor DeviceAuthorizationJsonExtractor实例
+     */
+    public open func getDeviceAuthorizationExtractor(): DeviceAuthorizationJsonExtractor
+}
+```
+
+##### 1.7.2 示例
+```cangjie
+from std import collection.*
+from std import time.*
+from oauth4cj import oauth.*
+from oauth4cj import model.*
+from oauth4cj import extractors.*
+from oauth4cj import services.*
+
+main() {
+    var apiA: A = A()
+    var tokenEAccess: TokenExtractor<OAuth2AccessToken> = apiA.getAccessTokenExtractor()
+    let responseBody: String = ##"{"access_token":"oauth2_token"}"##
+    let response: Response = Response(200, "", HashMap<String, String>(), responseBody)
+    let oauth2AccessToken: OAuth2AccessToken = tokenEAccess.extract(response)
+    if (!oauth2AccessToken.getAccessToken().equals("oauth2_token")) {
+        println("error! oauth2AccessToken = ${oauth2AccessToken.getAccessToken()}")
+        return -1
+    }
+    println("oauth2AccessToken = ${oauth2AccessToken.getAccessToken()}")
+}
+
+class A <: DefaultApi20 {
+    public init(){}
+    
+    public func getAccessTokenEndpoint(): String {
+        return "getAccessTokenEndpoint"
+    }
+
+    protected func getAuthorizationBaseUrl(): String {
+        return "getAuthorizationBaseUrl"
+    }
+}
+```
+执行结果如下：
+```cangjie
+oauth2AccessToken = oauth2_token
 ```
 
 ### 2 支持客户端模式
