@@ -23,3 +23,10 @@
 - 从 OAuth4cjRequest 中提取 url 编码的基字符串
 - 生成 OAuth4cj “Authorization” Http 标头，以作为签名包含在请求中
 - 从 Http Response 的内容中提取具体类型的令牌
+
+7. Builder模式实现，提供创建OAuthService的流畅接口、OAuth协议1.0a/2.0版的默认实现
+- Builder模式实现，提供创建OAuthService的流畅接口
+- 提供OAuth协议1.0a/2.0版的默认实现
+
+8. Builder模式的实现，提供 OAuth 和 OAuthService 的接口
+- 提供 oauth2 签名、客户端验证和撤销请求相关接口

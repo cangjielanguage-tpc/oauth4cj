@@ -1,0 +1,66 @@
+// EXEC: cjc %import-path %L %l %f
+// EXEC: ./main
+
+from std import collection.HashMap
+from oauth4cj import revoke.*
+from oauth4cj import model.*
+
+func testTokenReponseConverter_01(): Int32 {
+    var headers:HashMap<String, String> = HashMap<String, String>()
+    headers.put("header1", "value1")
+    headers.put("header2", "value2")
+    var response:Response = Response(200, "message", headers, "123456")
+    var converter: OAuth2RevokeTokenResponseConverter = OAuth2RevokeTokenResponseConverter()
+    converter.convert(response)
+    return 0
+}
+
+func testTokenReponseConverter_02(): Int32 {
+    var headers:HashMap<String, String> = HashMap<String, String>()
+    headers.put("header1", "value1")
+    headers.put("header2", "value2")
+    var response:Response = Response(300, "message", headers, "123456")
+    var converter: OAuth2RevokeTokenResponseConverter = OAuth2RevokeTokenResponseConverter()
+    try {
+        converter.convert(response)
+        return -1
+    } catch (e: OAuth2AccessTokenErrorResponse) {
+        return 0
+    }
+}
+
+func testTokenReponseConverter_03(): Int32 {
+    let responseBody: String = 
+        ##"{"error":"server_error","error_description":"server not found","error_uri":"http://www.test.com"}"##
+    var headers:HashMap<String, String> = HashMap<String, String>()
+    headers.put("header1", "value1")
+    headers.put("header2", "value2")
+    var response:Response = Response(404, "message", headers, responseBody)
+    var converter: OAuth2RevokeTokenResponseConverter = OAuth2RevokeTokenResponseConverter()
+    try {
+        converter.convert(response)
+        return -1
+    } catch (e: OAuth2AccessTokenErrorResponse) {
+        var error = e.getError()
+        match(error) {
+            case Some(x) => println(x.getErrorString())
+            case _ => println("error is null")
+        }
+        var errorDescription = e.getErrorDescription()
+        var url = e.getErrorUri()
+        println(errorDescription)
+        println(url)
+        return 0
+    }
+}
+
+main() {
+    var test_01 = testTokenReponseConverter_01()
+    var test_02 = testTokenReponseConverter_02()
+    var test_03 = testTokenReponseConverter_03()
+
+    var sum = test_01+test_02+test_03
+    println(sum)
+    println("test_01=${test_01}, test_02=${test_02}, test_03=${test_03}")
+    return sum
+}
