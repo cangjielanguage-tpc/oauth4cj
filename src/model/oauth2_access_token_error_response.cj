@@ -10,20 +10,20 @@ import oauth2.OAuth2Error
  */
 public class OAuth2AccessTokenErrorResponse <: OAuthResponseException {
 
-    private let error: OAuth2Error
+    private let error: Option<OAuth2Error>
     private let errorDescription: String
     private let errorUrl: URL
 
     /**
      * Create a OAuth2AccessTokenErrorResponse instance
      *
-     * @param error OAuth2Error instance
+     * @param error Option<OAuth2Error> instance
      * @param errorDescription  error descriuption
      * @param errorUrl error URL instance
      * @param rawResponse response information
      * @since 0.38.2
      */
-    public init(error: OAuth2Error, errorDescription: String, errorUrl: URL, rawResponse: Response) {
+    public init(error: Option<OAuth2Error>, errorDescription: String, errorUrl: URL, rawResponse: Response) {
         super(rawResponse)
         this.error = error
         this.errorDescription = errorDescription
@@ -31,12 +31,12 @@ public class OAuth2AccessTokenErrorResponse <: OAuthResponseException {
     }
 
     /**
-     * Get the OAuth2Error instance
+     * Get the Option<OAuth2Error>
      *
      * @return OAuth2Error OAuth2Error instance
      * @since 0.38.2
      */
-    public func getError(): OAuth2Error {
+    public func getError(): Option<OAuth2Error> {
         return error
     }
 
