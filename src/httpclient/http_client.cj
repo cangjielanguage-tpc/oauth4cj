@@ -19,7 +19,7 @@ public let DEFAULT_CONTENT_TYPE: String = "application/x-www-form-urlencoded"
 public let CONTENT_TYPE: String = "Content-Type"
 public let CONTENT_LENGTH: String = "Content-Length"
 
-public interface HttpClient<T> <: Closeable {
+public interface HttpClient <: Closeable {
 
     /**
      * async execute.
@@ -35,7 +35,7 @@ public interface HttpClient<T> <: Closeable {
      * @Return Future<T> the result of async execute.
      * @since 0.38.2
      */
-    func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+    static func executeAsync<T>(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
         bodyContents: Array<UInt8>, callback: OAuthAsyncRequestCallback<T>, converter: ResponseConverter<T>): Future<T>
 
     /**
@@ -52,7 +52,7 @@ public interface HttpClient<T> <: Closeable {
      * @Return Future<T> the result of async execute.
      * @since 0.38.2
      */
-    func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+    static func executeAsync<T>(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: MultipartPayload, callback: OAuthAsyncRequestCallback<T>,
             converter: ResponseConverter<T>): Future<T>
 
@@ -70,7 +70,7 @@ public interface HttpClient<T> <: Closeable {
      * @Return Future<T> the result of async execute.
      * @since 0.38.2
      */
-    func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+    static func executeAsync<T>(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: String, callback: OAuthAsyncRequestCallback<T>, converter: ResponseConverter<T>): Future<T>
 
     /**
@@ -87,7 +87,7 @@ public interface HttpClient<T> <: Closeable {
      * @Return Future<T> the result of async execute.
      * @since 0.38.2
      */
-    func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+    static func executeAsync<T>(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: File, callback: OAuthAsyncRequestCallback<T>, converter: ResponseConverter<T>): Future<T>
 
     /**

@@ -33,7 +33,7 @@ public class OAuth2AccessTokenErrorResponse <: OAuthResponseException {
     /**
      * Get the Option<OAuth2Error>
      *
-     * @return OAuth2Error OAuth2Error instance
+     * @return Option<OAuth2Error> OAuth2Error instance
      * @since 0.38.2
      */
     public func getError(): Option<OAuth2Error> {
