@@ -10,7 +10,7 @@ package httpclient
 /**
  * Provide HttpClient based on HttpClient configuration.
  */
-public interface HttpClientProvider<T> {
+public interface HttpClientProvider {
 
     /**
      * Create HttpClient based on HttpClient configuration.
@@ -20,5 +20,5 @@ public interface HttpClientProvider<T> {
      * @Return HttpClient Create HttpClient based on HttpClient configuration, return it.
      * @since 0.38.2
      */
-    func createClient(httpClientConfig: HttpClientConfig): HttpClient<T>
+    func createClient(httpClientConfig: HttpClientConfig): HttpClient
 }
