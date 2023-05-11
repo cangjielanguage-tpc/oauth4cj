@@ -467,3 +467,20 @@ public open class OAuth4cjRequest {
      */
     public open func convert(response: Response): Any {}
 }
+
+/**
+ * The response converter.
+ */
+public interface ResponseConverter<T> {
+
+    /**
+     * If the response is not included in the type&lt; T&gt；
+     * Then close the response on OAuthAsyncRequestCallback.onCompleted(response: T)
+     *
+     * @param key of Response
+     *
+     * @return Type of Any
+     * @since 0.37.2
+     */
+    func convert(response: Response): T
+}
