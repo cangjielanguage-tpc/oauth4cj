@@ -104,18 +104,20 @@ public func testRequest_12():Int32 {
     var url = "http://test/test"
     var request = OAuth4cjRequest(Verb.POST, url)
 
-    var payload_1 = MultipartPayload("~~test1~~")
+    var payload_1 = MultipartPayload("test1")
     // 设置BodyPartPayload子类 
     request.setBodyPartPayloadInMultipartPayload(payload_1)
     var result_1 = request.getMultipartPayload().getBodyParts()
     if (result_1.size != 1) {
         println(result_1.size)
+        println("-----------------------0")
         return -1
     }
     var bodyPart_1 = result_1[0].getHeaders()
     var header_1 = bodyPart_1["Content-Type"]
-    if (!"multipart/; boundary=\"~~test1~~\"".equals(header_1)) {
+    if (!"multipart/form-data; boundary=\"test1\"".equals(header_1)) {
         println(header_1)
+        println("-----------------------1")
         return -1
     }
 
@@ -125,12 +127,14 @@ public func testRequest_12():Int32 {
     var result_2 = request.getMultipartPayload().getBodyParts()
     if (result_2.size != 1) {
         println(result_2.size)
+        println("-----------------------2")
         return -1
     }
     var bodyPart_2 = result_2[0].getHeaders()
     var header_2 = bodyPart_2["Content-Type"]
-    if (!"multipart/; boundary=\"==test2==\"".equals(header_2)) {
+    if (!"multipart/form-data; boundary=\"==test2==\"".equals(header_2)) {
         println(header_2)
+        println("-----------------------3")
         return -1
     }
 
