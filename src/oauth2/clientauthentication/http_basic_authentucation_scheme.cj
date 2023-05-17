@@ -5,7 +5,6 @@
 package oauth2.clientauthentication
 
 import utils.Base64Utils
-import model.OAuthConstants
 
 /**
  * НTTP Basic authentication scheme, RFC 6749 2.3.1

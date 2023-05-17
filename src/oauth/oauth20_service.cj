@@ -9,6 +9,9 @@ package oauth
  */
 public class OAuth20Service <: OAuthService {
     private static let VERSION: String = "2.0"
+    private var api: DefaultApi20
+    private var responseType: String
+    private var defaultScope: String
 
     /**
      * Create OAuth20Service instance.
@@ -28,6 +31,21 @@ public class OAuth20Service <: OAuthService {
             responseType: String, debugStream: Option<OutputStream>, userAgent: String, 
             httpClientConfig: Option<HttpClientConfig>, httpClient: Option<HttpClient>) {
         super(apiKey, apiSecret, callback, debugStream, userAgent, httpClientConfig, httpClient)
+        this.responseType = responseType
+        this.api = api
+        this.defaultScope = defaultScope
+    }
+
+    public func getApi(): DefaultApi20 {
+        return api
+    }
+
+    public func getDefaultScope(): String {
+        return defaultScope
+    }
+
+    public func getResponseType(): String {
+        return responseType
     }
 }
 
