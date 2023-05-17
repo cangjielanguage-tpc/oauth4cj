@@ -1968,6 +1968,7 @@ main() {
 ```shell
 baseString.equals(expected) = true
 ```
+
 #### 1.6 Builder模式的实现，具有创建OAuthService的流畅接口，OAuth协议1.0a/2.0版的默认实现
 
 1.Builder模式的实现，具有创建OAuthService的流畅接口
@@ -2764,6 +2765,657 @@ class A <: DefaultApi20 {
 执行结果如下：
 ```cangjie
 oauth2AccessToken = oauth2_token
+```
+
+#### 1.8 提供同步和异步调用接口。
+
+提供同步和异步调用接口，正则比较从字符串中获取指定信息，提供 BodyPartPayload 及多种子类型的数据结构创建，请求字段补充，数据存储，读取并封装成特定类型。
+
+##### 1.8.1 主要接口
+
+###### 1.8.1.1 HttpClient 接口
+
+```cangjie
+/**
+ * HttpClient 接口提供异步和同步执行api
+ */
+public interface HttpClient <: Closeable {
+
+    /**
+     * 异步执行。
+     *
+     * @参数 userAgent - String 数据类型, 用户代理
+     * @参数 headers - HashMap<String, String> 数据类型
+     * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
+     * @参数 completeUrl - String 数据类型, 完整的 url
+     * @参数 bodyContents - Array<UInt8> 数据类型, 正文内容
+     * @参数 callback - OAuthAsyncRequestCallback<T> 数据类型, oAuth 异步请求回调
+     * @参数 converter - ResponseConverter<T> 数据类型, 响应转换器
+     *
+     * @返回值 Future<T> - Future<T> 数据类型, 异步执行的结果。
+     */
+    static func executeAsync<T>(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+        bodyContents: Array<UInt8>, callback: OAuthAsyncRequestCallback<T>, converter: ResponseConverter<T>): Future<T>
+
+    /**
+     * 异步执行。
+     *
+     * @参数 userAgent - String 数据类型, 用户代理
+     * @参数 headers - HashMap<String, String> 数据类型
+     * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
+     * @参数 completeUrl - String 数据类型, 完整的 url
+     * @参数 bodyContents - MultipartPayload 数据类型, 正文内容
+     * @参数 callback - OAuthAsyncRequestCallback<T> 数据类型, oAuth 异步请求回调
+     * @参数 converter - ResponseConverter<T> 数据类型, 响应转换器
+     *
+     * @返回值 Future<T> - Future<T> 数据类型, 异步执行的结果。
+     */
+    static func executeAsync<T>(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: MultipartPayload, callback: OAuthAsyncRequestCallback<T>,
+            converter: ResponseConverter<T>): Future<T>
+
+    /**
+     * 异步执行。
+     *
+     * @参数 userAgent - String 数据类型, 用户代理
+     * @参数 headers - HashMap<String, String> 数据类型
+     * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
+     * @参数 completeUrl - String 数据类型, 完整的 url
+     * @参数 bodyContents - String 数据类型, 正文内容
+     * @参数 callback - OAuthAsyncRequestCallback<T> 数据类型, oAuth 异步请求回调
+     * @参数 converter - ResponseConverter<T> 数据类型, 响应转换器
+     *
+     * @返回值 Future<T> - Future<T> 数据类型, 异步执行的结果。
+     */
+    static func executeAsync<T>(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: String, callback: OAuthAsyncRequestCallback<T>, converter: ResponseConverter<T>): Future<T>
+
+    /**
+     * 异步执行。
+     *
+     * @参数 userAgent - String 数据类型, 用户代理
+     * @参数 headers - HashMap<String, String> 数据类型
+     * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
+     * @参数 completeUrl - String 数据类型, 完整的 url
+     * @参数 bodyContents - File 数据类型, 正文内容
+     * @参数 callback - OAuthAsyncRequestCallback<T> 数据类型, oAuth 异步请求回调
+     * @参数 converter - ResponseConverter<T> 数据类型, 响应转换器
+     *
+     * @返回值 Future<T> - Future<T> 数据类型, 异步执行的结果。
+     */
+    static func executeAsync<T>(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: File, callback: OAuthAsyncRequestCallback<T>, converter: ResponseConverter<T>): Future<T>
+
+    /**
+     * 调用执行。
+     *
+     * @参数 userAgent - String 数据类型, 用户代理
+     * @参数 headers - HashMap<String, String> 数据类型
+     * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
+     * @参数 completeUrl - String 数据类型, 完整的 url
+     * @参数 bodyContents - Array<UInt8> 数据类型, 正文内容
+     *
+     * @返回值 Response - Response 数据类型, 执行后返回响应。
+     */
+    func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: Array<UInt8>): Response
+
+    /**
+     * 调用执行。
+     *
+     * @参数 userAgent - String 数据类型, 用户代理
+     * @参数 headers - HashMap<String, String> 数据类型
+     * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
+     * @参数 completeUrl - String 数据类型, 完整的 url
+     * @参数 bodyContents - MultipartPayload 数据类型, 正文内容
+     *
+     * @返回值 Response - Response 数据类型, 执行后返回响应。
+     */
+    func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: MultipartPayload): Response
+
+    /**
+     * 调用执行。
+     *
+     * @参数 userAgent - String 数据类型, 用户代理
+     * @参数 headers - HashMap<String, String> 数据类型
+     * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
+     * @参数 completeUrl - String 数据类型, 完整的 url
+     * @参数 bodyContents - String 数据类型, 正文内容
+     *
+     * @返回值 Response - Response 数据类型, 执行后返回响应。
+     */
+    func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: String): Response
+
+    /**
+     * 调用执行。
+     *
+     * @参数 userAgent - String 数据类型, 用户代理
+     * @参数 headers - HashMap<String, String> 数据类型
+     * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
+     * @参数 completeUrl - String 数据类型, 完整的 url
+     * @参数 bodyContents - File 数据类型, 正文内容
+     *
+     * @返回值 Response - Response 数据类型, 执行后返回响应。
+     */
+    func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: File): Response
+}
+```
+
+###### 1.8.1.2 HttpClient 配置接口 HttpClientConfig
+
+```cangjie
+/**
+ * HttpClient 配置接口。
+ */
+public interface HttpClientConfig {
+
+    /**
+     * 返回 HttpClientConfig。
+     *
+     * @返回值 HttpClientConfig - HttpClientConfig 数据类型, HttpClient 配置。
+     */
+    func createDefaultConfig(): HttpClientConfig
+}
+```
+
+###### 1.8.1.3 HttpClientProvider 接口
+
+```cangjie
+/**
+ * 基于 HttpClient 配置提供 HttpClient。
+ */
+public interface HttpClientProvider {
+
+    /**
+     * 基于 HttpClient 配置创建 HttpClient。
+     *
+     * @参数 httpClientConfig - HttpClientConfig 数据类型, HttpClient 配置。
+     *
+     * @返回值 HttpClient Create HttpClient based on HttpClient configuration, return it.
+     */
+    func createClient(httpClientConfig: HttpClientConfig): HttpClient
+}
+```
+
+###### 1.8.1.4 BodyPartPayload 类
+
+```cangjie
+/**
+ * BodyPartPayload 中可以存放 http 请求头内容。
+ */
+public open class BodyPartPayload {
+    
+    /**
+     * 创建一个 BodyPartPayload 实例。
+     */
+    public init ()
+    
+    /**
+     * 根据参数创建一个 BodyPartPayload 实例。
+     * 
+     * @参数 contentType - String 数据类型，请求头中的 Content-Type 字段对应的信息。
+     */
+    public init (contentType: String)
+    
+    /**
+     * 根据参数创建一个 BodyPartPayload 实例。
+     * 
+     * @参数 headers - HashMap<String, String> 数据类型，请求头。
+     */
+    public init (headers: HashMap<String, String>)
+    
+    /**
+     * 获取 BodyPartPayload 的请求头数据。
+     * 
+     * @返回值 HashMap<String,String> - HashMap<String, String> 数据类型，请求头数据。
+     */
+    public func getHeaders (): HashMap<String,String>
+}
+```
+
+###### 1.8.1.5 ByteArrayBodyPartPayload 类
+
+```cangjie
+/**
+ * ByteArrayBodyPartPayload 中可以存放 http 请求头和请求体内容。
+ */
+public open class ByteArrayBodyPartPayload<: BodyPartPayload {
+    
+    /**
+     * 根据参数创建一个 ByteArrayBodyPartPayload 实例。
+     * 
+     * @参数 payload - Array<UInt8> 数据类型，请求数据。
+     * @参数 off - Int64 数据类型，偏移量。
+     * @参数 len - Int64 数据类型，请求数据长度。
+     * @参数 headers - HashMap<String, String> 数据类型，请求头。
+     */
+    public init (payload: Array<UInt8>, off: Int64, len: Int64, headers: HashMap<String, String>)
+    
+    /**
+     * 根据参数创建一个 ByteArrayBodyPartPayload 实例。
+     * 
+     * @参数 payload - Array<UInt8> 数据类型，请求数据。
+     * @参数 headers - HashMap<String, String> 数据类型，请求头。
+     */
+    public init (payload: Array<UInt8>, headers: HashMap<String, String>)
+    
+    /**
+     * 根据参数创建一个 ByteArrayBodyPartPayload 实例。
+     * 
+     * @参数 payload - Array<UInt8> 数据类型，请求数据。
+     * @参数 contentType - String 数据类型，请求头中的 Content-Type 字段对应的信息。
+     */
+    public init (payload: Array<UInt8>, contentType: String)
+    
+    /**
+     * 根据参数创建一个 ByteArrayBodyPartPayload 实例。
+     * 
+     * @参数 payload - Array<UInt8> 数据类型，请求数据。
+     * @参数 off - Int64 数据类型，偏移量。
+     * @参数 len - Int64 数据类型，请求数据长度。
+     * @参数 contentType - String 数据类型，请求头中的 Content-Type 字段对应的信息。
+     */
+    public init (payload: Array<UInt8>, off: Int64, len: Int64, contentType: String)
+    
+    /**
+     * 根据参数创建一个 ByteArrayBodyPartPayload 实例。
+     * 
+     * @参数 payload - Array<UInt8> 数据类型，请求数据。
+     */
+    public init (payload: Array<UInt8>)
+    
+    /**
+     * 根据参数创建一个 ByteArrayBodyPartPayload 实例。
+     * 
+     * @参数 payload - Array<UInt8> 数据类型，请求数据。
+     * @参数 off - Int64 数据类型，偏移量。
+     * @参数 len - Int64 数据类型，请求数据长度。
+     */
+    public init (payload: Array<UInt8>, off: Int64, len: Int64)
+    
+    /**
+     * 获取请求数据。
+     * 
+     * @返回值 Array<UInt8> - Array<UInt8> 数据类型，请求数据。
+     */
+    public func getPayload (): Array<UInt8>
+    
+    /**
+     * 获取偏移量。
+     * 
+     * @返回值 Int64 - Int64 数据类型，偏移量。
+     */
+    public func getOff (): Int64
+    
+    /*
+     * 获取请求数据长度。
+     * 
+     * @返回值 Int64 - Int64 数据类型，请求数据长度。
+     */
+    public func getLen (): Int64
+}
+```
+
+###### 1.8.1.6 FileByteArrayBodyPartPayload 类
+
+```cangjie
+/**
+ * FileByteArrayBodyPartPayload 中可以存放 http 请求头和请求体内容。
+ * 支持的传参类型是 form-data 格式。
+ */
+public class FileByteArrayBodyPartPayload<: ByteArrayBodyPartPayload {
+    
+    /**
+     * 根据参数创建一个 FileByteArrayBodyPartPayload 实例。
+     * 
+     * @参数 payload - Array<UInt8> 数据类型，请求数据。
+     */
+    public init (payload: Array<UInt8>)
+    
+    /**
+     * 根据参数创建一个 FileByteArrayBodyPartPayload 实例。
+     * 
+     * @参数 payload - Array<UInt8> 数据类型，请求数据。
+     * @参数 off - Int64 数据类型，偏移量。
+     * @参数 len - Int64 数据类型，请求数据长度。
+     */
+    public init (payload: Array<UInt8>, off: Int64, len: Int64)
+    
+    /**
+     * 根据参数创建一个 FileByteArrayBodyPartPayload 实例。
+     * 
+     * @参数 payload - Array<UInt8> 数据类型，请求数据。
+     * @参数 name - String 数据类型，form-data 中 name 对应的信息。
+     */
+    public init (payload: Array<UInt8>, name: String)
+    
+    /**
+     * 根据参数创建一个 FileByteArrayBodyPartPayload 实例。
+     * 
+     * @参数 payload - Array<UInt8> 数据类型，请求数据。
+     * @参数 off - Int64 数据类型，偏移量。
+     * @参数 len - Int64 数据类型，请求数据长度。
+     * @参数 name - String 数据类型，form-data 中 name 对应的信息。
+     */
+    public init (payload: Array<UInt8>, off: Int64, len: Int64, name: String)
+    
+    /**
+     * 根据参数创建一个 FileByteArrayBodyPartPayload 实例。
+     * 
+     * @参数 payload - Array<UInt8> 数据类型，请求数据。
+     * @参数 name - String 数据类型，form-data 中 name 对应的信息。
+     * @参数 filename - String 数据类型，文件名，form-data 中 filename 对应的信息。
+     */
+    public init (payload: Array<UInt8>, name: String, filename: String)
+    
+    /**
+     * 根据参数创建一个 FileByteArrayBodyPartPayload 实例。
+     * 
+     * @参数 payload - Array<UInt8> 数据类型，请求数据。
+     * @参数 off - Int64 数据类型，偏移量。
+     * @参数 len - Int64 数据类型，请求数据长度。
+     * @参数 name - String 数据类型，form-data 中 name 对应的信息。
+     * @参数 filename - String 数据类型，文件名，form-data 中 filename 对应的信息。
+     */
+    public init (payload: Array<UInt8>, off: Int64, len: Int64, name: String, filename: String)
+    
+    /**
+     * 根据参数创建一个 FileByteArrayBodyPartPayload 实例。
+     * 
+     * @参数 contentTyp - String 数据类型，请求头中的 Content-Type 字段对应的信息。
+     * @参数 payload - Array<UInt8> 数据类型，请求数据。
+     */
+    public init (contentType: String, payload: Array<UInt8>)
+    
+    /**
+     * 根据参数创建一个 FileByteArrayBodyPartPayload 实例。
+     * 
+     * @参数 contentTyp - String 数据类型
+     * @参数 payload - Array<UInt8> 数据类型，请求数据。
+     * @参数 off - Int64 数据类型，偏移量。
+     * @参数 len - Int64 数据类型，请求数据长度。
+     */
+    public init (contentType: String, payload: Array<UInt8>, off: Int64, len: Int64)
+    
+    /**
+     * 根据参数创建一个 FileByteArrayBodyPartPayload 实例。
+     * 
+     * @参数 contentTyp - String 数据类型
+     * @参数 payload - Array<UInt8> 数据类型，请求数据。
+     * @参数 name - String 数据类型，form-data 中 name 对应的信息。
+     */
+    public init (contentType: String, payload: Array<UInt8>, name: String)
+    
+    /**
+     * 根据参数创建一个 FileByteArrayBodyPartPayload 实例。
+     * 
+     * @参数 contentTyp - String 数据类型
+     * @参数 payload - Array<UInt8> 数据类型，请求数据。
+     * @参数 off - Int64 数据类型，偏移量。
+     * @参数 len - Int64 数据类型，请求数据长度。
+     * @参数 name - String 数据类型，form-data 中 name 对应的信息。
+     */
+    public init (contentType: String, payload: Array<UInt8>, off: Int64, len: Int64, name: String)
+    
+    /**
+     * 根据参数创建一个 FileByteArrayBodyPartPayload 实例。
+     * 
+     * @参数 contentTyp - String 数据类型
+     * @参数 payload - Array<UInt8> 数据类型，请求数据。
+     * @参数 name - String 数据类型，form-data 中 name 对应的信息。
+     * @参数 filename - String 数据类型，文件名，form-data 中 filename 对应的信息。
+     */
+    public init (contentType: String, payload: Array<UInt8>, name: String, filename: String)
+    
+    /**
+     * 根据参数创建一个 FileByteArrayBodyPartPayload 实例。
+     * 
+     * @参数 contentTyp - String 数据类型
+     * @参数 payload - Array<UInt8> 数据类型，请求数据。
+     * @参数 off - Int64 数据类型，偏移量。
+     * @参数 len - Int64 数据类型，请求数据长度。
+     * @参数 name - String 数据类型，form-data 中 name 对应的信息。
+     * @参数 filename - String 数据类型，文件名，form-data 中 filename 对应的信息。
+     */
+    public init (contentType: String, payload: Array<UInt8>, off: Int64, len: Int64, name: String, filename: String)
+}
+```
+
+###### 1.8.1.7 MultipartPayload 类
+
+```cangjie
+/**
+ * MultipartPayload 中可以存放 http 请求头和请求体内容。
+ * 支持指定的的传参类型，默认是 multipart 格式。
+ */
+public class MultipartPayload<: BodyPartPayload {
+    
+    /** 
+     * 创建一个 MultipartPayload 实例。
+     */
+    public init ()
+    
+    /** 
+     * 根据参数创建一个 MultipartPayload 实例。
+     * 
+     * @参数 boundary - String 数据类型，边界字符串，作为分隔符区分multipart类型请求体中的不同部份。
+     */
+    public init (boundary: String)
+    
+    /** 
+     * 根据参数创建一个 MultipartPayload 实例。
+     * 
+     * @参数 subtype - String 数据类型
+     * @参数 boundary - String 数据类型，边界字符串。
+     */
+    public init (subtype: String, boundary: String)
+    
+    /** 
+     * 根据参数创建一个 MultipartPayload 实例。
+     * 
+     * @参数 headers - HashMap<String, String> 数据类型，请求头。
+     */
+    public init (headers: HashMap<String,String>)
+    
+    /** 
+     * 根据参数创建一个 MultipartPayload 实例。
+     * 
+     * @参数 boundary - String 数据类型，边界字符串。
+     * @参数 headers - HashMap<String, String> 数据类型
+     */
+    public init (boundary: String, headers: HashMap<String,String>)
+    
+    /** 
+     * 根据参数创建一个 MultipartPayload 实例。
+     * 
+     * @参数 subtype - String 数据类型，multipart 类型(默认是 form-data)。
+     * @参数 boundary - String 数据类型，边界字符串。
+     * @参数 headers - HashMap<String, String> 数据类型，请求头。
+     */
+    public init (subtype: String, boundary: String, headers: HashMap<String,String>)
+    
+    /**
+     * 将 bodyPartPayload 添加到 MultipartPayload 中。
+     * 
+     * @参数 bodyPartPayload - BodyPartPayload 数据类型
+     */
+    public func addBodyPart(bodyPartPayload: BodyPartPayload): Unit
+    
+    /**
+     * 将 multipartPayload 添加到 MultipartPayload 中。
+     * 
+     * @参数 multipartPayload - MultipartPayload 数据类型
+     */
+    public func addBodyPart(multipartPayload: MultipartPayload): Unit
+    
+    /**
+     * 获取 BodyPartPayload 对象集合。
+     * 
+     * @返回值 ArrayList<BodyPartPayload> - ArrayList<BodyPartPayload> 数据类型，BodyPartPayload 对象集合。
+     */
+    public func getBodyParts (): ArrayList<BodyPartPayload>
+    
+    /**
+     * 获取边界值。
+     * 
+     * @返回值 String - String 数据类型，边界值。
+     */
+    public func getBoundary (): String
+    
+    /**
+     * 获取前置值。
+     * 
+     * @返回值 String - String 数据类型，前置值。
+     */
+    public func getPreamble (): String
+    
+    /**
+     * 设置前置值
+     * 
+     * @参数 preamble - String 数据类型，前置值。
+     */
+    public func setPreamble (preamble: String): Unit
+    
+    /**
+     * 获取尾声值。
+     * 
+     * @返回值 String - String 数据类型，尾声值。
+     */
+    public func getEpilogue (): String
+    
+    /**
+     * 设置尾声值。
+     * 
+     * @参数 epilogue - String 数据类型，尾声值。
+     */
+    public func setEpilogue (epilogue: String): Unit
+}
+```
+
+###### 1.8.1.8 MultipartUtils 类
+
+```cangjie
+/**
+ * multipart 格式工具类
+ */
+public class MultipartUtils {
+    /**
+     * 检查字符串 boundary 是否具有无效语法。
+     *
+     * @参数 boundary - String 数据类型，要检查字符串。
+     */
+    public static func checkBoundarySyntax(boundary: String): Unit
+    
+    /**
+     * 使用指定的常规规则检查 contentTypeHeader。
+     * 如果检测通过，则返回匹配的第一组字符串，否则返回空字符串。
+     * 
+     * @参数 contentTypeHeader - String 数据类型，要检测的字符串。
+     * @返回值 String - String 数据类型, 如果检测通过，则返回匹配的第一组字符串，否则返回空字符串。
+     */
+    public static func parseBoundaryFromHeader (contentTypeHeader: String): String
+    
+    /**
+     * 返回当前的毫秒字符串。
+     * 
+     * @返回值 String - String 数据类型，当前的毫秒字符串。
+     */
+    public static func generateDefaultBoundary (): String
+    
+    /**
+     * 处理 multipartPayload 中的信息，将其封装到 ByteArrayStream 中，然后返回。
+     * 
+     * @参数 multipartPayload - MultipartPayload 数据类型，要处理的 MultipartPayload
+     * @返回值 ByteArrayStream - ByteArrayStream 数据类型，处理后封装的数据流。
+     */
+    public static func getPayload (multipartPayload: MultipartPayload): ByteArrayStream
+}
+```
+
+##### 1.8.2 示例
+
+```cangjie
+from std import collection.*
+from oauth4cj import httpclient.multipart.*
+from oauth4cj import httpclient.*
+
+main() {
+    
+    let headers: HashMap<String, String> = HashMap<String, String>()
+    headers.put("X-Header", "X-Value")
+    headers.put("Content-Disposition", "Content-Disposition-Value")
+    
+    let mp: MultipartPayload = MultipartPayload("mixed", "simple boundary", headers)
+    var str: String = "This is the preamble.  It is to be ignored, though it\n" +
+                      "is a handy place for composition agents to include an\n" +
+                      "explanatory note to non-MIME conformant readers."
+    mp.setPreamble(str)
+
+    str = "This is implicitly typed plain US-ASCII text.\n" + "It does NOT end with a linebreak."
+    var arr: Array<UInt8> = str.toUtf8Array()
+    
+    mp.addBodyPart(ByteArrayBodyPartPayload(arr))
+
+
+    str = "This is explicitly typed plain US-ASCII text.\n" + "It DOES end with a linebreak.\n"
+    arr = str.toUtf8Array()
+
+    let maps: HashMap<String, String> = HashMap<String, String>()
+    maps.put(CONTENT_TYPE, "text/plain; charset=us-ascii")
+
+    let bP: ByteArrayBodyPartPayload = ByteArrayBodyPartPayload(arr, maps)
+    mp.addBodyPart(bP)
+
+    mp.setEpilogue("This is the epilogue.  It is also to be ignored.")
+    
+
+    let sb: StringBuilder = StringBuilder()
+    let header: HashMap<String, String> = mp.getHeaders()
+    for((k, v) in header) {
+        sb.append(k).append(": ").append(v).append("\r\n")
+    }
+
+    str = sb.toString()
+    var result: String = "X-Header: X-Value\r\n" +
+                         "Content-Disposition: Content-Disposition-Value\r\n" +
+                         "Content-Type: multipart/mixed; boundary=\"simple boundary\"\r\n"
+    println(str.equals(result))
+	if (!str.equals(result)) {
+        println(3)
+        return 3
+    }
+    
+    str = String.fromUtf8(MultipartUtils.getPayload(mp).readToEnd())
+    result = "This is the preamble.  It is to be ignored, though it\n" +
+             "is a handy place for composition agents to include an\n" +
+             "explanatory note to non-MIME conformant readers." +
+             "\r\n--simple boundary\r\n" +
+             "\r\n" +
+             "This is implicitly typed plain US-ASCII text.\n" +
+             "It does NOT end with a linebreak." +
+             "\r\n--simple boundary\r\n" +
+             "Content-Type: text/plain; charset=us-ascii\r\n" +
+             "\r\n" +
+             "This is explicitly typed plain US-ASCII text.\n" +
+             "It DOES end with a linebreak.\n" +
+             "\r\n--simple boundary--" +
+             "\r\nThis is the epilogue.  It is also to be ignored."
+    println(str.equals(result))
+	if (!str.equals(result)) {
+        println(4)
+        return 4
+    }
+    return 0
+}
+```
+
+执行结果如下：
+```cangjie
+true
+true
 ```
 
 ### 2 支持客户端模式
