@@ -26,7 +26,7 @@ public class MultipartPayload <: BodyPartPayload {
      * @since 0.37.2
      */
     public init() {
-        this("", MultipartUtils.generateDefaultBoundary(), HashMap<String, String>())
+        this(DEFAULT_SUBTYPE, MultipartUtils.generateDefaultBoundary(), HashMap<String, String>())
     }
     
     /**
@@ -36,7 +36,7 @@ public class MultipartPayload <: BodyPartPayload {
      * @since 0.37.2
      */
     public init(boundary: String) {
-        this("", boundary, HashMap<String, String>())
+        this(DEFAULT_SUBTYPE, boundary, HashMap<String, String>())
     }
     
     /**
@@ -57,7 +57,7 @@ public class MultipartPayload <: BodyPartPayload {
      * @since 0.37.2
      */
     public init(headers: HashMap<String, String>) {
-        this("", parseOrGenerateBoundary(headers), headers)
+        this(DEFAULT_SUBTYPE, parseOrGenerateBoundary(headers), headers)
     }
     
     /**
@@ -68,7 +68,7 @@ public class MultipartPayload <: BodyPartPayload {
      * @since 0.37.2
      */
     public init(boundary: String, headers: HashMap<String, String>) {
-        this("", boundary, headers)
+        this(DEFAULT_SUBTYPE, boundary, headers)
     }
     
     /**
@@ -89,11 +89,12 @@ public class MultipartPayload <: BodyPartPayload {
         MultipartUtils.checkBoundarySyntax(boundary)
         var headersOut: HashMap<String, String> = HashMap<String, String>()
         var contentTypeHeader: String = ""
-        if (headersIn.size > 0) {
+        let flagContentType: Bool = headersIn.contains(CONTENT_TYPE)
+        if (flagContentType) {
             contentTypeHeader = headersIn.get(CONTENT_TYPE) ?? ""
         }
 
-        if (!headersIn.contains(CONTENT_TYPE)) {
+        if (!flagContentType) {
             contentTypeHeader = "multipart/" + subtype + "; boundary=\"" + boundary + '"'
             if (!headersIn.isEmpty()) {
                 headersOut = headersIn

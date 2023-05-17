@@ -22,13 +22,6 @@ public class MultipartUtils {
     private static let BOUNDARY_FROM_HEADER_REGEXP: Regex = Regex("; boundary=\"?(" + BOUNDARY_PATTERN + ")\"?")
 
     /**
-     * Create a MultipartUtils instance.
-     *
-     * @since 0.37.2
-     */
-    public init() {}
-
-    /**
      * Check whether the boundary has invalid syntax.
      *
      * @param boundary of String
@@ -41,7 +34,7 @@ public class MultipartUtils {
             throw IllegalArgumentException(err)
         }
         let matcher: Matcher = BOUNDARY_REGEXP.matcher(boundary)
-        let res: Option<MatchData> = matcher.find()
+        let res: Option<MatchData> = matcher.fullMatch()
         match (res) {
             case Some(md) => return ()
             case None =>

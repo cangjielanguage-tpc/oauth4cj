@@ -17,7 +17,7 @@ public class FileByteArrayBodyPartPayload <: ByteArrayBodyPartPayload {
      * @since 0.37.2
      */
     public init(payload: Array<UInt8>) {
-        this(payload, "")
+        this(payload, composeHeaders("", "", "", contentTypeNull: true, nameNull: true, filenameNull: true))
     }
     
     /**
@@ -29,7 +29,7 @@ public class FileByteArrayBodyPartPayload <: ByteArrayBodyPartPayload {
      * @since 0.37.2
      */
     public init(payload: Array<UInt8>, off: Int64, len: Int64) {
-        this(payload, off, len, "")
+        this(payload, off, len, composeHeaders("", "", "", contentTypeNull: true, nameNull: true, filenameNull: true))
     }
     
     /**
@@ -40,7 +40,7 @@ public class FileByteArrayBodyPartPayload <: ByteArrayBodyPartPayload {
      * @since 0.37.2
      */
     public init(payload: Array<UInt8>, name: String) {
-        this(payload, name, "")
+        this(payload, composeHeaders("", name, "", contentTypeNull: true, filenameNull: true))
     }
     
     /**
@@ -53,7 +53,7 @@ public class FileByteArrayBodyPartPayload <: ByteArrayBodyPartPayload {
      * @since 0.37.2
      */
     public init(payload: Array<UInt8>, off: Int64, len: Int64, name: String) {
-        this(payload, off, len, name, "")
+        this(payload, off, len, composeHeaders("", name, "", contentTypeNull: true, filenameNull: true))
     }
     
     /**
@@ -65,7 +65,7 @@ public class FileByteArrayBodyPartPayload <: ByteArrayBodyPartPayload {
      * @since 0.37.2
      */
     public init(payload: Array<UInt8>, name: String, filename: String) {
-        this("", payload, name, filename)
+        this(payload, composeHeaders("", name, filename, contentTypeNull: true))
     }
     
     /**
@@ -79,7 +79,7 @@ public class FileByteArrayBodyPartPayload <: ByteArrayBodyPartPayload {
      * @since 0.37.2
      */
     public init(payload: Array<UInt8>, off: Int64, len: Int64, name: String, filename: String) {
-        this("", payload, off, len, name, filename)
+        this(payload, off, len, composeHeaders("", name, filename, contentTypeNull: true))
     }
     
     /**
@@ -90,7 +90,7 @@ public class FileByteArrayBodyPartPayload <: ByteArrayBodyPartPayload {
      * @since 0.37.2
      */
     public init(contentType: String, payload: Array<UInt8>) {
-        this(contentType, payload, "")
+        this(payload, composeHeaders(contentType, "", "", nameNull: true, filenameNull: true))
     }
     
     /**
@@ -103,7 +103,7 @@ public class FileByteArrayBodyPartPayload <: ByteArrayBodyPartPayload {
      * @since 0.37.2
      */
     public init(contentType: String, payload: Array<UInt8>, off: Int64, len: Int64) {
-        this(contentType, payload, off, len, "")
+        this(payload, off, len, composeHeaders(contentType, "", "", nameNull: true, filenameNull: true))
     }
     
     /**
@@ -115,7 +115,7 @@ public class FileByteArrayBodyPartPayload <: ByteArrayBodyPartPayload {
      * @since 0.37.2
      */
     public init(contentType: String, payload: Array<UInt8>, name: String) {
-        this(contentType, payload, name, "")
+        this(payload, composeHeaders(contentType, name, "", filenameNull: true))
     }
     
     /**
@@ -129,7 +129,7 @@ public class FileByteArrayBodyPartPayload <: ByteArrayBodyPartPayload {
      * @since 0.37.2
      */
     public init(contentType: String, payload: Array<UInt8>, off: Int64, len: Int64, name: String) {
-        this(contentType, payload, off, len, name, "")
+        this(payload, off, len, composeHeaders(contentType, name, "", filenameNull: true))
     }
     
     /**
@@ -143,6 +143,9 @@ public class FileByteArrayBodyPartPayload <: ByteArrayBodyPartPayload {
      */
     public init(contentType: String, payload: Array<UInt8>, name: String, filename: String) {
         super(payload, composeHeaders(contentType, name, filename))
+    }
+    private init(payload: Array<UInt8>, headers: HashMap<String, String>) {
+        super(payload, headers)
     }
     
     /**
@@ -159,15 +162,28 @@ public class FileByteArrayBodyPartPayload <: ByteArrayBodyPartPayload {
     public init(contentType: String, payload: Array<UInt8>, off: Int64, len: Int64, name: String, filename: String) {
         super(payload, off, len, composeHeaders(contentType, name, filename))
     }
+    private init(payload: Array<UInt8>, off: Int64, len: Int64, headers: HashMap<String, String>) {
+        super(payload, off, len, headers)
+    }
 
-    private static func composeHeaders(contentType: String, name: String, filename: String): HashMap<String, String> {
+    private static func composeHeaders(contentType: String, name: String, filename: String,
+            contentTypeNull!: Bool = false, nameNull!: Bool = false, filenameNull!: Bool = false):
+            HashMap<String, String> {
 
         var contentDispositionHeader: String = "form-data"
-
-        contentDispositionHeader += "; name=\"" + name + '"'
-        contentDispositionHeader += "; filename=\"" + filename + '"'
-
+        if (!nameNull) {
+            contentDispositionHeader += "; name=\"" + name + '"'
+        }
+        if (!filenameNull) {
+            contentDispositionHeader += "; filename=\"" + filename + '"'
+        }
         let headers: HashMap<String, String> = HashMap<String, String>()
+
+        if (contentTypeNull) {
+            headers.put("Content-Disposition", contentDispositionHeader)
+            return headers
+        }
+
         headers.put(CONTENT_TYPE, contentType)
         headers.put("Content-Disposition", contentDispositionHeader)
         return headers
