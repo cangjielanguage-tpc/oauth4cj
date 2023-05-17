@@ -30,3 +30,6 @@
 
 8. Builder模式的实现，提供 OAuth 和 OAuthService 的接口
 - 提供 oauth2 签名、客户端验证和撤销请求相关接口
+
+9. HttpClient：提供同步和异步调用接口
+- 提供 BodyPartPayload 及多种子类型的数据结构创建，请求字段补充，数据存储，读取并封装成特定类型。
