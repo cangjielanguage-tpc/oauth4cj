@@ -2457,6 +2457,167 @@ public class ServiceBuilder <: ServiceBuilderOAuth10a & ServiceBuilderOAuth20 {
     public func build(api: DefaultApi20): OAuth20Service
 }
 ```
+###### 1.6.1.11 AccessTokenRequestParams
+```cangjie
+public class AccessTokenRequestParams {
+    /**
+     * 创建AccessTokenRequestParams对象
+     *
+     * @参数 code 请求状态码
+     */
+    public init(code: String)
+
+    /**
+     * 创建AccessTokenRequestParams对象
+     *
+     * @参数 code 请求状态码
+     * @返回值 AccessTokenRequestParams AccessTokenRequestParams对象
+     */
+    public static func create(code: String): AccessTokenRequestParams
+
+    /**
+     * 设置pkce编码验证字符串
+     *
+     * @参数 pkceCodeVerifier pkce编码验证字符串
+     * @返回值 AccessTokenRequestParams AccessTokenRequestParams对象
+     */
+    public func setPKCECodeVerifier(pkceCodeVerifier: String): AccessTokenRequestParams
+
+    /**
+     * 设置范围
+     *
+     * @参数 scope 范围字符串
+     * @返回值 AccessTokenRequestParams AccessTokenRequestParams对象
+     */
+    public func setScope(scope: String): AccessTokenRequestParams
+
+    /**
+     * 设置范围
+     *
+     * @参数 scope ScopeBuilder对象
+     * @返回值 AccessTokenRequestParams AccessTokenRequestParams对象
+     */
+    public func setScope(scope: ScopeBuilder): AccessTokenRequestParams 
+
+    /**
+     * 添加附加参数集合
+     *
+     * @参数 extraParameters 附加参数集合
+     * @返回值 AccessTokenRequestParams AccessTokenRequestParams对象
+     */
+    public func addExtraParameters(extraParameters: HashMap<String, String>): AccessTokenRequestParams
+
+    /**
+     * 添加附加参数
+     *
+     * @参数 name 参数名
+     * @参数 value 参数值
+     * @返回值 AccessTokenRequestParams AccessTokenRequestParams对象
+     */
+    public func addExtraParameter(name: String, value: String): AccessTokenRequestParams
+
+    /**
+     * 设置附加参数集合
+     *
+     * @参数 extraParameters 附加参数集合
+     * @返回值 AccessTokenRequestParams AccessTokenRequestParams对象
+     */
+    public func setExtraParameters(extraParameters: HashMap<String, String>): AccessTokenRequestParams
+
+    /**
+     * 获取附加参数集合
+     *
+     * @返回值 HashMap<String, String> 附加参数集合
+     */
+    public func getExtraParameters(): HashMap<String, String> 
+
+    /**
+     * 获取状态码
+     *
+     * @返回值 String 状态码
+     */
+    public func getCode(): String
+
+    /**
+     * 获取pkce编码验证字符串
+     *
+     * @返回值 String pkce编码验证字符串
+     */
+    public func getPkceCodeVerifier(): String 
+
+    /**
+     * 获取范围字符串
+     *
+     * @返回值 String 范围字符串
+     */
+    public func getScope(): String 
+}
+```
+
+###### 1.6.1.12 授权Url构造器
+```cangjie
+public class AuthorizationUrlBuilder {
+    /**
+     * 创建AuthorizationUrlBuilder对象
+     *
+     * @参数 oauth20Service OAuth20Service对象
+     */
+    public init(oauth20Service: OAuth20Service)
+
+    /**
+     * 设置状态
+     *
+     * @参数 state 状态字符串
+     * @返回值 AuthorizationUrlBuilder AuthorizationUrlBuilder对象
+     */
+    public func setState(state: String): AuthorizationUrlBuilder
+
+    /**
+     * 设置附加参数集合
+     *
+     * @参数 additionalParams 附加参数集合
+     * @返回值 AuthorizationUrlBuilder AuthorizationUrlBuilder对象
+     */
+    public func setAdditionalParams(additionalParams: HashMap<String, String>): AuthorizationUrlBuilder
+
+    /**
+     * 设置PKCE对象
+     *
+     * @参数 pkce Option<PKCE>对象
+     * @返回值 AuthorizationUrlBuilder AuthorizationUrlBuilder对象
+     */
+    public func setPkce(pkce: Option<PKCE>): AuthorizationUrlBuilder
+
+    /**
+     * 初始化默认的PKCE对象
+     *
+     * @返回值 AuthorizationUrlBuilder AuthorizationUrlBuilder对象
+     */
+    public func initPKCE(): AuthorizationUrlBuilder
+
+    /**
+     * 设置范围
+     *
+     * @参数 scope 范围字符串
+     * @返回值 AuthorizationUrlBuilder AuthorizationUrlBuilder对象
+     */
+    public func setScope(scope: Option<String>): AuthorizationUrlBuilder
+
+    /**
+     * 获取PKCE对象
+     *
+     * @返回值 Option<PKCE> Option<PKCE>对象
+     */
+    public func getPkce(): Option<PKCE>
+
+    /**
+     * 构建授权Url字符串
+     *
+     * @返回值 String 授权Url字符串
+     */
+    public func build(): String
+}
+```
 
 ##### 1.6.2 示例
 

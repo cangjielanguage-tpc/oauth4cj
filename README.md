@@ -6,7 +6,7 @@
 <img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjc-v0.38.2-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjcov-90.9%25-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjcov-92.1%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
 
@@ -426,6 +426,94 @@ class A <: DefaultApi20 {
 执行结果如下：
 ```cangjie
 oauth2AccessToken = oauth2_token
+```
+
+#### 提供同步和异步调用接口
+
+功能示例描述:
+提供同步和异步调用接口，正则比较从字符串中获取指定信息，提供 BodyPartPayload 及多种子类型的数据结构创建，请求字段补充，数据存储，读取并封装成特定类型
+
+示例代码如下：
+
+```cangjie
+from std import collection.*
+from oauth4cj import httpclient.multipart.*
+from oauth4cj import httpclient.*
+
+main() {
+    
+    let headers: HashMap<String, String> = HashMap<String, String>()
+    headers.put("X-Header", "X-Value")
+    headers.put("Content-Disposition", "Content-Disposition-Value")
+    
+    let mp: MultipartPayload = MultipartPayload("mixed", "simple boundary", headers)
+    var str: String = "This is the preamble.  It is to be ignored, though it\n" +
+                      "is a handy place for composition agents to include an\n" +
+                      "explanatory note to non-MIME conformant readers."
+    mp.setPreamble(str)
+
+    str = "This is implicitly typed plain US-ASCII text.\n" + "It does NOT end with a linebreak."
+    var arr: Array<UInt8> = str.toUtf8Array()
+    
+    mp.addBodyPart(ByteArrayBodyPartPayload(arr))
+
+
+    str = "This is explicitly typed plain US-ASCII text.\n" + "It DOES end with a linebreak.\n"
+    arr = str.toUtf8Array()
+
+    let maps: HashMap<String, String> = HashMap<String, String>()
+    maps.put(CONTENT_TYPE, "text/plain; charset=us-ascii")
+
+    let bP: ByteArrayBodyPartPayload = ByteArrayBodyPartPayload(arr, maps)
+    mp.addBodyPart(bP)
+
+    mp.setEpilogue("This is the epilogue.  It is also to be ignored.")
+    
+
+    let sb: StringBuilder = StringBuilder()
+    let header: HashMap<String, String> = mp.getHeaders()
+    for((k, v) in header) {
+        sb.append(k).append(": ").append(v).append("\r\n")
+    }
+
+    str = sb.toString()
+    var result: String = "X-Header: X-Value\r\n" +
+                         "Content-Disposition: Content-Disposition-Value\r\n" +
+                         "Content-Type: multipart/mixed; boundary=\"simple boundary\"\r\n"
+    println(str.equals(result))
+	if (!str.equals(result)) {
+        println(3)
+        return 3
+    }
+    
+    str = String.fromUtf8(MultipartUtils.getPayload(mp).readToEnd())
+    result = "This is the preamble.  It is to be ignored, though it\n" +
+             "is a handy place for composition agents to include an\n" +
+             "explanatory note to non-MIME conformant readers." +
+             "\r\n--simple boundary\r\n" +
+             "\r\n" +
+             "This is implicitly typed plain US-ASCII text.\n" +
+             "It does NOT end with a linebreak." +
+             "\r\n--simple boundary\r\n" +
+             "Content-Type: text/plain; charset=us-ascii\r\n" +
+             "\r\n" +
+             "This is explicitly typed plain US-ASCII text.\n" +
+             "It DOES end with a linebreak.\n" +
+             "\r\n--simple boundary--" +
+             "\r\nThis is the epilogue.  It is also to be ignored."
+    println(str.equals(result))
+	if (!str.equals(result)) {
+        println(4)
+        return 4
+    }
+    return 0
+}
+```
+
+执行结果如下：
+```cangjie
+true
+true
 ```
 
 ## 开源协议
