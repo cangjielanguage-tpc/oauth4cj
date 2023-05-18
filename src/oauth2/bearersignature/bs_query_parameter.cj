@@ -4,8 +4,6 @@
 
 package oauth2.bearersignature
 
-import model.OAuthConstants
-
 /**
  * URI Query Parameter, RFC 6750 2.3.
  */

@@ -4,17 +4,8 @@
 package oauth
 
 from std import collection.HashMap
-from std import io.OutputStream
 
-import extractors.DeviceAuthorizationJsonExtractor
-import extractors.OAuth2AccessTokenJsonExtractor
-import extractors.TokenExtractor
-import httpclient.HttpClientConfig
-import httpclient.HttpClient
-import model.OAuthConstants
 import model.OAuth2AccessToken
-import model.ParameterList
-import model.Verb
 import oauth2.bearersignature.*
 import oauth2.clientauthentication.*
 
