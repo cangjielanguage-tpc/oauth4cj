@@ -28,14 +28,15 @@ public abstract class AbstractOAuth1JSONTokenExtractor<T> <: TokenExtractor<T> w
 
         let body: JsonObject = JsonValue.fromStr(rawBody).asObject()
 
-        var token: String = ""
-        var secret: String = ""
-        if (body.containsKey(OAuthConstants.TOKEN)) {
-            token = body.get(OAuthConstants.TOKEN).getOrThrow().asString().getValue()
+        let flagToken: Bool = body.containsKey(OAuthConstants.TOKEN)
+        let flagSecret: Bool = body.containsKey(OAuthConstants.TOKEN_SECRET)
+        if (!flagToken || !flagSecret) {
+            throw OAuth4cjException(
+                "Response body is incorrect. Can't extract token and secret from this: '${rawBody}'")
         }
-        if (body.containsKey(OAuthConstants.TOKEN_SECRET)) {
-            secret = body.get(OAuthConstants.TOKEN_SECRET).getOrThrow().asString().getValue()
-        }
+
+        let token: String = asTextOfJsonValue(body.get(OAuthConstants.TOKEN).getOrThrow())
+        let secret: String = asTextOfJsonValue(body.get(OAuthConstants.TOKEN_SECRET).getOrThrow())
         return createToken(token, secret, rawBody)
     }
 

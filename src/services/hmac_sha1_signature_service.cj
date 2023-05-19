@@ -35,7 +35,7 @@ public class HMACSha1SignatureService <: SignatureService {
             Preconditions.checkEmptyString(baseString, "Base string can't be null or empty string")
             return doSign(baseString, OAuthEncoder.encode(apiSecret) + '&' + OAuthEncoder.encode(tokenSecret))
         } catch (e: Exception) {
-            throw OAuth4cjSignatureException(baseString + e.message)
+            throw OAuth4cjSignatureException(baseString + ": " + e.message)
         }
     }
 

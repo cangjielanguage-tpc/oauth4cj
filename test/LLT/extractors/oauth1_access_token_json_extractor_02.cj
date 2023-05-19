@@ -29,11 +29,13 @@ main() {
 
 func testOAuth1AccessTokenJSONExtractor_01(): Int32 {
     let extractor: OAuth1AccessTokenJSONExtractor = OAuth1AccessTokenJSONExtractor.instance()
-    let responseBody: String = ##"{"oauth_token_secret": "hdhd0244k9j7ao03"}"##
+    let responseBody: String = ##"{"oauth_token": "", "oauth_token_secret": "hdhd0244k9j7ao03"}"##
 
     let response: Response = ok(responseBody)
     let extracted: OAuth1AccessToken = extractor.extract(response)
 
+    println("extracted.getToken() = ${extracted.getToken()}")
+    println("extracted.getTokenSecret() = ${extracted.getTokenSecret()}")
     if (!extracted.getToken().equals("")) {
         println(1)
         return 1
@@ -47,7 +49,7 @@ func testOAuth1AccessTokenJSONExtractor_01(): Int32 {
 
 func testOAuth1AccessTokenJSONExtractor_02(): Int32 {
     let extractor: OAuth1AccessTokenJSONExtractor = OAuth1AccessTokenJSONExtractor.instance()
-    let responseBody: String = ##"{"oauth_token": "hdhd0244k9j7ao03"}"##
+    let responseBody: String = ##"{"oauth_token": "hdhd0244k9j7ao03", "oauth_token_secret": ""}"##
 
     let response: Response = ok(responseBody)
     let extracted: OAuth1AccessToken = extractor.extract(response)
