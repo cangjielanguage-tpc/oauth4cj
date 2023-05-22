@@ -28,10 +28,11 @@ public open class OAuth4cjParametersMissingException <: OAuth4cjException {
 
 // A private exception indicating a problem in the signature.
 public open class OAuth4cjSignatureException <: OAuth4cjException {
+    private static let MSG: String = "Error while signing string: "
     public init() {
         super()
     }
     public init(string: String) {
-        super(string)
+        super(MSG + string)
     }
 }

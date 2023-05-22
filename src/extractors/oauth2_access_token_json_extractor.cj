@@ -69,7 +69,7 @@ public class OAuth2AccessTokenJsonExtractor <: AbstractJsonExtractor & TokenExtr
 
         var errorUriInString: String = ""
         if (responseBodyJson.containsKey("error_uri")) {
-            errorUriInString = responseBodyJson.get("error_uri").getOrThrow().asString().getValue()
+            errorUriInString = asTextOfJsonValue(responseBodyJson.get("error_uri").getOrThrow())
         }
 
         var errorUri: URL = emptyErrorUri
@@ -82,14 +82,14 @@ public class OAuth2AccessTokenJsonExtractor <: AbstractJsonExtractor & TokenExtr
         var errorCode: Option<OAuth2Error> = None
         try {
             errorCode = OAuth2Error.parseFrom(
-                        extractRequiredParameter(responseBodyJson, "error", responseBody).asString().getValue())
+                        asTextOfJsonValue(extractRequiredParameter(responseBodyJson, "error", responseBody)))
         } catch (iaE: IllegalArgumentException) {
             errorCode = None
         }
 
         var errorDescription: String = ""
         if (responseBodyJson.containsKey("error_description")) {
-            errorDescription = responseBodyJson.get("error_description").getOrThrow().asString().getValue()
+            errorDescription = asTextOfJsonValue(responseBodyJson.get("error_description").getOrThrow())
         }
 
         throw OAuth2AccessTokenErrorResponse(errorCode, errorDescription, errorUri, response)
@@ -100,26 +100,26 @@ public class OAuth2AccessTokenJsonExtractor <: AbstractJsonExtractor & TokenExtr
 
         var expiresInNode: Int32 = 0
         if (response.containsKey("expires_in")) {
-            expiresInNode = Int32(response.get("expires_in").getOrThrow().asInt().getValue())
+            expiresInNode = asIntOfJsonValue(response.get("expires_in").getOrThrow(), 0)
         }
 
         var refreshToken: String = ""
         if (response.containsKey(OAuthConstants.REFRESH_TOKEN)) {
-            refreshToken = response.get(OAuthConstants.REFRESH_TOKEN).getOrThrow().asString().getValue()
+            refreshToken = asTextOfJsonValue(response.get(OAuthConstants.REFRESH_TOKEN).getOrThrow())
         }
 
         var scope: String = ""
         if (response.containsKey(OAuthConstants.SCOPE)) {
-            scope = response.get(OAuthConstants.SCOPE).getOrThrow().asString().getValue()
+            scope = asTextOfJsonValue(response.get(OAuthConstants.SCOPE).getOrThrow())
         }
 
         var tokenType: String = ""
         if (response.containsKey("token_type")) {
-            tokenType = response.get("token_type").getOrThrow().asString().getValue()
+            tokenType = asTextOfJsonValue(response.get("token_type").getOrThrow())
         }
 
         return createToken(
-                extractRequiredParameter(response, OAuthConstants.ACCESS_TOKEN, rawResponse).asString().getValue(),
+                asTextOfJsonValue(extractRequiredParameter(response, OAuthConstants.ACCESS_TOKEN, rawResponse)),
                 tokenType, expiresInNode, refreshToken, scope, rawResponse)
     }
 

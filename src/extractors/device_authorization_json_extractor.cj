@@ -64,34 +64,79 @@ public class DeviceAuthorizationJsonExtractor <: AbstractJsonExtractor {
 
         let response: JsonObject = JsonValue.fromStr(rawResponse).asObject()
 
-        let deviceAuthorization: DeviceAuthorization = DeviceAuthorization(
-                extractRequiredParameter(response, "device_code", rawResponse).asString().getValue(),
-                extractRequiredParameter(response, "user_code", rawResponse).asString().getValue(),
-                extractRequiredParameter(response, getVerificationUriParamName(), rawResponse).asString().getValue(),
-                extractRequiredParameter(response, "expires_in", rawResponse).asInt().getValue())
-
-        var intervalSeconds: JsonValue = response
-        let flagInterval: Bool = response.containsKey("interval")
-        if (flagInterval) {
-            intervalSeconds = response.get("interval").getOrThrow()
+        let deviceCode: String = asStringGetValue(response, "device_code", rawResponse)
+        let userCode: String = asStringGetValue(response, "user_code", rawResponse)
+        let verificationUri: String = asStringGetValue(response, getVerificationUriParamName(), rawResponse)
+        let expiresIn: JsonValue = extractRequiredParameter(response, "expires_in", rawResponse)
+        var expiresInSeconds: Int64 = 0
+        try {
+            expiresInSeconds = expiresIn.asInt().getValue()
+        } catch (ex: Exception) {
+            expiresInSeconds = 0
         }
 
-        if (flagInterval && !intervalSeconds.toString().isEmpty()) {
-            deviceAuthorization.setIntervalSeconds(Int32(intervalSeconds.asInt().getValue()))
+        let deviceAuthorization: DeviceAuthorization =
+                    DeviceAuthorization(deviceCode, userCode, verificationUri, expiresInSeconds)
+
+        if (response.containsKey("interval")) {
+            let intervalJsonValue: JsonValue = response.get("interval").getOrThrow()
+            deviceAuthorization.setIntervalSeconds(asIntOfJsonValue(intervalJsonValue, 5))
         }
 
-        var verificationUriComplete: String = ""
         if (response.containsKey("verification_uri_complete")) {
-            verificationUriComplete = response.get("verification_uri_complete").getOrThrow().asString().getValue()
-        }
-        if (!verificationUriComplete.isEmpty()) {
+            let verificationUriCompleteJsonValue: JsonValue = response.get("verification_uri_complete").getOrThrow()
+            let verificationUriComplete: String = asTextOfJsonValue(verificationUriCompleteJsonValue)
             deviceAuthorization.setVerificationUriComplete(verificationUriComplete)
         }
 
         return deviceAuthorization
     }
 
+    private func asStringGetValue(response: JsonObject, parameterName: String, rawResponse: String): String {
+        let jsonValue: JsonValue = extractRequiredParameter(response, parameterName, rawResponse)
+        var val: String = ""
+        try {
+            val = jsonValue.asString().getValue()
+        } catch (ex: Exception) {
+            val = ""
+        }
+        return val
+    }
+
     protected func getVerificationUriParamName(): String {
         return "verification_uri"
     }
+}
+
+func asIntOfJsonValue(jsonValue: JsonValue, defaultNum: Int32): Int32 {
+    var num: Int32 = defaultNum
+    try {
+        num = Int32(jsonValue.asInt().getValue())
+    } catch (ex: Exception) {
+        try {
+            let str: String = jsonValue.asString().getValue()
+            if (str.startsWith("0b") || str.startsWith("0B") || str.startsWith("0o") || str.startsWith("0O") ||
+                                        str.startsWith("0x") || str.startsWith("0X")) {
+                return num
+            }
+            num = Int32.parse(str.trimLeft("+").trimLeft("+"))
+        } catch (ex: Exception) {
+            num = defaultNum
+        }
+    }
+    return num
+}
+
+func asTextOfJsonValue(jsonValue: JsonValue): String {
+    var text: String = ""
+    try {
+        text = jsonValue.asString().getValue()
+    } catch (ex: Exception) {
+        try {
+            text = jsonValue.asInt().getValue().toString()
+        } catch (ex: Exception) {
+            text = ""
+        }
+    }
+    return text
 }
