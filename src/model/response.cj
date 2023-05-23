@@ -4,13 +4,9 @@
  */
 package model
 
-from std import collection.HashMap
-from std import collection.ArrayList
 from std import io.InputStream
 from std import io.IOException
 from std import io.ByteArrayStream
-
-import utils.StreamUtils
 
 /**
  * Response
@@ -96,6 +92,7 @@ public class Response <: Closeable {
      */
     public func getBody(): String {
         if (!hasBody) {
+            hasBody = true
             return parseBodyContents()
         }
         return body
@@ -196,3 +193,4 @@ public class Response <: Closeable {
 public interface Closeable {
     func close(): Unit {}
 }
+
