@@ -12,14 +12,14 @@ from std import io.ByteArrayStream
  * Response
  * @since 0.37.2
  */
-public class Response <: Closeable {
+public class Response <: Resource {
     private var code: Int32 = 0
     private var message: String = ""
     private var headers: HashMap<String, String> = HashMap<String, String>()
     private var body: String = ""
     private var stream: InputStream
     private var closed: Bool = false
-    private var closeables: ArrayList<Closeable> = ArrayList<Closeable>()
+    private var closeables: ArrayList<Resource> = ArrayList<Resource>()
     private var hasBody: Bool = false
 
     /**
@@ -52,7 +52,7 @@ public class Response <: Closeable {
      * @since 0.37.2
      */
     public init(code: Int32, message: String, headers: HashMap<String, String>, stream: InputStream,
-            closeables: ArrayList<Closeable>) {
+            closeables: ArrayList<Resource>) {
         this.code = code
         this.message = message
         this.headers = headers
@@ -184,13 +184,8 @@ public class Response <: Closeable {
         }
         closed = true
     }
-}
 
-/**
- * a source or destination of data that can be closed
- * @since 0.37.2
- */
-public interface Closeable {
-    func close(): Unit {}
+    public func isClosed(): Bool {
+        return closed
+    }
 }
-

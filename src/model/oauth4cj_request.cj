@@ -471,7 +471,7 @@ public open class OAuth4cjRequest {
 /**
  * The response converter.
  */
-public interface ResponseConverter<T> {
+public interface ResponseConverter {
 
     /**
      * If the response is not included in the type&lt; T&gt；
@@ -482,5 +482,5 @@ public interface ResponseConverter<T> {
      * @return Type of Any
      * @since 0.37.2
      */
-    func convert(response: Response): T
+    func convert(response: Response): Any
 }
