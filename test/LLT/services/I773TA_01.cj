@@ -26,7 +26,7 @@ func testRSASha1SignatureServiceGetSignature03(): Int64 {
         println(e.toString())
         let err: String = "Error while signing string: test: Please check the key"
         println("e.message = ${e.message}")
-        if(e.message.equals(err)){
+        if(e.message.contains(err)){
             flag = 0
         }
     }

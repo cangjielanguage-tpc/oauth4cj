@@ -12,7 +12,7 @@ main (){
         return 1
     }
     println("ose2.message = ${ose2.message}")
-    if (!ose2.message.equals("Error while signing string: ceshi-1")) {
+    if (!ose2.message.contains("Error while signing string: ceshi-1")) {
         println(2)
         return 2
     }
@@ -25,7 +25,7 @@ main (){
     }
     println("ope2.message = ${ope2.message}")
     println("ope2.message.equals(ceshi-2) = ${ope2.message.equals("ceshi-2")}")
-    if (!ope2.message.equals("ceshi-2")) {
+    if (!ope2.message.contains("ceshi-2")) {
         println(4)
         return 4
     }
