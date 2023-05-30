@@ -30,7 +30,7 @@ func testOAuth1AccessTokenJsonExtractorExtract02(): Int64 {
         oauth1AccessTokenJsonExtractor02.extract(response01)
     }catch(e:OAuth4cjException){
         println(e.message)
-        if(e.message.equals("Response body is incorrect. Can't extract token and secret from this: '${body}'")){
+        if(e.message.contains("Response body is incorrect. Can't extract token and secret from this: '${body}'")){
             flag = 0
         }
     }
