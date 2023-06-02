@@ -3,13 +3,10 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
 
 @Test
-public class TestOAuthConstantsV001{
+public class TestOAuthConstantsB001{
     @TestCase
     func testOAuthConstantsValueCommon01(): Unit {
         @Assert(OAuthConstants.ACCESS_TOKEN,"access_token")

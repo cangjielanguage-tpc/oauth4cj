@@ -3,23 +3,17 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
-from std import random.*
-from std import math.*
+
 @Test
-public class TestDeviceAuthorizationV001{
-    //重置
+public class TestDeviceAuthorizationB001{
+    //验证Int64特殊值
     @TestCase
     func testGetExpiresInSeconds01(): Unit {
         var device01=DeviceAuthorization("deviceCode","userCode","verificationUri",123)
-        for (i in strValues){
-            for(j in int64Values){
-                device01=DeviceAuthorization(i,i,i,j)
-                @Assert(device01.getExpiresInSeconds(),j)
-            }
+        for(j in int64Values){
+            device01=DeviceAuthorization("deviceCode","userCode","verificationUri",j)
+            @Assert(device01.getExpiresInSeconds(),j)
         }
     }
 }

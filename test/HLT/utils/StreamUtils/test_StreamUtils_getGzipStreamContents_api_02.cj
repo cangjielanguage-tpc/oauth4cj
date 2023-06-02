@@ -2,14 +2,12 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
 from oauth4cj import utils.*
 from compress import zlib.*
 from std import io.*
 
 @Test
-public class TestStreamUtilsV001{
+public class TestStreamUtilsB001{
     public var input=ByteArrayStream()
     public var gzipinput=CompressInputStream(input,wrap:GzipFormat)
     public var re="not empty"

@@ -3,13 +3,10 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
-
 from oauth4cj import pkce.*
 
 @Test
-public class TestPKCEServiceV002{
+public class TestPKCEServiceB002{
     /***
         普通数组
     ***/

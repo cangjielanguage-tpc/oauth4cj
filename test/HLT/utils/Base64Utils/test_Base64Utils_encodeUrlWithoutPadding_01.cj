@@ -2,12 +2,11 @@
 from std import unittest.*
 from std import unittest.testmacro.*
 from encoding import base64.*
-from std import collection.*
 from oauth4cj import utils.*
 from std import random.*
 
 @Test
-public class TestBaseUtilsV002{
+public class TestBaseUtilsB002{
 	
     public var params=Array<UInt8>()
     public var re=""

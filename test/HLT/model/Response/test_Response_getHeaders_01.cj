@@ -3,21 +3,18 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
 from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
-from std import io.*
-from std import math.*
 from std import fs.*
+
 @Test
-public class TestResponseV001{
+public class TestResponseB001{
     //构造器该字段为非空map.10/100个元素
     @TestCase
     func testResponseGetHeaders01(): Unit {
         var response01_10=Response(Int32(2),"message",getHashMapByLength(10),"body")
         var response01_100=Response(Int32(2),"message",getHashMapByLength(100),"body")
-        var sub01=SubCloseable(File("../../common_Values.cj",OpenOption.CreateOrTruncate(true)))
+        var sub01=SubResource(File("../../common_Values.cj",OpenOption.CreateOrTruncate(true)))
         var inputStream01=ByteArrayStream()
         var response02_10=Response(Int32(2),"message",getHashMapByLength(10),inputStream01,ArrayList<Resource>([sub01]))
         var response02_100=Response(Int32(2),"message",getHashMapByLength(100),inputStream01,ArrayList<Resource>([sub01]))
@@ -41,18 +38,7 @@ public class TestResponseV001{
     }
 }
 
-public class SubCloseable <: Resource{
-    public var file=File("newFile.txt",OpenOption.CreateOrTruncate(true))
-    public static var flagClose=false
-    public init(file:File){
-        this.file=file
-    }
-    public func close(){
-        this.file.close()
-        flagClose=true
-    }
-    public func isClosed(): Bool { return false }
-}
+
 
 public func getHashMapByLength(length:Int64):HashMap<String,String>{
     var hashmap=HashMap<String,String>()

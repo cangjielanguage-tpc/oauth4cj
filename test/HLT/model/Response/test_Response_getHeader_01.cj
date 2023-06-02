@@ -3,21 +3,18 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
 from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
-from std import io.*
-from std import math.*
 from std import fs.*
+
 @Test
-public class TestResponseV001{
+public class TestResponseB001{
     //name是/不是map的key之一
     @TestCase
     func testResponseGetHeader01(): Unit {
         var headers01=getHashMapByLength(10)
         var response01=Response(Int32(2),"message",headers01,"body")
-        var sub01=SubCloseable(File("../../common_Values.cj",OpenOption.CreateOrTruncate(true)))
+        var sub01=SubResource(File("../../common_Values.cj",OpenOption.CreateOrTruncate(true)))
         var inputStream01=ByteArrayStream()
         var response02=Response(Int32(2),"message",headers01,inputStream01,ArrayList<Resource>([sub01]))
         for (i in 0..headers01.size){
@@ -39,19 +36,6 @@ public class TestResponseV001{
         }
         @Assert(flag_response02,1)
     }
-}
-
-public class SubCloseable <: Resource{
-    public var file=File("newFile.txt",OpenOption.CreateOrTruncate(true))
-    public static var flagClose=false
-    public init(file:File){
-        this.file=file
-    }
-    public func close(){
-        this.file.close()
-        flagClose=true
-    }
-    public func isClosed(): Bool { return false }
 }
 
 public func getHashMapByLength(length:Int64):HashMap<String,String>{

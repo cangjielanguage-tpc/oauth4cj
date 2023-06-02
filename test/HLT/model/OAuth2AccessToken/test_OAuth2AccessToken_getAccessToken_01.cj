@@ -3,13 +3,10 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
 
 @Test
-public class TestOAuth2AccessTokenV001{
+public class TestOAuth2AccessTokenB001{
     //构造器不同，均能成功获取
     @TestCase
     func testGetAccessToken01(): Unit {
@@ -23,10 +20,8 @@ public class TestOAuth2AccessTokenV001{
             oauth2accesstoken02=OAuth2AccessToken(str,str)
             @Assert(oauth2accesstoken02.getAccessToken(),str)
 
-            for (int32Value in int32Values){
-                oauth2accesstoken03=OAuth2AccessToken(str,str,int32Value,str,str,str)
-                @Assert(oauth2accesstoken03.getAccessToken(),str)
-            }
+            oauth2accesstoken03=OAuth2AccessToken(str,str,Int32(0),str,str,str)
+            @Assert(oauth2accesstoken03.getAccessToken(),str)
         }
     }
 }

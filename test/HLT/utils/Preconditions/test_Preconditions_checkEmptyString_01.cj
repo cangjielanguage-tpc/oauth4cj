@@ -2,9 +2,8 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
 from oauth4cj import utils.*
+
 @Test
 public class TestPreconditions01{
     public var params=""

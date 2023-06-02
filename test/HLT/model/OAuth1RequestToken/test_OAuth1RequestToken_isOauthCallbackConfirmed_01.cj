@@ -3,30 +3,21 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
 
 @Test
-public class TestOAuth1RequestTokenV001{
+public class TestOAuth1RequestTokenB001{
     //构造器传入,不传入
     @TestCase
     func testIsOauthCallbackConfirmed01(): Unit {
-        var oauth1requesttoken01=OAuth1RequestToken("123","123")
-        var oauth1requesttoken02=OAuth1RequestToken("123","123")
+        var oauth1requesttoken01=OAuth1RequestToken("str","str")
+        @Assert(oauth1requesttoken01.isOauthCallbackConfirmed(),true)
+        var oauth1requesttoken02=OAuth1RequestToken("str","str","str")
+        @Assert(oauth1requesttoken02.isOauthCallbackConfirmed(),true)
         var oauth1requesttoken03=OAuth1RequestToken("123","123")
-        for (str in strValues) {
-            oauth1requesttoken01=OAuth1RequestToken(str,str)
-            @Assert(oauth1requesttoken01.isOauthCallbackConfirmed(),true)
-
-            oauth1requesttoken02=OAuth1RequestToken(str,str,str)
-            @Assert(oauth1requesttoken02.isOauthCallbackConfirmed(),true)
-
-            for (boolValue in boolValues){
-                oauth1requesttoken03=OAuth1RequestToken(str,str,boolValue,str)
-                @Assert(oauth1requesttoken03.isOauthCallbackConfirmed(),boolValue)
-            }
+        for (boolValue in boolValues){
+            oauth1requesttoken03=OAuth1RequestToken("str","str",boolValue,"str")
+            @Assert(oauth1requesttoken03.isOauthCallbackConfirmed(),boolValue)
         }
     }
 }

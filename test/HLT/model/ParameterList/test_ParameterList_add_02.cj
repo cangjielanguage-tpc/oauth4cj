@@ -3,13 +3,11 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
 from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
 
 @Test
-public class TestParameterListV002{
+public class TestParameterListB002{
     //非空列表新增
     @TestCase
     func testAdd02(): Unit {
