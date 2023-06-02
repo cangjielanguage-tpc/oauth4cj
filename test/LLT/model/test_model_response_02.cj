@@ -13,7 +13,7 @@ from std import io.*
 public func testResponse_06():Int32 {
     var headers:HashMap<String, String> = HashMap<String, String>()
     var stream:ByteArrayStream = ByteArrayStream()
-    var closeables:ArrayList<Closeable> = ArrayList<Closeable>()
+    var closeables:ArrayList<Resource> = ArrayList<Resource>()
     var aClass:A = A()
     closeables.append(aClass)
     var response_1:Response = Response(200, "message", headers, stream, closeables)
@@ -36,7 +36,7 @@ public func testResponse_06():Int32 {
 public func testResponse_07():Int32 {
     var headers:HashMap<String, String> = HashMap<String, String>()
     var stream:ByteArrayStream = ByteArrayStream()
-    var closeables:ArrayList<Closeable> = ArrayList<Closeable>()
+    var closeables:ArrayList<Resource> = ArrayList<Resource>()
     var aClass:A = A()
     closeables.append(aClass)
     var bClass:B = B()
@@ -55,7 +55,7 @@ public func testResponse_07():Int32 {
 public func testResponse_08():Int32 {
     var headers:HashMap<String, String> = HashMap<String, String>()
     var stream:ByteArrayStream = ByteArrayStream()
-    var closeables:ArrayList<Closeable> = ArrayList<Closeable>()
+    var closeables:ArrayList<Resource> = ArrayList<Resource>()
     var response_3:Response = Response(200, "message", headers, stream, closeables)
     try {
         response_3.close()
@@ -66,18 +66,20 @@ public func testResponse_08():Int32 {
     return 0
 }
 
-class A <: Closeable {
+class A <: Resource {
     public init() {}
     public func close():Unit {
         println("A close")
     }
+    public func isClosed(): Bool { return false }
 }
 
-class B <: Closeable {
+class B <: Resource {
     public init() {}
     public func close():Unit {
         throw IOException("ioException")
     }
+    public func isClosed(): Bool { return false }
 }
 
 main() {

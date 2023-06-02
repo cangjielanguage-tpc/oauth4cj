@@ -1,4 +1,4 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
 from std import unittest.*
 from std import unittest.testmacro.*
 from encoding import base64.*

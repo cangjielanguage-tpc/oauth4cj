@@ -1,4 +1,4 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
 // dependence: ../../common_Values.cj
 
 from std import unittest.*
@@ -19,7 +19,7 @@ public class TestResponseV001{
         var file=File("common_Values.cj",OpenOption.CreateOrTruncate(true))
         var sub01=SubCloseable(file)
         var inputStream01=ByteArrayStream()
-        var response02=Response(Int32(2),"message",HashMap<String,String>(),inputStream01,ArrayList<Closeable>([sub01]))
+        var response02=Response(Int32(2),"message",HashMap<String,String>(),inputStream01,ArrayList<Resource>([sub01]))
         response01.close()
         @Assert(file.isClosed(),false)
         try{
@@ -32,7 +32,7 @@ public class TestResponseV001{
    }
 }
 
-public class SubCloseable <: Closeable{
+public class SubCloseable <: Resource{
     public var file=File("newFile.txt",OpenOption.CreateOrTruncate(true))
     public init(file:File){
         this.file=file
@@ -40,4 +40,5 @@ public class SubCloseable <: Closeable{
     public func close(){
         this.file.close()
     }
+    public func isClosed(): Bool { return false }
 }

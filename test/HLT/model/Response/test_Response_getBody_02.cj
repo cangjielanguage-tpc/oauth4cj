@@ -1,4 +1,4 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
 // dependence: ../../common_Values.cj
 
 from std import unittest.*
@@ -23,8 +23,8 @@ public class TestResponseV001{
         inputStream01.write("hello byte".toUtf8Array())
         inputStream02.write("hello byte".toUtf8Array())
         var gzipinput=CompressInputStream(inputStream01,wrap:GzipFormat)
-        var response02=Response(Int32(2),"message",HashMap<String,String>([("Content-Encoding","gzip")]),gzipinput,ArrayList<Closeable>([sub01]))
-        var response03=Response(Int32(2),"message",HashMap<String,String>([("Content-Encoding","gzip")]),inputStream02,ArrayList<Closeable>([sub01]))
+        var response02=Response(Int32(2),"message",HashMap<String,String>([("Content-Encoding","gzip")]),gzipinput,ArrayList<Resource>([sub01]))
+        var response03=Response(Int32(2),"message",HashMap<String,String>([("Content-Encoding","gzip")]),inputStream02,ArrayList<Resource>([sub01]))
         var exp_flag=0
         try{
            response03.getBody()
@@ -39,7 +39,7 @@ public class TestResponseV001{
     }
 }
 
-public class SubCloseable <: Closeable{
+public class SubCloseable <: Resource{
     public var file=File("newFile.txt",OpenOption.CreateOrTruncate(true))
     public static var flagClose=false
     public init(file:File){
@@ -49,4 +49,5 @@ public class SubCloseable <: Closeable{
         this.file.close()
         flagClose=true
     }
+    public func isClosed(): Bool { return false }
 }

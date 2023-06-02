@@ -4,10 +4,7 @@
 
 package oauth
 
-import model.Closeable
-
-
-public open class OAuthService <: Closeable {
+public open class OAuthService <: Resource {
     private var apiKey: String
     private var apiSecret: String
     private var callback: String
@@ -34,6 +31,12 @@ public open class OAuthService <: Closeable {
 
     public func getCallback(): String {
         return callback
+    }
+
+    public func close(): Unit {}
+
+    public func isClosed(): Bool {
+        return false
     }
 }
 

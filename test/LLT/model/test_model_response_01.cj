@@ -66,7 +66,7 @@ public func testResponse_02():Int32 {
 public func testResponse_03():Int32 {
     var headers:HashMap<String, String> = HashMap<String, String>()
     var stream:ByteArrayStream = ByteArrayStream()
-    var closeables:ArrayList<Closeable> = ArrayList<Closeable>()
+    var closeables:ArrayList<Resource> = ArrayList<Resource>()
     stream.write("abcdefg".toUtf8Array()) // 向流中写入测试数据
     var response:Response = Response(200, "message", headers, stream, closeables)
     var responseStream = response.getStream()
@@ -96,7 +96,7 @@ public func testResponse_04():Int32 {
     var stream:ByteArrayStream = ByteArrayStream(64)
     stream.write(bytes)
 
-    var closeables:ArrayList<Closeable> = ArrayList<Closeable>()
+    var closeables:ArrayList<Resource> = ArrayList<Resource>()
     var response:Response = Response(200, "message", headers, stream, closeables)
     var body:String = response.getBody()
     

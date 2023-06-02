@@ -1,4 +1,4 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
 // dependence: ../../common_Values.cj
 
 from std import unittest.*
@@ -18,7 +18,7 @@ public class TestResponseV001{
         var response01=Response(Int32(2),"message",HashMap<String,String>(),"body")
         var sub01=SubCloseable(File("../../common_Values.cj",OpenOption.CreateOrTruncate(true)))
         var inputStream=ByteArrayStream()
-        var response02=Response(Int32(2),"message",HashMap<String,String>(),inputStream,ArrayList<Closeable>([sub01]))
+        var response02=Response(Int32(2),"message",HashMap<String,String>(),inputStream,ArrayList<Resource>([sub01]))
 
         var isSuccessfuls=Array<(Int32,Bool)>([(-1,false),
                                               (0,false),
@@ -32,14 +32,14 @@ public class TestResponseV001{
         var str="ceshi"
         for (i in 0..isSuccessfuls.size){
             response01=Response(isSuccessfuls[i][0],str,HashMap<String,String>(),str)
-            response02=Response(isSuccessfuls[i][0],str,HashMap<String,String>(),inputStream,ArrayList<Closeable>([sub01]))
+            response02=Response(isSuccessfuls[i][0],str,HashMap<String,String>(),inputStream,ArrayList<Resource>([sub01]))
             @Assert(response01.isSuccessful(),isSuccessfuls[i][1])
             @Assert(response02.isSuccessful(),isSuccessfuls[i][1])
         }
     }
 }
 
-public class SubCloseable <: Closeable{
+public class SubCloseable <: Resource{
     public var file=File("newFile.txt",OpenOption.CreateOrTruncate(true))
     public static var flagClose=false
     public init(file:File){
@@ -49,4 +49,5 @@ public class SubCloseable <: Closeable{
         this.file.close()
         flagClose=true
     }
+    public func isClosed(): Bool { return false }
 }

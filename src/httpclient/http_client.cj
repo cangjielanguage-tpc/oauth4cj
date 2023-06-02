@@ -14,12 +14,13 @@ from std import fs.*
 import model.*
 import httpclient.multipart.*
 
+type OAuth4cjResponse = model.Response
 
 public let DEFAULT_CONTENT_TYPE: String = "application/x-www-form-urlencoded"
 public let CONTENT_TYPE: String = "Content-Type"
 public let CONTENT_LENGTH: String = "Content-Length"
 
-public interface HttpClient <: Closeable {
+public interface HttpClient <: Resource {
 
     /**
      * async execute.
@@ -29,14 +30,14 @@ public interface HttpClient <: Closeable {
      * @Param httpVerb of Verb, Verb is an enumeration that contains the most common types of HTTP requests.
      * @Param completeUrl of String, the complete url
      * @Param bodyContents of Array<UInt8>, the body content
-     * @Param callback of OAuthAsyncRequestCallback<T>, the oAuth async request callback
-     * @Param converter of ResponseConverter<T>, the response converter
+     * @Param callback of OAuthAsyncRequestCallback, the oAuth async request callback
+     * @Param converter of ResponseConverter, the response converter
      *
-     * @Return Future<T> the result of async execute.
+     * @Return Future<Any> the result of async execute.
      * @since 0.38.2
      */
-    static func executeAsync<T>(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-        bodyContents: Array<UInt8>, callback: OAuthAsyncRequestCallback<T>, converter: ResponseConverter<T>): Future<T>
+    func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+        bodyContents: Array<UInt8>, callback: OAuthAsyncRequestCallback, converter: ResponseConverter): Future<Any>
 
     /**
      * async execute.
@@ -46,15 +47,15 @@ public interface HttpClient <: Closeable {
      * @Param httpVerb of Verb, Verb is an enumeration that contains the most common types of HTTP requests.
      * @Param completeUrl of String, the complete url
      * @Param bodyContents of MultipartPayload, the body content
-     * @Param callback of OAuthAsyncRequestCallback<T>, the oAuth async request callback
-     * @Param converter of ResponseConverter<T>, the response converter
+     * @Param callback of OAuthAsyncRequestCallback, the oAuth async request callback
+     * @Param converter of ResponseConverter, the response converter
      *
-     * @Return Future<T> the result of async execute.
+     * @Return Future<Any> the result of async execute.
      * @since 0.38.2
      */
-    static func executeAsync<T>(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: MultipartPayload, callback: OAuthAsyncRequestCallback<T>,
-            converter: ResponseConverter<T>): Future<T>
+    func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: MultipartPayload, callback: OAuthAsyncRequestCallback,
+            converter: ResponseConverter): Future<Any>
 
     /**
      * async execute.
@@ -64,14 +65,14 @@ public interface HttpClient <: Closeable {
      * @Param httpVerb of Verb, Verb is an enumeration that contains the most common types of HTTP requests.
      * @Param completeUrl of String, the complete url
      * @Param bodyContents of String, the body content
-     * @Param callback of OAuthAsyncRequestCallback<T>, the oAuth async request callback
-     * @Param converter of ResponseConverter<T>, the response converter
+     * @Param callback of OAuthAsyncRequestCallback, the oAuth async request callback
+     * @Param converter of ResponseConverter, the response converter
      *
-     * @Return Future<T> the result of async execute.
+     * @Return Future<Any> the result of async execute.
      * @since 0.38.2
      */
-    static func executeAsync<T>(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: String, callback: OAuthAsyncRequestCallback<T>, converter: ResponseConverter<T>): Future<T>
+    func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: String, callback: OAuthAsyncRequestCallback, converter: ResponseConverter): Future<Any>
 
     /**
      * async execute.
@@ -81,14 +82,14 @@ public interface HttpClient <: Closeable {
      * @Param httpVerb of Verb, Verb is an enumeration that contains the most common types of HTTP requests.
      * @Param completeUrl of String, the complete url
      * @Param bodyContents of File, the body content
-     * @Param callback of OAuthAsyncRequestCallback<T>, the oAuth async request callback
-     * @Param converter of ResponseConverter<T>, the response converter
+     * @Param callback of OAuthAsyncRequestCallback, the oAuth async request callback
+     * @Param converter of ResponseConverter, the response converter
      *
-     * @Return Future<T> the result of async execute.
+     * @Return Future<Any> the result of async execute.
      * @since 0.38.2
      */
-    static func executeAsync<T>(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: File, callback: OAuthAsyncRequestCallback<T>, converter: ResponseConverter<T>): Future<T>
+    func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: File, callback: OAuthAsyncRequestCallback, converter: ResponseConverter): Future<Any>
 
     /**
      * execute.
@@ -103,7 +104,7 @@ public interface HttpClient <: Closeable {
      * @since 0.38.2
      */
     func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: Array<UInt8>): Response
+            bodyContents: Array<UInt8>): OAuth4cjResponse
 
     /**
      * execute.
@@ -118,7 +119,7 @@ public interface HttpClient <: Closeable {
      * @since 0.38.2
      */
     func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: MultipartPayload): Response
+            bodyContents: MultipartPayload): OAuth4cjResponse
 
     /**
      * execute.
@@ -133,7 +134,7 @@ public interface HttpClient <: Closeable {
      * @since 0.38.2
      */
     func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: String): Response
+            bodyContents: String): OAuth4cjResponse
 
     /**
      * execute.
@@ -148,5 +149,5 @@ public interface HttpClient <: Closeable {
      * @since 0.38.2
      */
     func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: File): Response
+            bodyContents: File): OAuth4cjResponse
 }

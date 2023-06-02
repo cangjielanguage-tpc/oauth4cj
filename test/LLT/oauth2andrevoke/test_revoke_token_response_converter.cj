@@ -60,7 +60,7 @@ func testTokenReponseConverter_04(): Int32 {
     var inputStream=ByteArrayStream()
     inputStream.write("hello cangjie".toUtf8Array())
     println(inputStream.isEmpty())
-    var response=Response(Int32(400),"message",HashMap<String,String>(),inputStream,ArrayList<Closeable>())
+    var response=Response(Int32(400),"message",HashMap<String,String>(),inputStream,ArrayList<Resource>())
     try {
         converter.convert(response)
         return -1
