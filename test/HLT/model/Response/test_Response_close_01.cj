@@ -3,21 +3,18 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
 from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
-from std import io.*
-from std import math.*
 from std import fs.*
+
 @Test
-public class TestResponseV001{
+public class TestResponseB001{
     //无header
     @TestCase
     func testResponseClose01(): Unit {
         var response01=Response(Int32(2),"message",HashMap<String,String>(),"body")
         var file=File("common_Values.cj",OpenOption.CreateOrTruncate(true))
-        var sub01=SubCloseable(file)
+        var sub01=SubResource(file)
         var inputStream01=ByteArrayStream()
         var response02=Response(Int32(2),"message",HashMap<String,String>(),inputStream01,ArrayList<Resource>([sub01]))
         response01.close()
@@ -26,19 +23,8 @@ public class TestResponseV001{
             response02.close()
             @Assert(file.isClosed(),true)
         }catch(e:FSException){
-            println("关闭异常")
             @Assert(file.isClosed(),false)
         }
    }
 }
 
-public class SubCloseable <: Resource{
-    public var file=File("newFile.txt",OpenOption.CreateOrTruncate(true))
-    public init(file:File){
-        this.file=file
-    }
-    public func close(){
-        this.file.close()
-    }
-    public func isClosed(): Bool { return false }
-}

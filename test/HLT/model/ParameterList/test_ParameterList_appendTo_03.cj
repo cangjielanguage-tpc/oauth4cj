@@ -3,13 +3,11 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
 from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
 
 @Test
-public class TestParameterListV001{
+public class TestParameterListB001{
     //asFormUrlEncodedString()结果不为空，url包含'?','?'在尾部,中间,首部,返回url+&+asFormUrlEncodedString()
     @TestCase
     func testAppendTo03(): Unit {

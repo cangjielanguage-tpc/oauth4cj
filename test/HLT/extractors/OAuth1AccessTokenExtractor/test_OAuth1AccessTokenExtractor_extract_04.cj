@@ -1,0 +1,29 @@
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
+
+from std import unittest.*
+from std import unittest.testmacro.*
+from oauth4cj import model.*
+from std import collection.*
+from oauth4cj import extractors.*
+
+@Test
+public class TestOAuth1AccessTokenExtractorB004{
+    /***
+        public func extract(response: Response): OAuth1AccessToken
+        测试场景:response中body是非空,字符串能匹配到oauth_token=([^&]+),能匹配到oauth_token_secret=([^&]*)
+    ***/
+    @TestCase
+    func testOAuth1AccessTokenExtractorExtract04(): Unit {
+        var oauth1AccessTokenExtractor01=OAuth1AccessTokenExtractor.instance()
+
+        var body="oauth_token=oauth_token&oauth_token_secret=oauth_token_secret&abc"
+        var response01=Response(Int32(2),"message",HashMap<String,String>(),body)
+
+        var oauth1AccessToken01=oauth1AccessTokenExtractor01.extract(response01)
+
+        @Assert(oauth1AccessToken01 is OAuth1AccessToken,true)
+        @Assert(oauth1AccessToken01.getToken(),"oauth_token")
+        @Assert(oauth1AccessToken01.getTokenSecret(),"oauth_token_secret")
+        @Assert(oauth1AccessToken01.getRawResponse(),body)
+    }
+}

@@ -2,10 +2,10 @@
 from std import unittest.*
 from std import unittest.testmacro.*
 from encoding import base64.*
-from std import collection.*
 from oauth4cj import utils.*
+
 @Test
-public class TestBaseUtilsEncodeingV001{
+public class TestBaseUtilsEncodeingB001{
 	
     public var params=Array<UInt8>()
     public var re=""

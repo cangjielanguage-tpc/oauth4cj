@@ -3,13 +3,11 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
 from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
-from std import io.*
+
 @Test
-public class TestOAuth4cjRequestV001{
+public class TestOAuth4cjRequestB001{
     /***
         从无到有，追加QuerystringParameter
     ***/

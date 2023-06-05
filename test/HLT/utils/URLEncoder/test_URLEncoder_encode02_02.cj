@@ -1,14 +1,12 @@
 // 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
 // dependence: ../../common_Values.cj
+
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
 from oauth4cj import utils.*
-from oauth4cj import model.*
-from oauth4cj import exceptions.*
+
 @Test
-public class TestURLEncoder01{
+public class TestURLEncoderB001{
     /***
         异常编码的enc：
         1.空字符串
@@ -26,7 +24,6 @@ public class TestURLEncoder01{
             try{
                 re=URLEncoder.encode("abcdefghijklmnopqrstuvwxyz",enc)
             }catch(e:Exception){
-                println(e.toString())
                 if(e.toString().contains("only UTF-8 is supported") || e.toString().contains("charsetName can not be empty" ) ){
                     enc_flag=0
                 }

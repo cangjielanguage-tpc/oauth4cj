@@ -3,20 +3,17 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
 from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
-from std import io.*
-from std import math.*
 from std import fs.*
+
 @Test
-public class TestResponseV001{
+public class TestResponseB001{
     //code>=200 && code <400
     @TestCase
     func testResponseIsSuccessful01(): Unit {
         var response01=Response(Int32(2),"message",HashMap<String,String>(),"body")
-        var sub01=SubCloseable(File("../../common_Values.cj",OpenOption.CreateOrTruncate(true)))
+        var sub01=SubResource(File("../../common_Values.cj",OpenOption.CreateOrTruncate(true)))
         var inputStream=ByteArrayStream()
         var response02=Response(Int32(2),"message",HashMap<String,String>(),inputStream,ArrayList<Resource>([sub01]))
 
@@ -37,17 +34,4 @@ public class TestResponseV001{
             @Assert(response02.isSuccessful(),isSuccessfuls[i][1])
         }
     }
-}
-
-public class SubCloseable <: Resource{
-    public var file=File("newFile.txt",OpenOption.CreateOrTruncate(true))
-    public static var flagClose=false
-    public init(file:File){
-        this.file=file
-    }
-    public func close(){
-        this.file.close()
-        flagClose=true
-    }
-    public func isClosed(): Bool { return false }
 }

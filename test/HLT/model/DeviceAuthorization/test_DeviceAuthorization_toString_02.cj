@@ -3,14 +3,11 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
 from std import random.*
-from std import math.*
+
 @Test
-public class TestDeviceAuthorizationV001{
+public class TestDeviceAuthorizationB001{
     //重置
     @TestCase
     func testGetDeviceCode01(): Unit {

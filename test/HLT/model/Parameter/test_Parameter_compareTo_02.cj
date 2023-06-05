@@ -3,13 +3,10 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
 
 @Test
-public class TestParameterV001{
+public class TestParameterB001{
     //不等
     @TestCase
     func testCompareTo02(): Unit {

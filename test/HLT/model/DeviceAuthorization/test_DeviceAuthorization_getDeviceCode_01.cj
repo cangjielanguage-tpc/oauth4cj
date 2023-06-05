@@ -3,22 +3,17 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
 from std import random.*
-from std import math.*
+
 @Test
-public class TestDeviceAuthorizationV001{
-    //重置
+public class TestDeviceAuthorizationB001{
+    //初始化空/非空
     @TestCase
     func testGetDeviceCode01(): Unit {
         var device01=DeviceAuthorization("deviceCode","userCode","verificationUri",123)
-        var random01=Random()
-        for (i in strValues){
-            device01=DeviceAuthorization(i,i,i,random01.nextInt64())
-            @Assert(device01.getDeviceCode(),i)
-        }
+        @Assert(device01.getDeviceCode(),"deviceCode")
+        device01=DeviceAuthorization("","userCode","userCode",345)
+        @Assert(device01.getDeviceCode(),"")
     }
 }

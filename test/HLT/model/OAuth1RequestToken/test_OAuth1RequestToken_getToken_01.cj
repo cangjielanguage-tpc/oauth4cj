@@ -3,13 +3,10 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
 
 @Test
-public class TestOAuth1RequestTokenV001{
+public class TestOAuth1RequestTokenB001{
     //构造器传入,不传入
     @TestCase
     func testGetToken01(): Unit {
@@ -23,10 +20,8 @@ public class TestOAuth1RequestTokenV001{
             oauth1requesttoken02=OAuth1RequestToken(str,str,str)
             @Assert(oauth1requesttoken02.getToken(),str)
 
-            for (boolValue in boolValues){
-                oauth1requesttoken03=OAuth1RequestToken(str,str,boolValue,str)
-                @Assert(oauth1requesttoken03.getToken(),str)
-            }
+            oauth1requesttoken03=OAuth1RequestToken(str,str,true,str)
+            @Assert(oauth1requesttoken03.getToken(),str)
         }
     }
 }

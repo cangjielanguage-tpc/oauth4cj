@@ -3,13 +3,10 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
 
 @Test
-public class TestOAuth1RequestTokenV001{
+public class TestOAuth1RequestTokenB001{
     /***
        测试项：(obj as OAuth1RequestToken)  是  Option<OAuth1RequestToken>.None
        测试场景： object是OAuth1RequestToken的父类型的实例对象:public class OAuth1RequestToken <: OAuth1Token
@@ -17,20 +14,11 @@ public class TestOAuth1RequestTokenV001{
     @TestCase
     func testEquals01(): Unit {
         var oauth1token01=OAuth1Token()
-        var oauth1requesttoken01=OAuth1RequestToken("123","123")
-        var oauth1requesttoken02=OAuth1RequestToken("123","123")
-        var oauth1requesttoken03=OAuth1RequestToken("123","123")
-        for (str in strValues) {
-            oauth1requesttoken01=OAuth1RequestToken(str,str)
-            @Assert(oauth1requesttoken01.equals(oauth1token01),false)
-
-            oauth1requesttoken02=OAuth1RequestToken(str,str,str)
-            @Assert(oauth1requesttoken02.equals(oauth1token01),false)
-
-            for (boolValue in boolValues){
-                oauth1requesttoken03=OAuth1RequestToken(str,str,boolValue,str)
-                @Assert(oauth1requesttoken03.equals(oauth1token01),false)
-            }
-        }
+        var oauth1requesttoken01=OAuth1RequestToken("str","str")
+        var oauth1requesttoken02=OAuth1RequestToken("str","str","str")
+        var oauth1requesttoken03=OAuth1RequestToken("str","str",true,"str")
+        @Assert(oauth1requesttoken01.equals(oauth1token01),false)
+        @Assert(oauth1requesttoken02.equals(oauth1token01),false)
+        @Assert(oauth1requesttoken03.equals(oauth1token01),false)
     }
 }

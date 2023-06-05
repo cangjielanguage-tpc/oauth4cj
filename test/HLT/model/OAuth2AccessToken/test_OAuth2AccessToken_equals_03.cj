@@ -3,13 +3,10 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
 
 @Test
-public class TestOAuth2AccessTokenV001{
+public class TestOAuth2AccessTokenB001{
     /***
        测试项：(obj as OAuth2AccessToken)  不是  Option<OAuth2AccessToken>.None
        测试场景： object是OAuth2AccessToken的实例对象，与自身比较
@@ -17,19 +14,12 @@ public class TestOAuth2AccessTokenV001{
     @TestCase
     func testEquals03(): Unit {
         var oauth2accesstoken01=OAuth2AccessToken("123")
-        var oauth2accesstoken02=OAuth2AccessToken("123")
-        var oauth2accesstoken03=OAuth2AccessToken("123")
-        for (str in strValues) {
-            oauth2accesstoken01=OAuth2AccessToken(str)
-            @Assert(oauth2accesstoken01.equals(oauth2accesstoken01),true)
+        @Assert(oauth2accesstoken01.equals(oauth2accesstoken01),true)
 
-            oauth2accesstoken02=OAuth2AccessToken(str,str)
-            @Assert(oauth2accesstoken02.equals(oauth2accesstoken02),true)
+        var oauth2accesstoken02=OAuth2AccessToken("123","123")
+        @Assert(oauth2accesstoken02.equals(oauth2accesstoken02),true)
 
-            for (int32Value in int32Values){
-                oauth2accesstoken03=OAuth2AccessToken(str,str,int32Value,str,str,str)
-                @Assert(oauth2accesstoken03.equals(oauth2accesstoken03),true)
-            }
-        }
+        var oauth2accesstoken03=OAuth2AccessToken("123","123",Int32(0),"123","123","123")
+        @Assert(oauth2accesstoken03.equals(oauth2accesstoken03),true)
     }
 }

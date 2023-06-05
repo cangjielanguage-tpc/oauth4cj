@@ -2,13 +2,10 @@
 // dependence: ../../common_Values.cj
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
 from oauth4cj import utils.*
-from oauth4cj import model.*
-from oauth4cj import exceptions.*
+
 @Test
-public class TestURLEncoder01{
+public class TestURLEncoderB001{
     /***
         异常编码的enc：
         1.空字符串

@@ -3,13 +3,11 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
 from std import collection.*
-
 from oauth4cj import pkce.*
 
 @Test
-public class TestPKCEV002{
+public class TestPKCEB002{
     /***
         未设置:仅code_challenge未设置
     ***/

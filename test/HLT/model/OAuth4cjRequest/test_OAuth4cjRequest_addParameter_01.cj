@@ -3,13 +3,11 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
 from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
-from std import io.*
+
 @Test
-public class TestOAuth4cjRequestV001{
+public class TestOAuth4cjRequestB001{
     /***
         添加成功
         1.verb.isPermirBody()==true
@@ -26,7 +24,7 @@ public class TestOAuth4cjRequestV001{
         }
         @Assert(oauth4cjRequest01.getQueryStringParams().asFormUrlEncodedString(),ParameterList(parameters).asFormUrlEncodedString())
         @Assert(oauth4cjRequest01.getBodyParams().asFormUrlEncodedString(),"")
-        //@Assert(oauth4cjRequest02.getQueryStringParams().asFormUrlEncodedString(),"")
+        @Assert(oauth4cjRequest02.getQueryStringParams().asFormUrlEncodedString(),"")
         @Assert(oauth4cjRequest02.getBodyParams().asFormUrlEncodedString(),ParameterList(parameters).asFormUrlEncodedString())
     }
 }

@@ -2,12 +2,10 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
 from oauth4cj import utils.*
 from std import io.*
 @Test
-public class TestStreamUtilsV001{
+public class TestStreamUtilsB001{
     public var input=ByteArrayStream()
     public var re="not empty"
 

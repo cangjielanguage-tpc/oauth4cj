@@ -3,13 +3,10 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
-from std import io.*
+
 @Test
-public class TestOAuth4cjRequestV001{
+public class TestOAuth4cjRequestB001{
     /***
         2.url.startWith("https://") &&  ( url.endWith(":443")  || url.contains(":443/") )----替换“:443”为空，删除“？”之后的所有字符串,包括?
     ***/

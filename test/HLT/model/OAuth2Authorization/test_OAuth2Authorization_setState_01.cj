@@ -3,21 +3,17 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
 
 @Test
-public class TestParameterV001{
-    //单次设置
+public class TestOAuth2AuthorizationB001{
+    //单/多次设置
     @TestCase
-    func testasUrlEncodedPair01(): Unit {
+    func testOAuth2AuthorizationSetState01(): Unit {
         var oa01=OAuth2Authorization()
         for (i in strValues){
-            oa01=OAuth2Authorization()
-            oa01.setCode(i)
-            @Assert(oa01.getCode(),i)
+            oa01.setState(i)
+            @Assert(oa01.getState(),i)
         }
     }
 }

@@ -3,13 +3,10 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
 
 @Test
-public class TestTokenV001{
+public class TestTokenB001{
     //本类实例
     @TestCase
     func testGetRawResponse01(): Unit {
