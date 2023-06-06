@@ -2,7 +2,7 @@
 // EXEC: ./main
 
 from std import collection.*
-from oauth4cj import builder.*
+from oauth4cj import util.*
 
 func testTokenRequestParams_01(): Int32 {
     var code: String = "200"
@@ -14,11 +14,11 @@ func testTokenRequestParams_01(): Int32 {
         return -1
     }
 
-    if (!params.getPkceCodeVerifier().equals("abcd")) {
+    if (!params.getPkceCodeVerifier().getOrThrow().equals("abcd")) {
         return -1
     }
 
-    if (!params.getScope().equals("scope")) {
+    if (!params.getScope().getOrThrow().equals("scope")) {
         return -1
     }
 
@@ -73,7 +73,7 @@ func testTokenRequestParams_04(): Int32 {
     scope.withScope("scope")
     var scopeString = "a b c scope"
     params.setScope(scope)
-    if (!params.getScope().equals(scopeString)) {
+    if (!params.getScope().getOrThrow().equals(scopeString)) {
         return -1
     }
     return 0

@@ -1,10 +1,7 @@
 /*
  * Copyright (c) Cangjie Library Team 2023-2023. All rights reserved.
  */
-package builder
-
-import pkce.PKCEService
-import pkce.PKCE
+package oauth
 
 /*
  * Build Authorization Url
@@ -95,27 +92,26 @@ public class AuthorizationUrlBuilder {
      * @return String Authorization Url String
      */
     public func build(): String {
-        var params: HashMap<String, String>
-        match (pkce) {
-            case Some(x) => 
-                params = HashMap<String, String>(additionalParams)
-                params.putAll(x.getAuthorizationUrlParams())
-            case _ => params = additionalParams
-        }
-        var scopeBuild: Option<String>
-        match (scope) {
-            case Some(x) => scopeBuild = Some(x)
-            case _ => 
-                var defaultScope = oauth20Service.getDefaultScope()
-                if (defaultScope.isEmpty()){
-                    scopeBuild = Option<String>.None
-                } else {
-                    scopeBuild = defaultScope
-                }
-        }
-
-        return oauth20Service.getApi().getAuthorizationUrl(oauth20Service.getResponseType(), oauth20Service.getApiKey(),
-                Some(oauth20Service.getCallback()), scopeBuild, state, params)
+        build(oauth20Service, state, additionalParams, pkce, scope)
     }
+}
+
+func build(oauth20Service: OAuth20Service, state: Option<String>,
+                additionalParams: HashMap<String, String>, pkce: Option<PKCE>, scope: Option<String>): String {
+    var params: HashMap<String, String>
+    match (pkce) {
+        case Some(x) =>
+            params = HashMap<String, String>(additionalParams)
+            params.putAll(x.getAuthorizationUrlParams())
+        case _ => params = additionalParams
+    }
+    var scopeBuild: Option<String> = oauth20Service.getDefaultScope()
+    match (scope) {
+        case Some(x) => scopeBuild = scope
+        case _ => ()
+    }
+
+    return oauth20Service.getApi().getAuthorizationUrl(oauth20Service.getResponseType(), oauth20Service.getApiKey(),
+            oauth20Service.getCallback(), scopeBuild, state, params)
 }
 

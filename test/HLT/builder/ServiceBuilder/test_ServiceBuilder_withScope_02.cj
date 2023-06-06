@@ -12,7 +12,7 @@ public class TestServiceBuilderB004{
     ***/
     @TestCase
     func testServiceBuilderwithScope02(): Unit {
-        var serviceBuilder01=ServiceBuilder("abc")
+        var serviceBuilder01=ServiceBuilderOAuth10a("abc")
         var subDefaultApi10a=SubDefaultApi10a()
         var re=serviceBuilder01.withScope("str")
         @Assert(re is ServiceBuilderOAuth10a,true)//scope值无法验证待后续版本交付

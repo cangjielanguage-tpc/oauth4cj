@@ -5,7 +5,6 @@ package oauth
 
 from std import collection.HashMap
 
-import model.OAuth2AccessToken
 import oauth2.bearersignature.*
 import oauth2.clientauthentication.*
 
@@ -106,11 +105,12 @@ public abstract class DefaultApi20 {
      * @param httpClient Http Client instance
      * @return OAuth20Service OAuth20Service instance
      */
-    public func createService(apiKey: String, apiSecret: String, callback: String, defaultScope: String,
+    public open func createService(apiKey: String, apiSecret: String, callback: String, defaultScope: Option<String>,
             responseType: String, debugStream: Option<OutputStream>, userAgent: String, 
-            httpClientConfig: Option<HttpClientConfig>, httpClient: Option<HttpClient>): OAuth20Service {
+            httpClientConfig: Option<HttpClientConfig>, httpClient: Option<HttpClient>,
+            httpClientProvider: Option<HttpClientProvider>): OAuth20Service {
         return OAuth20Service(this, apiKey, apiSecret, callback, defaultScope, responseType, debugStream, userAgent,
-                httpClientConfig, httpClient)
+            httpClientConfig, httpClient, httpClientProvider)
     }
 
     /**

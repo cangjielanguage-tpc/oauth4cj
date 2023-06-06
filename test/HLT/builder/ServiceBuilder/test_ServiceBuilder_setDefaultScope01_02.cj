@@ -12,8 +12,8 @@ public class TestServiceBuilderB004{
     ***/
     @TestCase
     func testServiceBuildersetDefaultScope0102(): Unit {
-        var serviceBuilder01=ServiceBuilder("abc")
-        var subDefaultApi10a=SubDefaultApi10a()
+        var serviceBuilder01=ServiceBuilderOAuth20("abc")
+        var subDefaultApi20=SubDefaultApi20()
         var re=serviceBuilder01.setDefaultScope("str")
         @Assert(re is ServiceBuilderOAuth20,true)
     }

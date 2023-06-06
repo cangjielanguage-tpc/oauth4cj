@@ -12,7 +12,7 @@ public class TestServiceBuilderB004{
     ***/
     @TestCase
     func testServiceBuilderwithScope01(): Unit {
-        var serviceBuilder01=ServiceBuilder("abc")
+        var serviceBuilder01=ServiceBuilderOAuth10a("abc")
         var flag=1
         try{
             serviceBuilder01.withScope("")

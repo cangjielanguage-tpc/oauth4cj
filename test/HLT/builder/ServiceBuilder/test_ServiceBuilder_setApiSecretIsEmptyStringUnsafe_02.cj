@@ -12,7 +12,7 @@ public class TestServiceBuilderB004{
     ***/
     @TestCase
     func testServiceBuildersetApiSecret01(): Unit {
-        var serviceBuilder01=ServiceBuilder("abc")
+        var serviceBuilder01=ServiceBuilderOAuth10a("abc")
         var subDefaultApi10a=SubDefaultApi10a()
 
         let apiSecret="hello cangjie"
@@ -24,5 +24,16 @@ public class TestServiceBuilderB004{
         serviceBuilder01.setApiSecretIsEmptyStringUnsafe()
         let oauth10aService02=serviceBuilder01.build(subDefaultApi10a)
         @Assert(oauth10aService02.getApiSecret(),"")
+
+
+        var serviceBuilder02=ServiceBuilderOAuth20("abc")
+        var subDefaultApi20=SubDefaultApi20()
+        serviceBuilder02.setApiSecret(apiSecret)
+        let oAuth20Service01=serviceBuilder02.build(subDefaultApi20)
+        @Assert(oAuth20Service01.getApiSecret(),apiSecret)
+
+        serviceBuilder02.setApiSecretIsEmptyStringUnsafe()
+        let oAuth20Service02=serviceBuilder02.build(subDefaultApi20)
+        @Assert(oAuth20Service02.getApiSecret(),"")
     }
 }

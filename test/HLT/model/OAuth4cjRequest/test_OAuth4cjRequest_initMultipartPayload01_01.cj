@@ -15,7 +15,7 @@ public class TestOAuth4cjRequestB005{
     func testOAuth4cjRequestInitMultipartPayload0101(): Unit {
         var oauth4cjRequest=OAuth4cjRequest(Verb.GET,"https://www.baidu.com")
         oauth4cjRequest.initMultipartPayload()
-        var multi=oauth4cjRequest.getMultipartPayload()
+        var multi=oauth4cjRequest.getMultipartPayload().getOrThrow()
         var boundary=multi.getBoundary()
         @Assert(boundary.contains("----OAuth4cj----"),true)
         var re=multi.getHeaders()

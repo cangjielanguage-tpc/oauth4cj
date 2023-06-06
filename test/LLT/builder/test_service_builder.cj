@@ -5,12 +5,13 @@ from std import collection.*
 from oauth4cj import builder.*
 from oauth4cj import httpclient.*
 from oauth4cj import oauth.*
+from oauth4cj import util.*
 
 func testServiceBuilder_01(): Int32 {
     var api: MyApi10a = MyApi10a()
     var config: Option<HttpClientConfig> = Some(MyConfig().createDefaultConfig())
     try {
-        var service: OAuth10aService = ServiceBuilder("apiKey")
+        var service: OAuth10aService = ServiceBuilderOAuth10a("apiKey")
                                     .setCallback("callback")
                                     .setApiSecret("apiSecret")
                                     .setUserAgent("user agent")
@@ -28,7 +29,7 @@ func testServiceBuilder_02(): Int32 {
     var api: MyApi20 = MyApi20()
     var config: Option<HttpClientConfig> = Some(MyConfig().createDefaultConfig())
     try {
-        var service: OAuth20Service = ServiceBuilder("apiKey")
+        var service: OAuth20Service = ServiceBuilderOAuth20("apiKey")
                                     .setCallback("callback")
                                     .setApiSecret("apiSecret")
                                     .setHttpClientConfig(config)
@@ -46,7 +47,7 @@ func testServiceBuilder_02(): Int32 {
 func testServiceBuilder_03(): Int32 {
     var api: MyApi10a = MyApi10a()
     try {
-        var service: OAuth10aService = ServiceBuilder("apiKey")
+        var service: OAuth10aService = ServiceBuilderOAuth10a("apiKey")
                                         .setHttpClientConfig(Option<HttpClientConfig>.None).build(api)
         return -1
     } catch (e: IllegalArgumentException) {
@@ -60,7 +61,7 @@ func testServiceBuilder_04(): Int32 {
     var scopeString: String = "scope_1"
     var scopeBuilder: ScopeBuilder = ScopeBuilder().withScope(scopeString)
     try {
-        var service: OAuth20Service = ServiceBuilder("apiKey")
+        var service: OAuth20Service = ServiceBuilderOAuth20("apiKey")
                                     .setCallback("callback")
                                     .setApiSecret("apiSecret")
                                     .setHttpClientConfig(config)

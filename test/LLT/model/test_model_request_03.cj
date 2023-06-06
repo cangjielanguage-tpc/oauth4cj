@@ -14,14 +14,14 @@ public func testRequest_09():Int32 {
     var url = "http://test/test"
     var request = OAuth4cjRequest(Verb.POST, url)
     request.initMultipartPayload() // 初始化空的MultipartPayload, 创建时会有一个默认添加"Content-Type"
-    var result = request.getMultipartPayload().getHeaders()
+    var result = request.getMultipartPayload().getOrThrow().getHeaders()
     if (result.size != 1) {
         return -1
     }
 
     var payload = MultipartPayload()
     request.setMultipartPayload(payload)
-    var result_2 = request.getMultipartPayload()
+    var result_2 = request.getMultipartPayload().getOrThrow()
     if (!result_2.getBoundary().equals(payload.getBoundary())) {
         println(result_2.getBoundary())
         return -1
@@ -35,7 +35,7 @@ public func testRequest_10():Int32 {
     var request = OAuth4cjRequest(Verb.POST, url)
     // 设置范围"---test1---"
     request.initMultipartPayload("---test1---") 
-    var result_1 = request.getMultipartPayload()
+    var result_1 = request.getMultipartPayload().getOrThrow()
     if (!"---test1---".equals(result_1.getBoundary())) {
         println(result_1.getBoundary())
         return -1
@@ -43,7 +43,7 @@ public func testRequest_10():Int32 {
 
     // 设置范围"---test2---"
     request.initMultipartPayload("form-abc", "---test2---")
-    var result_2 = request.getMultipartPayload()
+    var result_2 = request.getMultipartPayload().getOrThrow()
     if (!"---test2---".equals(result_2.getBoundary())) {
         println(result_2.getBoundary())
         return -1
@@ -55,7 +55,7 @@ public func testRequest_10():Int32 {
     // 用HashMap创建，会在Content-Type中追加默认的范围值
     // 如果没有Content-Type，会自动创建并追加默认范围值，然后添加到map中
     request.initMultipartPayload(map)
-    var result_3 = request.getMultipartPayload().getHeaders()
+    var result_3 = request.getMultipartPayload().getOrThrow().getHeaders()
     var header = result_3["Content-Type"]
     println("完整的Content-Type值: ${header}")
     if (!header.startsWith("test")) {
@@ -72,7 +72,7 @@ public func testRequest_11():Int32 {
     map.put("Content-Type", "test")
     map.put("key1", "value1")
     request.initMultipartPayload("---test1---", map)
-    var result_1 = request.getMultipartPayload().getHeaders()
+    var result_1 = request.getMultipartPayload().getOrThrow().getHeaders()
     var header_1 = result_1["Content-Type"]
     if (!"test; boundary=\"---test1---\"".equals(header_1)) {
         println(header_1)
@@ -85,7 +85,7 @@ public func testRequest_11():Int32 {
     var map_2 = HashMap<String, String>()
     map_2.put("key2", "value2")
     request.initMultipartPayload("abc-abc", "---test2---", map_2)
-    var result_2 = request.getMultipartPayload().getHeaders()
+    var result_2 = request.getMultipartPayload().getOrThrow().getHeaders()
     var header_2 = result_2["Content-Type"]
     if (!"multipart/abc-abc; boundary=\"---test2---\"".equals(header_2)) {
         println(header_2)
@@ -107,7 +107,7 @@ public func testRequest_12():Int32 {
     var payload_1 = MultipartPayload("test1")
     // 设置BodyPartPayload子类 
     request.setBodyPartPayloadInMultipartPayload(payload_1)
-    var result_1 = request.getMultipartPayload().getBodyParts()
+    var result_1 = request.getMultipartPayload().getOrThrow().getBodyParts()
     if (result_1.size != 1) {
         println(result_1.size)
         println("-----------------------0")
@@ -124,7 +124,7 @@ public func testRequest_12():Int32 {
     var payload_2 = MultipartPayload("==test2==")
     // 再次设置会替换之前的内容
     request.setBodyPartPayloadInMultipartPayload(payload_2)
-    var result_2 = request.getMultipartPayload().getBodyParts()
+    var result_2 = request.getMultipartPayload().getOrThrow().getBodyParts()
     if (result_2.size != 1) {
         println(result_2.size)
         println("-----------------------2")

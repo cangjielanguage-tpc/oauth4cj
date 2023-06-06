@@ -13,7 +13,7 @@ public class TestServiceBuilderB004{
     ***/
     @TestCase
     func testServiceBuildersetResponseType02(): Unit {
-        var serviceBuilder01=ServiceBuilder("abc")
+        var serviceBuilder01=ServiceBuilderOAuth20("abc")
         var subDefaultApi20=SubDefaultApi20()
         var str="andfsopfks"
         serviceBuilder01.setResponseType(str)

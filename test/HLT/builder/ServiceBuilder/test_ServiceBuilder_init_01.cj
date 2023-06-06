@@ -12,10 +12,10 @@ public class TestServiceBuilderB004{
     ***/
     @TestCase
     func testServiceBuilderInit01(): Unit {
-        var serviceBuilder01=ServiceBuilder("abc")
+        var serviceBuilder01=ServiceBuilderOAuth10a("abc")
         var flag=1
         try{
-            serviceBuilder01=ServiceBuilder("")
+            serviceBuilder01=ServiceBuilderOAuth10a("")
         }catch(e:IllegalArgumentException){
             if(e.toString().contains("Invalid Api key")){
                 flag=0
@@ -24,12 +24,32 @@ public class TestServiceBuilderB004{
         @Assert(flag,0)
         flag=1
         try{
-            serviceBuilder01=ServiceBuilder("   ")
+            serviceBuilder01=ServiceBuilderOAuth10a("   ")
         }catch(e:IllegalArgumentException){
             if(e.toString().contains("Invalid Api key")){
                 flag=0
             }
         }
         @Assert(flag,0)
+
+        var serviceBuilder02=ServiceBuilderOAuth20("abc")
+        var flag02=1
+        try{
+            serviceBuilder02=ServiceBuilderOAuth20("")
+        }catch(e:IllegalArgumentException){
+            if(e.toString().contains("Invalid Api key")){
+                flag02=0
+            }
+        }
+        @Assert(flag02,0)
+        flag02=1
+        try{
+            serviceBuilder02=ServiceBuilderOAuth20("   ")
+        }catch(e:IllegalArgumentException){
+            if(e.toString().contains("Invalid Api key")){
+                flag02=0
+            }
+        }
+        @Assert(flag02,0)
     }
 }

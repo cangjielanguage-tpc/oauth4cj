@@ -19,7 +19,8 @@ public class TestDefaultApi20B004{
         let debugStream=Option<OutputStream>.None
         let httpClientConfig=Option<HttpClientConfig>.None
         let httpClient=Option<HttpClient>.None
-        let oAuth20Service=subDefaultApi20.createService(str_common,str_common,str_common,str_common,str_common,debugStream,str_common,httpClientConfig,httpClient)
+        let httpClientProvider=Option<HttpClientProvider>.None
+        let oAuth20Service=subDefaultApi20.createService(str_common,str_common,str_common,str_common,str_common,debugStream,str_common,httpClientConfig,httpClient,httpClientProvider)
         @Assert(oAuth20Service is OAuth20Service,true)
     }
 }

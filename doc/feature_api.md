@@ -693,13 +693,7 @@ public class Response <: Closeable {
 }
 ```
 
-###### 1.3.1.9 可以关闭的数据源接口
-
-```cangjie
-public interface Closeable {
-    func close():Unit
-}
-```
+###### ~~1.3.1.9 可以关闭的数据源接口~~
 
 ###### 1.3.1.10 响应异常类
 
@@ -812,6 +806,78 @@ public class OAuth4cjRequest {
      */
     public func addParameter(key: String, value: String):Unit
     
+    /**
+     * 获取multipartPayload
+     *
+     * @返回值 MultipartPayload MultipartPayload实例
+     */
+    public func getMultipartPayload(): Option<MultipartPayload>
+    
+    /**
+     * 设置multipartPayload
+     *
+     * @参数 multipartPayload MultipartPayload实例
+     */
+    public func setMultipartPayload(multipartPayload: MultipartPayload): Unit 
+
+    /**
+     * 初始化MultipartPayload对象
+     */
+    public func initMultipartPayload(): Unit
+    
+    /**
+     * 初始化MultipartPayload对象
+     *
+     * @参数 boundary 边界字符串
+     */
+    public func initMultipartPayload(boundary: String): Unit 
+    
+    /**
+     * 初始化MultipartPayload对象
+     *
+     * @参数 subtype multipart类型(默认是form-data)
+     * @参数 boundary 边界字符串
+     */
+    public func initMultipartPayload(subtype: String, boundary: String): Unit
+    
+    /**
+     * 初始化MultipartPayload对象
+     *
+     * @参数 headers 头信息
+     */
+    public func initMultipartPayload(headers: HashMap<String, String>): Unit 
+    
+    /**
+     * 初始化MultipartPayload对象
+     *
+     * @参数 boundary 边界字符串
+     * @参数 headers 头信息
+     */
+    public func initMultipartPayload(boundary: String, headers: HashMap<String, String>): Unit
+    
+    /**
+     * 初始化MultipartPayload对象
+     *
+     * @参数 subtype multipart类型(默认是form-data)
+     * @参数 boundary 边界字符串
+     * @参数 headers 头信息
+     */
+    public func initMultipartPayload(subtype: String, boundary: String, headers: HashMap<String, String>): Unit
+
+    /**
+     * 设置BodyPartPayload对象到MultipartPayload对象中
+     *
+     * @参数 bodyPartPayload BodyPartPayload对象
+     */
+    public func setBodyPartPayloadInMultipartPayload(bodyPartPayload: BodyPartPayload): Unit
+
+    /**
+     * 添加BodyPartPayload对象到MultipartPayload对象中
+     *
+     * @参数 bodyPartPayload BodyPartPayload对象
+     */
+    public func addBodyPartPayloadInMultipartPayload(bodyPartPayload: BodyPartPayload): Unit
+
     /**
      * 设置请求数据
      * 当HTTP正文不是一个表单url编码的String，而是另一个String时，使用此方法
@@ -1294,13 +1360,13 @@ public class OAuthConstants {
 ###### 1.3.1.16 OAuth异步请求回调
 
 ```cangjie
-public interface OAuthAsyncRequestCallback<T> {
+public interface OAuthAsyncRequestCallback {
     /**
      * 请求完成后调用此方法
      *
      * @参数 response 响应对象
      */
-    func onCompleted(response: T): Unit
+    func onCompleted(response: Any): Unit
 
     /**
      * 发生异常时调用此方法
@@ -2273,6 +2339,14 @@ public interface ServiceBuilderCommon {
     func setHttpClient(httpClient: Option<HttpClient>): ServiceBuilderCommon
 
     /**
+     * 配置 HttpClientProvider
+     *
+     * @参数 HttpClientProvider 外部创建的HTTP客户端提供者
+     * @返回值 ServiceBuilderCommon ServiceBuilderCommon实例
+     */
+    public func setHttpClientProvider(httpClientProvider: Option<HttpClientProvider>): ServiceBuilderCommon 
+
+    /**
      * 配置用户代理
      *
      * @参数 userAgent 用户代理
@@ -2282,70 +2356,10 @@ public interface ServiceBuilderCommon {
 }
 ```
 
-###### 1.6.1.8 service构造器oauth1.0补充接口  
+###### 1.6.1.8 service构造器oauth1.0实现 
 
 ```cangjie
-public interface ServiceBuilderOAuth10a <: ServiceBuilderCommon {
-    /**
-     * 配置 OAuth 1.0a 范围
-     *
-     * @参数 scope OAuth范围
-     * @返回值 ServiceBuilderOAuth10a ServiceBuilderOAuth10a实例
-     */
-    func withScope(scope: String): ServiceBuilderOAuth10a
-
-    /**
-     * 构建OAuth10aService实例
-     *
-     * @参数 api DefaultApi10a实例
-     * @返回值 OAuth10aService OAuth10aService实例
-     */
-    func build(api: DefaultApi10a): OAuth10aService
-}
-```
-
-###### 1.6.1.9 service构造器oauth2.0补充接口  
-
-```cangjie
-public interface ServiceBuilderOAuth20 <: ServiceBuilderCommon {
-    /**
-     * 配置响应类型
-     *
-     * @参数 responseType 响应类型
-     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
-     */
-    func setResponseType(responseType: String): ServiceBuilderOAuth20
-
-    /**
-     * 配置默认的 OAuth 2.0 范围
-     *
-     * @参数 defaultScope OAuth作用域，用作默认作用域
-     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
-     */
-    func setDefaultScope(defaultScope: String): ServiceBuilderOAuth20
-
-    /**
-     * 配置默认的 OAuth 2.0 范围
-     *
-     * @参数 scopeBuilder ScopeBuilder实例
-     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
-     */
-    func setDefaultScope(scopeBuilder: ScopeBuilder): ServiceBuilderOAuth20
-
-    /**
-     * 构建OAuth20Service实例
-     *
-     * @参数 api DefaultApi20实例
-     * @返回值 OAuth20Service OAuth20Service实例
-     */
-    func build(api: DefaultApi20): OAuth20Service
-}
-```
-
-###### 1.6.1.10 service构造器
-
-```cangjie
-public class ServiceBuilder <: ServiceBuilderOAuth10a & ServiceBuilderOAuth20 {
+public class ServiceBuilderOAuth10a <: ServiceBuilderCommon {
     /**
      * 构造函数
      *
@@ -2357,88 +2371,72 @@ public class ServiceBuilder <: ServiceBuilderOAuth10a & ServiceBuilderOAuth20 {
      * 设置回调url字符串
      *
      * @参数 callback 回调url字符串
-     * @返回值 ServiceBuilder ServiceBuilder实例
+     * @返回值 ServiceBuilderOAuth10a ServiceBuilderOAuth10a实例
      */
-    public func setCallback(callback: String): ServiceBuilder
+    public func setCallback(callback: String): ServiceBuilderOAuth10a
 
     /**
      * 设置 Api Key
      *
      * @参数 apiKey apikey字符串
-     * @返回值 ServiceBuilder ServiceBuilder实例
+     * @返回值 ServiceBuilderOAuth10a ServiceBuilderOAuth10a实例
      */
-    public func setApiKey(apiKey: String): ServiceBuilder
+    public func setApiKey(apiKey: String): ServiceBuilderOAuth10a
 
     /**
      * 设置 Api Secret
      *
      * @参数 apiSecret apiSecret字符串
-     * @返回值 ServiceBuilder ServiceBuilder实例
+     * @返回值 ServiceBuilderOAuth10a ServiceBuilderOAuth10a实例
      */
-    public func setApiSecret(apiSecret: String): ServiceBuilder
+    public func setApiSecret(apiSecret: String): ServiceBuilderOAuth10a 
 
     /**
      * 设置空的 Api Secret
      *
-     * @返回值 ServiceBuilder ServiceBuilder实例
+     * @返回值 ServiceBuilderOAuth10a ServiceBuilderOAuth10a实例
      */
-    public func setApiSecretIsEmptyStringUnsafe(): ServiceBuilder
+    public func setApiSecretIsEmptyStringUnsafe(): ServiceBuilderOAuth10a 
 
     /**
      * 设置默认范围
-     *
-     * @参数 defaultScope 范围字符串
-     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
-     */
-    public func setDefaultScope(defaultScope: String): ServiceBuilderOAuth20
-
-    /**
-     * 设置默认范围
-     *
-     * @参数 scopeBuilder ServiceBuilder实例
-     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
-     */
-    public func setDefaultScope(scopeBuilder: ScopeBuilder): ServiceBuilderOAuth20
-
-    /**
-     * 设置范围
      *
      * @参数 scope 范围字符串
-     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     * @返回值 ServiceBuilderOAuth10a ServiceBuilderOAuth10a实例
      */
-    public func withScope(scope: String): ServiceBuilderOAuth10a
+    public func withScope(scope: String): ServiceBuilderOAuth10a 
 
     /**
-     * 设置响应类型字符串
+     * 配置 HttpClientConfig
      *
-     * @参数 responseType 响应类型字符串
-     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     * @参数 httpClientConfig Http客户端配置实例
+     * @返回值 ServiceBuilderOAuth10a ServiceBuilderOAuth10a实例
      */
-    public func setResponseType(responseType: String): ServiceBuilderOAuth20
+    public func setHttpClientConfig(httpClientConfig: Option<HttpClientConfig>): ServiceBuilderOAuth10a 
 
     /**
-     * 设置 HttpClientConfig
+     * 配置 HttpClient
      *
-     * @参数 httpClientConfig httpClientConfig实例
-     * @返回值 ServiceBuilder ServiceBuilder实例
+     * @参数 httpClient 外部创建的HTTP客户端
+     * @返回值 ServiceBuilderOAuth10a ServiceBuilderOAuth10a实例
      */
-    public func setHttpClientConfig(httpClientConfig: Option<HttpClientConfig>): ServiceBuilder
+    public func setHttpClient(httpClient: Option<HttpClient>): ServiceBuilderOAuth10a 
 
     /**
-     * 设置 HttpClient
+     * 配置 HttpClientProvider
      *
-     * @参数 httpClient httpClient实例
-     * @返回值 ServiceBuilder ServiceBuilder实例
+     * @参数 HttpClientProvider 外部创建的HTTP客户端提供者
+     * @返回值 ServiceBuilderOAuth10a ServiceBuilderOAuth10a实例
      */
-    public func setHttpClient(httpClient: Option<HttpClient>): ServiceBuilder
+    public func setHttpClientProvider(httpClientProvider: Option<HttpClientProvider>): ServiceBuilderOAuth10a 
 
     /**
-     * 设置用户代理
+     * 配置用户代理
      *
      * @参数 userAgent 用户代理
-     * @返回值 ServiceBuilder ServiceBuilder实例
+     * @返回值 ServiceBuilderOAuth10a ServiceBuilderOAuth10a实例
      */
-    public func setUserAgent(userAgent: String): ServiceBuilder
+    public func setUserAgent(userAgent: String): ServiceBuilderOAuth10a 
 
     /**
      * 构造OAuth10aService实例
@@ -2446,17 +2444,124 @@ public class ServiceBuilder <: ServiceBuilderOAuth10a & ServiceBuilderOAuth20 {
      * @参数 api DefaultApi10a实例
      * @返回值 OAuth10aService OAuth10aService实例
      */
-    public func build(api: DefaultApi10a): OAuth10aService
+    public func build(api: DefaultApi10a): OAuth10aService 
+}
+
+```
+
+###### 1.6.1.9 service构造器oauth2.0实现  
+
+```cangjie
+public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
+    /**
+     * 构造函数
+     *
+     * @参数 apiKey apikey字符串
+     */
+    public init(apiKey: String) {
+        setApiKey(apiKey)
+    }
 
     /**
-     * 构造OAuth20Service实例
+     * 添加回调url
+     *
+     * @参数 callback 回调url。必须是有效的url或“oob”
+     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    public func setCallback(callback: String): ServiceBuilderOAuth20
+
+    /**
+     * 配置 api key
+     *
+     * @参数 apiKey 应用程序的api密钥
+     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    public func setApiKey(apiKey: String): ServiceBuilderOAuth20 
+
+    /**
+     * 配置 api secret
+     *
+     * @参数 apiSecret 应用程序的api密码
+     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    public func setApiSecret(apiSecret: String): ServiceBuilderOAuth20 
+
+    /**
+     * 配置空 api secret
+     *
+     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    public func setApiSecretIsEmptyStringUnsafe(): ServiceBuilderOAuth20 
+
+    /**
+     * 配置默认的 OAuth 2.0 范围
+     *
+     * @参数 defaultScope OAuth作用域，用作默认作用域
+     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    public func setDefaultScope(defaultScope: String): ServiceBuilderOAuth20
+
+    /**
+     * 配置默认的 OAuth 2.0 范围
+     *
+     * @参数 defaultScope OAuth作用域，用作默认作用域
+     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    public func setDefaultScope(scopeBuilder: ScopeBuilder): ServiceBuilderOAuth20 
+
+    /**
+     * 配置响应类型
+     *
+     * @参数 responseType 响应类型
+     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    public func setResponseType(responseType: String): ServiceBuilderOAuth20
+
+    /**
+     * 配置 HttpClientConfig
+     *
+     * @参数 httpClientConfig Http客户端配置实例
+     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    public func setHttpClientConfig(httpClientConfig: Option<HttpClientConfig>): ServiceBuilderOAuth20 
+
+    /**
+     * 配置 HttpClient
+     *
+     * @参数 httpClient 外部创建的HTTP客户端
+     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    public func setHttpClient(httpClient: Option<HttpClient>): ServiceBuilderOAuth20
+
+    /**
+     * 配置 HttpClientProvider
+     *
+     * @参数 HttpClientProvider 外部创建的HTTP客户端提供者
+     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    public func setHttpClientProvider(httpClientProvider: Option<HttpClientProvider>): ServiceBuilderOAuth20
+
+    /**
+     * 配置用户代理
+     *
+     * @参数 userAgent 用户代理
+     * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    public func setUserAgent(userAgent: String): ServiceBuilderOAuth20 
+
+    /**
+     * 构建OAuth20Service实例
      *
      * @参数 api DefaultApi20实例
      * @返回值 OAuth20Service OAuth20Service实例
      */
-    public func build(api: DefaultApi20): OAuth20Service
+    public func build(api: DefaultApi20): OAuth20Service 
 }
+
 ```
+
+###### ~~1.6.1.10 service构造器~~
+
 ###### 1.6.1.11 AccessTokenRequestParams
 ```cangjie
 public class AccessTokenRequestParams {
@@ -2543,14 +2648,14 @@ public class AccessTokenRequestParams {
      *
      * @返回值 String pkce编码验证字符串
      */
-    public func getPkceCodeVerifier(): String 
+    public func getPkceCodeVerifier(): Option<String> 
 
     /**
      * 获取范围字符串
      *
      * @返回值 String 范围字符串
      */
-    public func getScope(): String 
+    public func getScope(): Option<String> 
 }
 ```
 
@@ -2769,11 +2874,12 @@ public abstract class DefaultApi10a {
      * @参数 userAgent 用户代理
      * @参数 httpClientConfig HTTP客户端配置信息
      * @参数 httpClient HTTP客户端
+     * @参数 httpClientProvider HTTP客户端提供者
      * @返回值 OAuth10aService OAuth10aService实例
      */
     public func createService(apiKey:String, apiSecret: String, callback: String, scope: String,
             debugStream: Option<OutputStream>, userAgent: String, httpClientConfig: Option<HttpClientConfig>,
-            httpClient: Option<HttpClient>): OAuth10aService
+            httpClient: Option<HttpClient>, httpClientProvider: Option<HttpClientProvider>): OAuth10aService
 
     /**
      * 是否在请求中加入空的oauth_token参数
@@ -2852,11 +2958,13 @@ public abstract class DefaultApi20 {
      * @参数 userAgent 用户代理
      * @参数 httpClientConfig HTTP客户端配置信息
      * @参数 httpClient HTTP客户端
+     * @参数 httpClientProvider HTTP客户端提供者
      * @返回值 OAuth20Service OAuth20Service实例
      */
-    public func createService(apiKey: String, apiSecret: String, callback: String, defaultScope: String,
+    public open func createService(apiKey: String, apiSecret: String, callback: String, defaultScope: String,
             responseType: String, debugStream: Option<OutputStream>, userAgent: String, 
-            httpClientConfig: Option<HttpClientConfig>, httpClient: Option<HttpClient>): OAuth20Service
+            httpClientConfig: Option<HttpClientConfig>, httpClient: Option<HttpClient>,
+            httpClientProvider: Option<HttpClientProvider>): OAuth20Service
 
     /**
      * 返回签名
@@ -2886,6 +2994,212 @@ public abstract class DefaultApi20 {
      * @返回值 DeviceAuthorizationJsonExtractor DeviceAuthorizationJsonExtractor实例
      */
     public open func getDeviceAuthorizationExtractor(): DeviceAuthorizationJsonExtractor
+}
+```
+
+###### （0608新增）1.7.1.4 OAuthService抽象类 
+
+```cangjie
+public abstract class OAuthService <: Resource {
+    /**
+     * 构造函数
+     *
+     * @参数 apiKey api key
+     * @参数 apiSecret api secret
+     * @参数 callback 回调url
+     * @参数 debugStream debug模式输出流，不开启debug模式时设置为Option<OutputStream>.None
+     * @参数 userAgent 用户代理
+     * @参数 httpClientConfig Http客户端配置信息对象
+     * @参数 httpClient HTTP客户端对象
+     * @参数 httpClientProvider HTTP客户端提供者对象
+     */
+    public init(apiKey: String, apiSecret: String, callback: String, debugStream: Option<OutputStream>,
+            userAgent: String, httpClientConfig: Option<HttpClientConfig>, httpClient: Option<HttpClient>,
+            httpClientProvider: Option<HttpClientProvider>) 
+
+    /**
+     * 获取apiKey
+     *
+     * @返回值 String apiKey字符串
+     */
+    public open func getApiKey(): String
+
+    /**
+     * 获取apiSecret
+     *
+     * @返回值 String apiSecret字符串
+     */
+    public open func getApiSecret(): String
+
+    /**
+     * 获取回调url
+     *
+     * @返回值 Option<String> 回调url
+     */
+    public open func getCallback(): Option<String>
+
+    /**
+     * 是否已经关闭，覆写Resource的方法
+     *
+     * @返回值 Bool 默认为true
+     */
+    public open func isClosed(): Bool
+
+    /**
+     * 关闭httpClient
+     */
+    public open func close(): Unit
+
+    /**
+     * 获取版本号
+     *
+     * @返回值 String 版本号
+     */
+    public func getVersion(): String
+
+    /**
+     * 异步请求执行
+     * 
+     * @参数 request OAuth4cjRequest请求对象
+     * @返回值 Future<Any> Future格式的响应数据
+     */
+    public func executeAsync(request: OAuth4cjRequest): Future<Any>
+
+    /**
+     * 异步请求执行
+     * 
+     * @参数 request OAuth4cjRequest请求对象
+     * @参数 callback OAuthAsyncRequestCallback请求回调对象, 允许为None
+     * @返回值 Future<Any> Future格式的响应数据
+     */
+    public func execute(request: OAuth4cjRequest, callback: Option<OAuthAsyncRequestCallback>): Future<Any>
+
+    /**
+     * 异步请求执行
+     * 
+     * @参数 request OAuth4cjRequest请求对象
+     * @参数 callback OAuthAsyncRequestCallback请求回调对象, 允许为None
+     * @参数 converter ResponseConverter响应验证对象, 允许为None
+     * @返回值 Future<Any> Future格式的响应数据
+     */
+    public func execute(request: OAuth4cjRequest, callback: Option<OAuthAsyncRequestCallback>,
+            converter: Option<ResponseConverter>): Future<Any>
+
+    /**
+     * 同步请求执行
+     * 
+     * @参数 request OAuth4cjRequest请求对象
+     * @返回值 Response Response格式的响应数据
+     */
+    public func execute(request: OAuth4cjRequest): Response
+}
+```
+
+
+###### （0608新增）1.7.1.5 OAuth10aService OAuth1.0服务类
+
+```cangjie
+public class OAuth10aService <: OAuthService {
+    /**
+     * 构造函数
+     *
+     * @参数 api DefaultApi10a对象
+     * @参数 apiKey api key
+     * @参数 apiSecret api secret
+     * @参数 callback 回调url
+     * @参数 scope 范围
+     * @参数 debugStream debug模式输出流，不开启debug模式时设置为Option<OutputStream>.None
+     * @参数 userAgent 用户代理
+     * @参数 httpClientConfig Http客户端配置信息对象
+     * @参数 httpClient HTTP客户端对象
+     * @参数 httpClientProvider HTTP客户端提供者对象
+     */
+    public init(api: DefaultApi10a, apiKey: String, apiSecret: String, callback: String, scope: Option<String>,
+            debugStream: Option<OutputStream>, userAgent: String, httpClientConfig: Option<HttpClientConfig>,
+            httpClient: Option<HttpClient>, httpClientProvider: Option<HttpClientProvider>)
+
+    /**
+     * 获取OAuth1RequestToken对象
+     *
+     * @返回值 OAuth1RequestToken OAuth1RequestToken 对象
+     * @异常 OAuth4cjException 如果请求过程中发生异常，抛出OAuth4cjException
+     */
+    public func getRequestToken(): OAuth1RequestToken
+
+    /**
+     * 异步获取OAuth1RequestToken实例
+     *
+     * @返回值 Future<OAuth1RequestToken> Future格式的OAuth1RequestToken实例
+     */
+    public func getRequestTokenAsync(): Future<OAuth1RequestToken>
+
+    /**
+     * 异步获取OAuth1RequestToken实例
+     *
+     * @参数 callback OAuthAsyncRequestCallback异步请求回调对象
+     * @返回值 Future<OAuth1RequestToken> Future格式的OAuth1RequestToken实例
+     */
+    public func getRequestTokenAsync(callback: Option<OAuthAsyncRequestCallback>): Future<OAuth1RequestToken>
+
+    /**
+     * 获取OAuth1AccessToken实例
+     *
+     * @参数 requestToken OAuth1RequestToken对象
+     * @参数 oauthVerifier Oauth验证器
+     * @返回值 OAuth1AccessToken OAuth1AccessToken对象
+     */
+    public func getAccessToken(requestToken: OAuth1RequestToken, oauthVerifier: String): OAuth1AccessToken
+
+    /**
+     * 异步获取OAuth1AccessToken实例
+     *
+     * @参数 requestToken OAuth1RequestToken对象
+     * @参数 oauthVerifier Oauth验证器
+     * @返回值 Future<OAuth1AccessToken> Future格式的OAuth1AccessToken实例
+     */
+    public func getAccessTokenAsync(requestToken: OAuth1RequestToken, oauthVerifier: String): 
+        Future<OAuth1AccessToken>
+
+    /**
+     * 异步获取OAuth1AccessToken实例
+     *
+     * @参数 requestToken OAuth1RequestToken对象
+     * @参数 oauthVerifier Oauth验证器
+     * @参数 callback OAuthAsyncRequestCallback异步请求回调对象
+     * @返回值 Future<OAuth1AccessToken> Future格式的OAuth1AccessToken实例
+     */
+    public func getAccessTokenAsync(requestToken: OAuth1RequestToken, oauthVerifier: String,
+        callback: Option<OAuthAsyncRequestCallback>): Future<OAuth1AccessToken>
+
+    /**
+     * 签名请求
+     *
+     * @参数 token OAuth1AccessToken对象
+     * @参数 request OAuth4cjRequest请求对象
+     */
+    public func signRequest(token: OAuth1AccessToken, request: OAuth4cjRequest): Unit
+    
+    /**
+     * 获取版本号
+     *
+     * @返回值 String 版本号
+     */
+    public func getVersion(): String
+
+    /**
+     * 返回已经授权的URL，重定向到URL验证你的应用
+     *
+     * @参数 requestToken OAuth1RequestToken对象
+     * @返回值 String 已授权的重定向用户的URL
+     */
+    public func getAuthorizationUrl(requestToken: OAuth1RequestToken): String
+
+    /**
+     * 获取Api对象
+     *
+     * @返回值 DefaultApi10a DefaultApi10a对象
+     */
+    public func getApi(): DefaultApi10a 
 }
 ```
 
@@ -2950,13 +3264,13 @@ public interface HttpClient <: Closeable {
      * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - Array<UInt8> 数据类型, 正文内容
-     * @参数 callback - OAuthAsyncRequestCallback<T> 数据类型, oAuth 异步请求回调
-     * @参数 converter - ResponseConverter<T> 数据类型, 响应转换器
+     * @参数 callback - OAuthAsyncRequestCallback 数据类型, oAuth 异步请求回调
+     * @参数 converter - ResponseConverter 数据类型, 响应转换器
      *
-     * @返回值 Future<T> - Future<T> 数据类型, 异步执行的结果。
+     * @返回值 Future<Any> - Future<Any> 数据类型, 异步执行的结果。
      */
-    static func executeAsync<T>(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-        bodyContents: Array<UInt8>, callback: OAuthAsyncRequestCallback<T>, converter: ResponseConverter<T>): Future<T>
+    func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+        bodyContents: Array<UInt8>, callback: Option<OAuthAsyncRequestCallback>, converter: ResponseConverter): Future<Any>
 
     /**
      * 异步执行。
@@ -2966,14 +3280,14 @@ public interface HttpClient <: Closeable {
      * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - MultipartPayload 数据类型, 正文内容
-     * @参数 callback - OAuthAsyncRequestCallback<T> 数据类型, oAuth 异步请求回调
-     * @参数 converter - ResponseConverter<T> 数据类型, 响应转换器
+     * @参数 callback - OAuthAsyncRequestCallback 数据类型, oAuth 异步请求回调
+     * @参数 converter - ResponseConverter 数据类型, 响应转换器
      *
-     * @返回值 Future<T> - Future<T> 数据类型, 异步执行的结果。
+     * @返回值 Future<Any> - Future<Any> 数据类型, 异步执行的结果。
      */
-    static func executeAsync<T>(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: MultipartPayload, callback: OAuthAsyncRequestCallback<T>,
-            converter: ResponseConverter<T>): Future<T>
+    func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: MultipartPayload, callback: Option<OAuthAsyncRequestCallback>,
+            converter: ResponseConverter): Future<Any>
 
     /**
      * 异步执行。
@@ -2983,13 +3297,13 @@ public interface HttpClient <: Closeable {
      * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - String 数据类型, 正文内容
-     * @参数 callback - OAuthAsyncRequestCallback<T> 数据类型, oAuth 异步请求回调
-     * @参数 converter - ResponseConverter<T> 数据类型, 响应转换器
+     * @参数 callback - OAuthAsyncRequestCallback 数据类型, oAuth 异步请求回调
+     * @参数 converter - ResponseConverter 数据类型, 响应转换器
      *
-     * @返回值 Future<T> - Future<T> 数据类型, 异步执行的结果。
+     * @返回值 Future<Any> - Future<Any> 数据类型, 异步执行的结果。
      */
-    static func executeAsync<T>(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: String, callback: OAuthAsyncRequestCallback<T>, converter: ResponseConverter<T>): Future<T>
+    func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: String, callback: Option<OAuthAsyncRequestCallback>, converter: ResponseConverter): Future<Any>
 
     /**
      * 异步执行。
@@ -2999,13 +3313,13 @@ public interface HttpClient <: Closeable {
      * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - File 数据类型, 正文内容
-     * @参数 callback - OAuthAsyncRequestCallback<T> 数据类型, oAuth 异步请求回调
-     * @参数 converter - ResponseConverter<T> 数据类型, 响应转换器
+     * @参数 callback - OAuthAsyncRequestCallback 数据类型, oAuth 异步请求回调
+     * @参数 converter - ResponseConverter 数据类型, 响应转换器
      *
-     * @返回值 Future<T> - Future<T> 数据类型, 异步执行的结果。
+     * @返回值 Future<Any> - Future<Any> 数据类型, 异步执行的结果。
      */
-    static func executeAsync<T>(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: File, callback: OAuthAsyncRequestCallback<T>, converter: ResponseConverter<T>): Future<T>
+    func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: File, callback: Option<OAuthAsyncRequestCallback>, converter: ResponseConverter): Future<Any>
 
     /**
      * 调用执行。
@@ -3016,10 +3330,10 @@ public interface HttpClient <: Closeable {
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - Array<UInt8> 数据类型, 正文内容
      *
-     * @返回值 Response - Response 数据类型, 执行后返回响应。
+     * @返回值 OAuth4cjResponse - Response 数据类型的别名, 执行后返回响应
      */
     func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: Array<UInt8>): Response
+            bodyContents: Array<UInt8>): OAuth4cjResponse
 
     /**
      * 调用执行。
@@ -3030,10 +3344,10 @@ public interface HttpClient <: Closeable {
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - MultipartPayload 数据类型, 正文内容
      *
-     * @返回值 Response - Response 数据类型, 执行后返回响应。
+     * @返回值 OAuth4cjResponse - Response 数据类型的别名, 执行后返回响应
      */
     func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: MultipartPayload): Response
+            bodyContents: MultipartPayload): OAuth4cjResponse
 
     /**
      * 调用执行。
@@ -3044,10 +3358,10 @@ public interface HttpClient <: Closeable {
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - String 数据类型, 正文内容
      *
-     * @返回值 Response - Response 数据类型, 执行后返回响应。
+     * @返回值 OAuth4cjResponse - Response 数据类型的别名, 执行后返回响应
      */
     func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: String): Response
+            bodyContents: String): OAuth4cjResponse
 
     /**
      * 调用执行。
@@ -3058,10 +3372,10 @@ public interface HttpClient <: Closeable {
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - File 数据类型, 正文内容
      *
-     * @返回值 Response - Response 数据类型, 执行后返回响应。
+     * @返回值 OAuth4cjResponse - Response 数据类型的别名, 执行后返回响应
      */
     func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: File): Response
+            bodyContents: File): OAuth4cjResponse
 }
 ```
 
@@ -3095,9 +3409,9 @@ public interface HttpClientProvider {
      *
      * @参数 httpClientConfig - HttpClientConfig 数据类型, HttpClient 配置。
      *
-     * @返回值 HttpClient Create HttpClient based on HttpClient configuration, return it.
+     * @返回值 HttpClient 通过HttpClientConfig创建Http客户端
      */
-    func createClient(httpClientConfig: HttpClientConfig): HttpClient
+    func createClient(httpClientConfig: HttpClientConfig): Option<HttpClient>
 }
 ```
 

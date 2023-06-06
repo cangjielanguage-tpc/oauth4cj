@@ -15,8 +15,14 @@ public class TestOAuth4cjRequestB005{
     @TestCase
     func testOAuth4cjRequestSetBodyPartPayloadInMultipartPayload01(): Unit {
         var oauth4cjRequest01=OAuth4cjRequest(Verb.GET,"https://www.baidu.com")
-
-        var mult=oauth4cjRequest01.getMultipartPayload()
+        var mult: MultipartPayload
+        try {
+            mult=oauth4cjRequest01.getMultipartPayload().getOrThrow()
+        } catch (e: Exception) {
+            println(e)
+            oauth4cjRequest01.initMultipartPayload()
+            mult=oauth4cjRequest01.getMultipartPayload().getOrThrow()
+        }
         var boundary=mult.getBoundary()
         @Assert(boundary.contains("----OAuth4cj----"),true)
         @Assert(mult.getBodyParts().size,0)
@@ -24,11 +30,11 @@ public class TestOAuth4cjRequestB005{
 
         var bodyPartPayload01=BodyPartPayload()
         oauth4cjRequest01.setBodyPartPayloadInMultipartPayload(bodyPartPayload01)
-        mult=oauth4cjRequest01.getMultipartPayload()
+        mult=oauth4cjRequest01.getMultipartPayload().getOrThrow()
         @Assert(mult.getBodyParts().size,1)
 
         oauth4cjRequest01.setBodyPartPayloadInMultipartPayload(bodyPartPayload01)
-        mult=oauth4cjRequest01.getMultipartPayload()
+        mult=oauth4cjRequest01.getMultipartPayload().getOrThrow()
         @Assert(mult.getBodyParts().size,1)
     }
 }

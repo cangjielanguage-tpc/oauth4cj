@@ -13,10 +13,16 @@ public class TestServiceBuilderB004{
     ***/
     @TestCase
     func testServiceBuildersetApiSecret01(): Unit {
-        var serviceBuilder01=ServiceBuilder("abc")
+        var serviceBuilder01=ServiceBuilderOAuth10a("abc")
         var subDefaultApi10a=SubDefaultApi10a()
         serviceBuilder01.setApiSecret("str")
         let oAuth10aService=serviceBuilder01.build(subDefaultApi10a)
         @Assert(oAuth10aService.getApiSecret(),"str")
+
+        var serviceBuilder02=ServiceBuilderOAuth20("abc")
+        var subDefaultApi20=SubDefaultApi20()
+        serviceBuilder02.setApiSecret("str")
+        let oauth20Service=serviceBuilder02.build(subDefaultApi20)
+        @Assert(oauth20Service.getApiSecret(),"str")
     }
 }

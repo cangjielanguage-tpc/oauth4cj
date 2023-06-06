@@ -1,7 +1,7 @@
 /*
  * Copyright (c) Cangjie Library Team 2023-2023. All rights reserved.
  */
-package builder
+package util
 
 /**
  * AccessToken Request Params
@@ -9,8 +9,8 @@ package builder
 public class AccessTokenRequestParams {
 
     private var code: String = ""
-    private var pkceCodeVerifier: String = ""
-    private var scope: String = ""
+    private var pkceCodeVerifier: Option<String> = None
+    private var scope: Option<String> = None
     private var extraParameters: HashMap<String, String> = HashMap<String, String>()
 
     /**
@@ -39,7 +39,7 @@ public class AccessTokenRequestParams {
      * @return AccessTokenRequestParams AccessTokenRequestParams instance
      */
     public func setPKCECodeVerifier(pkceCodeVerifier: String): AccessTokenRequestParams {
-        this.pkceCodeVerifier = pkceCodeVerifier
+        this.pkceCodeVerifier = Some(pkceCodeVerifier)
         return this
     }
 
@@ -50,7 +50,7 @@ public class AccessTokenRequestParams {
      * @return AccessTokenRequestParams AccessTokenRequestParams instance
      */
     public func setScope(scope: String): AccessTokenRequestParams {
-        this.scope = scope
+        this.scope = Some(scope)
         return this
     }
 
@@ -61,7 +61,7 @@ public class AccessTokenRequestParams {
      * @return AccessTokenRequestParams AccessTokenRequestParams instance
      */
     public func setScope(scope: ScopeBuilder): AccessTokenRequestParams {
-        this.scope = scope.build()
+        this.scope = Some(scope.build())
         return this
     }
 
@@ -125,7 +125,7 @@ public class AccessTokenRequestParams {
      *
      * @return String pkce code verifier String
      */
-    public func getPkceCodeVerifier(): String {
+    public func getPkceCodeVerifier(): Option<String> {
         return pkceCodeVerifier
     }
 
@@ -134,7 +134,7 @@ public class AccessTokenRequestParams {
      *
      * @return String scope string
      */
-    public func getScope(): String {
+    public func getScope(): Option<String> {
         return scope
     }
 }

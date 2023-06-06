@@ -16,7 +16,7 @@ public class TestOAuth4cjRequestB005{
         var oauth4cjRequest=OAuth4cjRequest(Verb.GET,"https://www.baidu.com")
         var str="11111111111111111"
         oauth4cjRequest.initMultipartPayload(str)
-        var multi=oauth4cjRequest.getMultipartPayload()
+        var multi=oauth4cjRequest.getMultipartPayload().getOrThrow()
         var boundary=multi.getBoundary()
         @Assert(boundary,str)
         var re=multi.getHeaders()

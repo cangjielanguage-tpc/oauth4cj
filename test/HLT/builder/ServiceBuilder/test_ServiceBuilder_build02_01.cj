@@ -12,7 +12,7 @@ public class TestServiceBuilderB004{
     ***/
     @TestCase
     func testServiceBuilderBuild0201(): Unit {
-        var serviceBuilder=ServiceBuilder("abc")
+        var serviceBuilder=ServiceBuilderOAuth20("abc")
         var subDefaultApi20=SubDefaultApi20()
         let oauth20Service=serviceBuilder.build(subDefaultApi20)
         //@Assert(oauth20Service.getVersion(),"2.0")
