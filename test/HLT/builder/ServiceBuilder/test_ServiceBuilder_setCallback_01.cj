@@ -12,13 +12,13 @@ public class TestServiceBuilderB004{
     ***/
     @TestCase
     func testServiceBuilderSetCallback01(): Unit {
-        var serviceBuilder01=ServiceBuilder("abc")
+        var serviceBuilder01 = ServiceBuilderOAuth10a("abc")
         var subDefaultApi10a=SubDefaultApi10a()
         serviceBuilder01.setCallback("str")
         let oauth10aService=serviceBuilder01.build(subDefaultApi10a)
         @Assert(oauth10aService.getCallback(),"str")
 
-        var serviceBuilder02=ServiceBuilder("abc")
+        var serviceBuilder02=ServiceBuilderOAuth20("abc")
         var subDefaultApi20=SubDefaultApi20()
         subDefaultApi20.setCallback("str")
         let oAuth20Service=subDefaultApi20.build(subDefaultApi20)

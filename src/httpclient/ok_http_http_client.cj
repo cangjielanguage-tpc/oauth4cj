@@ -3,7 +3,7 @@
  */
 
 /**
- * @file The file declars the OkHttpProvider class.
+ * @file The file declars the OkHttpHttpClient class.
  */
 package httpclient
 
@@ -33,6 +33,9 @@ enum BodyType <: ToString {
     }
 }
 
+/**
+ * OkHttpHttpClient class, provide asynchronous and synchronous execution api
+ */
 public class OkHttpHttpClient <: HttpClient {
 
     private static let DEFAULT_CONTENT_TYPE_MEDIA_TYPE: Option<MediaType> = MediaType.parse(DEFAULT_CONTENT_TYPE)
@@ -41,19 +44,41 @@ public class OkHttpHttpClient <: HttpClient {
 
     private var closed: Bool = false
 
+    /**
+     * Create a OkHttpHttpClient instance.
+     *
+     * @since 0.38.2
+     */
     public init() {
         this(OkHttpHttpClientConfig.defaultConfig())
     }
 
+    /**
+     * Create a OkHttpHttpClient instance according to the parameter.
+     *
+     * @param config of OkHttpHttpClientConfig.
+     * @since 0.38.2
+     */
     public init(config: OkHttpHttpClientConfig) {
         let clientBuilder: OkHttpClientBuilder = config.getClientBuilder()
         this.client = clientBuilder.build()
     }
 
+    /**
+     * Create a OkHttpHttpClient instance according to the parameter.
+     *
+     * @param client of OkHttpClient.
+     * @since 0.38.2
+     */
     public init(client: OkHttpClient) {
         this.client = client
     }
 
+    /**
+     * Close resources in OkHttpClient.
+     *
+     * @since 0.38.2
+     */
     public func close(): Unit {
         if (closed) {
             return
@@ -68,10 +93,30 @@ public class OkHttpHttpClient <: HttpClient {
         closed = true
     }
 
+    /**
+     * Determine if the close method has been executed.
+     *
+     * @Return Bool If the close method has already been called, return true; otherwise, return false.
+     * @since 0.38.2
+     */
     public func isClosed(): Bool {
         return closed
     }
 
+    /**
+     * async execute.
+     *
+     * @Param userAgent of String, the user agent
+     * @Param headers of HashMap<String, String>, the header
+     * @Param httpVerb of Verb, Verb is an enumeration that contains the most common types of HTTP requests.
+     * @Param completeUrl of String, the complete url
+     * @Param bodyContents of Array<UInt8>, the body content
+     * @Param callback of Option<OAuthAsyncRequestCallback>, the oAuth async request callback
+     * @Param converter of Option<ResponseConverter>, the response converter
+     *
+     * @Return Future<Any> the result of async execute.
+     * @since 0.38.2
+     */
     public func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: Array<UInt8>, callback: Option<OAuthAsyncRequestCallback>,
             converter: Option<ResponseConverter>): Future<Any> {
@@ -80,6 +125,20 @@ public class OkHttpHttpClient <: HttpClient {
                 converter)
     }
 
+    /**
+     * async execute.
+     *
+     * @Param userAgent of String, the user agent
+     * @Param headers of HashMap<String, String>, the header
+     * @Param httpVerb of Verb, Verb is an enumeration that contains the most common types of HTTP requests.
+     * @Param completeUrl of String, the complete url
+     * @Param bodyContents of MultipartPayload, the body content
+     * @Param callback of Option<OAuthAsyncRequestCallback>, the oAuth async request callback
+     * @Param converter of Option<ResponseConverter>, the response converter
+     *
+     * @Return Future<Any> the result of async execute.
+     * @since 0.38.2
+     */
     public func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
                 bodyContents: MultipartPayload, callback: Option<OAuthAsyncRequestCallback>,
                 converter: Option<ResponseConverter>): Future<Any> {
@@ -87,6 +146,20 @@ public class OkHttpHttpClient <: HttpClient {
         throw OAuth4cjException("OKHttpClient does not support Multipart payload for the moment")
     }
 
+    /**
+     * async execute.
+     *
+     * @Param userAgent of String, the user agent
+     * @Param headers of HashMap<String, String>, the header
+     * @Param httpVerb of Verb, Verb is an enumeration that contains the most common types of HTTP requests.
+     * @Param completeUrl of String, the complete url
+     * @Param bodyContents of String, the body content
+     * @Param callback of Option<OAuthAsyncRequestCallback>, the oAuth async request callback
+     * @Param converter of Option<ResponseConverter>, the response converter
+     *
+     * @Return Future<Any> the result of async execute.
+     * @since 0.38.2
+     */
     public func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: String, callback: Option<OAuthAsyncRequestCallback>,
             converter: Option<ResponseConverter>): Future<Any> {
@@ -95,6 +168,20 @@ public class OkHttpHttpClient <: HttpClient {
                 converter)
     }
 
+    /**
+     * async execute.
+     *
+     * @Param userAgent of String, the user agent
+     * @Param headers of HashMap<String, String>, the header
+     * @Param httpVerb of Verb, Verb is an enumeration that contains the most common types of HTTP requests.
+     * @Param completeUrl of String, the complete url
+     * @Param bodyContents of File, the body content
+     * @Param callback of Option<OAuthAsyncRequestCallback>, the oAuth async request callback
+     * @Param converter of Option<ResponseConverter>, the response converter
+     *
+     * @Return Future<Any> the result of async execute.
+     * @since 0.38.2
+     */
     public func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: File, callback: Option<OAuthAsyncRequestCallback>,
             converter: Option<ResponseConverter>): Future<Any> {
@@ -113,24 +200,72 @@ public class OkHttpHttpClient <: HttpClient {
         return oach.getFuture()
     }
 
+    /**
+     * execute.
+     *
+     * @Param userAgent of String, the user agent
+     * @Param headers of HashMap<String, String>, the header
+     * @Param httpVerb of Verb, Verb is an enumeration that contains the most common types of HTTP requests.
+     * @Param completeUrl of String, the complete url
+     * @Param bodyContents of Array<UInt8>, the body content
+     *
+     * @Return Response The response returned after execution.
+     * @since 0.38.2
+     */
     public func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: Array<UInt8>): OAuth4cjResponse {
 
         return doExecute(userAgent, headers, httpVerb, completeUrl, BodyType.BYTE_ARRAY, bodyContents)
     }
 
+    /**
+     * execute.
+     *
+     * @Param userAgent of String, the user agent
+     * @Param headers of HashMap<String, String>, the header
+     * @Param httpVerb of Verb, Verb is an enumeration that contains the most common types of HTTP requests.
+     * @Param completeUrl of String, the complete url
+     * @Param bodyContents of MultipartPayload, the body content
+     *
+     * @Return Response The response returned after execution.
+     * @since 0.38.2
+     */
     public func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: MultipartPayload): OAuth4cjResponse {
 
         throw OAuth4cjException("OKHttpClient does not support Multipart payload for the moment")
     }
 
+    /**
+     * execute.
+     *
+     * @Param userAgent of String, the user agent
+     * @Param headers of HashMap<String, String>, the header
+     * @Param httpVerb of Verb, Verb is an enumeration that contains the most common types of HTTP requests.
+     * @Param completeUrl of String, the complete url
+     * @Param bodyContents of String, the body content
+     *
+     * @Return Response The response returned after execution.
+     * @since 0.38.2
+     */
     public func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: String): OAuth4cjResponse {
 
         return doExecute(userAgent, headers, httpVerb, completeUrl, BodyType.STRING, bodyContents)
     }
 
+    /**
+     * execute.
+     *
+     * @Param userAgent of String, the user agent
+     * @Param headers of HashMap<String, String>, the header
+     * @Param httpVerb of Verb, Verb is an enumeration that contains the most common types of HTTP requests.
+     * @Param completeUrl of String, the complete url
+     * @Param bodyContents of File, the body content
+     *
+     * @Return Response The response returned after execution.
+     * @since 0.38.2
+     */
     public func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: File): OAuth4cjResponse {
 
@@ -150,9 +285,7 @@ public class OkHttpHttpClient <: HttpClient {
 
         let method: String = httpVerb.toString()
 
-        // prepare body
         var body: Option<RequestBody> = None
-
         if (httpVerb.isPermitBody()) {
             var mediaType: Option<MediaType> = DEFAULT_CONTENT_TYPE_MEDIA_TYPE
             if (headers.contains(CONTENT_TYPE)) {
@@ -162,17 +295,17 @@ public class OkHttpHttpClient <: HttpClient {
             body = bodyType.createBody(mediaType, bodyContents)
         }
 
-        // fill HTTP method and body
+        //fill HTTP method and body to RequestBuilder.
         requestBuilder.method(method, body: body)
 
-        // fill headers
+        //fill headers to RequestBuilder.
         for ((k, v) in headers) {
             requestBuilder.header(k, v)
         }
 
         requestBuilder.header(OAuthConstants.USER_AGENT_HEADER_NAME, userAgent)
 
-        // create a new call
+        //create a new call.
         return client.newCall(requestBuilder.build())
     }
 
@@ -192,12 +325,9 @@ public class OkHttpHttpClient <: HttpClient {
         } catch (e: EOFException) {}
 
         let closeables: ArrayList<Resource> = ArrayList<Resource>()
-
         closeables.append(source)
         closeables.append(body)
-
         return OAuth4cjResponse(Int32(okHttpResponse.getCode()), okHttpResponse.getMessage(),
                 headersMap, bodyStream, closeables)
     }
 }
-

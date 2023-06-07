@@ -19,7 +19,8 @@ public class OkHttpProvider <: HttpClientProvider {
      *
      * @Param the HttpClient configuration
      *
-     * @Return HttpClient Create HttpClient based on HttpClient configuration, return it.
+     * @Return Option<HttpClient> Create HttpClient based on HttpClient configuration, return it;
+     *                            If config is not of type OkHttpHttpClientConfig, return None.
      * @since 0.38.2
      */
     public func createClient(config: HttpClientConfig): Option<HttpClient> {

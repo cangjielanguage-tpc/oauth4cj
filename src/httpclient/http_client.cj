@@ -30,8 +30,8 @@ public interface HttpClient <: Resource {
      * @Param httpVerb of Verb, Verb is an enumeration that contains the most common types of HTTP requests.
      * @Param completeUrl of String, the complete url
      * @Param bodyContents of Array<UInt8>, the body content
-     * @Param callback of OAuthAsyncRequestCallback, the oAuth async request callback
-     * @Param converter of ResponseConverter, the response converter
+     * @Param callback of Option<OAuthAsyncRequestCallback>, the oAuth async request callback
+     * @Param converter of Option<ResponseConverter>, the response converter
      *
      * @Return Future<Any> the result of async execute.
      * @since 0.38.2
@@ -48,8 +48,8 @@ public interface HttpClient <: Resource {
      * @Param httpVerb of Verb, Verb is an enumeration that contains the most common types of HTTP requests.
      * @Param completeUrl of String, the complete url
      * @Param bodyContents of MultipartPayload, the body content
-     * @Param callback of OAuthAsyncRequestCallback, the oAuth async request callback
-     * @Param converter of ResponseConverter, the response converter
+     * @Param callback of Option<OAuthAsyncRequestCallback>, the oAuth async request callback
+     * @Param converter of Option<ResponseConverter>, the response converter
      *
      * @Return Future<Any> the result of async execute.
      * @since 0.38.2
@@ -66,8 +66,8 @@ public interface HttpClient <: Resource {
      * @Param httpVerb of Verb, Verb is an enumeration that contains the most common types of HTTP requests.
      * @Param completeUrl of String, the complete url
      * @Param bodyContents of String, the body content
-     * @Param callback of OAuthAsyncRequestCallback, the oAuth async request callback
-     * @Param converter of ResponseConverter, the response converter
+     * @Param callback of Option<OAuthAsyncRequestCallback>, the oAuth async request callback
+     * @Param converter of Option<ResponseConverter>, the response converter
      *
      * @Return Future<Any> the result of async execute.
      * @since 0.38.2
@@ -84,8 +84,8 @@ public interface HttpClient <: Resource {
      * @Param httpVerb of Verb, Verb is an enumeration that contains the most common types of HTTP requests.
      * @Param completeUrl of String, the complete url
      * @Param bodyContents of File, the body content
-     * @Param callback of OAuthAsyncRequestCallback, the oAuth async request callback
-     * @Param converter of ResponseConverter, the response converter
+     * @Param callback of Option<OAuthAsyncRequestCallback>, the oAuth async request callback
+     * @Param converter of Option<ResponseConverter>, the response converter
      *
      * @Return Future<Any> the result of async execute.
      * @since 0.38.2
