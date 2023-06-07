@@ -19,7 +19,7 @@ public class TestOAuth4cjRequestB005{
         var hashmap02=HashMap<String, String>([("key01","value01"),("key02","value02")])
         oauth4cjRequest.initMultipartPayload(str,str,hashmap01)
         oauth4cjRequest.initMultipartPayload(str,str,hashmap02)
-        var multi=oauth4cjRequest.getMultipartPayload()
+        var multi=oauth4cjRequest.getMultipartPayload().getOrThrow()
         var re=multi.getHeaders()
         var header_value="multipart/" + str+"; boundary=\"" + multi.getBoundary() + '"';
         var header_map=hashmap02

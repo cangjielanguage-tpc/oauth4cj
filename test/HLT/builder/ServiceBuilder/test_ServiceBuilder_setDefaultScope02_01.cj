@@ -3,7 +3,7 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from oauth4cj import builder.*
+from oauth4cj import util.*
 @Test
 public class TestServiceBuilderB004{
     /***
@@ -12,7 +12,7 @@ public class TestServiceBuilderB004{
     ***/
     @TestCase
     func testServiceBuildersetDefaultScope0201(): Unit {
-        var serviceBuilder=ServiceBuilder("abc")
+        var serviceBuilder=ServiceBuilderOAuth20("abc")
         var scopeBuilder=ScopeBuilder()
         var flag=1
         try{

@@ -17,14 +17,14 @@ public class TestOAuth4cjRequestB005{
         var oauth4cjRequest01=OAuth4cjRequest(Verb.GET,"https://www.baidu.com")
         var multipartPayload=MultipartPayload("multipartPayload")
         oauth4cjRequest01.setMultipartPayload(multipartPayload)
-        var muti=oauth4cjRequest01.getMultipartPayload()
+        var muti=oauth4cjRequest01.getMultipartPayload().getOrThrow()
         var boundary=muti.getBoundary()
         @Assert(boundary,"multipartPayload")
 
         multipartPayload=MultipartPayload()
         oauth4cjRequest01.setMultipartPayload(multipartPayload)
 
-        muti=oauth4cjRequest01.getMultipartPayload()
+        muti=oauth4cjRequest01.getMultipartPayload().getOrThrow()
         boundary=muti.getBoundary()
         @Assert(boundary.contains("----OAuth4cj----"),true)
     }

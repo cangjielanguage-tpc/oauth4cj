@@ -6,13 +6,7 @@ package oauth
 from std import io.OutputStream
 
 import extractors.*
-import httpclient.HttpClientConfig
-import httpclient.HttpClient
-import model.OAuthConstants
-import model.OAuth1AccessToken
-import model.OAuth1RequestToken
-import model.ParameterList
-import model.Verb
+import httpclient.*
 import services.*
 /**
  * Default Api 1.0a
@@ -141,11 +135,11 @@ public abstract class DefaultApi10a {
      * @param httpClient HTTP Client instance
      * @return OAuth10aService OAuth10aService instance
      */
-    public func createService(apiKey:String, apiSecret: String, callback: String, scope: String,
+    public func createService(apiKey:String, apiSecret: String, callback: String, scope: Option<String>,
             debugStream: Option<OutputStream>, userAgent: String, httpClientConfig: Option<HttpClientConfig>,
-            httpClient: Option<HttpClient>): OAuth10aService {
+            httpClient: Option<HttpClient>, httpClientProvider: Option<HttpClientProvider>): OAuth10aService {
         return OAuth10aService(this, apiKey, apiSecret, callback, scope, debugStream, userAgent,
-            httpClientConfig, httpClient)
+            httpClientConfig, httpClient, httpClientProvider)
     }
 
     /**

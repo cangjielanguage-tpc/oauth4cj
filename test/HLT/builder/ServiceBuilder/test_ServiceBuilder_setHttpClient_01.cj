@@ -14,9 +14,13 @@ public class TestServiceBuilderB004{
     ***/
     @TestCase
     func testServiceBuildersetHttpClient01(): Unit {
-        var serviceBuilder01=ServiceBuilder("abc")
+        var serviceBuilder01=ServiceBuilderOAuth10a("abc")
         var httpclient=Option<HttpClient>.None
         serviceBuilder01.setHttpClient(httpclient)
         //结果暂时验证不了，待OAuthService类交付
+
+        var serviceBuilder02=ServiceBuilderOAuth20("abc")
+        var httpclient02=Option<HttpClient>.None
+        serviceBuilder02.setHttpClient(httpclient02)
     }
 }

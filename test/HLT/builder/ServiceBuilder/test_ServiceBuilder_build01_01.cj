@@ -13,7 +13,7 @@ public class TestServiceBuilderB004{
     ***/
     @TestCase
     func testServiceBuilderBuild0101(): Unit {
-        var serviceBuilder=ServiceBuilder("abc")
+        var serviceBuilder=ServiceBuilderOAuth10a("abc")
         var subDefaultApi10a=SubDefaultApi10a()
         let oauth10aService=serviceBuilder.build(subDefaultApi10a)
        // @Assert(oauth10aService.getVersion(),"1.0")

@@ -14,7 +14,7 @@ public class TestServiceBuilderB004{
     ***/
     @TestCase
     func testServiceBuildersetHttpClientConfig01(): Unit {
-        var serviceBuilder01=ServiceBuilder("abc")
+        var serviceBuilder01=ServiceBuilderOAuth10a("abc")
         var config=Option<HttpClientConfig>.None
         var flag=1
         try{
@@ -25,5 +25,16 @@ public class TestServiceBuilderB004{
             }
         }
         @Assert(flag,0)
+
+        var serviceBuilder02=ServiceBuilderOAuth20("abc")
+        var flag02=1
+        try{
+            serviceBuilder02.setHttpClientConfig(config)
+        }catch(e:IllegalArgumentException){
+            if(e.toString().contains("httpClientConfig can't be null")){
+                flag02=0
+            }
+        }
+        @Assert(flag02,0)
     }
 }

@@ -14,7 +14,7 @@ public class TestOAuthAsyncRequestCallbackB004{
     ***/
     @TestCase
     func testOAuthAsyncRequestCallback01(): Unit {
-        var sub01=SubOAuthAsyncRequestCallback<String>()
+        var sub01=SubOAuthAsyncRequestCallback()
         sub01.onCompleted("onCompleted")
         sub01.onThrowable(Exception())
         @Assert(sub01.getFlagOnCompleted(),"pass")
@@ -22,10 +22,10 @@ public class TestOAuthAsyncRequestCallbackB004{
     }
 }
 
-public class SubOAuthAsyncRequestCallback<String> <:OAuthAsyncRequestCallback<String>{
+public class SubOAuthAsyncRequestCallback <:OAuthAsyncRequestCallback{
     public static var flag_onCompleted="fail"
     public static var flag_onThrowable="fail"
-    public func onCompleted(response: String): Unit{
+    public func onCompleted(response: Any): Unit{
         flag_onCompleted="pass"
     }
     public func onThrowable(e: Exception): Unit{

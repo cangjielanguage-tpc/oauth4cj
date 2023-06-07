@@ -20,7 +20,8 @@ public class TestDefaultApi10aB004{
         let debugStream=Option<OutputStream>.None
         let httpClientConfig=Option<HttpClientConfig>.None
         let httpClient=Option<HttpClient>.None
-        let oAuth10aService=subDefaultApi10a.createService(str_common,str_common,str_common,str_common,debugStream,str_common,httpClientConfig,httpClient)
+        let httpClientProvider=Option<HttpClientProvider>.None
+        let oAuth10aService=subDefaultApi10a.createService(str_common,str_common,str_common,str_common,debugStream,str_common,httpClientConfig,httpClient,httpClientProvider)
         @Assert(oAuth10aService is OAuth10aService,true)
     }
 }

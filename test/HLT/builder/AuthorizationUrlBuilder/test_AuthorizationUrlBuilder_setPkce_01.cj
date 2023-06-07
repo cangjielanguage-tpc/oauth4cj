@@ -3,7 +3,7 @@
 from std import unittest.*
 from std import unittest.testmacro.*
 from std import collection.*
-from oauth4cj import builder.*
+from oauth4cj import util.*
 from oauth4cj import pkce.*
 from oauth4cj import httpclient.*
 
@@ -18,7 +18,7 @@ public class TestAuthorizationUrlBuilderB005{
         var api = SubDefaultApi20()
         var config: Option<HttpClientConfig> = Some(MyConfig().createDefaultConfig())
         var scopeBuilder=ScopeBuilder().withScope("defaultScope")
-        var oauth20Service=ServiceBuilder("apiKey")
+        var oauth20Service=ServiceBuilderOAuth20("apiKey")
                     .setCallback("callback")
                     .setApiSecret("apiSecret")
                     .setHttpClientConfig(config)

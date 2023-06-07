@@ -73,39 +73,39 @@ public class OkHttpHttpClient <: HttpClient {
     }
 
     public func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: Array<UInt8>, callback: OAuthAsyncRequestCallback,
-            converter: ResponseConverter): Future<Any> {
+            bodyContents: Array<UInt8>, callback: Option<OAuthAsyncRequestCallback>,
+            converter: Option<ResponseConverter>): Future<Any> {
 
         return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodyType.BYTE_ARRAY, bodyContents, callback,
                 converter)
     }
 
     public func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-                bodyContents: MultipartPayload, callback: OAuthAsyncRequestCallback,
-                converter: ResponseConverter): Future<Any> {
+                bodyContents: MultipartPayload, callback: Option<OAuthAsyncRequestCallback>,
+                converter: Option<ResponseConverter>): Future<Any> {
 
         throw OAuth4cjException("OKHttpClient does not support Multipart payload for the moment")
     }
 
     public func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: String, callback: OAuthAsyncRequestCallback,
-            converter: ResponseConverter): Future<Any> {
+            bodyContents: String, callback: Option<OAuthAsyncRequestCallback>,
+            converter: Option<ResponseConverter>): Future<Any> {
 
         return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodyType.STRING, bodyContents, callback,
                 converter)
     }
 
     public func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: File, callback: OAuthAsyncRequestCallback,
-            converter: ResponseConverter): Future<Any> {
+            bodyContents: File, callback: Option<OAuthAsyncRequestCallback>,
+            converter: Option<ResponseConverter>): Future<Any> {
 
         return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodyType.FILE, bodyContents, callback,
                 converter)
     }
 
     private func doExecuteAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb,
-            completeUrl: String, bodyType: BodyType, bodyContents: Any, callback: OAuthAsyncRequestCallback,
-            converter: ResponseConverter): Future<Any> {
+            completeUrl: String, bodyType: BodyType, bodyContents: Any, callback: Option<OAuthAsyncRequestCallback>,
+            converter: Option<ResponseConverter>): Future<Any> {
         let call: Call = createCall(userAgent, headers, httpVerb, completeUrl, bodyType, bodyContents)
 
         let oach: OAuthAsyncCompletionHandler = OAuthAsyncCompletionHandler(callback, converter)
@@ -200,3 +200,4 @@ public class OkHttpHttpClient <: HttpClient {
                 headersMap, bodyStream, closeables)
     }
 }
+

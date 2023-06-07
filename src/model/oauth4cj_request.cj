@@ -32,7 +32,7 @@ public open class OAuth4cjRequest {
 
     private var filePayload: ?File = None
 
-    private var multipartPayload: MultipartPayload = MultipartPayload()
+    private var multipartPayload: Option<MultipartPayload> = Option<MultipartPayload>.None
 
     private let oauthParameters: HashMap<String, String> = HashMap<String, String>()
 
@@ -167,8 +167,8 @@ public open class OAuth4cjRequest {
      * @return Type of MultipartPayload
      * @since 0.37.2
      */
-    public func getMultipartPayload(): MultipartPayload {
-        return this.multipartPayload
+    public func getMultipartPayload(): Option<MultipartPayload> {
+        return multipartPayload
     }
     
     /**
@@ -178,7 +178,7 @@ public open class OAuth4cjRequest {
      * @since 0.37.2
      */
     public func setMultipartPayload(multipartPayload: MultipartPayload): Unit {
-        this.multipartPayload = multipartPayload
+        this.multipartPayload = Some(multipartPayload)
     }
     
     /**
@@ -187,7 +187,7 @@ public open class OAuth4cjRequest {
      * @since 0.37.2
      */
     public func initMultipartPayload(): Unit {
-        this.multipartPayload = MultipartPayload()
+        this.multipartPayload = Some(MultipartPayload())
     }
     
     /**
@@ -197,7 +197,7 @@ public open class OAuth4cjRequest {
      * @since 0.37.2
      */
     public func initMultipartPayload(boundary: String): Unit {
-        this.multipartPayload = MultipartPayload(boundary)
+        this.multipartPayload = Some(MultipartPayload(boundary))
     }
     
     /**
@@ -208,7 +208,7 @@ public open class OAuth4cjRequest {
      * @since 0.37.2
      */
     public func initMultipartPayload(subtype: String, boundary: String): Unit {
-        this.multipartPayload = MultipartPayload(subtype, boundary)
+        this.multipartPayload = Some(MultipartPayload(subtype, boundary))
     }
     
     /**
@@ -218,7 +218,7 @@ public open class OAuth4cjRequest {
      * @since 0.37.2
      */
     public func initMultipartPayload(headers: HashMap<String, String>): Unit {
-        this.multipartPayload = MultipartPayload(headers)
+        this.multipartPayload = Some(MultipartPayload(headers))
     }
     
     /**
@@ -229,7 +229,7 @@ public open class OAuth4cjRequest {
      * @since 0.37.2
      */
     public func initMultipartPayload(boundary: String, headers: HashMap<String, String>): Unit {
-        this.multipartPayload = MultipartPayload(boundary, headers)
+        this.multipartPayload = Some(MultipartPayload(boundary, headers))
     }
     
     /**
@@ -241,7 +241,7 @@ public open class OAuth4cjRequest {
      * @since 0.37.2
      */
     public func initMultipartPayload(subtype: String, boundary: String, headers: HashMap<String, String>): Unit {
-        this.multipartPayload = MultipartPayload(subtype, boundary, headers)
+        this.multipartPayload = Some(MultipartPayload(subtype, boundary, headers))
     }
 
     /**
@@ -263,7 +263,12 @@ public open class OAuth4cjRequest {
      * @since 0.37.2
      */
     public func addBodyPartPayloadInMultipartPayload(bodyPartPayload: BodyPartPayload): Unit {
-        multipartPayload.addBodyPart(bodyPartPayload)
+        match (multipartPayload) {
+            case Some(payload) => payload.addBodyPart(bodyPartPayload)
+            case None =>
+                initMultipartPayload()
+                multipartPayload.getOrThrow().addBodyPart(bodyPartPayload)
+        }
     }
 
     /**
@@ -305,7 +310,7 @@ public open class OAuth4cjRequest {
         this.stringPayload = ""
         this.byteArrayPayload = Array<UInt8>()
         this.filePayload = None
-        this.multipartPayload = MultipartPayload()
+        this.multipartPayload = Option<MultipartPayload>.None
     }
 
     /**
@@ -484,3 +489,4 @@ public interface ResponseConverter {
      */
     func convert(response: Response): Any
 }
+

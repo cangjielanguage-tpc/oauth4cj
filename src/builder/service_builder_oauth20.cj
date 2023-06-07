@@ -3,50 +3,180 @@
  */
 package builder
 
-import oauth.DefaultApi20
-import oauth.OAuth20Service
-
 /**
  * Service Builder OAuth20
  */
-public interface ServiceBuilderOAuth20 <: ServiceBuilderCommon {
+public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
+    private var debugStream: Option<OutputStream> = Option<OutputStream>.None
+    private var callback: String = ""
+    private var apiKey: String = ""
+    private var apiSecret: String = ""
+    private var scope: Option<String> = Option<String>.None
+    private var responseType: String = "code"
+    private var userAgent: String = ""
+
+    private var httpClientConfig: Option<HttpClientConfig> = Option<HttpClientConfig>.None
+    private var httpClient: Option<HttpClient> = Option<HttpClient>.None
+    private var httpClientProvider: Option<HttpClientProvider> = Option<HttpClientProvider>.None
 
     /**
-     * Configures the Response Type
+     * Create ServiceBuilder instance
      *
-     * @param responseType Response Type String
-     * @return ServiceBuilderOAuth20 ServiceBuilderOAuth20 instance
+     * @param apiKey api key
+     * @param exception message
      */
-    func setResponseType(responseType: String): ServiceBuilderOAuth20
+    public init(apiKey: String) {
+        setApiKey(apiKey)
+    }
 
     /**
-     * Configures the default OAuth 2.0 scope.<br>
+     * Set Callback String
      *
-     * You can request any uniq scope per each access token request using
-     * {@link com.github.scribejava.core.oauth.AuthorizationUrlBuilder#scope(java.lang.String) }.<br><br>
-     *
-     * In case you're requesting always the same scope,<br>
-     * you can just set it here and do not provide scope param nowhere more.
-     *
-     * @param defaultScope The OAuth scope, used as deafult
-     * @return ServiceBuilderOAuth20 ServiceBuilderOAuth20 instance
+     * @param callback callback string
+     * @return ServiceBuilder ServiceBuilder instance
      */
-    func setDefaultScope(defaultScope: String): ServiceBuilderOAuth20
+    public func setCallback(callback: String): ServiceBuilderOAuth20 {
+        this.callback = callback
+        return this
+    }
 
     /**
-     * Configures the default OAuth 2.0 scope.<br>
+     * Set Api Key
      *
-     * @param scopeBuilder The OAScopeBuilderuth instance
-     * @return ServiceBuilderOAuth20 ServiceBuilderOAuth20 instance
+     * @param apiKey api key
+     * @return ServiceBuilder ServiceBuilder instance
      */
-    func setDefaultScope(scopeBuilder: ScopeBuilder): ServiceBuilderOAuth20
+    public func setApiKey(apiKey: String): ServiceBuilderOAuth20 {
+        Preconditions.checkEmptyString(apiKey, "Invalid Api key")
+        this.apiKey = apiKey
+        return this
+    }
 
     /**
-     * Build OAuth20Service instance
+     * Set Api Secret
      *
-     * @param api The DefaultApi20 instance
-     * @return OAuth20Service OAuth20Service instance
+     * @param apiSecret api secret
+     * @return ServiceBuilder ServiceBuilder instance
      */
-    func build(api: DefaultApi20): OAuth20Service
+    public func setApiSecret(apiSecret: String): ServiceBuilderOAuth20 {
+        Preconditions.checkEmptyString(apiSecret, "Invalid Api secret")
+        this.apiSecret = apiSecret
+        return this
+    }
+
+    /**
+     * Set Api Secret to ""
+     *
+     * @return ServiceBuilder ServiceBuilder instance
+     */
+    public func setApiSecretIsEmptyStringUnsafe(): ServiceBuilderOAuth20 {
+        apiSecret = ""
+        return this
+    }
+
+    private func setScope(scope: String): ServiceBuilderOAuth20 {
+        Preconditions.checkEmptyString(scope, "Invalid OAuth scope")
+        this.scope = Some(scope)
+        return this
+    }
+
+    /**
+     * Set Scope
+     *
+     * @param defaultScope Scope string
+     * @return ServiceBuilder ServiceBuilder instance
+     */
+    public func setDefaultScope(defaultScope: String): ServiceBuilderOAuth20 {
+        return setScope(defaultScope)
+    }
+
+    /**
+     * Set Scope 
+     *
+     * @param scopeBuilder ScopeBuilder instance
+     * @return ServiceBuilder ServiceBuilder instance
+     */
+    public func setDefaultScope(scopeBuilder: ScopeBuilder): ServiceBuilderOAuth20 {
+        return setScope(scopeBuilder.build())
+    }
+
+    /**
+     * Set Response Type
+     *
+     * @param responseType response type string
+     * @return ServiceBuilder ServiceBuilder instance
+     */
+    public func setResponseType(responseType: String): ServiceBuilderOAuth20 {
+        Preconditions.checkEmptyString(responseType, "Invalid OAuth responseType")
+        this.responseType = responseType
+        return this
+    }
+
+    /**
+     * Set HttpClientConfig
+     *
+     * @param httpClientConfig Option<HttpClientConfig> instance
+     * @return ServiceBuilder ServiceBuilder instance
+     */
+    public func setHttpClientConfig(httpClientConfig: Option<HttpClientConfig>): ServiceBuilderOAuth20 {
+        match (httpClientConfig) {
+            case Some(v) => 
+                this.httpClientConfig = httpClientConfig
+                return this
+            case None => throw IllegalArgumentException("httpClientConfig can't be null")
+        }
+    }
+
+    /**
+     * Set HttpClient
+     *
+     * @param httpClient Option<HttpClient> instance
+     * @return ServiceBuilder ServiceBuilder instance
+     */
+    public func setHttpClient(httpClient: Option<HttpClient>): ServiceBuilderOAuth20 {
+        this.httpClient = httpClient
+        return this
+    }
+
+    public func setHttpClientProvider(httpClientProvider: Option<HttpClientProvider>): ServiceBuilderOAuth20 {
+        this.httpClientProvider = httpClientProvider
+        return this
+    }
+
+    /**
+     * Set User Agent
+     *
+     * @param userAgent user agent string
+     * @return ServiceBuilder ServiceBuilder instance
+     */
+    public func setUserAgent(userAgent: String): ServiceBuilderOAuth20 {
+        this.userAgent = userAgent
+        return this
+    }
+
+    /**
+     * Build OAuth20Service with DefaultApi20
+     *
+     * @param api DefaultApi20 instance
+     * @return ServiceBuilder ServiceBuilder instance
+     */
+    public func build(api: DefaultApi20): OAuth20Service {
+        return api.createService(apiKey, apiSecret, callback, scope, responseType, debugStream, userAgent,
+                httpClientConfig, httpClient, httpClientProvider)
+    }
+        
+    func setDebugStream(debugStream: Option<OutputStream>): ServiceBuilderOAuth20 {
+        match (debugStream) {
+            case Some(v) => 
+                this.debugStream = debugStream
+                return this
+            case None => throw IllegalArgumentException("debugStream can't be null") 
+        }
+    }
+        
+    func debug(): ServiceBuilderOAuth20 {
+        var stream: Option<OutputStream> = Option<OutputStream>.None
+        return setDebugStream(stream)
+    }
 }
 

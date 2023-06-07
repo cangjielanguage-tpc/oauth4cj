@@ -2,7 +2,7 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from oauth4cj import builder.*
+from oauth4cj import util.*
 @Test
 public class TestAccessTokenRequestParamsB005{
     /***
@@ -13,7 +13,20 @@ public class TestAccessTokenRequestParamsB005{
     func testAccessTokenRequestParamsGetPkceCodeVerifier01(): Unit {
         var accessTokenRequestParams01=AccessTokenRequestParams("code")
         var accessTokenRequestParams02=AccessTokenRequestParams.create("code")
-        @Assert(accessTokenRequestParams01.getPkceCodeVerifier(),"")
-        @Assert(accessTokenRequestParams02.getPkceCodeVerifier(),"")
+        var result01 = false
+        var result02 = false 
+
+        match (accessTokenRequestParams01.getPkceCodeVerifier()) {
+            case Some(x) => result01 = false
+            case None => result01 = true // 默认为None
+        }
+
+        match (accessTokenRequestParams02.getPkceCodeVerifier()) {
+            case Some(x) => result02 = false
+            case None => result02 = true // 默认为None
+        }
+
+        @Assert(result01)
+        @Assert(result02)
     }
 }

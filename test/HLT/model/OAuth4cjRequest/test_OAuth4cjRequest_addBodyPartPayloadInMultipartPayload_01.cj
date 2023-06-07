@@ -16,11 +16,11 @@ public class TestOAuth4cjRequestB005{
         var oauth4cjRequest01=OAuth4cjRequest(Verb.GET,"https://www.baidu.com")
         var bodyPartPayload01=BodyPartPayload()
         oauth4cjRequest01.addBodyPartPayloadInMultipartPayload(bodyPartPayload01)
-        var bodyparts=oauth4cjRequest01.getMultipartPayload().getBodyParts()
+        var bodyparts=oauth4cjRequest01.getMultipartPayload().getOrThrow().getBodyParts()
         @Assert(bodyparts.size,1)
 
         oauth4cjRequest01.addBodyPartPayloadInMultipartPayload(bodyPartPayload01)
-        var mult=oauth4cjRequest01.getMultipartPayload()
+        var mult=oauth4cjRequest01.getMultipartPayload().getOrThrow()
         @Assert(mult.getBodyParts().size,2)
     }
 }

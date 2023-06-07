@@ -17,5 +17,11 @@ public class TestServiceBuilderB004{
         serviceBuilder01.setCallback("str")
         let oauth10aService=serviceBuilder01.build(subDefaultApi10a)
         @Assert(oauth10aService.getCallback(),"str")
+
+        var serviceBuilder02=ServiceBuilder("abc")
+        var subDefaultApi20=SubDefaultApi20()
+        subDefaultApi20.setCallback("str")
+        let oAuth20Service=subDefaultApi20.build(subDefaultApi20)
+        @Assert(oAuth20Service.getCallback(),"str")
     }
 }

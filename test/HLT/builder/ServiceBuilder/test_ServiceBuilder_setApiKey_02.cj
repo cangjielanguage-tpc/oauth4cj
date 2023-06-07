@@ -12,10 +12,16 @@ public class TestServiceBuilderB004{
     ***/
     @TestCase
     func testServiceBuilderSetApiKey01(): Unit {
-        var serviceBuilder01=ServiceBuilder("abc")
+        var serviceBuilder01=ServiceBuilderOAuth10a("abc")
         var subDefaultApi10a=SubDefaultApi10a()
         serviceBuilder01.setApiKey("str")
         let oauth10aService=serviceBuilder01.build(subDefaultApi10a)
         @Assert(oauth10aService.getApiKey(),"str")
+
+        var serviceBuilder02=ServiceBuilderOAuth20("abc")
+        var subDefaultApi20=SubDefaultApi20()
+        serviceBuilder02.setApiKey("str")
+        let oauth20Service=serviceBuilder02.build(subDefaultApi20)
+        @Assert(oauth20Service.getApiKey(),"str")
     }
 }

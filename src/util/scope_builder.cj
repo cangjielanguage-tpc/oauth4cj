@@ -1,7 +1,7 @@
 /*
  * Copyright (c) Cangjie Library Team 2023-2023. All rights reserved.
  */
-package builder
+package util
 
 from std import collection.*
 

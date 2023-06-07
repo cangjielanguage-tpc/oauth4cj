@@ -3,7 +3,7 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from oauth4cj import builder.*
+from oauth4cj import util.*
 from std import collection.*
 @Test
 public class TestScopeBuilderB004{

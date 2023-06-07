@@ -14,7 +14,7 @@ public class TestServiceBuilderB004{
     ***/
     @TestCase
     func testServiceBuildersetHttpClientConfig01(): Unit {
-        var serviceBuilder01=ServiceBuilder("abc")
+        var serviceBuilder01=ServiceBuilderOAuth10a("abc")
         var config=Option<HttpClientConfig>.Some(SubHttpClientConfig.defaultConfig())
         var flag=1
         try{
@@ -23,6 +23,15 @@ public class TestServiceBuilderB004{
             flag=0
         }
         @Assert(flag,1)
+
+        var serviceBuilder02=ServiceBuilderOAuth20("abc")
+        var flag02=1
+        try{
+            serviceBuilder02.setHttpClientConfig(config)
+        }catch(e:IllegalArgumentException){
+            flag02=0
+        }
+        @Assert(flag02,1)
     }
 }
 public class SubHttpClientConfig <:HttpClientConfig{

@@ -92,6 +92,7 @@ func testAuthorizationURL_04(): Int32 {
                         .build()
     var expectString = "getAuthorizationBaseUrl?name1=value1&name2=value2&response_type=responseType&client_id=apiKey&redirect_uri=callback"
     if (!urlString.equals(expectString)) {
+        println(urlString)
         return -1
     }
     return 0
@@ -100,7 +101,7 @@ func testAuthorizationURL_04(): Int32 {
 func testAuthorizationURL_05(): Int32 {
     var api: MyApi20 = MyApi20()
     var config: Option<HttpClientConfig> = Some(MyConfig().createDefaultConfig())
-    var service: OAuth20Service = ServiceBuilder("apiKey")
+    var service: OAuth20Service = ServiceBuilderOAuth20("apiKey")
                                     .setCallback("callback")
                                     .setApiSecret("apiSecret")
                                     .setHttpClientConfig(config)
@@ -120,7 +121,6 @@ func testAuthorizationURL_05(): Int32 {
                         .build()
     var expectString = "getAuthorizationBaseUrl?name1=value1&name2=value2&response_type=responseType&client_id=apiKey&redirect_uri=callback&scope=DefaultScope"
     if (!urlString.equals(expectString)) {
-        println(urlString)
         return -1
     }
     return 0
@@ -129,7 +129,7 @@ func testAuthorizationURL_05(): Int32 {
 func getService(): OAuth20Service {
     var api: MyApi20 = MyApi20()
     var config: Option<HttpClientConfig> = Some(MyConfig().createDefaultConfig())
-    var service: OAuth20Service = ServiceBuilder("apiKey")
+    var service: OAuth20Service = ServiceBuilderOAuth20("apiKey")
                                     .setCallback("callback")
                                     .setApiSecret("apiSecret")
                                     .setHttpClientConfig(config)

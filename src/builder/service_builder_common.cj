@@ -3,8 +3,7 @@
  */
 package builder
 
-import httpclient.HttpClientConfig
-import httpclient.HttpClient
+import httpclient.*
 
 /**
  * Service Builder Common
@@ -60,6 +59,14 @@ public interface ServiceBuilderCommon {
      * @return ServiceBuilderCommon ServiceBuilderCommon instance
      */
     func setHttpClient(httpClient: Option<HttpClient>): ServiceBuilderCommon
+
+    /**
+     * Configures the HttpClientProvider
+     *
+     * @param httpClientProvider The Http Client Provider
+     * @return ServiceBuilderCommon ServiceBuilderCommon instance
+     */
+    func setHttpClientProvider(httpClientProvider: Option<HttpClientProvider>): ServiceBuilderCommon
 
     /**
      * Configures the userAgent

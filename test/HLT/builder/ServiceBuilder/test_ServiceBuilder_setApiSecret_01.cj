@@ -13,7 +13,7 @@ public class TestServiceBuilderB004{
     ***/
     @TestCase
     func testServiceBuildersetApiSecret01(): Unit {
-        var serviceBuilder01=ServiceBuilder("abc")
+        var serviceBuilder01=ServiceBuilderOAuth10a("abc")
         var flag=1
         try{
             serviceBuilder01.setApiSecret("")
@@ -32,5 +32,25 @@ public class TestServiceBuilderB004{
             }
         }
         @Assert(flag,0)
+
+        var serviceBuilder02=ServiceBuilderOAuth20("abc")
+        var flag02=1
+        try{
+            serviceBuilder02.setApiSecret("")
+        }catch(e:IllegalArgumentException){
+            if(e.toString().contains("Invalid Api secret")){
+                flag02=0
+            }
+        }
+        @Assert(flag02,0)
+        flag02=1
+        try{
+            serviceBuilder02.setApiSecret("   ")
+        }catch(e:IllegalArgumentException){
+            if(e.toString().contains("Invalid Api secret")){
+                flag02=0
+            }
+        }
+        @Assert(flag02,0)
     }
 }

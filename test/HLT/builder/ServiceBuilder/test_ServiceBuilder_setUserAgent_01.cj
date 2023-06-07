@@ -12,7 +12,10 @@ public class TestServiceBuilderB004{
     ***/
     @TestCase
     func testServiceBuilderSetApiKey01(): Unit {
-        var serviceBuilder01=ServiceBuilder("abc")
+        var serviceBuilder01=ServiceBuilderOAuth10a("abc")
         serviceBuilder01.setUserAgent("")
+
+        var serviceBuilder02=ServiceBuilderOAuth20("abc")
+        serviceBuilder02.setUserAgent("")
     }
 }

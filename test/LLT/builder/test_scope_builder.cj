@@ -2,7 +2,7 @@
 // EXEC: ./main
 
 from std import collection.*
-from oauth4cj import builder.*
+from oauth4cj import util.*
 
 func testScopeBuilder_01(): Int32 {
     var scopeString: String = "scope_1"

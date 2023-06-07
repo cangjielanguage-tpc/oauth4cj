@@ -19,7 +19,7 @@ public class TestOAuth4cjRequestB005{
         var str="111111111"
         oauth4cjRequest01.initMultipartPayload(str,hashmap01)
         oauth4cjRequest01.initMultipartPayload(str,hashmap02)
-        var multi=oauth4cjRequest01.getMultipartPayload()
+        var multi=oauth4cjRequest01.getMultipartPayload().getOrThrow()
         var re=multi.getHeaders()
         var header_value="multipart/" + "form-data"+"; boundary=\"" + multi.getBoundary() + '"';
         var header_map=hashmap02

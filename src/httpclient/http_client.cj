@@ -37,7 +37,8 @@ public interface HttpClient <: Resource {
      * @since 0.38.2
      */
     func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-        bodyContents: Array<UInt8>, callback: OAuthAsyncRequestCallback, converter: ResponseConverter): Future<Any>
+        bodyContents: Array<UInt8>, callback: Option<OAuthAsyncRequestCallback>, 
+        converter: Option<ResponseConverter>): Future<Any>
 
     /**
      * async execute.
@@ -54,8 +55,8 @@ public interface HttpClient <: Resource {
      * @since 0.38.2
      */
     func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: MultipartPayload, callback: OAuthAsyncRequestCallback,
-            converter: ResponseConverter): Future<Any>
+            bodyContents: MultipartPayload, callback: Option<OAuthAsyncRequestCallback>,
+            converter: Option<ResponseConverter>): Future<Any>
 
     /**
      * async execute.
@@ -72,7 +73,8 @@ public interface HttpClient <: Resource {
      * @since 0.38.2
      */
     func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: String, callback: OAuthAsyncRequestCallback, converter: ResponseConverter): Future<Any>
+            bodyContents: String, callback: Option<OAuthAsyncRequestCallback>, 
+            converter: Option<ResponseConverter>): Future<Any>
 
     /**
      * async execute.
@@ -89,7 +91,8 @@ public interface HttpClient <: Resource {
      * @since 0.38.2
      */
     func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: File, callback: OAuthAsyncRequestCallback, converter: ResponseConverter): Future<Any>
+            bodyContents: File, callback: Option<OAuthAsyncRequestCallback>, 
+            converter: Option<ResponseConverter>): Future<Any>
 
     /**
      * execute.
