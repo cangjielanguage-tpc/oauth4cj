@@ -15,7 +15,7 @@ import oauth2.*
 /**
  * OAuth 2.0 Service
  */
-public open class OAuth20Service <: OAuthService {
+public class OAuth20Service <: OAuthService {
     private static let VERSION: String = "2.0"
     private var api: DefaultApi20
     private var responseType: String
@@ -186,7 +186,7 @@ public open class OAuth20Service <: OAuthService {
         }
     }
 
-    protected open func sendAccessTokenRequestSync(request: OAuth4cjRequest): OAuth2AccessToken {
+    protected func sendAccessTokenRequestSync(request: OAuth4cjRequest): OAuth2AccessToken {
         if (isDebug()) {
             log("send request for access token synchronously to ${request.getCompleteUrl()}")
         }
@@ -206,14 +206,20 @@ public open class OAuth20Service <: OAuthService {
     }
 
     //protected to facilitate mocking.
-    protected open func sendAccessTokenRequestAsync(request: OAuth4cjRequest,
+    protected func sendAccessTokenRequestAsync(request: OAuth4cjRequest,
             callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken> {
         if (isDebug()) {
             log("send request for access token asynchronously to ${request.getCompleteUrl()}")
         }
 
-        let res: Future<Any> = execute(request, callback, Some(ResponseConverterOAuth2AccessToken(api)))
-        return (res as Future<OAuth2AccessToken>).getOrThrow()
+        let rc: ResponseConverterOAuth2AccessToken = ResponseConverterOAuth2AccessToken(api)
+        let res: Future<Any> = execute(request, callback, Some(rc))
+
+        let nowFuture: Future<OAuth2AccessToken> = spawn {
+            res.getResult()
+            return rc.token
+        }
+        return nowFuture
     }
 
     // ===== get AccessToken authorisation code flow methods =====
@@ -737,6 +743,7 @@ public open class OAuth20Service <: OAuthService {
 
         let nowFuture: Future<Unit> = spawn {
             let res: Future<Any> = execute(request, callback, Some(ResponseConverterRevokeToken()))
+            res.getResult()
             return ()
         }
         return nowFuture
@@ -812,8 +819,14 @@ public open class OAuth20Service <: OAuthService {
             callback: Option<OAuthAsyncRequestCallback>): Future<DeviceAuthorization> {
         let request: OAuth4cjRequest = createDeviceAuthorizationCodesRequest(scope)
 
-        let res: Future<Any> = execute(request, callback, Some(ResponseConverterDeviceAuthorization(api)))
-        return (res as Future<DeviceAuthorization>).getOrThrow()
+        let rc: ResponseConverterDeviceAuthorization = ResponseConverterDeviceAuthorization(api)
+        let res: Future<Any> = execute(request, callback, Some(rc))
+
+        let nowFuture: Future<DeviceAuthorization> = spawn {
+            res.getResult()
+            return rc.deviceAuthorization
+        }
+        return nowFuture
     }
 
     /**
@@ -877,8 +890,14 @@ public open class OAuth20Service <: OAuthService {
             callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken> {
         let request: OAuth4cjRequest = createAccessTokenDeviceAuthorizationGrantRequest(deviceAuthorization)
 
-        let res: Future<Any> = execute(request, callback, Some(ResponseConverterOAuth2AccessToken(api)))
-        return (res as Future<OAuth2AccessToken>).getOrThrow()
+        let rc: ResponseConverterOAuth2AccessToken = ResponseConverterOAuth2AccessToken(api)
+        let res: Future<Any> = execute(request, callback, Some(rc))
+
+        let nowFuture: Future<OAuth2AccessToken> = spawn {
+            res.getResult()
+            return rc.token
+        }
+        return nowFuture
     }
 
     /**
@@ -950,19 +969,23 @@ class ResponseConverterRevokeToken <: ResponseConverter {
 class ResponseConverterDeviceAuthorization <: ResponseConverter {
 
     private let api: DefaultApi20
+    var deviceAuthorization: DeviceAuthorization = DeviceAuthorization("", "", "", 0)
+
     init(api: DefaultApi20){
         this.api = api
     }
     public func convert(response: Response): DeviceAuthorization {
-        let deviceAuthorization: DeviceAuthorization = api.getDeviceAuthorizationExtractor().extract(response)
+        let deviceAuth: DeviceAuthorization = api.getDeviceAuthorizationExtractor().extract(response)
         response.close()
-        return deviceAuthorization
+        this.deviceAuthorization = deviceAuth
+        return deviceAuth
     }
 }
 
 class ResponseConverterOAuth2AccessToken <: ResponseConverter {
 
     private let api: DefaultApi20
+    var token: OAuth2AccessToken = OAuth2AccessToken("")
 
     init(api: DefaultApi20){
         this.api = api
@@ -971,6 +994,7 @@ class ResponseConverterOAuth2AccessToken <: ResponseConverter {
     public func convert(response: Response): OAuth2AccessToken {
         let accessToken: OAuth2AccessToken = api.getAccessTokenExtractor().extract(response)
         response.close()
+        this.token = accessToken
         return accessToken
     }
 }

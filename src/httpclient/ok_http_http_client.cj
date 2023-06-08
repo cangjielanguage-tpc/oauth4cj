@@ -11,7 +11,7 @@ from net import http.Header
 
 import exceptions.*
 
-enum BodyType <: ToString {
+enum BodyType {
     | BYTE_ARRAY
     | STRING
     | FILE
@@ -21,14 +21,6 @@ enum BodyType <: ToString {
             case BYTE_ARRAY => return RealRequestBody.create(mediaType, (bodyContents as Array<UInt8>).getOrThrow())
             case STRING => return RealRequestBody.create(mediaType, (bodyContents as String).getOrThrow())
             case FILE => return RealRequestBody.create(mediaType, (bodyContents as File).getOrThrow())
-        }
-    }
-
-    public func toString(): String {
-        match (this) {
-            case BYTE_ARRAY => "BYTE_ARRAY"
-            case STRING => "STRING"
-            case FILE => "FILE"
         }
     }
 }
@@ -84,7 +76,10 @@ public class OkHttpHttpClient <: HttpClient {
             return
         }
         client.getDispatcher().cancelAll()
-        client.getConnectionPool().getOrThrow().evictAll()
+        match (client.getConnectionPool()) {
+            case Some(v) => v.evictAll()
+            case None => ()
+        }
         let cache: Option<Cache> = client.getCache()
         match (cache) {
             case Some(v) => v.close()

@@ -165,7 +165,7 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
                 httpClientConfig, httpClient, httpClientProvider)
     }
         
-    func setDebugStream(debugStream: Option<OutputStream>): ServiceBuilderOAuth20 {
+    public func setDebugStream(debugStream: Option<OutputStream>): ServiceBuilderOAuth20 {
         match (debugStream) {
             case Some(v) => 
                 this.debugStream = debugStream
