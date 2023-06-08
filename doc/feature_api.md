@@ -2971,7 +2971,7 @@ public abstract class DefaultApi20 {
      *
      * @返回值 BearerSignature BearerSignature实例
      */
-    public func getBearerSignature(): BearerSignature
+    public open func getBearerSignature(): BearerSignature
 
     /**
      * 返回客户端身份验证
@@ -3205,7 +3205,7 @@ public class OAuth10aService <: OAuthService {
 ###### （0608新增）1.7.1.6 OAuth20Service 类
 
 ```cangjie
-public open class OAuth20Service <: OAuthService {
+public class OAuth20Service <: OAuthService {
     
     /**
      * 根据参数创建一个 OAuth20Service 实例。
@@ -4567,6 +4567,101 @@ main() {
 
 执行结果如下：
 ```cangjie
+true
+true
+```
+
+#### （0608新增）1.9 异常信息类。
+
+提供 OAuth4cj 用到的异常类。
+
+##### 1.9.1 主要接口
+
+###### 1.9.1.1 OAuth4cjException 类
+
+```cangjie
+public open class OAuth4cjException <: Exception {
+    
+    /**
+     * 根据参数创建一个 OAuth4cjException 实例。
+     */
+    public init()
+    
+    /**
+     * 根据参数创建一个 OAuth4cjException 实例。
+     * 
+     * @参数 string - String 数据类型, 异常提示信息。
+     */
+    public init(string: String)
+}
+```
+
+###### 1.9.1.2 OAuth4cjParametersMissingException 类
+
+```cangjie
+public open class OAuth4cjParametersMissingException <: OAuth4cjException {
+    
+    /**
+     * 根据参数创建一个 OAuth4cjParametersMissingException 实例。
+     */
+    public init()
+    
+    /**
+     * 根据参数创建一个 OAuth4cjParametersMissingException 实例。
+     * 
+     * @参数 string - String 数据类型, 异常提示信息。
+     */
+    public init(string: String)
+}
+```
+
+###### 1.9.1.3 OAuth4cjSignatureException 类
+
+```cangjie
+public open class OAuth4cjSignatureException <: OAuth4cjException {
+    
+    /**
+     * 根据参数创建一个 OAuth4cjSignatureException 实例。
+     */
+    public init()
+    
+    /**
+     * 根据参数创建一个 OAuth4cjSignatureException 实例。
+     * 
+     * @参数 string - String 数据类型, 异常提示信息。
+     */
+    public init(string: String)
+}
+```
+
+##### 1.9.2 示例
+
+```cangjie
+from oauth4cj import exceptions.*
+
+main (){
+
+    let ose: OAuth4cjSignatureException = OAuth4cjSignatureException()
+    let ose2: OAuth4cjException = OAuth4cjSignatureException("ceshi-1")
+    if (!(ose is OAuth4cjException)) {
+        println(1)
+        return 1
+    }
+    println(ose2.message.contains("Error while signing string: ceshi-1"))
+
+    let ope: OAuth4cjParametersMissingException = OAuth4cjParametersMissingException()
+    let ope2: OAuth4cjException = OAuth4cjParametersMissingException("ceshi-2")
+    println(ope is OAuth4cjException)
+    
+    println(ope2.message.contains("ceshi-2"))
+
+    return 0
+}
+```
+
+执行结果如下：
+```cangjie
+true
 true
 true
 ```

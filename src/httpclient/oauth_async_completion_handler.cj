@@ -33,16 +33,24 @@ class OAuthAsyncCompletionHandler <: Callback {
     }
 
     public func onFailure(call: Call, exception: Exception): Unit {
-        this.exception = exception
-        match (callback) {
-            case Some(v) => v.onThrowable(exception)
-            case None => ()
+        synchronized(m) {
+            this.exception = exception
+            match (callback) {
+                case Some(v) => v.onThrowable(exception)
+                case None => ()
+            }
+            let nowFuture: Future<Any> = spawn {
+                return this
+            }
+            this.future = Option<Future<Any>>.Some(nowFuture)
+            m.notify(notEmpty)
         }
     }
 
     public func onResponse(call: Call, okHttpResponse: okhttp.Response): Unit {
         synchronized(m) {
             let response: OAuth4cjResponse = OkHttpHttpClient.convertResponse(okHttpResponse)
+
             try {
                 let t: Any = match (converter) {
                     case Some(v) => v.convert(response)
