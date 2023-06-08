@@ -17,7 +17,7 @@ public interface HttpClientProvider {
      *
      * @Param the HttpClient configuration
      *
-     * @Return HttpClient Create HttpClient based on HttpClient configuration, return it.
+     * @Return Option<HttpClient> Create HttpClient based on HttpClient configuration, return it.
      * @since 0.38.2
      */
     func createClient(httpClientConfig: HttpClientConfig): Option<HttpClient>

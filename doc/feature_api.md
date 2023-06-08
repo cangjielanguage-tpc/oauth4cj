@@ -3095,7 +3095,6 @@ public abstract class OAuthService <: Resource {
 }
 ```
 
-
 ###### （0608新增）1.7.1.5 OAuth10aService OAuth1.0服务类
 
 ```cangjie
@@ -3203,6 +3202,462 @@ public class OAuth10aService <: OAuthService {
 }
 ```
 
+###### （0608新增）1.7.1.6 OAuth20Service 类
+
+```cangjie
+public open class OAuth20Service <: OAuthService {
+    
+    /**
+     * 根据参数创建一个 OAuth20Service 实例。
+     * 
+     * @参数 api - DefaultApi20 数据类型, OAuth 协议 2.0 版的默认实现。
+     * @参数 apiKey - String 数据类型, api 密钥。
+     * @参数 apiSecret - String 数据类型, api 机密。
+     * @参数 callback - String 数据类型, 回调 url。
+     * @参数 defaultScope - Option<String> 数据类型, 默认作用域。
+     * @参数 responseType - String 数据类型, 响应类型。
+     * @参数 debugStream - Option<OutputStream> 数据类型, 调试模式输出流，不使用时为 None。
+     * @参数 userAgent - String 数据类型, 用户代理。
+     * @参数 httpClientConfig - Option<HttpClientConfig> 数据类型, Http 客户端配置。
+     * @参数 httpClient - Option<HttpClient> 数据类型, Http 客户端实例。
+     * @参数 httpClientProvider - Option<HttpClientProvider> 数据类型, Http 客户端提供实例。
+     */
+    public init(api: DefaultApi20, apiKey: String, apiSecret: String, callback: String, 
+        defaultScope: Option<String>, responseType: String, debugStream: Option<OutputStream>, 
+        userAgent: String, httpClientConfig: Option<HttpClientConfig>, httpClient: Option<HttpClient>, 
+        httpClientProvider: Option<HttpClientProvider>)
+    
+    /**
+     * 获取版本号
+     *
+     * @返回值 String - 版本号
+     */
+    public func getVersion(): String
+    
+    /**
+     * 签名请求。
+     * 
+     * @参数 accessToken - String 数据类型, 访问令牌。
+     * @参数 request - OAuth4cjRequest 数据类型, OAuth4cjRequest请求实例。
+     */
+    public func signRequest(accessToken: String, request: OAuth4cjRequest): Unit
+    
+    /**
+     * 签名请求。
+     * 
+     * @参数 accessToken - OAuth2AccessToken 数据类型, OAuth2 访问令牌。
+     * @参数 request - OAuth4cjRequest 数据类型, OAuth4cjRequest请求实例。
+     */
+    public func signRequest(accessToken: OAuth2AccessToken, request: OAuth4cjRequest): Unit
+    
+    /**
+     * 返回应该重定向用户以验证应用程序的 URL。
+     * 
+     * @返回值 String - 应该重定向用户的 URL。
+     */
+    public func getAuthorizationUrl(): String
+    
+    /**
+     * 返回应该重定向用户以验证应用程序的 URL。
+     * 
+     * @参数 state - String 数据类型, 状态码。
+     * @返回值 String - 应该重定向用户的 URL。
+     */
+    public func getAuthorizationUrl(state: String): String
+    
+    /**
+     * 返回应该重定向用户以验证应用程序的 URL。
+     * 
+     * @参数 additionalParams - HashMap<String,String> 数据类型, 要添加到URL的任何其他 GET 参数。
+     * @返回值 String - 应该重定向用户的 URL。
+     */
+    public func getAuthorizationUrl(additionalParams: HashMap<String,String>): String
+    
+    /**
+     * 返回应该重定向用户以验证应用程序的 URL。
+     * 
+     * @参数 pkce - PKCE 数据类型, PKCE 实例。
+     * @返回值 String - 应该重定向用户的 URL。
+     */
+    public func getAuthorizationUrl(pkce: PKCE): String
+    
+    /**
+     * 获取 DefaultApi20 实例。
+     * 
+     * @返回值 DefaultApi20 - DefaultApi20 实例。
+     */
+    public func getApi(): DefaultApi20
+    
+    /**
+     * 提取授权。
+     * 
+     * @参数 redirectLocation - String 数据类型, 重定向位置。
+     * @返回值 OAuth2Authorization - OAuth2 授权。
+     */
+    public func extractAuthorization(redirectLocation: String): OAuth2Authorization
+    
+    /**
+     * 获取响应类型。
+     * 
+     * @返回值 String - 响应类型。
+     */
+    public func getResponseType(): String
+    
+    /**
+     * 获取默认作用域。
+     * 
+     * @返回值 Option<String> - 默认作用域，未设置时为None。
+     */
+    public func getDefaultScope(): Option<String>
+    
+    /**
+     * 异步获取 OAuth2 访问令牌。
+     * 
+     * @参数 code - String 数据类型, 授权码。
+     * @返回值 Future<OAuth2AccessToken> - 执行异步获取 OAuth2 访问令牌后的返回值。
+     */
+    public func getAccessTokenAsync(code: String): Future<OAuth2AccessToken>
+    
+    /**
+     * 异步获取 OAuth2 访问令牌。
+     * 
+     * @参数 params - AccessTokenRequestParams 数据类型, 访问令牌请求参数。
+     * @返回值 Future<OAuth2AccessToken> - 执行异步获取 OAuth2 访问令牌后的返回值。
+     */
+    public func getAccessTokenAsync(params: AccessTokenRequestParams): Future<OAuth2AccessToken>
+    
+    /**
+     * 获取 OAuth2 访问令牌。
+     * 
+     * @参数 code - String 数据类型, 授权码。
+     * @返回值 OAuth2AccessToken - OAuth2 访问令牌。
+     */
+    public func getAccessToken(code: String): OAuth2AccessToken
+    
+    /**
+     * 获取 OAuth2 访问令牌。
+     * 
+     * @参数 params - AccessTokenRequestParams 数据类型, 访问令牌请求参数。
+     * @返回值 OAuth2AccessToken - OAuth2 访问令牌。
+     */
+    public func getAccessToken(params: AccessTokenRequestParams): OAuth2AccessToken
+    
+    /**
+     * 异步获取 OAuth2 访问令牌。
+     * 可选提供的回调将在令牌可用时使用令牌进行调用。
+     * 
+     * @参数 params - AccessTokenRequestParams 数据类型, 访问令牌请求参数。
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
+     * @返回值 Future<OAuth2AccessToken> - 执行异步获取 OAuth2 访问令牌后的返回值。
+     */
+    public func getAccessToken(params: AccessTokenRequestParams, callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken>
+    
+    /**
+     * 异步获取 OAuth2 访问令牌。
+     * 可选提供的回调将在令牌可用时使用令牌进行调用。
+     * 
+     * @参数 code - String 数据类型, 授权码。
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
+     * @返回值 Future<OAuth2AccessToken> - 执行异步获取 OAuth2 访问令牌后的返回值。
+     */
+    public func getAccessToken(code: String, callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken>
+    
+    /**
+     * 异步获取刷新令牌。
+     * 
+     * @参数 refreshToken - String 数据类型, 刷新令牌。
+     * @返回值 Future<OAuth2AccessToken> - 执行异步获取刷新令牌后的返回值。
+     */
+    public func refreshAccessTokenAsync(refreshToken: String): Future<OAuth2AccessToken>
+    
+    /**
+     * 异步获取刷新令牌。
+     * 
+     * @参数 refreshToken - String 数据类型, 刷新令牌。
+     * @参数 scope - String 数据类型, 作用域。
+     * @返回值 Future<OAuth2AccessToken> - 执行异步获取刷新令牌后的返回值。
+     */
+    public func refreshAccessTokenAsync(refreshToken: String, scope: String): Future<OAuth2AccessToken>
+    
+    /**
+     * 获取刷新令牌。
+     * 
+     * @参数 refreshToken - String 数据类型, 刷新令牌。
+     * @返回值 OAuth2AccessToken - 刷新令牌。
+     */
+    public func refreshAccessToken(refreshToken: String): OAuth2AccessToken
+    
+    /**
+     * 获取刷新令牌。
+     * 
+     * @参数 refreshToken - String 数据类型, 刷新令牌。
+     * @参数 scope - String 数据类型, 作用域。
+     * @返回值 OAuth2AccessToken - 刷新令牌。
+     */
+    public func refreshAccessToken(refreshToken: String, scope: String): OAuth2AccessToken
+    
+    /**
+     * 异步获取刷新令牌。
+     * 
+     * @参数 refreshToken - String 数据类型, 刷新令牌。
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
+     * @返回值 Future<OAuth2AccessToken> - 执行异步获取刷新令牌后的返回值。
+     */
+    public func refreshAccessToken(refreshToken: String, callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken>
+    
+    /**
+     * 异步获取刷新令牌。
+     * 
+     * @参数 refreshToken - String 数据类型, 刷新令牌。
+     * @参数 scope - String 数据类型, 作用域。
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
+     * @返回值 Future<OAuth2AccessToken> - 执行异步获取刷新令牌后的返回值。
+     */
+    public func refreshAccessToken(refreshToken: String, scope: String, callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken>
+    
+    /**
+     * 通过密码授权模式获取 OAuth2 访问令牌。
+     * 
+     * @参数 username - String 数据类型, 用户名。
+     * @参数 password - String 数据类型, 密码。
+     * @返回值 OAuth2AccessToken - OAuth2 访问令牌。
+     */
+    public func getAccessTokenPasswordGrant(username: String, password: String): OAuth2AccessToken
+    
+    /**
+     * 通过密码授权模式获取 OAuth2 访问令牌。
+     * 
+     * @参数 username - String 数据类型, 用户名。
+     * @参数 password - String 数据类型, 密码。
+     * @参数 scope - String 数据类型, 作用域。
+     * @返回值 OAuth2AccessToken - OAuth2 访问令牌。
+     */
+    public func getAccessTokenPasswordGrant(username: String, password: String, scope: String): OAuth2AccessToken
+    
+    /**
+     * 异步调用密码授权模式获取 OAuth2 访问令牌。
+     * 
+     * @参数 username - String 数据类型, 用户名。
+     * @参数 password - String 数据类型, 密码。
+     * @返回值 Future<OAuth2AccessToken> - 执行异步调用密码授权模式获取 OAuth2 访问令牌后的返回值。
+     */
+    public func getAccessTokenPasswordGrantAsync(username: String, password: String): Future<OAuth2AccessToken>
+    
+    /**
+     * 异步调用密码授权模式获取 OAuth2 访问令牌。
+     * 
+     * @参数 username - String 数据类型, 用户名。
+     * @参数 password - String 数据类型, 密码。
+     * @参数 scope - String 数据类型, 作用域。
+     * @返回值 Future<OAuth2AccessToken> - 执行异步调用密码授权模式获取 OAuth2 访问令牌后的返回值。
+     */
+    public func getAccessTokenPasswordGrantAsync(username: String, password: String, scope: String): Future<OAuth2AccessToken>
+    
+    /**
+     * 异步调用密码授权模式获取 OAuth2 访问令牌。
+     * 
+     * @参数 username - String 数据类型, 用户名。
+     * @参数 password - String 数据类型, 密码。
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
+     * @返回值 Future<OAuth2AccessToken> - 执行异步调用密码授权模式获取 OAuth2 访问令牌后的返回值。
+     */
+    public func getAccessTokenPasswordGrantAsync(username: String, password: String, 
+        callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken>
+    
+    /**
+     * 异步调用密码授权模式获取 OAuth2 访问令牌。
+     * 
+     * @参数 username - String 数据类型, 用户名。
+     * @参数 password - String 数据类型, 密码。
+     * @参数 scope - String 数据类型, 作用域。
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
+     * @返回值 Future<OAuth2AccessToken> - 执行异步调用密码授权模式获取 OAuth2 访问令牌后的返回值。
+     */
+    public func getAccessTokenPasswordGrantAsync(username: String, password: String, scope: String, 
+        callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken>
+    
+    /**
+     * 异步调用客户端模式获取 OAuth2 访问令牌。
+     * 
+     * @返回值 Future<OAuth2AccessToken> - 返回异步调用的结果。
+     */
+    public func getAccessTokenClientCredentialsGrantAsync(): Future<OAuth2AccessToken>
+    
+    /**
+     * 异步调用客户端模式获取 OAuth2 访问令牌。
+     * 
+     * @参数 scope - String 数据类型, 作用域。
+     * @返回值 Future<OAuth2AccessToken> - 返回异步调用的结果。
+     */
+    public func getAccessTokenClientCredentialsGrantAsync(scope: String): Future<OAuth2AccessToken>
+    
+    /**
+     * 调用客户端模式获取 OAuth2 访问令牌。
+     * 
+     * @返回值 OAuth2AccessToken - OAuth2 访问令牌。
+     */
+    public func getAccessTokenClientCredentialsGrant(): OAuth2AccessToken
+    
+    /**
+     * 调用客户端模式获取 OAuth2 访问令牌。
+     * 
+     * @参数 scope - String 数据类型, 作用域。
+     * @返回值 OAuth2AccessToken - OAuth2 访问令牌。
+     */
+    public func getAccessTokenClientCredentialsGrant(scope: String): OAuth2AccessToken
+    
+    /**
+     * 异步调用客户端模式获取 OAuth2 访问令牌。
+     * 可选提供的回调将在令牌可用时使用令牌进行调用。
+     * 
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
+     * @返回值 Future<OAuth2AccessToken> - 返回异步调用的结果。
+     */
+    public func getAccessTokenClientCredentialsGrant(callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken>
+    
+    /**
+     * 异步调用客户端模式获取 OAuth2 访问令牌。
+     * 可选提供的回调将在令牌可用时使用令牌进行调用。
+     * 
+     * @参数 scope - String 数据类型, 作用域。
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
+     * @返回值 Future<OAuth2AccessToken> - 返回异步调用的结果。
+     */
+    public func getAccessTokenClientCredentialsGrant(scope: String, callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken>
+    
+    /**
+     * 异步执行撤消令牌。
+     * 
+     * @参数 tokenToRevoke - String 数据类型, 撤消令牌。
+     * @返回值 Future<Unit> - 返回异步调用的结果。
+     */
+    public func revokeTokenAsync(tokenToRevoke: String): Future<Unit>
+    
+    /**
+     * 异步执行撤消令牌。
+     * 
+     * @参数 tokenToRevoke - String 数据类型, 撤消令牌。
+     * @参数 tokenTypeHint - Option<TokenTypeHint> 数据类型, 要撤销的令牌类型。
+     * @返回值 Future<Unit> - 返回异步调用的结果。
+     */
+    public func revokeTokenAsync(tokenToRevoke: String, tokenTypeHint: Option<TokenTypeHint>): Future<Unit>
+    
+    /**
+     * 撤消令牌。
+     * 
+     * @参数 tokenToRevoke - String 数据类型, 撤消令牌。
+     */
+    public func revokeToken(tokenToRevoke: String): Unit
+    
+    /**
+     * 撤消令牌。
+     * 
+     * @参数 tokenToRevoke - String 数据类型, 撤消令牌。
+     * @参数 tokenTypeHint - Option<TokenTypeHint> 数据类型, 要撤销的令牌类型。
+     */
+    public func revokeToken(tokenToRevoke: String, tokenTypeHint: Option<TokenTypeHint>): Unit
+    
+    /**
+     * 异步执行撤消令牌。
+     * 
+     * @参数 tokenToRevoke - String 数据类型, 撤消令牌。
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
+     * @返回值 Future<Unit> - 返回异步调用的结果。
+     */
+    public func revokeToken(tokenToRevoke: String, callback: Option<OAuthAsyncRequestCallback>): Future<Unit>
+    
+    /**
+     * 异步执行撤消令牌。
+     * 
+     * @参数 tokenToRevoke - String 数据类型, 撤消令牌。
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
+     * @参数 tokenTypeHint - Option<TokenTypeHint> 数据类型, 要撤销的令牌类型。
+     * @返回值 Future<Unit> - 返回异步调用的结果。
+     */
+    public func revokeToken(tokenToRevoke: String, callback: Option<OAuthAsyncRequestCallback>, tokenTypeHint: Option<TokenTypeHint>): Future<Unit>
+    
+    /**
+     * 获取设备授权响应。
+     * 
+     * @返回值 DeviceAuthorization - 设备授权响应。
+     */
+    public func getDeviceAuthorizationCodes(): DeviceAuthorization
+    
+    /**
+     * 获取设备授权响应。
+     * 
+     * @参数 scope - Option<String> 数据类型, 作用域。
+     * @返回值 DeviceAuthorization - 设备授权响应。
+     */
+    public func getDeviceAuthorizationCodes(scope: Option<String>): DeviceAuthorization
+    
+    /**
+     * 异步执行获取设备授权响应。
+     * 
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
+     * @返回值 Future<DeviceAuthorization> - 返回异步调用的结果。
+     */
+    public func getDeviceAuthorizationCodes(callback: Option<OAuthAsyncRequestCallback>): Future<DeviceAuthorization>
+    
+    /**
+     * 异步执行获取设备授权响应。
+     * 
+     * @参数 scope - Option<String> 数据类型, 作用域。
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
+     * @返回值 Future<DeviceAuthorization> - 返回异步调用的结果。
+     */
+    public func getDeviceAuthorizationCodes(scope: Option<String>, callback: Option<OAuthAsyncRequestCallback>): Future<DeviceAuthorization>
+    
+    /**
+     * 异步执行获取设备授权响应。
+     * 
+     * @返回值 Future<DeviceAuthorization> - 返回异步调用的结果。
+     */
+    public func getDeviceAuthorizationCodesAsync(): Future<DeviceAuthorization>
+    
+    /**
+     * 异步执行获取设备授权响应。
+     * 
+     * @参数 scope - Option<String> 数据类型, 作用域。
+     * @返回值 Future<DeviceAuthorization> - 返回异步调用的结果。
+     */
+    public func getDeviceAuthorizationCodesAsync(scope: Option<String>): Future<DeviceAuthorization>
+    
+    /**
+     * 通过设备授权获取 OAuth2 访问令牌。
+     * 
+     * @参数 deviceAuthorization - DeviceAuthorization 数据类型, 设备授权响应。
+     * @返回值 OAuth2AccessToken - OAuth2 访问令牌。
+     */
+    public func getAccessTokenDeviceAuthorizationGrant(deviceAuthorization: DeviceAuthorization): OAuth2AccessToken
+    
+    /**
+     * 异步执行通过设备授权获取 OAuth2 访问令牌。
+     * 
+     * @参数 deviceAuthorization - DeviceAuthorization 数据类型, 设备授权响应。
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
+     * @返回值 Future<OAuth2AccessToken> - 返回异步调用的结果。
+     */
+    public func getAccessTokenDeviceAuthorizationGrant(deviceAuthorization: DeviceAuthorization, callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken>
+    
+    /**
+     * 异步执行通过设备授权获取 OAuth2 访问令牌。
+     * 
+     * @参数 deviceAuthorization - DeviceAuthorization 数据类型, 设备授权响应。
+     * @返回值 Future<OAuth2AccessToken> - 返回异步调用的结果。
+     */
+    public func getAccessTokenDeviceAuthorizationGrantAsync(deviceAuthorization: DeviceAuthorization): Future<OAuth2AccessToken>
+    
+    /**
+     * 定期尝试从服务器获取令牌（等待用户同意）。仅同步版本。
+     * 
+     * @参数 deviceAuthorization - DeviceAuthorization 数据类型, 设备授权响应。
+     * @返回值 OAuth2AccessToken - OAuth2 访问令牌。
+     */
+    public func pollAccessTokenDeviceAuthorizationGrant(deviceAuthorization: DeviceAuthorization): OAuth2AccessToken
+}
+```
+
 ##### 1.7.2 示例
 ```cangjie
 from std import collection.*
@@ -3264,13 +3719,14 @@ public interface HttpClient <: Closeable {
      * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - Array<UInt8> 数据类型, 正文内容
-     * @参数 callback - OAuthAsyncRequestCallback 数据类型, oAuth 异步请求回调
-     * @参数 converter - ResponseConverter 数据类型, 响应转换器
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, oAuth 异步请求回调
+     * @参数 converter - Option<ResponseConverter> 数据类型, 响应转换器
      *
      * @返回值 Future<Any> - Future<Any> 数据类型, 异步执行的结果。
      */
     func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-        bodyContents: Array<UInt8>, callback: Option<OAuthAsyncRequestCallback>, converter: ResponseConverter): Future<Any>
+        bodyContents: Array<UInt8>, callback: Option<OAuthAsyncRequestCallback>, 
+        converter: Option<ResponseConverter>): Future<Any>
 
     /**
      * 异步执行。
@@ -3280,14 +3736,14 @@ public interface HttpClient <: Closeable {
      * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - MultipartPayload 数据类型, 正文内容
-     * @参数 callback - OAuthAsyncRequestCallback 数据类型, oAuth 异步请求回调
-     * @参数 converter - ResponseConverter 数据类型, 响应转换器
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, oAuth 异步请求回调
+     * @参数 converter - Option<ResponseConverter> 数据类型, 响应转换器
      *
      * @返回值 Future<Any> - Future<Any> 数据类型, 异步执行的结果。
      */
     func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: MultipartPayload, callback: Option<OAuthAsyncRequestCallback>,
-            converter: ResponseConverter): Future<Any>
+            converter: Option<ResponseConverter>): Future<Any>
 
     /**
      * 异步执行。
@@ -3297,13 +3753,14 @@ public interface HttpClient <: Closeable {
      * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - String 数据类型, 正文内容
-     * @参数 callback - OAuthAsyncRequestCallback 数据类型, oAuth 异步请求回调
-     * @参数 converter - ResponseConverter 数据类型, 响应转换器
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, oAuth 异步请求回调
+     * @参数 converter - Option<ResponseConverter> 数据类型, 响应转换器
      *
      * @返回值 Future<Any> - Future<Any> 数据类型, 异步执行的结果。
      */
     func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: String, callback: Option<OAuthAsyncRequestCallback>, converter: ResponseConverter): Future<Any>
+            bodyContents: String, callback: Option<OAuthAsyncRequestCallback>, 
+            converter: Option<ResponseConverter>): Future<Any>
 
     /**
      * 异步执行。
@@ -3313,13 +3770,14 @@ public interface HttpClient <: Closeable {
      * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - File 数据类型, 正文内容
-     * @参数 callback - OAuthAsyncRequestCallback 数据类型, oAuth 异步请求回调
-     * @参数 converter - ResponseConverter 数据类型, 响应转换器
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, oAuth 异步请求回调
+     * @参数 converter - Option<ResponseConverter> 数据类型, 响应转换器
      *
      * @返回值 Future<Any> - Future<Any> 数据类型, 异步执行的结果。
      */
     func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
-            bodyContents: File, callback: Option<OAuthAsyncRequestCallback>, converter: ResponseConverter): Future<Any>
+            bodyContents: File, callback: Option<OAuthAsyncRequestCallback>, 
+            converter: Option<ResponseConverter>): Future<Any>
 
     /**
      * 调用执行。
@@ -3807,6 +4265,226 @@ public class MultipartUtils {
      * @返回值 ByteArrayStream - ByteArrayStream 数据类型，处理后封装的数据流。
      */
     public static func getPayload (multipartPayload: MultipartPayload): ByteArrayStream
+}
+```
+
+###### （0608新增）1.8.1.9 OkHttpHttpClient 类
+
+```cangjie
+/**
+ * OkHttpHttpClient 类提供异步和同步执行 api
+ */
+public class OkHttpHttpClient <: HttpClient {
+    
+    /**
+     * 创建一个 OkHttpHttpClient 实例。
+     */
+    public init()
+    
+    /**
+     * 根据参数创建一个 OkHttpHttpClient 实例。
+     * 
+     * @参数 config - OkHttpHttpClientConfig 数据类型, OkHttpHttpClient 的配置类。
+     */
+    public init(config: OkHttpHttpClientConfig)
+    
+    /**
+     * 根据参数创建一个 OkHttpHttpClient 实例。
+     * 
+     * @参数 client - OkHttpClient 数据类型, Call 的工厂类。
+     */
+    public init(client: OkHttpClient)
+    
+    /**
+     * 关闭 OkHttpClient 中的资源。
+     */
+    public func close(): Unit
+    
+    /**
+     * 判断是否执行过 close 方法。
+     * 
+     * @返回值 Bool - 如果已经调用过 close 方法，返回 true，否则返回 false。
+     */
+    public func isClosed(): Bool
+    
+    /**
+     * 异步执行。
+     *
+     * @参数 userAgent - String 数据类型, 用户代理
+     * @参数 headers - HashMap<String, String> 数据类型
+     * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
+     * @参数 completeUrl - String 数据类型, 完整的 url
+     * @参数 bodyContents - Array<UInt8> 数据类型, 正文内容
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, oAuth 异步请求回调
+     * @参数 converter - Option<ResponseConverter> 数据类型, 响应转换器
+     *
+     * @返回值 Future<Any> - Future<Any> 数据类型, 异步执行的结果。
+     */
+    func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+        bodyContents: Array<UInt8>, callback: Option<OAuthAsyncRequestCallback>, 
+        converter: Option<ResponseConverter>): Future<Any>
+
+    /**
+     * 异步执行。
+     *
+     * @参数 userAgent - String 数据类型, 用户代理
+     * @参数 headers - HashMap<String, String> 数据类型
+     * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
+     * @参数 completeUrl - String 数据类型, 完整的 url
+     * @参数 bodyContents - MultipartPayload 数据类型, 正文内容
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, oAuth 异步请求回调
+     * @参数 converter - Option<ResponseConverter> 数据类型, 响应转换器
+     *
+     * @返回值 Future<Any> - Future<Any> 数据类型, 异步执行的结果。
+     */
+    func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: MultipartPayload, callback: Option<OAuthAsyncRequestCallback>,
+            converter: Option<ResponseConverter>): Future<Any>
+
+    /**
+     * 异步执行。
+     *
+     * @参数 userAgent - String 数据类型, 用户代理
+     * @参数 headers - HashMap<String, String> 数据类型
+     * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
+     * @参数 completeUrl - String 数据类型, 完整的 url
+     * @参数 bodyContents - String 数据类型, 正文内容
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, oAuth 异步请求回调
+     * @参数 converter - Option<ResponseConverter> 数据类型, 响应转换器
+     *
+     * @返回值 Future<Any> - Future<Any> 数据类型, 异步执行的结果。
+     */
+    func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: String, callback: Option<OAuthAsyncRequestCallback>, 
+            converter: Option<ResponseConverter>): Future<Any>
+
+    /**
+     * 异步执行。
+     *
+     * @参数 userAgent - String 数据类型, 用户代理
+     * @参数 headers - HashMap<String, String> 数据类型
+     * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
+     * @参数 completeUrl - String 数据类型, 完整的 url
+     * @参数 bodyContents - File 数据类型, 正文内容
+     * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, oAuth 异步请求回调
+     * @参数 converter - Option<ResponseConverter> 数据类型, 响应转换器
+     *
+     * @返回值 Future<Any> - Future<Any> 数据类型, 异步执行的结果。
+     */
+    func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: File, callback: Option<OAuthAsyncRequestCallback>, 
+            converter: Option<ResponseConverter>): Future<Any>
+
+    /**
+     * 调用执行。
+     *
+     * @参数 userAgent - String 数据类型, 用户代理
+     * @参数 headers - HashMap<String, String> 数据类型
+     * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
+     * @参数 completeUrl - String 数据类型, 完整的 url
+     * @参数 bodyContents - Array<UInt8> 数据类型, 正文内容
+     *
+     * @返回值 OAuth4cjResponse - Response 数据类型的别名, 执行后返回响应
+     */
+    func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: Array<UInt8>): OAuth4cjResponse
+
+    /**
+     * 调用执行。
+     *
+     * @参数 userAgent - String 数据类型, 用户代理
+     * @参数 headers - HashMap<String, String> 数据类型
+     * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
+     * @参数 completeUrl - String 数据类型, 完整的 url
+     * @参数 bodyContents - MultipartPayload 数据类型, 正文内容
+     *
+     * @返回值 OAuth4cjResponse - Response 数据类型的别名, 执行后返回响应
+     */
+    func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: MultipartPayload): OAuth4cjResponse
+
+    /**
+     * 调用执行。
+     *
+     * @参数 userAgent - String 数据类型, 用户代理
+     * @参数 headers - HashMap<String, String> 数据类型
+     * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
+     * @参数 completeUrl - String 数据类型, 完整的 url
+     * @参数 bodyContents - String 数据类型, 正文内容
+     *
+     * @返回值 OAuth4cjResponse - Response 数据类型的别名, 执行后返回响应
+     */
+    func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: String): OAuth4cjResponse
+
+    /**
+     * 调用执行。
+     *
+     * @参数 userAgent - String 数据类型, 用户代理
+     * @参数 headers - HashMap<String, String> 数据类型
+     * @参数 httpVerb - Verb 数据类型, Verb 是一个枚举，包含最常见的 HTTP 请求类型。
+     * @参数 completeUrl - String 数据类型, 完整的 url
+     * @参数 bodyContents - File 数据类型, 正文内容
+     *
+     * @返回值 OAuth4cjResponse - Response 数据类型的别名, 执行后返回响应
+     */
+    func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
+            bodyContents: File): OAuth4cjResponse
+}
+```
+
+###### （0608新增）1.8.1.10 OkHttpHttpClient 配置类 OkHttpHttpClientConfig
+
+```cangjie
+public class OkHttpHttpClientConfig <: HttpClientConfig {
+    
+    /**
+     * 根据参数创建一个 OkHttpClientConfig 实例。
+     * 
+     * @参数 clientBuilder - OkHttpClient 的生成器。
+     */
+    public init(clientBuilder: OkHttpClientBuilder)
+    
+    /**
+     * 获取 OkHttpClient 的生成器。
+     * 
+     * @返回值 OkHttpClientBuilder - OkHttpClient 的生成器。
+     */
+    public func getClientBuilder(): OkHttpClientBuilder
+    
+    /**
+     * 生成默认的 OkHttpHttpClientConfig 配置实例。
+     *
+     * @返回值 OkHttpHttpClientConfig - OkHttpHttpClientConfig 数据类型, 生成默认的 OkHttpHttpClient 配置类。
+     */
+    public func createDefaultConfig(): OkHttpHttpClientConfig
+    
+    /**
+     * 生成默认的 OkHttpHttpClientConfig 并返回。
+     *
+     * @返回值 OkHttpHttpClientConfig - OkHttpHttpClientConfig 数据类型, 生成默认的 OkHttpHttpClient 配置类。
+     */
+    public static func defaultConfig(): OkHttpHttpClientConfig
+}
+```
+
+###### （0608新增）1.8.1.11 OkHttpProvider 类
+
+```cangjie
+/**
+ * 基于 HttpClient 配置提供 HttpClient。
+ */
+public class OkHttpProvider <: HttpClientProvider {
+    
+    /**
+     * 基于 HttpClient 配置创建 HttpClient。
+     *
+     * @参数 httpClientConfig - HttpClientConfig 数据类型, HttpClient 配置。
+     *
+     * @返回值 Option<HttpClient> 通过 HttpClientConfig 创建 Http 客户端；
+     *                           如果 config 不是 OkHttpHttpClientConfig 类型，返回 None。
+     */
+    public func createClient(config: HttpClientConfig): Option<HttpClient>
 }
 ```
 
