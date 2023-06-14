@@ -59,23 +59,29 @@ OAuth 定义了四种角色：
 
 ```shell
 .
-├── README.md
 ├── doc  
 ├── src
-|   ├── buffer
-|   ├── builder
-|   ├── exceptions
-|   ├── extractors
-|   ├── httpclient
-|   ├── model
-|   ├── oauth
-|   ├── oauth2
-|   ├── pkce
-|   ├── revoke
-│   └── utils  
+│   ├── builder                     --- Builder 模式的实现，使用一个流畅的接口创建 OAuthService
+│   ├── exceptions                  --- OAuth4cj 默认异常，参数缺失异常，签名异常
+│   ├── extractors                  --- 从字符串中提取具体令牌
+│   ├── httpclient                  --- 提供异步和同步执行 api
+│   ├── model                       --- 提供 OAuth 的请求/响应/令牌对象
+│   ├── oauth                       --- Builder 模式的实现，提供 OAuth 协议的默认实现及 OAuthService 的接口及实现
+│   ├── oauth2                      --- 客户端身份验证，请求签名
+│   ├── pkce                        --- 用于通过 OAuth 公共客户端实现代码交换的证明密钥
+│   ├── revoke                      --- 撤销请求枚举类型, OAuth2 撤销令牌响应转换器
+│   ├── services                    --- 提供对基字符串使用算法进行签名，返回OAuth签名;提供Unix时间戳生成器
+│   ├── util                        --- OAuth2.0 作用域生成器,访问令牌请求参数
+│   └── utils                       --- 提供 URL 编解码功能和处理 Streams 的工具类
 └── test
-    ├── HLT
-    └── LLT
+│   ├── HLT                         --- 测试用例
+│   └── LLT                         --- 自测用例
+├── CHANGELOG.md  
+├── gitee_gate.cfg  
+├── LICENSE.txt  
+├── module.json  
+├── README.md  
+├── README.OpenSource  
 ```
 
 - `doc`  文档目录，存放API接口等文档
@@ -101,419 +107,548 @@ python3 ci_test/main.py build                        ---> 编译
 ```
 
 ### 功能示例
-#### 提供 base64 编码功能示例
 
-功能示例描述:
-提供 base64 编码功能
+#### 准备授权服务器环境
 
-示例代码如下：
-
-```cangjie
-from oauth4cj import utils.*
-main(): Int64 {
-    let bytes: Array<UInt8> = "Hello World".toUtf8Array()
-    let encoded: String = "SGVsbG8gV29ybGQ="
-    let str: String = Base64Utils.encode(bytes)
-    println("encoded == str: ${encoded == str}")
-    return 0
-}
-```
-
-执行结果如下：
+##### 授权服务器-gitee
 
 ```shell
-encoded == str: true
+https://gitee.com/api/v5/oauth_doc#/list-item-3
+打开链接，按照《OAuth说明文档》中【创建应用流程】步骤操作，注册为开发者再创建应用，生成 client_id 和 client_secret。
 ```
 
-####  提供 URL 编解码功能示例
-
-功能示例描述:
-以UTF-8编码字符串的形式返回流内容
-
-示例代码如下：
-
-```cangjie
-from oauth4cj import utils.*
-from std import io.*
-main (){
-    let str: String = "Hello World"
-    let bytes: Array<UInt8> = str.toUtf8Array()
-    let bas: ByteArrayStream = ByteArrayStream(526)
-    bas.write(bytes)
-    let decoded: String = StreamUtils.getStreamContents(bas)
-    println("decoded == str: ${decoded == str}")
-    if (!str.equals(decoded)) {
-        println(1)
-        return 1
-    }
-    return 0
-}
-```
-
-执行结果如下：
-
-```cangjie
-decoded == str: true
-```
-
-#### 提供OAuth的请求/响应/令牌对象功能示例
-
-功能示例描述:
-提供 OAuth 的 HTTP响应表示形式，Response
-
-示例代码如下：
-```cangjie
-from oauth4cj import model.*
-from std import collection.HashMap
-from std import collection.ArrayList
-from std import io.*
-main (){
-    var headers:HashMap<String, String> = HashMap<String, String>()
-    var stream:ByteArrayStream = ByteArrayStream()
-    var closeables:ArrayList<Closeable> = ArrayList<Closeable>()
-    stream.write("abcdefg".toUtf8Array()) // 向流中写入测试数据
-    var response:Response = Response(200, "message", headers, stream, closeables)
-    var responseStream = response.getStream()
-    var buffer:Array<Byte> = Array<Byte>(7, item:0)
-    responseStream.read(buffer) 
-    var str_1 = String.fromUtf8(buffer)
-    println(str_1)
-    if (!"abcdefg".equals(str_1)){ 
-        return -1
-    }
-    var str_2:String = response.toString()
-    println(str_2)
-    if (!"Response{code=200, message='message', body='', headers=[]}" .equals(str_2)){ 
-        return -1
-    }
-    return 0
-}
-```
-
-执行结果如下：
-
-```cangjie
-abcdefg
-Response{code=200, message='message', body='', headers=[]}
-```
-
-#### 支持客户端模式
-
-功能示例描述:
-提供用于通过 OAuth4cj 公共客户端实现代码交换的证明密钥
-
-示例代码如下：
-```cangjie
-from oauth4cj import pkce.*
-
-let RANDOM_BYTES: Array<UInt8> = Array<UInt8>([116, 24, 223, 180, 151, 153,
-            224, 37, 79, 250, 96, 125, 216, 173, 187, 186, 22, 212, 37, 77,
-            105, 214, 191, 240, 91, 88, 5, 88, 83, 132, 141, 121])
-
-main (){
-    let pkce: PKCE = PKCEService.defaultInstance().generatePKCE(RANDOM_BYTES)
-
-    let str0: String = pkce.getCodeChallengeMethod().toString()
-    let str1: String = pkce.getCodeVerifier()
-    let str2: String = pkce.getCodeChallenge()
-
-    println(str0)
-    println(str1)
-    println(str2)
-    return 0
-}
-```
-
-执行结果如下：
+##### 授权服务器-华为
 
 ```shell
-S256
-dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk
-E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM
+https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/open-platform-oauth-0000001053629189
+打开链接，按照《基于OAuth 2.0开放鉴权》中步骤操作，注册为开发者，创建应用，创建凭证，申请授权，生成 client_id 和 client_secret。
 ```
 
-#### 提供从 OAuth4cj 的请求/响应中，解析 base 字符串，生成指定签名请求，获取响应中令牌
-
-功能示例描述:
-1. 从OAuthRequest中提取url编码的基字符串；
-2. 生成OAuth“Authorization”Http标头，以作为签名包含在请求中；
-3. 从Http Response的内容中提取具体类型的令牌。
-
-示例代码如下：
-```cangjie
-from oauth4cj import extractors.*
-from oauth4cj import model.*
-
-public func createSampleOAuthRequest(): OAuth4cjRequest {
-    let request: OAuth4cjRequest = OAuth4cjRequest(Verb.GET, "http://example.com")
-    request.addOAuthParameter(OAuthConstants.TIMESTAMP, "123456")
-    request.addOAuthParameter(OAuthConstants.CONSUMER_KEY, "AS#$^*@&")
-    request.addOAuthParameter(OAuthConstants.CALLBACK, "http://example/callback")
-    request.addOAuthParameter(OAuthConstants.SIGNATURE, "OAuth-Signature")
-    return request
-}
-
-public func testBaseStringExtractor_01(): Int32 {
-    let extractor: BaseStringExtractorImpl = BaseStringExtractorImpl()
-    let expected: String = "GET&http%3A%2F%2Fexample.com&oauth_callback%3Dhttp%253A%252F%252Fexample%252Fcallback" +
-            "%26oauth_consumer_key%3DAS%2523%2524%255E%252A%2540%2526%26oauth_signature%3DOAuth-Signature" +
-            "%26oauth_timestamp%3D123456"
-    
-    let request: OAuth4cjRequest = createSampleOAuthRequest()
-    let baseString: String = extractor.extract(request)
-
-    println("baseString.equals(expected) = ${baseString.equals(expected)}")
-    if (!baseString.equals(expected)) {
-        println(1)
-        return 1
-    }
-    return 0
-}
-
-main() {
-    var test_01 = testBaseStringExtractor_01()
-    if (test_01 != 0){
-        println(test_01)
-        return test_01
-    }
-    return test_01
-}
-```
-
-执行结果如下：
+##### 授权服务器-腾讯
 
 ```shell
-baseString.equals(expected) = true
+https://wikinew.open.qq.com/index.html#/iwiki/876832074
+打开链接，按照《OAuth2.0开发文档》中步骤操作，注册为开发者，申请 client_id 和 client_secret，添加应用。
 ```
 
-#### 提供对基字符串使用算法进行签名，返回 OAuth4cj 签名，提供 unix 时间戳生成器
+#### 授权码模式授权
 
 功能示例描述:
-提供对基字符串使用算法进行签名，返回OAuth签名，提供Unix时间戳生成器。
+通过客户端的后台服务器，与服务提供商的认证服务进行互动;通过授权服务器作为中介来获取，授权认证的过程也是资源所有者直接通过授权服务器进行身份认证。
 
-示例代码如下：
+示例代码如下（gitee为例）：
+
 ```cangjie
-from oauth4cj import services.*
-from oauth4cj import utils.*
-
-public func testHMACSha1SignatureService_01(): Int32 {
-    let hmac: HMACSha1SignatureService = HMACSha1SignatureService()
-    let str: String = hmac.getSignatureMethod()
-    let result: String = "HMAC-SHA1"
-	println("str = ${str}")
-
-    if (!str.equals(result)) {
-        println(1)
-        return 1
-    }
-    return 0
-}
-
-public func testHMACSha1SignatureService_02(): Int32 {
-    let hmac: HMACSha1SignatureService = HMACSha1SignatureService()
-    let apiSecret: String = "api secret"
-    let tokenSecret: String = "token secret"
-    let baseString: String = "base string"
-    
-    let signature: String = "uGymw2KHOTWI699YEaoi5xyLT50="
-    
-    let str: String = hmac.getSignature(baseString, apiSecret, tokenSecret)
-    println("str = ${str}")
-    if (!str.equals(signature)) {
-        println(2)
-        return 2
-    }
-    return 0
-}
-
-main() {
-    var test_01 = testHMACSha1SignatureService_01()
-    if (test_01 != 0){
-        println(test_01)
-        return test_01
-    }
-
-    test_01 = testHMACSha1SignatureService_02()
-    if (test_01 != 0){
-        println(test_01)
-        return test_01
-    }
-	println("ok!")
-    return test_01
-}
-```
-
-执行结果如下：
-
-```shell
-str = HMAC-SHA1
-str = uGymw2KHOTWI699YEaoi5xyLT50=
-ok!
-```
-
-#### Builder模式的实现，具有创建OAuthService的流畅接口，OAuth协议1.0a/2.0版的默认实现
-
-功能示例描述:
-1.Builder模式的实现，具有创建OAuthService的流畅接口
-2.OAuth协议1.0a/2.0版的默认实现, 通过API的具体实现进行扩展，提供端点和端点http请求类型
-
-示例代码如下：
-```cangjie
+from std import random.*
 from std import collection.*
-from oauth4cj import builder.*
 
-main() {
-    var scopeString: ArrayList<String> = ArrayList<String>()
-    scopeString.append("scope_1")
-    scopeString.append("scope_2")
-    scopeString.append("scope_3")
-    var scopeString_add: String = "scope_4"
-    var scope: String = ScopeBuilder(scopeString).withScopes(scopeString_add).build()
-    var montageString: String = "scope_1 scope_2 scope_3 scope_4"
-    if (montageString.equals(scope)) {
-        println("scope = ${scope}")
-        return 0
-    } else {
-        return -1
-    }
-}
-```
-
-执行结果如下：
-```cangjie
-scope = scope_1 scope_2 scope_3 scope_4
-```
-
-#### Builder模式的实现，提供 OAuth 和 OAuthService 的接口
-
-功能示例描述:
-提供HttpClient创建，添加回调url，配置api名称/密钥，HttpClient 同步/异步接口调用，获取访问/请求 Token 等
-
-示例代码如下：
-```cangjie
-from std import collection.*
-from std import time.*
+from oauth4cj import utils.*
 from oauth4cj import oauth.*
 from oauth4cj import model.*
+from oauth4cj import httpclient.*
+from oauth4cj import builder.*
 from oauth4cj import extractors.*
-from oauth4cj import services.*
+from oauth4cj import exceptions.*
+from oauth4cj import oauth2.clientauthentication.*
+from oauth4cj import oauth2.bearersignature.*
 
 main() {
-    var apiA: A = A()
-    var tokenEAccess: TokenExtractor<OAuth2AccessToken> = apiA.getAccessTokenExtractor()
-    let responseBody: String = ##"{"access_token":"oauth2_token"}"##
-    let response: Response = Response(200, "", HashMap<String, String>(), responseBody)
-    let oauth2AccessToken: OAuth2AccessToken = tokenEAccess.extract(response)
-    if (!oauth2AccessToken.getAccessToken().equals("oauth2_token")) {
-        println("error! oauth2AccessToken = ${oauth2AccessToken.getAccessToken()}")
-        return -1
-    }
-    println("oauth2AccessToken = ${oauth2AccessToken.getAccessToken()}")
-}
+    //将这些替换为在【授权服务器-gitee】中生成的 client_id 和 client_secret
+    let clientId: String = "your client id"
+    let clientSecret: String = "your client secret"
 
-class A <: DefaultApi20 {
-    public init(){}
+    //替换成自己需要的权限范围
+    //此授权范围是在【授权服务器-gitee】成功创建的应用中对应的权限描述，多个权限用空格隔开
+    let SCOP: String = "user_info emails"
+
+    let NETWORK_NAME: String = "Gitee"
     
-    public func getAccessTokenEndpoint(): String {
-        return "getAccessTokenEndpoint"
+    //替换成自己需要请求的，受保护的资源的链接
+    //授权成功拿到访问令牌后，准备请求的受保护的资源的链接
+    let PROTECTED_RESOURCE_URL: String = "https://gitee.com/api/v5/emails"
+
+    let m: Random = Random()
+    m.setSeed(3)
+    let c: UInt32 = m.nextUInt32()
+
+    let secretState: String = "secret" + c.toString()
+    let service: OAuth20Service = ServiceBuilderOAuth20(clientId).
+            setApiSecret(clientSecret).
+            setDefaultScope(SCOP).
+            //设置回调url{redirect_uri}，用于后面获取授权码code
+            setCallback("${redirect_uri}").
+            build(GiteeApi.instance())
+
+    //=== GitHub的OAuth工作流 ===
+
+    //1. 获取授权 URL
+    
+    //1.1 对授权连接中的配置，进行设置
+    let additionalParams: HashMap<String, String> = HashMap<String, String>()
+    //通过设置 access_type=offline 以获取刷新令牌
+    additionalParams.put("access_type", "offline")
+    //强制reget刷新令牌（如果不是第一次询问用户）
+    additionalParams.put("prompt", "consent")
+ 
+    //1.2 生成可以获取授权码的链接
+    //授权认证服务器通过回调地址{redirect_uri}将【用户授权码】code 传递给【应用服务器】或者直接在 Webview 中跳转到携带用户授权码的回调地址上，
+    //Webview(网页) 直接获取 code 即可。（{redirect_uri}?code=abc&state=xyz)
+    let authorizationUrl: String = AuthorizationUrlBuilder(service).
+            setState(secretState).
+            setAdditionalParams(additionalParams).
+            build()
+    println("授权URL: " + authorizationUrl)
+    
+    //1.3 替换成上一步生成的一次性授权码
+    let code: String = "your code"
+
+    //2.获取访问令牌！
+    var accessToken: OAuth2AccessToken = service.getAccessToken(code)
+    println("(访问令牌-原始响应如下：" + accessToken.getRawResponse() + "')")
+
+    //3.刷新访问令牌...
+    accessToken = service.refreshAccessToken(accessToken.getRefreshToken())
+    println("(刷新令牌-原始响应如下：" + accessToken.getRawResponse() + "')")
+
+
+    //4.请求一个受保护的资源！
+    let requestUrl: String = PROTECTED_RESOURCE_URL
+    let request: OAuth4cjRequest = OAuth4cjRequest(Verb.GET, requestUrl)
+    
+    //4.1 请求签名
+    service.signRequest(accessToken, request)
+
+    //4.2 调用同步请求执行
+    let response: Response = service.execute(request)
+    println(response.getCode())
+    println(response.getBody())
+}
+
+/*
+ * 准备 OAuth 协议 1.0a 版或者 2.0 版的默认实现：
+ * 根据实际需求继承 DefaultApi10a 或者 DefaultApi20，实现抽象方法，覆盖不同的提取器或服务。
+ */
+public class GiteeApi <: DefaultApi20 {
+
+    protected init() { }
+
+    public static func instance(): GiteeApi {
+        return GiteeApi()
     }
 
+    //返回请求类型
+    public func getAccessTokenVerb(): Verb {
+        return Verb.POST
+    }
+
+    //返回接收访问令牌请求的 URL
+    public func getAccessTokenEndpoint(): String {
+        return "https://gitee.com/oauth/token"
+    }
+
+    //返回授权链接
     protected func getAuthorizationBaseUrl(): String {
-        return "getAuthorizationBaseUrl"
+        return "https://gitee.com/oauth/authorize"
+    }
+
+    //指定访问令牌提取器并返回: 用于 OAuth 2.0 的 TokenExtractor 的 JSON 实现
+    public func getAccessTokenExtractor(): TokenExtractor<OAuth2AccessToken> {
+        return OAuth2AccessTokenJsonExtractor.instance()
+    }
+
+    //客户端身份验证: 在请求主体中写入 "client_id" 和 "client_secret" 及其对应的键值对信息
+    public func getClientAuthentication(): ClientAuthentication {
+        return RequestBodyAuthenticationScheme.instance()
+    }
+
+    //承载签名URI查询参数: 请求签名时,添加查询参数 "access_token" 及其对应的键值对信息
+    public func getBearerSignature(): BearerSignature {
+        return BearerSignatureURIQueryParameter.instance()
+    }
+
+    //返回指定的, RFC 8628 OAuth 2.0 设备授权授予链接
+    public func getDeviceAuthorizationEndpoint(): String {
+        return getAccessTokenEndpoint()
+    }
+
+    //返回指定的, RFC 7009 OAuth 2.0 令牌撤销链接
+    public func getRevokeTokenEndpoint(): String {
+        return getAccessTokenEndpoint()
     }
 }
 ```
+
 执行结果如下：
-```cangjie
-oauth2AccessToken = oauth2_token
+
+```shell
+授权URL: https://gitee.com/oauth/authorize?access_type=offline&prompt=consent&response_type=code&client_id=${code&client_id}&redirect_uri=${redirect_uri}&scope=profile&state=secret2356345771
+(访问令牌-原始响应如下：{"access_token":"...","token_type":"bearer","expires_in":86400,"refresh_token":"...","scope":"user_info emails","created_at":1686821665}')
+(刷新令牌-原始响应如下：{"access_token":"...","token_type":"bearer","expires_in":86400,"refresh_token":"...","scope":"user_info emails","created_at":1686821665}')
+200
+[{"email":"...","state":"confirmed","scope":["...","..."]}]
 ```
 
-#### 提供同步和异步调用接口
+####  密码模式授权
 
 功能示例描述:
-提供同步和异步调用接口，正则比较从字符串中获取指定信息，提供 BodyPartPayload 及多种子类型的数据结构创建，请求字段补充，数据存储，读取并封装成特定类型
+用户需要向客户端提供自己的用户名和密码，客户端使用这些信息向“服务提供商”索要授权。
 
-示例代码如下：
+示例代码如下（gitee为例）：
 
 ```cangjie
 from std import collection.*
-from oauth4cj import httpclient.multipart.*
+
+from oauth4cj import utils.*
+from oauth4cj import oauth.*
+from oauth4cj import model.*
 from oauth4cj import httpclient.*
+from oauth4cj import builder.*
+from oauth4cj import extractors.*
+from oauth4cj import exceptions.*
+from oauth4cj import oauth2.clientauthentication.*
+from oauth4cj import oauth2.bearersignature.*
 
 main() {
-    
-    let headers: HashMap<String, String> = HashMap<String, String>()
-    headers.put("X-Header", "X-Value")
-    headers.put("Content-Disposition", "Content-Disposition-Value")
-    
-    let mp: MultipartPayload = MultipartPayload("mixed", "simple boundary", headers)
-    var str: String = "This is the preamble.  It is to be ignored, though it\n" +
-                      "is a handy place for composition agents to include an\n" +
-                      "explanatory note to non-MIME conformant readers."
-    mp.setPreamble(str)
 
-    str = "This is implicitly typed plain US-ASCII text.\n" + "It does NOT end with a linebreak."
-    var arr: Array<UInt8> = str.toUtf8Array()
-    
-    mp.addBodyPart(ByteArrayBodyPartPayload(arr))
-
-
-    str = "This is explicitly typed plain US-ASCII text.\n" + "It DOES end with a linebreak.\n"
-    arr = str.toUtf8Array()
-
-    let maps: HashMap<String, String> = HashMap<String, String>()
-    maps.put(CONTENT_TYPE, "text/plain; charset=us-ascii")
-
-    let bP: ByteArrayBodyPartPayload = ByteArrayBodyPartPayload(arr, maps)
-    mp.addBodyPart(bP)
-
-    mp.setEpilogue("This is the epilogue.  It is also to be ignored.")
-    
-
-    let sb: StringBuilder = StringBuilder()
-    let header: HashMap<String, String> = mp.getHeaders()
-    for((k, v) in header) {
-        sb.append(k).append(": ").append(v).append("\r\n")
+    var test_01 = testPassword_01()
+    if (test_01 != 0){
+        println(test_01)
+        return test_01
     }
+    return test_01
+}
 
-    str = sb.toString()
-    var result: String = "X-Header: X-Value\r\n" +
-                         "Content-Disposition: Content-Disposition-Value\r\n" +
-                         "Content-Type: multipart/mixed; boundary=\"simple boundary\"\r\n"
-    println(str.equals(result))
-	if (!str.equals(result)) {
-        println(3)
-        return 3
-    }
+public func testPassword_01(): Int32 {
+    //将"your_username"和"your_password"替换成实际的 gitee 账户名和密码
+    let USER_NAME: String = "your_username"
+    let PASSWORD: String = "your_password"
     
-    str = String.fromUtf8(MultipartUtils.getPayload(mp).readToEnd())
-    result = "This is the preamble.  It is to be ignored, though it\n" +
-             "is a handy place for composition agents to include an\n" +
-             "explanatory note to non-MIME conformant readers." +
-             "\r\n--simple boundary\r\n" +
-             "\r\n" +
-             "This is implicitly typed plain US-ASCII text.\n" +
-             "It does NOT end with a linebreak." +
-             "\r\n--simple boundary\r\n" +
-             "Content-Type: text/plain; charset=us-ascii\r\n" +
-             "\r\n" +
-             "This is explicitly typed plain US-ASCII text.\n" +
-             "It DOES end with a linebreak.\n" +
-             "\r\n--simple boundary--" +
-             "\r\nThis is the epilogue.  It is also to be ignored."
-    println(str.equals(result))
-	if (!str.equals(result)) {
-        println(4)
-        return 4
-    }
+    //将这些替换为在【授权服务器-gitee】中生成的 client_id 和 client_secret
+    let clientId: String = "your client id"
+    let clientSecret: String = "your client secret"
+
+    //替换成自己需要的权限范围
+    //此授权范围是在【授权服务器-gitee】成功创建的应用中对应的权限描述，多个权限用空格隔开
+    let SCOP: String = "user_info emails"
+
+    let NETWORK_NAME: String = "Gitee"
+    
+    //替换成自己需要请求的，受保护的资源的链接
+    //授权成功拿到访问令牌后，准备请求的受保护的资源的链接
+    let PROTECTED_RESOURCE_URL: String = "https://gitee.com/api/v5/emails"
+
+    let service: OAuth20Service = ServiceBuilderOAuth20(clientId).
+            setApiSecret(clientSecret).
+            setDefaultScope(SCOP).
+            setCallback("${redirect_uri}").
+            build(GiteeApi.instance())
+
+    //=== GitHub的OAuth工作流 ===
+
+    //1. 调用密码模式，获取访问令牌！
+    let accessToken: OAuth2AccessToken = service.getAccessTokenPasswordGrant(USER_NAME, PASSWORD)
+    println("(原始响应如下：" + accessToken.getRawResponse() + "')")
+
+    //2. 请求一个受保护的资源！
+    let requestUrl: String = PROTECTED_RESOURCE_URL
+    let request: OAuth4cjRequest = OAuth4cjRequest(Verb.GET, requestUrl)
+    
+    //2.1 请求签名
+    service.signRequest(accessToken, request)
+
+    //2.2 调用同步请求执行
+    let response: Response = service.execute(request)
+    println(response.getCode())
+    println(response.getBody())
+
     return 0
+}
+
+/*
+ * 准备 OAuth 协议 1.0a 版或者 2.0 版的默认实现：
+ * 根据实际需求继承 DefaultApi10a 或者 DefaultApi20，实现抽象方法，覆盖不同的提取器或服务。
+ */
+public class GiteeApi <: DefaultApi20 {
+
+    protected init() { }
+
+    public static func instance(): GiteeApi {
+        return GiteeApi()
+    }
+
+    //返回请求类型
+    public func getAccessTokenVerb(): Verb {
+        return Verb.POST
+    }
+
+    //返回接收访问令牌请求的 URL
+    public func getAccessTokenEndpoint(): String {
+        return "https://gitee.com/oauth/token"
+    }
+
+    //返回授权链接
+    protected func getAuthorizationBaseUrl(): String {
+        return "https://gitee.com/oauth/authorize"
+    }
+
+    //指定访问令牌提取器并返回: 用于 OAuth 2.0 的 TokenExtractor 的 JSON 实现
+    public func getAccessTokenExtractor(): TokenExtractor<OAuth2AccessToken> {
+        return OAuth2AccessTokenJsonExtractor.instance()
+    }
+
+    //客户端身份验证: 在请求主体中写入 "client_id" 和 "client_secret" 及其对应的键值对信息
+    public func getClientAuthentication(): ClientAuthentication {
+        return RequestBodyAuthenticationScheme.instance()
+    }
+
+    //承载签名URI查询参数: 请求签名时,添加查询参数 "access_token" 及其对应的键值对信息
+    public func getBearerSignature(): BearerSignature {
+        return BearerSignatureURIQueryParameter.instance()
+    }
+
+    //返回指定的, RFC 8628 OAuth 2.0 设备授权授予链接
+    public func getDeviceAuthorizationEndpoint(): String {
+        return getAccessTokenEndpoint()
+    }
+
+    //返回指定的, RFC 7009 OAuth 2.0 令牌撤销链接
+    public func getRevokeTokenEndpoint(): String {
+        return getAccessTokenEndpoint()
+    }
 }
 ```
 
 执行结果如下：
+
 ```cangjie
-true
-true
+(原始响应如下：{"access_token":"...","token_type":"bearer","expires_in":86400,"refresh_token":"...","scope":"user_info emails","created_at":1686821354}')
+200
+[{"email":"...","state":"confirmed","scope":["...","..."]}]
+```
+
+#### 客户端模式授权
+
+功能示例描述:
+客户端以自己的名义，而不是以用户的名义，向“服务提供方”进行认证.
+即在这种模式下，用户并不需要对客户端授权，用户直接向客户端注册，客户端以自己的名义要求“服务提供商”提供服务。
+
+示例代码如下（华为示例）：
+
+```cangjie
+from std import collection.*
+
+from oauth4cj import utils.*
+from oauth4cj import oauth.*
+from oauth4cj import model.*
+from oauth4cj import httpclient.*
+from oauth4cj import builder.*
+from oauth4cj import extractors.*
+from oauth4cj import exceptions.*
+from oauth4cj import oauth2.clientauthentication.*
+from oauth4cj import oauth2.bearersignature.*
+
+main() {
+    //将这些替换为在【授权服务器-华为】中生成的 client_id 和 client_secret
+    let clientId: String = "your client id"
+    let clientSecret: String = "your client secret"
+
+    //替换成自己需要的权限范围
+    //此授权范围是在【授权服务器-华为】申请的授权，多个权限用空格隔开
+    let SCOP: String = "openid profile email"
+
+    //替换成自己需要请求的，受保护的资源的链接
+    //授权成功拿到访问令牌后，准备请求的受保护的资源的链接
+    let PROTECTED_RESOURCE_URL: String = "https://account.cloud.huawei.com/rest.php?nsp_svc=GOpen.User.getInfo"
+
+    let service: OAuth20Service = ServiceBuilderOAuth20(clientId).
+            setApiSecret(clientSecret).
+            setDefaultScope(SCOP).
+            //设置回调url{redirect_uri}，用于后面获取授权码code
+            setCallback("${redirect_uri}").
+            build(HuaweiApi.instance())
+
+    //=== 华为的OAuth工作流 ===
+
+    //1. 调用客户端模式，获取访问令牌！
+    let accessToken: OAuth2AccessToken = service.getAccessTokenClientCredentialsGrant()
+    println("(原始响应如下：" + accessToken.getRawResponse() + "')")
+
+    //2. 请求一个受保护的资源！
+    let requestUrl: String = PROTECTED_RESOURCE_URL
+    let request: OAuth4cjRequest = OAuth4cjRequest(Verb.GET, requestUrl)
+
+    //2.1 请求签名
+    service.signRequest(accessToken, request)
+
+    //2.2 调用同步请求执行
+    let response: Response = service.execute(request)
+    println(response.getCode())
+    println(response.getBody())
+}
+
+/*
+ * 准备 OAuth 协议 1.0a 版或者 2.0 版的默认实现：
+ * 根据实际需求继承 DefaultApi10a 或者 DefaultApi20，实现抽象方法，覆盖不同的提取器或服务。
+ */
+public class HuaweiApi <: DefaultApi20 {
+
+    protected init() { }
+
+    public static func instance(): HuaweiApi {
+        return HuaweiApi()
+    }
+
+    //返回请求类型
+    public func getAccessTokenVerb(): Verb {
+        return Verb.POST
+    }
+
+    //返回接收访问令牌请求的 URL
+    public func getAccessTokenEndpoint(): String {
+        return "https://oauth-login.cloud.huawei.com/oauth2/v3/token"
+    }
+
+    //返回授权链接
+    protected func getAuthorizationBaseUrl(): String {
+        return "https://oauth-login.cloud.huawei.com/oauth2/v3/authorize"
+    }
+
+    //指定访问令牌提取器并返回: 用于 OAuth 2.0 的 TokenExtractor 的 JSON 实现
+    public func getAccessTokenExtractor(): TokenExtractor<OAuth2AccessToken> {
+        return OAuth2AccessTokenJsonExtractor.instance()
+    }
+
+    //客户端身份验证: 在请求主体中写入 "client_id" 和 "client_secret" 及其对应的键值对信息
+    public func getClientAuthentication(): ClientAuthentication {
+        return RequestBodyAuthenticationScheme.instance()
+    }
+
+    //承载签名URI查询参数: 请求签名时,添加查询参数 "access_token" 及其对应的键值对信息
+    public func getBearerSignature(): BearerSignature {
+        return BearerSignatureURIQueryParameter.instance()
+    }
+
+    //返回指定的, RFC 8628 OAuth 2.0 设备授权授予链接
+    public func getDeviceAuthorizationEndpoint(): String {
+        return getAccessTokenEndpoint()
+    }
+
+    //返回指定的, RFC 7009 OAuth 2.0 令牌撤销链接
+    public func getRevokeTokenEndpoint(): String {
+        return getAccessTokenEndpoint()
+    }
+}
+```
+
+执行结果如下：
+
+```cangjie
+(原始响应如下: {"access_token":"...","token_type":"Bearer","expires_in":3600}')
+200
+{"displayName":"...","openID":"...","headPictureURL":"..."}
+```
+
+#### 简化模式授权
+
+功能示例描述:
+用于在浏览器中使用脚本语言如JS实现的客户端中，特点:直接在浏览器中向认证服务器申请令牌，跳过了“授权码临时凭证”这个步骤。
+其所有的步骤都在浏览器中完成，令牌对访问者是可见的，且客户端不需要认证。
+
+示例代码如下（腾讯为例）：
+
+```cangjie
+from std import collection.*
+
+from oauth4cj import utils.*
+from oauth4cj import oauth.*
+from oauth4cj import model.*
+from oauth4cj import httpclient.*
+from oauth4cj import builder.*
+from oauth4cj import extractors.*
+from oauth4cj import exceptions.*
+from oauth4cj import oauth2.clientauthentication.*
+from oauth4cj import oauth2.bearersignature.*
+
+main() {
+    //将这些替换为在【授权服务器-腾讯】中生成的 client_id 和 client_secret
+    let clientId: String = "your client id"
+    let clientSecret: String = "your client secret"
+
+    //替换成自己需要的权限范围
+    //此授权范围是在【授权服务器-腾讯】添加的应用的授权，多个权限请用逗号隔开
+    let SCOP: String = "get_user_info"
+
+    let service: OAuth20Service = ServiceBuilderOAuth20(clientId).
+            setApiSecret(clientSecret).
+            setDefaultScope(SCOP).
+            //设置回调url{redirect_uri}，用于后面获取access_token
+            setCallback("${redirect_uri}").
+            build(TengxunApi.instance())
+
+    //=== 腾讯的OAuth工作流 ===
+
+    //调用简化模式，获取访问令牌！
+    let authorizationUrl: String = AuthorizationUrlBuilder(service).
+            setState(secretState).
+            build()
+    println("授权URL: " + authorizationUrl)
+}
+
+
+/*
+ * 准备 OAuth 协议 1.0a 版或者 2.0 版的默认实现：
+ * 根据实际需求继承 DefaultApi10a 或者 DefaultApi20，实现抽象方法，覆盖不同的提取器或服务。
+ */
+public class TengxunApi <: DefaultApi20 {
+
+    protected init() { }
+
+    public static func instance(): TengxunApi {
+        return TengxunApi()
+    }
+
+    //返回请求类型
+    public func getAccessTokenVerb(): Verb {
+        return Verb.GET
+    }
+
+    //返回接收访问令牌请求的 URL--PC网站
+    public func getAccessTokenEndpoint(): String {
+        return "https://graph.qq.com/oauth2.0/token"
+    }
+
+    //返回授权链接--PC网站
+    protected func getAuthorizationBaseUrl(): String {
+        return "https://graph.qq.com/oauth2.0/authorize"
+    }
+
+    //指定访问令牌提取器并返回: 用于 OAuth 2.0 的 TokenExtractor 的 JSON 实现
+    public func getAccessTokenExtractor(): TokenExtractor<OAuth2AccessToken> {
+        return OAuth2AccessTokenJsonExtractor.instance()
+    }
+
+    //客户端身份验证: 在请求主体中写入 "client_id" 和 "client_secret" 及其对应的键值对信息
+    public func getClientAuthentication(): ClientAuthentication {
+        return RequestBodyAuthenticationScheme.instance()
+    }
+
+    //承载签名URI查询参数: 请求签名时,添加查询参数 "access_token" 及其对应的键值对信息
+    public func getBearerSignature(): BearerSignature {
+        return BearerSignatureURIQueryParameter.instance()
+    }
+}
+```
+
+执行结果如下：
+
+```shell
+授权URL: https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}&scope=get_user_info&state=secret630343
+```
+
+调用该 URL 链接，PC网站展示结果如下：
+
+```shell
+${redirect_uri}?#access_token=...&expires_in=7776000&state=secret630343
 ```
 
 ## 开源协议

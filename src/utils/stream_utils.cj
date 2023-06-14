@@ -11,7 +11,6 @@ from std import io.*
 from std import collection.*
 from compress import zlib.*
 
-import buffer.*
 import exceptions.*
 
 
