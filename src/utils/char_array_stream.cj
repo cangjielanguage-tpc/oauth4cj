@@ -5,7 +5,7 @@
 /**
  * @file The file declars the CharArrayStream class.
  */
-package buffer
+package utils
 
 from std import sync.*
 
@@ -13,7 +13,7 @@ from std import sync.*
  * The class is CharArrayStream
  * @since 0.37.2
  */
-public class CharArrayStream {
+class CharArrayStream {
     private static let DEFAULT_CAPACITY: Int64 = 1024
 
     private var myData: Array<Char>
@@ -23,35 +23,35 @@ public class CharArrayStream {
 
     protected let mu: ReentrantMutex = ReentrantMutex()
 
-    public init() {
+    init() {
         this(DEFAULT_CAPACITY)
     }
 
-    public init(size: Int64) {
+    init(size: Int64) {
         this.myData = Array<Char>(size, item: item)
         this.start = 0
         this.length_ = 0
     }
 
-    public prop let size: Int64 {
+    prop let size: Int64 {
         get(){return this.length_}
     }
 
-    public prop let capacity: Int64 {
+    prop let capacity: Int64 {
         get(){return this.myData.size}
     }
 
     // Convert to character write buffer.
-    public func write(ch: Int32): Unit {
+    func write(ch: Int32): Unit {
         let item: Char = Char(ch)
         this.append(item)
     }
 
-    public func write(item: Char): Unit {
+    func write(item: Char): Unit {
         this.append(item)
     }
 
-    public func append(item: Char): Unit {
+    func append(item: Char): Unit {
         synchronized(this.mu) {
             this.reserve(1)
             this.myData[this.length_] = item
@@ -59,7 +59,7 @@ public class CharArrayStream {
         }
     }
 
-    public func appendAll(buf: Array<Char>): Unit {
+    func appendAll(buf: Array<Char>): Unit {
         let bufSize: Int64 = buf.size
         if (bufSize == 0) {
             return
@@ -96,28 +96,28 @@ public class CharArrayStream {
      * @return Type of Array<Char>, Returns a copy of unread data.
      * @since 0.37.2
      */
-    public func toCharArray(): Array<Char> {
+    func toCharArray(): Array<Char> {
         synchronized (this.mu) {
             return this.myData.slice(this.start, this.length_)
         }
     }
 
-    public func toArray(): Array<Char> {
+    func toArray(): Array<Char> {
         let buf: Array<Char> = this.myData.slice(this.start, this.length_)
         this.start = 0
         this.length_ = 0
         return buf
     }
 
-    public func isEmpty(): Bool {
+    func isEmpty(): Bool {
         return this.start >= this.length_
     }
 
-    public func reset(): Unit {
+    func reset(): Unit {
         this.clear()
     }
 
-    public func clear(): Unit {
+    func clear(): Unit {
         this.start = 0
         this.length_ = 0
     }

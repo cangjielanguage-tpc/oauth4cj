@@ -54,7 +54,7 @@ main() {
     let code: String = CODE
 
     //获取访问令牌！
-    let accessToken: OAuth2AccessToken = service.getAccessToken(code)
+    var accessToken: OAuth2AccessToken = service.getAccessToken(code)
     println("(访问令牌-原始响应如下：" + accessToken.getRawResponse() + "')")
 
     //刷新访问令牌...
