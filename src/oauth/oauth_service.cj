@@ -7,10 +7,11 @@ package oauth
 public abstract class OAuthService <: Resource {
     private var apiKey: String
     private var apiSecret: String
-    private var callback: String
+    private var callbackUrl: Option<String> = Option<String>.None
     private var userAgent: String
     private var httpClient: Option<HttpClient> = Option<HttpClient>.None
     private var debugStream: Option<OutputStream> = Option<OutputStream>.None
+    private var isClosedFlag: Bool = false
     var hasClient = false
     var hasConfig = false
     var hasProvider = false
@@ -20,19 +21,19 @@ public abstract class OAuthService <: Resource {
      *
      * @param apiKey api key
      * @param apiSecret api secret
-     * @param callback callback url
+     * @param callbackUrl callback url
      * @param debugStream debug mode outputstream, set Option<OutputStream>.None when not in use
      * @param userAgent user agent
      * @param httpClientConfig Http Client Config
      * @param httpClient HTTP Client instance
      * @param httpClientProvider HTTP Client Provider instance
      */
-    public init(apiKey: String, apiSecret: String, callback: String, debugStream: Option<OutputStream>,
+    public init(apiKey: String, apiSecret: String, callbackUrl: Option<String>, debugStream: Option<OutputStream>,
             userAgent: String, httpClientConfig: Option<HttpClientConfig>, httpClient: Option<HttpClient>,
             httpClientProvider: Option<HttpClientProvider>) {
         this.apiKey = apiKey
         this.apiSecret = apiSecret
-        this.callback = callback
+        this.callbackUrl = callbackUrl
         this.debugStream = debugStream
         this.userAgent = userAgent
 
@@ -62,13 +63,6 @@ public abstract class OAuthService <: Resource {
         }
     }
 
-    protected static func optionCheck<T>(optionData: Option<T>): Bool {
-        match (optionData) {
-            case None => return false
-            case Some(data) => return true
-        }
-    }
-
     private static func getClient(config: HttpClientConfig, provider: HttpClientProvider): Option<HttpClient> {
         return provider.createClient(config)
     }
@@ -92,12 +86,12 @@ public abstract class OAuthService <: Resource {
     }
 
     /**
-     * Get callback
+     * Get callback url
      *
      * @return Option<String> callback string
      */
     public open func getCallback(): Option<String> {
-        return callback
+        return callbackUrl
     }
 
     /**
@@ -106,16 +100,15 @@ public abstract class OAuthService <: Resource {
      * @return Bool deflaut true
      */
     public open func isClosed(): Bool {
-        return true
+        return isClosedFlag
     }
 
     /**
      * Close httpClient
      */
     public open func close(): Unit {
-        if (hasClient) {
-            httpClient.getOrThrow().close()
-        }
+        httpClient.getOrThrow().close()
+        isClosedFlag = true
     }
 
     /**

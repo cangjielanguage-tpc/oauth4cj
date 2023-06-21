@@ -37,7 +37,7 @@ extend HttpBasicAuthenticationScheme <: ClientAuthentication {
      */
     public func addClientAuthentication(request: OAuth4cjRequest, apiKey: String, apiSecret: String): Unit {
         let encodeString: String = Base64Utils.encode("${apiKey}:${apiSecret}".toUtf8Array())
-        request.addHeader(OAuthConstants.HEADER, "${OAuthConstants.BASIC} ${encodeString}")
+        request.addHeader(OAuthConstants.HEADER_AUTHORIZATION, "${OAuthConstants.BASIC} ${encodeString}")
     }
 }
 

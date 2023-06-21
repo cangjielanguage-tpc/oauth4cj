@@ -64,7 +64,7 @@ public abstract class DefaultApi10a {
      * @return the signature type, choose between header, querystring, etc. Defaults to Header
      */
     public open func getSignatureType(): OAuth1SignatureType {
-        return OAuth1SignatureType.HEADER
+        return OAuth1SignatureType.HEADER_SIGNATURE
     }
 
     /**
@@ -127,7 +127,7 @@ public abstract class DefaultApi10a {
      *
      * @param apiKey api key
      * @param apiSecret api secret
-     * @param callback callback url
+     * @param callbackUrl callback url
      * @param scope scope string
      * @param debugStream debug mode outputstream, set Option<OutputStream>.None when not in use
      * @param userAgent user agent
@@ -135,10 +135,10 @@ public abstract class DefaultApi10a {
      * @param httpClient HTTP Client instance
      * @return OAuth10aService OAuth10aService instance
      */
-    public func createService(apiKey:String, apiSecret: String, callback: String, scope: Option<String>,
+    public func createService(apiKey:String, apiSecret: String, callbackUrl: Option<String>, scope: Option<String>,
             debugStream: Option<OutputStream>, userAgent: String, httpClientConfig: Option<HttpClientConfig>,
             httpClient: Option<HttpClient>, httpClientProvider: Option<HttpClientProvider>): OAuth10aService {
-        return OAuth10aService(this, apiKey, apiSecret, callback, scope, debugStream, userAgent,
+        return OAuth10aService(this, apiKey, apiSecret, callbackUrl, scope, debugStream, userAgent,
             httpClientConfig, httpClient, httpClientProvider)
     }
 

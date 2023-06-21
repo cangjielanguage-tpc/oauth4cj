@@ -22,7 +22,7 @@ public class TestOAuthConstantsB001{
         @Assert(OAuthConstants.TOKEN,"oauth_token")
         @Assert(OAuthConstants.TOKEN_SECRET,"oauth_token_secret")
         @Assert(OAuthConstants.VERIFIER,"oauth_verifier")
-        @Assert(OAuthConstants.HEADER,"Authorization")
+        @Assert(OAuthConstants.HEADER_AUTHORIZATION,"Authorization")
         @Assert(OAuthConstants.SCOPE,"scope")
         @Assert(OAuthConstants.BASIC,"Basic")
     }

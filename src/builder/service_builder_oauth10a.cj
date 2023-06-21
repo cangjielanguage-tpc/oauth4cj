@@ -13,7 +13,7 @@ import util.*
  */
 public class ServiceBuilderOAuth10a <: ServiceBuilderCommon {
     private var debugStream: Option<OutputStream> = Option<OutputStream>.None
-    private var callback: String = ""
+    private var callback: Option<String> = Option<String>.None
     private var apiKey: String = ""
     private var apiSecret: String = ""
     private var scope: Option<String> = Option<String>.None
@@ -38,9 +38,9 @@ public class ServiceBuilderOAuth10a <: ServiceBuilderCommon {
      * Set Callback String
      *
      * @param callback callback string
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return ServiceBuilderOAuth10a ServiceBuilderOAuth10a instance
      */
-    public func setCallback(callback: String): ServiceBuilderOAuth10a {
+    public func setCallback(callback: Option<String>): ServiceBuilderOAuth10a {
         this.callback = callback
         return this
     }
@@ -49,7 +49,7 @@ public class ServiceBuilderOAuth10a <: ServiceBuilderCommon {
      * Set Api Key
      *
      * @param apiKey api key
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return ServiceBuilderOAuth10a ServiceBuilderOAuth10a instance
      */
     public func setApiKey(apiKey: String): ServiceBuilderOAuth10a {
         Preconditions.checkEmptyString(apiKey, "Invalid Api key")
@@ -61,7 +61,7 @@ public class ServiceBuilderOAuth10a <: ServiceBuilderCommon {
      * Set Api Secret
      *
      * @param apiSecret api secret
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return ServiceBuilderOAuth10a ServiceBuilderOAuth10a instance
      */
     public func setApiSecret(apiSecret: String): ServiceBuilderOAuth10a {
         Preconditions.checkEmptyString(apiSecret, "Invalid Api secret")
@@ -72,7 +72,7 @@ public class ServiceBuilderOAuth10a <: ServiceBuilderCommon {
     /**
      * Set Api Secret to ""
      *
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return ServiceBuilderOAuth10a ServiceBuilderOAuth10a instance
      */
     public func setApiSecretIsEmptyStringUnsafe(): ServiceBuilderOAuth10a {
         apiSecret = ""
@@ -89,7 +89,7 @@ public class ServiceBuilderOAuth10a <: ServiceBuilderCommon {
      * Set Scope
      *
      * @param scope scope string
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return ServiceBuilderOAuth10a ServiceBuilderOAuth10a instance
      */
     public func withScope(scope: String): ServiceBuilderOAuth10a {
         return setScope(scope)
@@ -99,7 +99,7 @@ public class ServiceBuilderOAuth10a <: ServiceBuilderCommon {
      * Set HttpClientConfig
      *
      * @param httpClientConfig Option<HttpClientConfig> instance
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return ServiceBuilderOAuth10a ServiceBuilderOAuth10a instance
      */
     public func setHttpClientConfig(httpClientConfig: Option<HttpClientConfig>): ServiceBuilderOAuth10a {
         match (httpClientConfig) {
@@ -114,7 +114,7 @@ public class ServiceBuilderOAuth10a <: ServiceBuilderCommon {
      * Set HttpClient
      *
      * @param httpClient Option<HttpClient> instance
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return ServiceBuilderOAuth10a ServiceBuilderOAuth10a instance
      */
     public func setHttpClient(httpClient: Option<HttpClient>): ServiceBuilderOAuth10a {
         this.httpClient = httpClient
@@ -130,7 +130,7 @@ public class ServiceBuilderOAuth10a <: ServiceBuilderCommon {
      * Set User Agent
      *
      * @param userAgent user agent string
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return ServiceBuilderOAuth10a ServiceBuilderOAuth10a instance
      */
     public func setUserAgent(userAgent: String): ServiceBuilderOAuth10a {
         this.userAgent = userAgent
@@ -141,25 +141,22 @@ public class ServiceBuilderOAuth10a <: ServiceBuilderCommon {
      * Build OAuth10aService with DefaultApi10a
      *
      * @param api DefaultApi10a instance
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return OAuth10aService OAuth10aService instance
      */
     public func build(api: DefaultApi10a): OAuth10aService {
         return api.createService(apiKey, apiSecret, callback, scope, debugStream, userAgent, httpClientConfig,
                 httpClient, httpClientProvider)
     }
 
-    func setDebugStream(debugStream: Option<OutputStream>): ServiceBuilderOAuth10a {
-        match (debugStream) {
-            case Some(v) => 
-                this.debugStream = debugStream
-                return this
-            case None => throw IllegalArgumentException("debugStream can't be null") 
-        }
-    }
-        
-    func debug(): ServiceBuilderOAuth10a {
-        var stream: Option<OutputStream> = Option<OutputStream>.None
-        return setDebugStream(stream)
+    /**
+     * Set debug stream, reserved interface for optimization
+     *
+     * @param debugStream Option<OutputStream> instance
+     * @return ServiceBuilderOAuth10a ServiceBuilderOAuth10a instance
+     */
+    public func setDebugStream(debugStream: Option<OutputStream>): ServiceBuilderOAuth10a {
+        this.debugStream = debugStream
+        return this
     }
 }
 

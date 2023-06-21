@@ -7,8 +7,8 @@ package oauth
  * OAuth1 Signature Type
  */
 public enum OAuth1SignatureType <: ToString {
-    | HEADER
-    | QUERY_STRING
+    | HEADER_SIGNATURE
+    | QUERY_STRING_SIGNATURE
 
     /**
      * Get oauth1 signature type string
@@ -17,8 +17,8 @@ public enum OAuth1SignatureType <: ToString {
      */
     public func toString(): String {
         match (this) {
-            case HEADER => "HEADER"
-            case QUERY_STRING => "QUERY_STRING"
+            case HEADER_SIGNATURE => "HEADER"
+            case QUERY_STRING_SIGNATURE => "QUERY_STRING"
         }
     }
 }

@@ -690,6 +690,15 @@ public class Response <: Closeable {
      * @异常 IOException 如果关闭流或资源失败，抛出IOException
      */
     public func close():Unit
+
+    /**
+     * 是否已经关闭，覆写Resource的方法
+     *
+     * @返回值 Bool 如果已经调用过 close 方法，返回 true，否则返回 false
+     */
+    public func isClosed(): Bool {
+        return closed
+    }
 }
 ```
 
@@ -713,6 +722,13 @@ public class OAuthResponseException <: OAuth4cjException {
      */
     public func getResponse(): Response
     
+    /**
+     * 获取HashCode
+     *
+     * @返回值 Int64 HashCode值
+     */
+    public func hashCode(): Int64
+
     /**
      * 确定两个 OAuthResponseException 对象是否相等
      *
@@ -1261,7 +1277,7 @@ public class OAuthConstants {
     /**
      * 授权参数名字符串
      */
-    public static let HEADER: String = "Authorization"
+    public static let HEADER_AUTHORIZATION: String = "Authorization"
     
     /**
      * 范围参数名字符串
@@ -2198,7 +2214,11 @@ public enum OAuth2Error {
 
 ```cangjie
 public class OAuth2RevokeTokenResponseConverter {
-
+    /**
+     * 构造函数
+     */
+    public init()
+    
     /**
      * 检测响应是否成功，如果失败会根据错误信息抛出异常
      * 
@@ -2445,6 +2465,14 @@ public class ServiceBuilderOAuth10a <: ServiceBuilderCommon {
      * @返回值 OAuth10aService OAuth10aService实例
      */
     public func build(api: DefaultApi10a): OAuth10aService 
+
+    /**
+     * 设置debugStream, 后续优化的预留接口
+     *
+     * @param debugStream Option<OutputStream>对象
+     * @return ServiceBuilderOAuth10a ServiceBuilderOAuth10a实例
+     */
+    public func setDebugStream(debugStream: Option<OutputStream>): ServiceBuilderOAuth10a 
 }
 
 ```
@@ -2556,6 +2584,14 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
      * @返回值 OAuth20Service OAuth20Service实例
      */
     public func build(api: DefaultApi20): OAuth20Service 
+
+    /**
+     * 设置debugStream, 后续优化的预留接口
+     *
+     * @param debugStream Option<OutputStream>对象
+     * @return ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     */
+    public func setDebugStream(debugStream: Option<OutputStream>): ServiceBuilderOAuth20
 }
 
 ```
@@ -2762,8 +2798,8 @@ Builder模式的实现，提供 OAuth 和 OAuthService 的接口
 
 ```cangjie
 public enum OAuth1SignatureType <: ToString  {
-    | HEADER
-    | QUERY_STRING
+    | HEADER_SIGNATURE
+    | QUERY_STRING_SIGNATURE
     
     /**
      * 获取OAuth1签名类型字符串
@@ -2997,7 +3033,7 @@ public abstract class DefaultApi20 {
 }
 ```
 
-###### （0608新增）1.7.1.4 OAuthService抽象类 
+###### 1.7.1.4 OAuthService抽象类 
 
 ```cangjie
 public abstract class OAuthService <: Resource {
@@ -3041,7 +3077,7 @@ public abstract class OAuthService <: Resource {
     /**
      * 是否已经关闭，覆写Resource的方法
      *
-     * @返回值 Bool 默认为true
+     * @返回值 Bool 如果已经调用过 close 方法，返回 true，否则返回 false
      */
     public open func isClosed(): Bool
 
@@ -3095,7 +3131,7 @@ public abstract class OAuthService <: Resource {
 }
 ```
 
-###### （0608新增）1.7.1.5 OAuth10aService OAuth1.0服务类
+###### 1.7.1.5 OAuth10aService OAuth1.0服务类
 
 ```cangjie
 public class OAuth10aService <: OAuthService {
@@ -3202,7 +3238,7 @@ public class OAuth10aService <: OAuthService {
 }
 ```
 
-###### （0608新增）1.7.1.6 OAuth20Service 类
+###### 1.7.1.6 OAuth20Service 类
 
 ```cangjie
 public class OAuth20Service <: OAuthService {
@@ -4268,7 +4304,7 @@ public class MultipartUtils {
 }
 ```
 
-###### （0608新增）1.8.1.9 OkHttpHttpClient 类
+###### 1.8.1.9 OkHttpHttpClient 类
 
 ```cangjie
 /**
@@ -4433,7 +4469,7 @@ public class OkHttpHttpClient <: HttpClient {
 }
 ```
 
-###### （0608新增）1.8.1.10 OkHttpHttpClient 配置类 OkHttpHttpClientConfig
+###### 1.8.1.10 OkHttpHttpClient 配置类 OkHttpHttpClientConfig
 
 ```cangjie
 public class OkHttpHttpClientConfig <: HttpClientConfig {
@@ -4468,7 +4504,7 @@ public class OkHttpHttpClientConfig <: HttpClientConfig {
 }
 ```
 
-###### （0608新增）1.8.1.11 OkHttpProvider 类
+###### 1.8.1.11 OkHttpProvider 类
 
 ```cangjie
 /**
@@ -4571,7 +4607,7 @@ true
 true
 ```
 
-#### （0608新增）1.9 异常信息类。
+#### 1.9 异常信息类。
 
 提供 OAuth4cj 用到的异常类。
 

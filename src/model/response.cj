@@ -185,6 +185,11 @@ public class Response <: Resource {
         closed = true
     }
 
+    /**
+     * Is closed, overwrite Resource method
+     *
+     * @return Bool closed state
+     */
     public func isClosed(): Bool {
         return closed
     }
