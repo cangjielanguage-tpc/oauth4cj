@@ -31,18 +31,31 @@ main() {
 
     //=== 华为的OAuth工作流 ===
 
-    //1. 调用客户端模式，获取访问令牌！
-    let accessToken: OAuth2AccessToken = service.getAccessTokenClientCredentialsGrant()
+    //RFC 8628 OAuth 2.0设备授权授予
+
+    //1. 设备码Code请求
+    let deviceAuthorization: DeviceAuthorization = service.getDeviceAuthorizationCodes()
+    println("设备授权响应: " + deviceAuthorization.toString())
+
+    //2.浏览器打开链接，手动授权
+    let deviceAuthorizationUrl: String = getDeviceBaseUrl(deviceAuthorization.getUserCode())
+    println("设备授权URL: " + deviceAuthorizationUrl)
+
+    //2.1 等待，保证手动授权完成
+    sleep(60 * 1000 * 1000 * 1000)
+
+    //3. 获取访问令牌！
+    let accessToken: OAuth2AccessToken = service.getAccessTokenDeviceAuthorizationGrant(deviceAuthorization)
     println("(原始响应如下：" + accessToken.getRawResponse() + "')")
 
-    //2. 请求一个受保护的资源！
+    //4. 请求一个受保护的资源！
     let requestUrl: String = PROTECTED_RESOURCE_URL
-    let request: OAuth4cjRequest = OAuth4cjRequest(Verb.GET, requestUrl)
+    let request: OAuth4cjRequest = OAuth4cjRequest(Verb.POST, requestUrl)
 
-    //2.1 请求签名
+    //4.1 请求签名
     service.signRequest(accessToken, request)
 
-    //2.2 调用同步请求执行
+    //4.2 调用同步请求执行
     let response: Response = service.execute(request)
     println(response.getCode())
     println(response.getBody())

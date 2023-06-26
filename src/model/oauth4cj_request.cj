@@ -22,8 +22,12 @@ public open class OAuth4cjRequest {
     private let querystringParams: ParameterList = ParameterList()
     private let bodyParams: ParameterList = ParameterList()
 
-    // The key value is converted to all uppercase strings by default for storage or comparison.
+    //By default, key values are converted to uppercase strings for comparison, and storage is not affected.
     private let headers: HashMap<String, String> = HashMap<String, String>()
+
+    //headersKey.key saves the uppercase headers.key, while headersKey.value saves the first saved headers.key
+    //The data is saved as follows: headersKey.key = headers.key.toAsciiUpper(), headersKey.value = headers.key
+    private let headersKey: HashMap<String, String> = HashMap<String, String>()
 
     private var charset: String = "UTF-8"
 
@@ -121,7 +125,13 @@ public open class OAuth4cjRequest {
      * @since 0.37.2
      */
     public func addHeader(key: String, value: String): Unit {
-        this.headers.put(key.toAsciiUpper(), value)
+        let keyUpper: String = key.toAsciiUpper()
+        if (this.headersKey.contains(keyUpper)) {
+            this.headers.put(this.headersKey[keyUpper], value)
+        } else {
+            this.headers.put(key, value)
+            this.headersKey.put(keyUpper, key)
+        }
     }
     
     /**

@@ -30,6 +30,16 @@ OAuth4cj 支持协议 OAuth1.0 和 OAuth2.0，允许第三方程序通过访问�
 
 - 🌍 提供常用网站授权api封装
 
+### 支持以下协议和附加功能
+- RFC 5849 OAuth 1.0协议示例  
+- RFC 6749 OAuth 2.0授权框架，授权代码授权授予，[示例](./test/LLT/RFC/RFC6749/github_example_authorization.cj)     
+- RFC 6749 OAuth 2.0授权框架，资源所有者密码凭据授权授予，[示例](./test/LLT/RFC/RFC6749/gitee_example_password.cj)     
+- RFC 6749 OAuth 2.0授权框架，客户端凭据授权授予，[示例](./test/LLT/RFC/RFC6749/huawei_example_client.cj)     
+- RFC 6749 OAuth 2.0授权框架，刷新访问令牌，[示例](./test/LLT/RFC/RFC6749/gitee_example_refresh_access_token.cj)     
+- RFC 6750 OAuth 2.0授权框架：承载令牌使用，[示例](./test/LLT/RFC/RFC6750/gitee_example_bearer_token_usage.cj)     
+- RFC 7009 OAuth 2.0令牌吊销，[示例](./test/LLT/RFC/RFC7009/weibo_example_revocation.cj)     
+- RFC 7636 OAuth公共客户端（PKCE）代码交换的证明密钥，[示例](./test/LLT/RFC/RFC7636/huawei_example_pkce.cj)     
+- RFC 8628 OAuth 2.0设备授权授予，[示例](./test/LLT/RFC/RFC8628/huawei_example_device.cj)     
 
 ## 软件架构
 
@@ -114,7 +124,7 @@ python3 ci_test/main.py build                        ---> 编译
 
 ```shell
 https://gitee.com/api/v5/oauth_doc#/list-item-3
-打开链接，按照《OAuth说明文档》中【创建应用流程】步骤操作，注册为开发者再创建应用，生成 client_id 和 client_secret。
+注册gitee账号，打开链接，按照《OAuth说明文档》中【创建应用流程】步骤操作，创建应用，生成 client_id 和 client_secret。
 ```
 
 ##### 授权服务器-华为
@@ -129,6 +139,20 @@ https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/open-pla
 ```shell
 https://wikinew.open.qq.com/index.html#/iwiki/876832074
 打开链接，按照《OAuth2.0开发文档》中步骤操作，注册为开发者，申请 client_id 和 client_secret，添加应用。
+```
+
+##### 授权服务器-GitHub
+
+```shell
+https://docs.github.com/zh/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app
+注册GitHub账号，打开链接，按照《创建 OAuth 应用》中步骤操作，创建应用，生成 client_id 和 client_secret。
+```
+
+##### 授权服务器-微博
+
+```shell
+https://open.weibo.com/wiki/%E6%96%B0%E6%89%8B%E6%8C%87%E5%8D%97
+打开链接，参考文档中操作流程，注册为开发者，创建应用，生成 App Key(client_id) 和 App Secret(client_secret)。
 ```
 
 #### 授权码模式授权
@@ -179,7 +203,7 @@ main() {
             setCallback("${redirect_uri}").
             build(GiteeApi.instance())
 
-    //=== GitHub的OAuth工作流 ===
+    //=== Gitee的OAuth工作流 ===
 
     //1. 获取授权 URL
     
@@ -209,7 +233,6 @@ main() {
     //3.刷新访问令牌...
     accessToken = service.refreshAccessToken(accessToken.getRefreshToken())
     println("(刷新令牌-原始响应如下：" + accessToken.getRawResponse() + "')")
-
 
     //4.请求一个受保护的资源！
     let requestUrl: String = PROTECTED_RESOURCE_URL
@@ -264,16 +287,6 @@ public class GiteeApi <: DefaultApi20 {
     //承载签名URI查询参数: 请求签名时,添加查询参数 "access_token" 及其对应的键值对信息
     public func getBearerSignature(): BearerSignature {
         return BearerSignatureURIQueryParameter.instance()
-    }
-
-    //返回指定的, RFC 8628 OAuth 2.0 设备授权授予链接
-    public func getDeviceAuthorizationEndpoint(): String {
-        return getAccessTokenEndpoint()
-    }
-
-    //返回指定的, RFC 7009 OAuth 2.0 令牌撤销链接
-    public func getRevokeTokenEndpoint(): String {
-        return getAccessTokenEndpoint()
     }
 }
 ```
@@ -343,7 +356,7 @@ public func testPassword_01(): Int32 {
             setCallback("${redirect_uri}").
             build(GiteeApi.instance())
 
-    //=== GitHub的OAuth工作流 ===
+    //=== Gitee的OAuth工作流 ===
 
     //1. 调用密码模式，获取访问令牌！
     let accessToken: OAuth2AccessToken = service.getAccessTokenPasswordGrant(USER_NAME, PASSWORD)
@@ -405,16 +418,6 @@ public class GiteeApi <: DefaultApi20 {
     public func getBearerSignature(): BearerSignature {
         return BearerSignatureURIQueryParameter.instance()
     }
-
-    //返回指定的, RFC 8628 OAuth 2.0 设备授权授予链接
-    public func getDeviceAuthorizationEndpoint(): String {
-        return getAccessTokenEndpoint()
-    }
-
-    //返回指定的, RFC 7009 OAuth 2.0 令牌撤销链接
-    public func getRevokeTokenEndpoint(): String {
-        return getAccessTokenEndpoint()
-    }
 }
 ```
 
@@ -475,7 +478,7 @@ main() {
 
     //2. 请求一个受保护的资源！
     let requestUrl: String = PROTECTED_RESOURCE_URL
-    let request: OAuth4cjRequest = OAuth4cjRequest(Verb.GET, requestUrl)
+    let request: OAuth4cjRequest = OAuth4cjRequest(Verb.POST, requestUrl)
 
     //2.1 请求签名
     service.signRequest(accessToken, request)
@@ -530,13 +533,13 @@ public class HuaweiApi <: DefaultApi20 {
 
     //返回指定的, RFC 8628 OAuth 2.0 设备授权授予链接
     public func getDeviceAuthorizationEndpoint(): String {
-        return getAccessTokenEndpoint()
+        return "https://oauth-login.cloud.huawei.com/oauth2/v3/device/code"
     }
+}
 
-    //返回指定的, RFC 7009 OAuth 2.0 令牌撤销链接
-    public func getRevokeTokenEndpoint(): String {
-        return getAccessTokenEndpoint()
-    }
+//返回华为[设备授权授予]授权链接
+func getDeviceBaseUrl(userCode: String): String {
+    return "https://oauth-login1.cloud.huawei.com/oauth2/v3/device?user_code=${userCode}&lang=zh-cn"
 }
 ```
 
@@ -545,7 +548,7 @@ public class HuaweiApi <: DefaultApi20 {
 ```cangjie
 (原始响应如下: {"access_token":"...","token_type":"Bearer","expires_in":3600}')
 200
-{"displayName":"...","openID":"...","headPictureURL":"..."}
+{"displayName":"18*******50","openID":"......","displayNameFlag":1}
 ```
 
 #### 简化模式授权

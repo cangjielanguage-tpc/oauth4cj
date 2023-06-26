@@ -40,7 +40,7 @@ class OAuthAsyncCompletionHandler <: Callback {
                 case None => ()
             }
             let nowFuture: Future<Any> = spawn {
-                return this
+                return exception
             }
             this.future = Option<Future<Any>>.Some(nowFuture)
             m.notify(notEmpty)
@@ -75,7 +75,7 @@ class OAuthAsyncCompletionHandler <: Callback {
                 }
 
                 let nowFuture: Future<Any> = spawn {
-                    return response
+                    return e
                 }
                 this.future = Option<Future<Any>>.Some(nowFuture)
                 m.notify(notEmpty)
@@ -86,9 +86,13 @@ class OAuthAsyncCompletionHandler <: Callback {
     func getFuture(): Future<Any> {
         synchronized(m) {
             var res: Future<Any> = spawn { return () }
-            match (this.future) {
-                case Some(v) => res = v
-                case None => m.wait(notEmpty)
+            while (true) {
+                match (this.future) {
+                    case Some(v) =>
+                        res = v
+                        break
+                    case None => m.wait(notEmpty)
+                }
             }
             return res
         }

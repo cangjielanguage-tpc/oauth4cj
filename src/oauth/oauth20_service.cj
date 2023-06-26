@@ -153,7 +153,7 @@ public class OAuth20Service <: OAuthService {
                         authorization.setState(URLEncoder.decode(keyValue[1], "UTF-8"))
                     }
                 } catch (ueE: Exception) {
-                    throw OAuth4cjException("unsupported encoding." + ueE.message)
+                    throw OAuth4cjException("unsupported decoding. " + ueE.message)
                 }
             }
         }
@@ -216,11 +216,19 @@ public class OAuth20Service <: OAuthService {
         let res: Future<Any> = execute(request, callback, Some(rc))
 
         let nowFuture: Future<OAuth2AccessToken> = spawn {
-            res.getResult()
-            return rc.token
+            let result = res.getResult()
+            let token: Option<OAuth2AccessToken> = result as OAuth2AccessToken
+            match(token) {
+                case Some(v) => return v
+                case None =>
+                    let err: String = "Exception in parsing OAuth2AccessToken, response is: ${rc.responseString}"
+                    let ex: Exception = (result as Exception) ?? OAuth4cjException(err)
+                    throw OAuth4cjException(ex.message)
+            }
         }
         return nowFuture
     }
+
 
     // ===== get AccessToken authorisation code flow methods =====
     protected func createAccessTokenRequest(params: AccessTokenRequestParams): OAuth4cjRequest {
@@ -658,8 +666,13 @@ public class OAuth20Service <: OAuthService {
 
         api.getClientAuthentication().addClientAuthentication(request, getApiKey(), getApiSecret())
 
-        request.addParameter("token", tokenToRevoke)
-        
+        //The field name supported by Weibo is access_token
+        if (api.getAccessTokenEndpoint().contains("weibo")) {
+            request.addParameter("access_token", tokenToRevoke)
+        } else {
+            request.addParameter("token", tokenToRevoke)
+        }
+
         match(tokenTypeHint) {
             case Some(v) => request.addParameter("token_type_hint", v.getValue())
             case None => ()
@@ -741,10 +754,19 @@ public class OAuth20Service <: OAuthService {
             tokenTypeHint: Option<TokenTypeHint>): Future<Unit> {
         let request: OAuth4cjRequest = createRevokeTokenRequest(tokenToRevoke, tokenTypeHint)
 
+        let rc: ResponseConverterRevokeToken = ResponseConverterRevokeToken()
+        let res: Future<Any> = execute(request, callback, Some(rc))
+
         let nowFuture: Future<Unit> = spawn {
-            let res: Future<Any> = execute(request, callback, Some(ResponseConverterRevokeToken()))
-            res.getResult()
-            return ()
+            let result = res.getResult()
+            let revokeToken: Option<ResponseConverterRevokeToken> = result as ResponseConverterRevokeToken
+            match(revokeToken) {
+                case Some(v) => return ()
+                case None =>
+                    let err: String = "Exception in parsing Unit, response is: ${rc.responseString}"
+                    let ex: Exception = (result as Exception) ?? OAuth4cjException(err)
+                    throw OAuth4cjException(ex.message)
+            }
         }
         return nowFuture
     }
@@ -760,6 +782,11 @@ public class OAuth20Service <: OAuthService {
                         case Some(val) => request.addParameter(OAuthConstants.SCOPE, val)
                         case None => ()
                     }
+        }
+
+        //Github's device authorization code mode can only parse JSON structures
+        if (api.getAccessTokenEndpoint().contains("github") && !responseType.equals("code")) {
+            request.addHeader("Accept", responseType)
         }
 
         logRequestWithParams("Device Authorization Codes", request)
@@ -823,8 +850,15 @@ public class OAuth20Service <: OAuthService {
         let res: Future<Any> = execute(request, callback, Some(rc))
 
         let nowFuture: Future<DeviceAuthorization> = spawn {
-            res.getResult()
-            return rc.deviceAuthorization
+            let result = res.getResult()
+            let deviceAuthorization: Option<DeviceAuthorization> = result as DeviceAuthorization
+            match(deviceAuthorization) {
+                case Some(v) => return v
+                case None =>
+                    let err: String = "Exception in parsing DeviceAuthorization, response is: ${rc.responseString}"
+                    let ex: Exception = (result as Exception) ?? OAuth4cjException(err)
+                    throw OAuth4cjException(ex.message)
+            }
         }
         return nowFuture
     }
@@ -853,8 +887,15 @@ public class OAuth20Service <: OAuthService {
     protected func createAccessTokenDeviceAuthorizationGrantRequest(deviceAuthorization: DeviceAuthorization):
                     OAuth4cjRequest {
         let request: OAuth4cjRequest = OAuth4cjRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint())
-        request.addParameter(OAuthConstants.GRANT_TYPE, "urn:ietf:params:oauth:grant-type:device_code")
-        request.addParameter("device_code", deviceAuthorization.getDeviceCode())
+
+        if (api.getAccessTokenEndpoint().contains("huawei")) {//for huawei
+            request.addParameter(OAuthConstants.GRANT_TYPE, "device_code")
+            request.addParameter("code", deviceAuthorization.getDeviceCode())
+        } else {
+            request.addParameter(OAuthConstants.GRANT_TYPE, "urn:ietf:params:oauth:grant-type:device_code")
+            request.addParameter("device_code", deviceAuthorization.getDeviceCode())
+        }
+
         api.getClientAuthentication().addClientAuthentication(request, getApiKey(), getApiSecret())
         return request
     }
@@ -894,8 +935,15 @@ public class OAuth20Service <: OAuthService {
         let res: Future<Any> = execute(request, callback, Some(rc))
 
         let nowFuture: Future<OAuth2AccessToken> = spawn {
-            res.getResult()
-            return rc.token
+            let result = res.getResult()
+            let token: Option<OAuth2AccessToken> = result as OAuth2AccessToken
+            match(token) {
+                case Some(v) => return v
+                case None =>
+                    let err: String = "Exception in parsing OAuth2AccessToken, response is: ${rc.responseString}"
+                    let ex: Exception = (result as Exception) ?? OAuth4cjException(err)
+                    throw OAuth4cjException(ex.message)
+            }
         }
         return nowFuture
     }
@@ -958,9 +1006,11 @@ func checkForErrorRevokeToken(response: Response): Unit {
 
 class ResponseConverterRevokeToken <: ResponseConverter {
 
+    protected var responseString: String = ""
     init(){}
     public func convert(response: Response): ResponseConverterRevokeToken {
         checkForErrorRevokeToken(response)
+        this.responseString = response.toString()
         response.close()
         return this
     }
@@ -969,15 +1019,15 @@ class ResponseConverterRevokeToken <: ResponseConverter {
 class ResponseConverterDeviceAuthorization <: ResponseConverter {
 
     private let api: DefaultApi20
-    var deviceAuthorization: DeviceAuthorization = DeviceAuthorization("", "", "", 0)
+    protected var responseString: String = ""
 
     init(api: DefaultApi20){
         this.api = api
     }
     public func convert(response: Response): DeviceAuthorization {
         let deviceAuth: DeviceAuthorization = api.getDeviceAuthorizationExtractor().extract(response)
+        this.responseString = response.toString()
         response.close()
-        this.deviceAuthorization = deviceAuth
         return deviceAuth
     }
 }
@@ -985,7 +1035,7 @@ class ResponseConverterDeviceAuthorization <: ResponseConverter {
 class ResponseConverterOAuth2AccessToken <: ResponseConverter {
 
     private let api: DefaultApi20
-    var token: OAuth2AccessToken = OAuth2AccessToken("")
+    protected var responseString: String = ""
 
     init(api: DefaultApi20){
         this.api = api
@@ -993,8 +1043,8 @@ class ResponseConverterOAuth2AccessToken <: ResponseConverter {
 
     public func convert(response: Response): OAuth2AccessToken {
         let accessToken: OAuth2AccessToken = api.getAccessTokenExtractor().extract(response)
+        this.responseString = response.toString()
         response.close()
-        this.token = accessToken
         return accessToken
     }
 }

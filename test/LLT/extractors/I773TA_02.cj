@@ -27,7 +27,7 @@ func testHeaderExtractor_01(): Int64 {
     }catch(e:OAuth4cjParametersMissingException){
         println(e.toString())
     	println(e.message)
-    	let str: String = "OAuth4cjParametersMissingException: Could not find oauth parameters in request: " +
+    	let str: String = "Could not find oauth parameters in request: " +
     	                    oauth4cjRequest.toString() +
     	                    ". OAuth parameters must be specified with the addOAuthParameter() method"
         if(e.message.contains(str)){

@@ -12,7 +12,7 @@ func testBearerSignature_01(): Int32 {
     field.signRequest(accessToken, request)
 
     var headers = request.getHeaders()
-    var header = headers.get(OAuthConstants.HEADER_AUTHORIZATION.toAsciiUpper())
+    var header = headers.get(OAuthConstants.HEADER_AUTHORIZATION)
 
     if (!header.getOrThrow().equals("Bearer ${accessToken}")) {
         return -1

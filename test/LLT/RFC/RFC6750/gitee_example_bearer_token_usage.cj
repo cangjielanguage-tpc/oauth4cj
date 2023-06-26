@@ -8,30 +8,26 @@ from oauth4cj import httpclient.*
 from oauth4cj import builder.*
 from oauth4cj import extractors.*
 from oauth4cj import exceptions.*
-from oauth4cj import revoke.*
 
 main() {
 
-    var test_01 = testPassword_01()
-    if (test_01 != 0){
-        println(test_01)
-        return test_01
-    }
-    return test_01
-}
-
-public func testPassword_01(): Int32 {
-    //将"your_username"和"your_password"替换成实际的账户名和密码
+    //将"your_username"和"your_password"替换成实际的 gitee 账户名和密码
     let USER_NAME: String = "your_username"
     let PASSWORD: String = "your_password"
+
+    //将这些替换为在【授权服务器-gitee】中生成的 client_id 和 client_secret
+    let clientId: String = "your client id"
+    let clientSecret: String = "your client secret"
+
+    //替换成自己需要的权限范围
+    //此授权范围是在【授权服务器-gitee】成功创建的应用中对应的权限描述，多个权限用空格隔开
     let SCOP: String = "user_info emails"
 
     let NETWORK_NAME: String = "Gitee"
-    let PROTECTED_RESOURCE_URL: String = "https://gitee.com/api/v5/emails"
 
-    // Replace these with your client id and secret //将这些替换为您的客户端id和机密
-    let clientId: String = "your client id"
-    let clientSecret: String = "your client secret"
+    //替换成自己需要请求的，受保护的资源的链接
+    //授权成功拿到访问令牌后，准备请求的受保护的资源的链接
+    let PROTECTED_RESOURCE_URL: String = "https://gitee.com/api/v5/emails"
 
     //ServiceBuilder(clientId).
     let service: OAuth20Service = ServiceBuilderOAuth20(clientId).
@@ -40,27 +36,29 @@ public func testPassword_01(): Int32 {
             setCallback("http://www.example.com/oauth_callback/").
             build(GiteeApi.instance())
 
-    //=== GitHub的OAuth工作流 ===
+    //=== Gitee的OAuth工作流 ===
 
-    //调用密码模式，获取访问令牌！
-    //let accessToken: OAuth2AccessToken = service.getAccessTokenPasswordGrant(USER_NAME, PASSWORD)
+    //RFC 6750 OAuth 2.0授权框架：承载令牌使用 //访问受保护的资源
+
+    //1. 调用异步密码模式，获取访问令牌！
+    //RFC 6749 OAuth 2.0授权框架，资源所有者密码凭据授权授予
     let res: Future<OAuth2AccessToken> = service.getAccessTokenPasswordGrantAsync(USER_NAME, PASSWORD)
+    println("测试异步的密码模式......")
     let accessToken: OAuth2AccessToken = res.getResult()
 
     println("(原始响应如下：" + accessToken.getRawResponse() + "')")
 
-    //现在让我们去请求一个受保护的资源！
+    //2. 请求一个受保护的资源！
+    //RFC 6750 OAuth 2.0授权框架：承载令牌使用 //访问受保护的资源
     let requestUrl: String = PROTECTED_RESOURCE_URL
     let request: OAuth4cjRequest = OAuth4cjRequest(Verb.GET, requestUrl)
+
+    //2.1 请求签名
     service.signRequest(accessToken, request)
 
+    //2.2 调用同步请求执行
     let response: Response = service.execute(request)
     println(response.getCode())
     println(response.getBody())
 
-    let res2: Future<Unit> = service.revokeTokenAsync(accessToken.getAccessToken(), Some(TokenTypeHint.ACCESS_TOKEN_HINT))
-    res.getResult(1000 * 1000)
-
-    //Future<DeviceAuthorization> getDeviceAuthorizationCodesAsync()
-    return 0
 }

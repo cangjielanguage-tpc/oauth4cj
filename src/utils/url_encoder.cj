@@ -197,7 +197,7 @@ public class URLEncoder {
         try {
             return decode(s)
         } catch (e: Exception) {
-            throw OAuth4cjException("decode fail: " + e.message)
+            throw OAuth4cjException(e.message)
         }
     }
 
@@ -236,6 +236,8 @@ public class URLEncoder {
                             bytes = Array<UInt8>((numChars - i) / 3, item: 0)
                         }
                         i = handlePercentageSign(s, i, numChars, c, bytes, charBuf, sb)
+                    } catch (e: IllegalArgumentException) {
+                        throw e
                     } catch (e: Exception) {
                         let err: String = "URLDecoder: Illegal hex characters in escape (%) pattern - " + e.message
                         throw IllegalArgumentException(err)
