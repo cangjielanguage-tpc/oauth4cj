@@ -35,7 +35,7 @@ extend BearerSignatureAuthorizationRequestHeaderField <: BearerSignature {
      * @since 0.38.2
      */
     public func signRequest(accessToken: String, request: OAuth4cjRequest): Unit {
-        request.addHeader(OAuthConstants.HEADER, "Bearer ${accessToken}")
+        request.addHeader(OAuthConstants.HEADER_AUTHORIZATION, "Bearer ${accessToken}")
     }
 }
 

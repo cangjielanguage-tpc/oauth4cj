@@ -28,7 +28,7 @@ public class OAuth20Service <: OAuthService {
      * @param api of DefaultApi20 instance
      * @param apiKey of String, api key
      * @param apiSecret of String, api secret
-     * @param callback of String, callback url
+     * @param callbackUrl of String, callback url
      * @param defaultScope of Option<String>, default scope
      * @param responseType of String, response type
      * @param debugStream of Option<OutputStream>, debug mode outputstream, None when not in use
@@ -37,11 +37,11 @@ public class OAuth20Service <: OAuthService {
      * @param httpClient of Option<HttpClient>, Http Client instance
      * @param httpClientProvider of Option<HttpClientProvider>, Http Client provider
      */
-    public init(api: DefaultApi20, apiKey: String, apiSecret: String, callback: String, defaultScope: Option<String>,
+    public init(api: DefaultApi20, apiKey: String, apiSecret: String, callbackUrl: Option<String>, defaultScope: Option<String>,
             responseType: String, debugStream: Option<OutputStream>, userAgent: String, 
             httpClientConfig: Option<HttpClientConfig>, httpClient: Option<HttpClient>,
             httpClientProvider: Option<HttpClientProvider>) {
-        super(apiKey, apiSecret, callback, debugStream, userAgent, httpClientConfig, httpClient, httpClientProvider)
+        super(apiKey, apiSecret, callbackUrl, debugStream, userAgent, httpClientConfig, httpClient, httpClientProvider)
         this.responseType = responseType
         this.api = api
         this.defaultScope = defaultScope
@@ -92,7 +92,7 @@ public class OAuth20Service <: OAuthService {
      *
      * @return String the user's URL should be redirected
      */
-    public func getAuthorizationUrl(state: String): String {
+    public func getAuthorizationUrl(state: Option<String>): String {
         return build(this, state, HashMap<String, String>(), None, None)
     }
 
@@ -114,7 +114,7 @@ public class OAuth20Service <: OAuthService {
      *
      * @return String the user's URL should be redirected
      */
-    public func getAuthorizationUrl(pkce: PKCE): String {
+    public func getAuthorizationUrl(pkce: Option<PKCE>): String {
         return build(this, None, HashMap<String, String>(), pkce, None)
     }
 
@@ -998,3 +998,4 @@ class ResponseConverterOAuth2AccessToken <: ResponseConverter {
         return accessToken
     }
 }
+

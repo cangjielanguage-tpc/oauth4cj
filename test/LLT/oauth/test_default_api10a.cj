@@ -65,7 +65,7 @@ func testAPI10a_03(): Int32 {
         return -1
     }
 
-    if (oauth1Sign.toString().equals(OAuth1SignatureType.QUERY_STRING.toString())) {
+    if (oauth1Sign.toString().equals(OAuth1SignatureType.QUERY_STRING_SIGNATURE.toString())) {
         return -1
     }
 

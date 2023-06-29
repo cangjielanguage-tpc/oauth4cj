@@ -13,8 +13,8 @@ public class TestOAuth1SignatureTypeB004{
     ***/
     @TestCase
     func testOAuth1SignatureTypeToString01(): Unit {
-        var signatureType01=OAuth1SignatureType.HEADER
-        var signatureType02=OAuth1SignatureType.QUERY_STRING
+        var signatureType01=OAuth1SignatureType.HEADER_SIGNATURE
+        var signatureType02=OAuth1SignatureType.QUERY_STRING_SIGNATURE
         @Assert(signatureType01.toString(),"HEADER")
         @Assert(signatureType02.toString(),"QUERY_STRING")
     }

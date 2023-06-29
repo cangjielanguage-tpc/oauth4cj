@@ -16,7 +16,7 @@ public interface ServiceBuilderCommon {
      * @param callback callback url. Must be a valid url or 'oob'
      * @return ServiceBuilderCommon ServiceBuilderCommon instance
      */
-    func setCallback(callback: String): ServiceBuilderCommon
+    func setCallback(callback: Option<String>): ServiceBuilderCommon
 
     /**
      * Configures the api key

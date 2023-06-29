@@ -15,7 +15,7 @@ public class OAuthConstants {
     public static let TOKEN: String = "oauth_token"
     public static let TOKEN_SECRET: String = "oauth_token_secret"
     public static let VERIFIER: String = "oauth_verifier"
-    public static let HEADER: String = "Authorization"
+    public static let HEADER_AUTHORIZATION: String = "Authorization"
     public static let SCOPE: String = "scope"
     public static let BASIC: String = "Basic"
 

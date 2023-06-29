@@ -96,7 +96,7 @@ public abstract class DefaultApi20 {
      *
      * @param apiKey api key
      * @param apiSecret api secret
-     * @param callback callback url
+     * @param callbackUrl callback url
      * @param defaultScope default scope
      * @param responseType response type
      * @param debugStream debug mode outputstream, set Option<OutputStream>.None when not in use
@@ -105,11 +105,11 @@ public abstract class DefaultApi20 {
      * @param httpClient Http Client instance
      * @return OAuth20Service OAuth20Service instance
      */
-    public open func createService(apiKey: String, apiSecret: String, callback: String, defaultScope: Option<String>,
+    public open func createService(apiKey: String, apiSecret: String, callbackUrl: Option<String>, defaultScope: Option<String>,
             responseType: String, debugStream: Option<OutputStream>, userAgent: String, 
             httpClientConfig: Option<HttpClientConfig>, httpClient: Option<HttpClient>,
             httpClientProvider: Option<HttpClientProvider>): OAuth20Service {
-        return OAuth20Service(this, apiKey, apiSecret, callback, defaultScope, responseType, debugStream, userAgent,
+        return OAuth20Service(this, apiKey, apiSecret, callbackUrl, defaultScope, responseType, debugStream, userAgent,
             httpClientConfig, httpClient, httpClientProvider)
     }
 

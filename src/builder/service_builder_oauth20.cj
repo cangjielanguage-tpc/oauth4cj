@@ -8,7 +8,7 @@ package builder
  */
 public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
     private var debugStream: Option<OutputStream> = Option<OutputStream>.None
-    private var callback: String = ""
+    private var callback: Option<String> = Option<String>.None
     private var apiKey: String = ""
     private var apiSecret: String = ""
     private var scope: Option<String> = Option<String>.None
@@ -33,9 +33,9 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
      * Set Callback String
      *
      * @param callback callback string
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return ServiceBuilderOAuth20 ServiceBuilderOAuth20 instance
      */
-    public func setCallback(callback: String): ServiceBuilderOAuth20 {
+    public func setCallback(callback: Option<String>): ServiceBuilderOAuth20 {
         this.callback = callback
         return this
     }
@@ -44,7 +44,7 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
      * Set Api Key
      *
      * @param apiKey api key
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return ServiceBuilderOAuth20 ServiceBuilderOAuth20 instance
      */
     public func setApiKey(apiKey: String): ServiceBuilderOAuth20 {
         Preconditions.checkEmptyString(apiKey, "Invalid Api key")
@@ -56,7 +56,7 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
      * Set Api Secret
      *
      * @param apiSecret api secret
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return ServiceBuilderOAuth20 ServiceBuilderOAuth20 instance
      */
     public func setApiSecret(apiSecret: String): ServiceBuilderOAuth20 {
         Preconditions.checkEmptyString(apiSecret, "Invalid Api secret")
@@ -67,7 +67,7 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
     /**
      * Set Api Secret to ""
      *
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return ServiceBuilderOAuth20 ServiceBuilderOAuth20 instance
      */
     public func setApiSecretIsEmptyStringUnsafe(): ServiceBuilderOAuth20 {
         apiSecret = ""
@@ -84,7 +84,7 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
      * Set Scope
      *
      * @param defaultScope Scope string
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return ServiceBuilderOAuth20 ServiceBuilderOAuth20 instance
      */
     public func setDefaultScope(defaultScope: String): ServiceBuilderOAuth20 {
         return setScope(defaultScope)
@@ -94,7 +94,7 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
      * Set Scope 
      *
      * @param scopeBuilder ScopeBuilder instance
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return ServiceBuilderOAuth20 ServiceBuilderOAuth20 instance
      */
     public func setDefaultScope(scopeBuilder: ScopeBuilder): ServiceBuilderOAuth20 {
         return setScope(scopeBuilder.build())
@@ -104,7 +104,7 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
      * Set Response Type
      *
      * @param responseType response type string
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return ServiceBuilderOAuth20 ServiceBuilderOAuth20 instance
      */
     public func setResponseType(responseType: String): ServiceBuilderOAuth20 {
         Preconditions.checkEmptyString(responseType, "Invalid OAuth responseType")
@@ -116,7 +116,7 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
      * Set HttpClientConfig
      *
      * @param httpClientConfig Option<HttpClientConfig> instance
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return ServiceBuilderOAuth20 ServiceBuilderOAuth20 instance
      */
     public func setHttpClientConfig(httpClientConfig: Option<HttpClientConfig>): ServiceBuilderOAuth20 {
         match (httpClientConfig) {
@@ -131,13 +131,19 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
      * Set HttpClient
      *
      * @param httpClient Option<HttpClient> instance
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return ServiceBuilderOAuth20 ServiceBuilderOAuth20 instance
      */
     public func setHttpClient(httpClient: Option<HttpClient>): ServiceBuilderOAuth20 {
         this.httpClient = httpClient
         return this
     }
 
+    /**
+     * Set HttpClient Provider
+     *
+     * @param httpClientProvider Option<HttpClientProvider> instance
+     * @return ServiceBuilderOAuth20 ServiceBuilderOAuth20 instance
+     */
     public func setHttpClientProvider(httpClientProvider: Option<HttpClientProvider>): ServiceBuilderOAuth20 {
         this.httpClientProvider = httpClientProvider
         return this
@@ -147,7 +153,7 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
      * Set User Agent
      *
      * @param userAgent user agent string
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return ServiceBuilderOAuth20 ServiceBuilderOAuth20 instance
      */
     public func setUserAgent(userAgent: String): ServiceBuilderOAuth20 {
         this.userAgent = userAgent
@@ -158,25 +164,22 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
      * Build OAuth20Service with DefaultApi20
      *
      * @param api DefaultApi20 instance
-     * @return ServiceBuilder ServiceBuilder instance
+     * @return OAuth20Service OAuth20Service instance
      */
     public func build(api: DefaultApi20): OAuth20Service {
         return api.createService(apiKey, apiSecret, callback, scope, responseType, debugStream, userAgent,
                 httpClientConfig, httpClient, httpClientProvider)
     }
-        
+
+    /**
+     * Set debug stream, reserved interface for optimization
+     *
+     * @param debugStream Option<OutputStream> instance
+     * @return ServiceBuilderOAuth20 ServiceBuilderOAuth20 instance
+     */
     public func setDebugStream(debugStream: Option<OutputStream>): ServiceBuilderOAuth20 {
-        match (debugStream) {
-            case Some(v) => 
-                this.debugStream = debugStream
-                return this
-            case None => throw IllegalArgumentException("debugStream can't be null") 
-        }
-    }
-        
-    func debug(): ServiceBuilderOAuth20 {
-        var stream: Option<OutputStream> = Option<OutputStream>.None
-        return setDebugStream(stream)
+        this.debugStream = debugStream
+        return this
     }
 }
 

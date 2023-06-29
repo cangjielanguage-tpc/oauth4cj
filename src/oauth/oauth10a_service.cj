@@ -20,7 +20,7 @@ public class OAuth10aService <: OAuthService {
      * @param api DefaultApi10a instance
      * @param apiKey api key
      * @param apiSecret api secret
-     * @param callback callback url
+     * @param callbackUrl callback url
      * @param scope scope string
      * @param debugStream debug mode outputstream, set Option<OutputStream>.None when not in use
      * @param userAgent user agent
@@ -28,10 +28,10 @@ public class OAuth10aService <: OAuthService {
      * @param httpClient HTTP Client instance
      * @param httpClientProvider HTTP Client Provider instance
      */
-    public init(api: DefaultApi10a, apiKey: String, apiSecret: String, callback: String, scope: Option<String>,
+    public init(api: DefaultApi10a, apiKey: String, apiSecret: String, callbackUrl: Option<String>, scope: Option<String>,
             debugStream: Option<OutputStream>, userAgent: String, httpClientConfig: Option<HttpClientConfig>,
             httpClient: Option<HttpClient>, httpClientProvider: Option<HttpClientProvider>) {
-        super(apiKey, apiSecret, callback, debugStream, userAgent, httpClientConfig, httpClient, httpClientProvider)
+        super(apiKey, apiSecret, callbackUrl, debugStream, userAgent, httpClientConfig, httpClient, httpClientProvider)
         this.api = api
         this.scope = scope
     }
@@ -81,16 +81,29 @@ public class OAuth10aService <: OAuthService {
             log("async obtaining request token from ${api.getRequestTokenEndpoint()}")
         }
         let request: OAuth4cjRequest = prepareRequestTokenRequest()
-        let res: Future<Any> = execute(request, callback, Some(DefaultRequestTokenConverter(this)))
-        return (res as Future<OAuth1RequestToken>).getOrThrow()
+        let defaultConverter: DefaultRequestTokenConverter = DefaultRequestTokenConverter(api)
+        let res: Future<Any> = execute(request, callback, Some(defaultConverter))
+        let newFuture: Future<OAuth1RequestToken> = spawn {
+            let result = res.getResult()
+            let token: Option<OAuth1RequestToken> = result as OAuth1RequestToken
+            match(token) {
+                case Some(v) => return v
+                case None => 
+                    throw OAuth4cjException("Exception in parsing OAuth1RequestToken, " +
+                        "response is: ${defaultConverter.responseString}")
+            }
+        }
+        return newFuture
     }
 
     protected func prepareRequestTokenRequest(): OAuth4cjRequest {
         var request: OAuth4cjRequest = OAuth4cjRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint())
         var callback: Option<String> = getCallback()
-        if (optionCheck<String>(callback)) {
-            callback = Some(OAuthConstants.OOB)
+        match(callback) {
+            case Some(v) => ()
+            case None => callback = Some(OAuthConstants.OOB)
         }
+
         if (isDebug()) {
             log("setting oauth_callback to ${callback.getOrThrow()}")
         }
@@ -106,11 +119,12 @@ public class OAuth10aService <: OAuthService {
         request.addOAuthParameter(OAuthConstants.CONSUMER_KEY, getApiKey())
         request.addOAuthParameter(OAuthConstants.SIGN_METHOD, api.getSignatureService().getSignatureMethod())
         request.addOAuthParameter(OAuthConstants.VERSION, getVersion())
-        if (optionCheck<String>(scope)) {
-            request.addOAuthParameter(OAuthConstants.SCOPE, scope.getOrThrow())
+        match(scope) {
+            case Some(v) => request.addOAuthParameter(OAuthConstants.SCOPE, v)
+            case None => ()
         }
-        request.addOAuthParameter(OAuthConstants.SIGNATURE, getSignature(request, tokenSecret))
 
+        request.addOAuthParameter(OAuthConstants.SIGNATURE, getSignature(request, tokenSecret))
         if (isDebug()) {
             log("appended additional OAuth parameters: ${request.getOauthParameters()}")
         }
@@ -132,7 +146,7 @@ public class OAuth10aService <: OAuthService {
             let response: Response = execute(request)
             return api.getAccessTokenExtractor().extract(response)
         } catch (ex: Exception) {
-            throw ex
+            throw OAuth4cjException("An exception occurred during the request process: " + ex.message)
         }
     }
 
@@ -163,8 +177,20 @@ public class OAuth10aService <: OAuthService {
             log("async obtaining access token from ${api.getAccessTokenEndpoint()}")
         }
         let request: OAuth4cjRequest = prepareAccessTokenRequest(requestToken, oauthVerifier)
-        let res: Future<Any> = execute(request, callback, Some(DefaultAccessTokenConverter(this)))
-        return (res as Future<OAuth1AccessToken>).getOrThrow()
+        let defaultConverter: DefaultAccessTokenConverter = DefaultAccessTokenConverter(api)
+        let res: Future<Any> = execute(request, callback, Some(defaultConverter))
+
+        let newFuture: Future<OAuth1AccessToken> = spawn {
+            let result = res.getResult()
+            let token: Option<OAuth1AccessToken> = result as OAuth1AccessToken
+            match(token) {
+                case Some(v) => return v
+                case None => 
+                    throw OAuth4cjException("Exception in parsing OAuth1AccessToken, " +
+                        "response is: ${defaultConverter.responseString}")
+            }
+        }
+        return newFuture
     }
 
     protected func prepareAccessTokenRequest(requestToken: OAuth1RequestToken, oauthVerifier: String): 
@@ -236,18 +262,16 @@ public class OAuth10aService <: OAuthService {
     protected func appendSignature(request: OAuth4cjRequest): Unit {
         let signatureType: OAuth1SignatureType = api.getSignatureType()
         match (signatureType) {
-            case HEADER =>
+            case HEADER_SIGNATURE =>
                 log("using Http Header signature")
                 let oauthHeader: String = api.getHeaderExtractor().extract(request)
-                request.addHeader(OAuthConstants.HEADER, oauthHeader)
-            case QUERY_STRING =>
+                request.addHeader(OAuthConstants.HEADER_AUTHORIZATION, oauthHeader)
+            case QUERY_STRING_SIGNATURE =>
                 log("using Querystring signature")
                 let oauthParameters = request.getOauthParameters()
                 for ((key, value) in oauthParameters) {
                     request.addQuerystringParameter(key, value)
                 }
-            case _ =>
-                throw IllegalArgumentException("Unknown new Signature Type ' ${signatureType} '.")
         }
     }
 
@@ -262,28 +286,32 @@ public class OAuth10aService <: OAuthService {
 }
 
 class DefaultRequestTokenConverter <: ResponseConverter {
-    private let oauth10aService: OAuth10aService
+    private let defaultApi10a: DefaultApi10a
+    protected var responseString: String = ""
 
-    public init(oauth10aService: OAuth10aService) {
-        this.oauth10aService = oauth10aService
+    public init(defaultApi10a: DefaultApi10a) {
+        this.defaultApi10a = defaultApi10a
     }
 
     public func convert(response: Response): OAuth1RequestToken {
-        let token: OAuth1RequestToken = oauth10aService.getApi().getRequestTokenExtractor().extract(response)
+        let token: OAuth1RequestToken = defaultApi10a.getRequestTokenExtractor().extract(response)
+        responseString = response.toString()
         response.close()
         return token
     }
 }
 
 class DefaultAccessTokenConverter <: ResponseConverter {
-    private let oauth10aService: OAuth10aService
+    private let defaultApi10a: DefaultApi10a
+    protected var responseString: String = ""
 
-    public init(oauth10aService: OAuth10aService) {
-        this.oauth10aService = oauth10aService
+    public init(defaultApi10a: DefaultApi10a) {
+        this.defaultApi10a = defaultApi10a
     }
 
     public func convert(response: Response): OAuth1AccessToken {
-        let token: OAuth1AccessToken = oauth10aService.getApi().getAccessTokenExtractor().extract(response)
+        let token: OAuth1AccessToken = defaultApi10a.getAccessTokenExtractor().extract(response)
+        responseString = response.toString()
         response.close()
         return token
     }
