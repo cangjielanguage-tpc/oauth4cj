@@ -6,7 +6,7 @@
 <img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjc-v0.38.2-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjcov-92.1%25-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjcov-88.0%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
 
@@ -31,7 +31,7 @@ OAuth4cj 支持协议 OAuth1.0 和 OAuth2.0，允许第三方程序通过访问�
 - 🌍 提供常用网站授权api封装
 
 ### 支持以下协议和附加功能
-- RFC 5849 OAuth 1.0协议示例  
+- RFC 5849 OAuth 1.0协议，[示例](./test/LLT/RFC/RFC5849/test_oauth10a_service_01.cj) 
 - RFC 6749 OAuth 2.0授权框架，授权代码授权授予，[示例](./test/LLT/RFC/RFC6749/github_example_authorization.cj)     
 - RFC 6749 OAuth 2.0授权框架，资源所有者密码凭据授权授予，[示例](./test/LLT/RFC/RFC6749/gitee_example_password.cj)     
 - RFC 6749 OAuth 2.0授权框架，客户端凭据授权授予，[示例](./test/LLT/RFC/RFC6749/huawei_example_client.cj)     
