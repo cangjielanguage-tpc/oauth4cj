@@ -16,7 +16,7 @@ func testClientAuthentication_01(): Int32 {
     client.addClientAuthentication(request, apiKey, apiSecret)
 
     var headers = request.getHeaders()
-    var header = headers.get(OAuthConstants.HEADER_AUTHORIZATION.toAsciiUpper())
+    var header = headers.get(OAuthConstants.HEADER_AUTHORIZATION)
 
     if (!header.getOrThrow().equals("${OAuthConstants.BASIC} ${encodeString}")) {
         return -1

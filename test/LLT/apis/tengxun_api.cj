@@ -1,14 +1,5 @@
-/*
- * Copyright (c) Cangjie Library Team 2023-2023. All rights reserved.
- */
-package apis
 
-from oauth4cj import oauth.*
-from oauth4cj import model.*
-from oauth4cj import oauth2.clientauthentication.*
-from oauth4cj import oauth2.bearersignature.*
-
-public class GiteeApi <: DefaultApi20 {
+public class TengxunApi <: DefaultApi20 {
 
     protected init() { }
 
@@ -17,32 +8,33 @@ public class GiteeApi <: DefaultApi20 {
      *
      * @return access token extractor
      */
-    public static func instance(): GiteeApi {
-        return GiteeApi()
+    public static func instance(): TengxunApi {
+        return TengxunApi()
     }
 
     /**
-     * Returns the verb for the access token endpoint (defaults to POST)
+     * Returns the verb for the access token endpoint
      * Return request type.
      *
      * @return access token endpoint verb
      */
     public func getAccessTokenVerb(): Verb {
-        return Verb.POST
+        return Verb.GET
     }
 
     /**
      * Returns the URL that receives the access token requests.
+     * notes: PC website
      *
      * @return access token URL
      */
     public func getAccessTokenEndpoint(): String {
-        return "https://gitee.com/oauth/token"
+        return "https://graph.qq.com/oauth2.0/token"
     }
 
-    //Return to authorization link.
+    //Return to authorization link. -- PC website
     protected func getAuthorizationBaseUrl(): String {
-        return "https://gitee.com/oauth/authorize"
+        return "https://graph.qq.com/oauth2.0/authorize"
     }
 
     /**

@@ -132,6 +132,7 @@ public class OkHttpHttpClient <: HttpClient {
      * @Param converter of Option<ResponseConverter>, the response converter
      *
      * @Return Future<Any> the result of async execute.
+     * @exception OAuth4cjException OKHttp Client does not support Multipart payload for the moment.
      * @since 0.38.2
      */
     public func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
@@ -223,6 +224,7 @@ public class OkHttpHttpClient <: HttpClient {
      * @Param bodyContents of MultipartPayload, the body content
      *
      * @Return Response The response returned after execution.
+     * @exception OAuth4cjException OKHttp Client does not support Multipart payload for the moment.
      * @since 0.38.2
      */
     public func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,

@@ -33,3 +33,12 @@
 
 9. HttpClient：提供同步和异步调用接口
 - 提供 BodyPartPayload 及多种子类型的数据结构创建，请求字段补充，数据存储，读取并封装成特定类型。
+
+## 0.0.2
+
+- 提供同步和异步的客户端 OkHttp
+
+- 提供 gitee、github、华为、微博、腾讯qq的的授权 api，及应用示例，见 README.md 文档
+- 提供 RFC 6749、RFC 6750、RFC 7009、RFC 7636、RFC 8628 的应用示例，见 README.md 文档
+
+- 修复 HttpClient 异步获取，Future<Any> 中 Any 的值无法直接获取问题

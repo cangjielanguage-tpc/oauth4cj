@@ -88,7 +88,7 @@ public class OAuth10aService <: OAuthService {
             let token: Option<OAuth1RequestToken> = result as OAuth1RequestToken
             match(token) {
                 case Some(v) => return v
-                case None => 
+                case None =>
                     throw OAuth4cjException("Exception in parsing OAuth1RequestToken, " +
                         "response is: ${defaultConverter.responseString}")
             }
@@ -185,7 +185,7 @@ public class OAuth10aService <: OAuthService {
             let token: Option<OAuth1AccessToken> = result as OAuth1AccessToken
             match(token) {
                 case Some(v) => return v
-                case None => 
+                case None =>
                     throw OAuth4cjException("Exception in parsing OAuth1AccessToken, " +
                         "response is: ${defaultConverter.responseString}")
             }

@@ -149,6 +149,7 @@ public abstract class OAuthService <: Resource {
      */
     public func execute(request: OAuth4cjRequest, callback: Option<OAuthAsyncRequestCallback>,
             converter: Option<ResponseConverter>): Future<Any> {
+
         let filePayload: Option<File> = request.getFilePayload()
         let stringPayload: String = request.getStringPayload()
 

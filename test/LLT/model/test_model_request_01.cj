@@ -92,13 +92,13 @@ public func testRequest_03():Int32 {
     var result = request.getHeaders()
 
     // 为啥要转成大写？？
-    if (!result["KEY1"].equals("value1")) {
+    if (!result["key1"].equals("value1")) {
         return -1
     }
-    if (!result["KEY2"].equals("value2")) {
+    if (!result["key2"].equals("value2")) {
         return -1
     }
-    if (!result["KEY3"].equals("value3")) {
+    if (!result["key3"].equals("value3")) {
         return -1
     }
     return 0

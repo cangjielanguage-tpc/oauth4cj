@@ -12,17 +12,19 @@ from oauth4cj import extractors.*
 from oauth4cj import exceptions.*
 
 main() {
-    //将这些替换为您的客户端id和机密
+
+    //将这些替换为在【授权服务器-gitee】中生成的 client_id 和 client_secret
     let clientId: String = "your client id"
     let clientSecret: String = "your client secret"
 
-    //替换成自己的一次性授权码
-    let CODE: String = "your code"
-
     //替换成自己需要的权限范围
+    //此授权范围是在【授权服务器-gitee】成功创建的应用中对应的权限描述，多个权限用空格隔开
     let SCOP: String = "user_info emails"
 
     let NETWORK_NAME: String = "Gitee"
+
+    //替换成自己需要请求的，受保护的资源的链接
+    //授权成功拿到访问令牌后，准备请求的受保护的资源的链接
     let PROTECTED_RESOURCE_URL: String = "https://gitee.com/api/v5/emails"
 
     let m: Random = Random()
@@ -37,37 +39,46 @@ main() {
             build(GiteeApi.instance())
 
 
-    //=== GitHub的OAuth工作流 ===
+    //=== Gitee的OAuth工作流 ===
 
-    //获取授权URL
-    //https://developers.google.com/identity/protocols/OAuth2WebServer#preparing-to-start-the-oauth-20-flow
+    //1. 获取授权 URL
+    //1.1 对授权连接中的配置，进行设置
     let additionalParams: HashMap<String, String> = HashMap<String, String>()
-    additionalParams.put("access_type", "offline")//pass access_type=offline 以获取刷新令牌
-    additionalParams.put("prompt", "consent")//强制reget刷新令牌（如果不是第一次询问用户）
+    //通过设置 access_type=offline 以获取刷新令牌
+    additionalParams.put("access_type", "offline")
+    //强制reget刷新令牌（如果不是第一次询问用户）
+    additionalParams.put("prompt", "consent")
+
+    //1.2 生成可以获取授权码的链接
+    //授权认证服务器通过回调地址{redirect_uri}将【用户授权码】code 传递给【应用服务器】或者直接在 Webview 中跳转到携带用户授权码的回调地址上，
+    //Webview(网页) 直接获取 code 即可。（{redirect_uri}?code=abc&state=xyz)
     let authorizationUrl: String = AuthorizationUrlBuilder(service).
             setState(secretState).
             setAdditionalParams(additionalParams).
             build()
     println("授权URL: " + authorizationUrl)
 
-    //替换成自己的一次性授权码
-    let code: String = CODE
+    //1.3 替换成上一步生成的一次性授权码
+    let code: String = "your code"
 
-    //获取访问令牌！
+    //2.获取访问令牌！
     var accessToken: OAuth2AccessToken = service.getAccessToken(code)
     println("(访问令牌-原始响应如下：" + accessToken.getRawResponse() + "')")
 
-    //刷新访问令牌...
+    //3.刷新访问令牌...
     accessToken = service.refreshAccessToken(accessToken.getRefreshToken())
     println("(刷新令牌-原始响应如下：" + accessToken.getRawResponse() + "')")
 
-
-    //现在让我们去请求一个受保护的资源！
+    //4.请求一个受保护的资源！
     let requestUrl: String = PROTECTED_RESOURCE_URL
     let request: OAuth4cjRequest = OAuth4cjRequest(Verb.GET, requestUrl)
+
+    //4.1 请求签名
     service.signRequest(accessToken, request)
 
+    //4.2 调用同步请求执行
     let response: Response = service.execute(request)
     println(response.getCode())
     println(response.getBody())
+
 }

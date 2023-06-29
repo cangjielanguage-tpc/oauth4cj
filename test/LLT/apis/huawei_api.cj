@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Cangjie Library Team 2023-2023. All rights reserved.
- */
-package apis
 
 public class HuaweiApi <: DefaultApi20 {
 

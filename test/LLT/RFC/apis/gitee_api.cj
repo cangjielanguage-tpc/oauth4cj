@@ -1,3 +1,4 @@
+
 from oauth4cj import oauth2.clientauthentication.*
 from oauth4cj import oauth2.bearersignature.*
 
@@ -39,13 +40,4 @@ public class GiteeApi <: DefaultApi20 {
         return BearerSignatureURIQueryParameter.instance()
     }
 
-    //返回指定的, RFC 8628 OAuth 2.0 设备授权授予链接
-    public func getDeviceAuthorizationEndpoint(): String {
-        return getAccessTokenEndpoint()
-    }
-
-    //返回指定的, RFC 7009 OAuth 2.0 令牌撤销链接
-    public func getRevokeTokenEndpoint(): String {
-        return getAccessTokenEndpoint()
-    }
 }

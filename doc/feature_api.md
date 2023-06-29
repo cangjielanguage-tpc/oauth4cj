@@ -4372,6 +4372,7 @@ public class OkHttpHttpClient <: HttpClient {
      * @参数 converter - Option<ResponseConverter> 数据类型, 响应转换器
      *
      * @返回值 Future<Any> - Future<Any> 数据类型, 异步执行的结果。
+     * @异常 OAuth4cjException 客户端 OkHttp 暂时不支持 MultipartPayload。
      */
     func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: MultipartPayload, callback: Option<OAuthAsyncRequestCallback>,
@@ -4435,6 +4436,7 @@ public class OkHttpHttpClient <: HttpClient {
      * @参数 bodyContents - MultipartPayload 数据类型, 正文内容
      *
      * @返回值 OAuth4cjResponse - Response 数据类型的别名, 执行后返回响应
+     * @异常 OAuth4cjException 客户端 OkHttp 暂时不支持 MultipartPayload。
      */
     func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: MultipartPayload): OAuth4cjResponse
