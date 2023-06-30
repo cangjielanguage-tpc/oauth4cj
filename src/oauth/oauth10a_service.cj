@@ -89,8 +89,10 @@ public class OAuth10aService <: OAuthService {
             match(token) {
                 case Some(v) => return v
                 case None =>
-                    throw OAuth4cjException("Exception in parsing OAuth1RequestToken, " +
-                        "response is: ${defaultConverter.responseString}")
+                    let err: String = "Exception in parsing OAuth1RequestToken," + 
+                        "response is: ${defaultConverter.responseString}"
+                    let ex: Exception = (result as Exception) ?? OAuth4cjException(err)
+                    throw OAuth4cjException(ex.message)
             }
         }
         return newFuture
@@ -186,8 +188,10 @@ public class OAuth10aService <: OAuthService {
             match(token) {
                 case Some(v) => return v
                 case None =>
-                    throw OAuth4cjException("Exception in parsing OAuth1AccessToken, " +
-                        "response is: ${defaultConverter.responseString}")
+                    let err: String = "Exception in parsing OAuth1AccessToken," + 
+                        "response is: ${defaultConverter.responseString}"
+                    let ex: Exception = (result as Exception) ?? OAuth4cjException(err)
+                    throw OAuth4cjException(ex.message)
             }
         }
         return newFuture
@@ -294,8 +298,8 @@ class DefaultRequestTokenConverter <: ResponseConverter {
     }
 
     public func convert(response: Response): OAuth1RequestToken {
-        let token: OAuth1RequestToken = defaultApi10a.getRequestTokenExtractor().extract(response)
         responseString = response.toString()
+        let token: OAuth1RequestToken = defaultApi10a.getRequestTokenExtractor().extract(response)
         response.close()
         return token
     }
@@ -310,8 +314,8 @@ class DefaultAccessTokenConverter <: ResponseConverter {
     }
 
     public func convert(response: Response): OAuth1AccessToken {
-        let token: OAuth1AccessToken = defaultApi10a.getAccessTokenExtractor().extract(response)
         responseString = response.toString()
+        let token: OAuth1AccessToken = defaultApi10a.getAccessTokenExtractor().extract(response)
         response.close()
         return token
     }
