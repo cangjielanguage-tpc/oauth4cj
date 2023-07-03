@@ -20,7 +20,7 @@ public class TestBearerSignatureAuthorizationRequestHeaderFieldB004{
         var exp_headers=HashMap<String,String>()
         var re=HashMap<String,String>()
         for (str in strValues){
-            exp_headers.put("AUTHORIZATION","Bearer "+str)
+            exp_headers.put("Authorization","Bearer "+str)
 
             bearerSignatureAuthorizationRequestHeaderField.signRequest(str,oauth4cjRequest)
             re=oauth4cjRequest.getHeaders()

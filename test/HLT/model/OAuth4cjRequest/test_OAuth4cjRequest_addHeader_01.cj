@@ -17,7 +17,7 @@ public class TestOAuth4cjRequestB001{
         var exp_headers=HashMap<String,String>()
         for (str in strValues){
             oauth4cjRequest.addHeader(str,str)
-            exp_headers.put(str.toAsciiUpper(),str)
+            exp_headers.put(str,str)
         }
         @Assert(oauth4cjRequest.getHeaders(),exp_headers)
     }

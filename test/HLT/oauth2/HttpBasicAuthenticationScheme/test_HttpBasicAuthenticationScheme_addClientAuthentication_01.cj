@@ -25,7 +25,7 @@ public class TestHttpBasicAuthenticationSchemeB004{
         for (str in strValues){
             str_encoding_before=str+":"+str
             str_encoding_after=Base64Utils.encode(str_encoding_before.toUtf8Array())
-            exp_headers.put("AUTHORIZATION","Basic "+str_encoding_after)
+            exp_headers.put("Authorization","Basic "+str_encoding_after)
 
             httpBasicAuthenticationScheme.addClientAuthentication(oauth4cjRequest,str,str)
             re=oauth4cjRequest.getHeaders()

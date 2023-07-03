@@ -58,8 +58,21 @@ main() {
             build()
     println("授权URL: " + authorizationUrl)
 
-    //1.3 替换成上一步生成的一次性授权码
-    let code: String = "your code"
+    //1.3 获取授权码 -- 执行1.3.1 或者 1.3.2
+    // Webview(网页)打开上面的授权链接authorizationUrl，返回链接({redirect_uri}?code=abc&state=xyz)
+
+    //1.3.1 替换成返回链接({redirect_uri}?code=abc&state=xyz)，中生成的一次性授权码code
+    //let code: String = "your code"
+
+    //1.3.2 替换成返回链接({redirect_uri}?code=abc&state=xyz)，函数extractAuthorization解析code
+    // Webview(网页)打开上面的授权链接authorizationUrl，返回的链接({redirect_uri}?code=abc&state=xyz)
+
+    let redirectLocation: String = "http://www.example.com/oauth_callback/?code=${your code}&state=${your state}"
+
+    println("授权后返回的链接: " + redirectLocation)
+    let o2a: OAuth2Authorization = service.extractAuthorization(redirectLocation)
+    let code: String = o2a.getCode()
+    println("拿到授权码：" + code)
 
     //2.获取访问令牌！
     var accessToken: OAuth2AccessToken = service.getAccessToken(code)
