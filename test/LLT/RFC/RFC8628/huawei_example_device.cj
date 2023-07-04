@@ -34,7 +34,12 @@ main() {
     //RFC 8628 OAuth 2.0设备授权授予
 
     //1. 设备码Code请求
-    let deviceAuthorization: DeviceAuthorization = service.getDeviceAuthorizationCodes()
+    //1.1 同步获取设备授权响应
+    //let deviceAuthorization: DeviceAuthorization = service.getDeviceAuthorizationCodes()
+    //1.2 异步获取设备授权响应
+    let res: Future<DeviceAuthorization> = service.getDeviceAuthorizationCodes(Option<OAuthAsyncRequestCallback>.None)
+    var deviceAuthorization: DeviceAuthorization = res.getResult()
+
     println("设备授权响应: " + deviceAuthorization.toString())
 
     //2.浏览器打开链接，手动授权

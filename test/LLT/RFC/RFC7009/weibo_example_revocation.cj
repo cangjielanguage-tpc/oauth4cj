@@ -73,7 +73,11 @@ main() {
     //5.撤销令牌
     //RFC 7009 OAuth 2.0令牌吊销
     println("执行撤销令牌")
-    service.revokeToken(accessToken.getAccessToken())
+    //5.1 同步撤销令牌
+    //service.revokeToken(accessToken.getAccessToken())
+    //5.2 异步撤销令牌
+    let res: Future<Unit> = service.revokeTokenAsync(accessToken.getAccessToken())
+    res.getResult()
 
     //6.请求一个受保护的资源！--获取uid
     //RFC 6750 OAuth 2.0授权框架：承载令牌使用
