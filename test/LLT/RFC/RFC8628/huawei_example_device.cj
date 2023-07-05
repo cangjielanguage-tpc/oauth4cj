@@ -1,7 +1,9 @@
 
 from std import collection.*
+from std import sync.*
+from std import time.*
 
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 from oauth4cj import oauth.*
 from oauth4cj import model.*
 from oauth4cj import httpclient.*
@@ -38,7 +40,7 @@ main() {
     //let deviceAuthorization: DeviceAuthorization = service.getDeviceAuthorizationCodes()
     //1.2 异步获取设备授权响应
     let res: Future<DeviceAuthorization> = service.getDeviceAuthorizationCodes(Option<OAuthAsyncRequestCallback>.None)
-    var deviceAuthorization: DeviceAuthorization = res.getResult()
+    var deviceAuthorization: DeviceAuthorization = res.get()
 
     println("设备授权响应: " + deviceAuthorization.toString())
 
@@ -47,7 +49,7 @@ main() {
     println("设备授权URL: " + deviceAuthorizationUrl)
 
     //2.1 等待，保证手动授权完成
-    sleep(60 * 1000 * 1000 * 1000)
+    sleep(60 * 1000 * 1000 * 1000 * Duration.nanosecond)
 
     //3. 获取访问令牌！
     let accessToken: OAuth2AccessToken = service.getAccessTokenDeviceAuthorizationGrant(deviceAuthorization)

@@ -5,7 +5,7 @@
 /**
  * @file The file declars the OAuthEncoder class.
  */
-package utils
+package commons
 
 public class OAuthEncoder  {
 

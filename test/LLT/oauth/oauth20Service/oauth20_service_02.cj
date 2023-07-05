@@ -46,7 +46,7 @@ main() {
 func testOAuth20Service_15(service: OAuth20Service): Int32 {
     try {
         let res: Future<OAuth2AccessToken> = service.getAccessTokenClientCredentialsGrantAsync()
-        res.getResult()
+        res.get()
     } catch (e: Exception) {
         //e.printStackTrace()
         return 0

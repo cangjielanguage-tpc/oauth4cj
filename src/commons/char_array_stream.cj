@@ -5,7 +5,7 @@
 /**
  * @file The file declars the CharArrayStream class.
  */
-package utils
+package commons
 
 from std import sync.*
 
@@ -33,20 +33,6 @@ class CharArrayStream {
         this.length_ = 0
     }
 
-    prop let size: Int64 {
-        get(){return this.length_}
-    }
-
-    prop let capacity: Int64 {
-        get(){return this.myData.size}
-    }
-
-    // Convert to character write buffer.
-    func write(ch: Int32): Unit {
-        let item: Char = Char(ch)
-        this.append(item)
-    }
-
     func write(item: Char): Unit {
         this.append(item)
     }
@@ -56,18 +42,6 @@ class CharArrayStream {
             this.reserve(1)
             this.myData[this.length_] = item
             this.length_ ++
-        }
-    }
-
-    func appendAll(buf: Array<Char>): Unit {
-        let bufSize: Int64 = buf.size
-        if (bufSize == 0) {
-            return
-        }
-        synchronized(this.mu) {
-            this.reserve(bufSize)
-            buf.copyTo(this.myData, 0, this.start + this.length_, bufSize)
-            this.length_ += bufSize
         }
     }
 
@@ -100,17 +74,6 @@ class CharArrayStream {
         synchronized (this.mu) {
             return this.myData.slice(this.start, this.length_)
         }
-    }
-
-    func toArray(): Array<Char> {
-        let buf: Array<Char> = this.myData.slice(this.start, this.length_)
-        this.start = 0
-        this.length_ = 0
-        return buf
-    }
-
-    func isEmpty(): Bool {
-        return this.start >= this.length_
     }
 
     func reset(): Unit {

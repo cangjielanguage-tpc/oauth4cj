@@ -2,7 +2,7 @@
 // EXEC: ./main
 
 from oauth4cj import services.*
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 
 public func testHMACSha1SignatureService_01(): Int32 {
 

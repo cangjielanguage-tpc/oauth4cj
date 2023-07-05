@@ -5,7 +5,7 @@
 /**
  * @file The file declars the BitSet class.
  */
-package utils
+package commons
 
 /**
  * The class is BitSet

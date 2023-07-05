@@ -2,7 +2,7 @@
 // EXEC: ./main
 
 from oauth4cj import model.*
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 from oauth4cj import oauth2.clientauthentication.*
 
 func testClientAuthentication_01(): Int32 {

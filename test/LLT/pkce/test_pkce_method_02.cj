@@ -4,7 +4,7 @@
 from oauth4cj import pkce.*
 
 from encoding import base64.*
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 
 main () {
     let str: String = "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"

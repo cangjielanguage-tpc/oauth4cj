@@ -267,7 +267,7 @@ func testOAuth20Service_01(service: OAuth20Service): Int32 {
 func testOAuth20Service_02(service: OAuth20Service): Int32 {
     try {
         let res: Future<OAuth2AccessToken> = service.getAccessTokenAsync("test")
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -277,7 +277,7 @@ func testOAuth20Service_02(service: OAuth20Service): Int32 {
 func testOAuth20Service_03(service: OAuth20Service): Int32 {
     try {
         let res: Future<OAuth2AccessToken> = service.getAccessTokenAsync(AccessTokenRequestParams.create("code"))
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -287,7 +287,7 @@ func testOAuth20Service_03(service: OAuth20Service): Int32 {
 func testOAuth20Service_04(service: OAuth20Service): Int32 {
     try {
         let res: Future<OAuth2AccessToken> = service.getAccessToken(AccessTokenRequestParams.create("code"), None)
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -297,7 +297,7 @@ func testOAuth20Service_04(service: OAuth20Service): Int32 {
 func testOAuth20Service_05(service: OAuth20Service): Int32 {
     try {
         let res: Future<OAuth2AccessToken> = service.getAccessToken("code", None)
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -307,7 +307,7 @@ func testOAuth20Service_05(service: OAuth20Service): Int32 {
 func testOAuth20Service_06(service: OAuth20Service): Int32 {
     try {
         let res: Future<OAuth2AccessToken> = service.refreshAccessTokenAsync("code")
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -317,7 +317,7 @@ func testOAuth20Service_06(service: OAuth20Service): Int32 {
 func testOAuth20Service_07(service: OAuth20Service): Int32 {
     try {
         let res: Future<OAuth2AccessToken> = service.refreshAccessTokenAsync("code", "scope")
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -345,7 +345,7 @@ func testOAuth20Service_09(service: OAuth20Service): Int32 {
 func testOAuth20Service_10(service: OAuth20Service): Int32 {
     try {
         let res: Future<OAuth2AccessToken> = service.refreshAccessToken("code", None)
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -355,7 +355,7 @@ func testOAuth20Service_10(service: OAuth20Service): Int32 {
 func testOAuth20Service_11(service: OAuth20Service): Int32 {
     try {
         let res: Future<OAuth2AccessToken> = service.refreshAccessToken("code", "scope", None)
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -374,7 +374,7 @@ func testOAuth20Service_12(service: OAuth20Service): Int32 {
 func testOAuth20Service_13(service: OAuth20Service): Int32 {
     try {
         let res: Future<OAuth2AccessToken> = service.getAccessTokenPasswordGrantAsync("username", "password", "scope")
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -385,7 +385,7 @@ func testOAuth20Service_14(service: OAuth20Service): Int32 {
     try {
         let res: Future<OAuth2AccessToken> =
                     service.getAccessTokenPasswordGrantAsync("username", "password", "scope", None)
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -395,7 +395,7 @@ func testOAuth20Service_14(service: OAuth20Service): Int32 {
 func testOAuth20Service_15(service: OAuth20Service): Int32 {
     try {
         let res: Future<OAuth2AccessToken> = service.getAccessTokenClientCredentialsGrantAsync()
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (e: Exception) {
         return 0
     }
@@ -405,7 +405,7 @@ func testOAuth20Service_15(service: OAuth20Service): Int32 {
 func testOAuth20Service_16(service: OAuth20Service): Int32 {
     try {
         let res: Future<OAuth2AccessToken> = service.getAccessTokenClientCredentialsGrantAsync("scope")
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -424,7 +424,7 @@ func testOAuth20Service_17(service: OAuth20Service): Int32 {
 func testOAuth20Service_18(service: OAuth20Service): Int32 {
     try {
         let res: Future<OAuth2AccessToken> = service.getAccessTokenClientCredentialsGrant(None)
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -434,7 +434,7 @@ func testOAuth20Service_18(service: OAuth20Service): Int32 {
 func testOAuth20Service_19(service: OAuth20Service): Int32 {
     try {
         let res: Future<OAuth2AccessToken> = service.getAccessTokenClientCredentialsGrant("scope", None)
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -444,7 +444,7 @@ func testOAuth20Service_19(service: OAuth20Service): Int32 {
 func testOAuth20Service_20(service: OAuth20Service): Int32 {
     try {
         let res: Future<Unit> = service.revokeTokenAsync("scope")
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -454,7 +454,7 @@ func testOAuth20Service_20(service: OAuth20Service): Int32 {
 func testOAuth20Service_21(service: OAuth20Service): Int32 {
     try {
         let res: Future<Unit> = service.revokeTokenAsync("scope", Some(TokenTypeHint.ACCESS_TOKEN_HINT))
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -482,7 +482,7 @@ func testOAuth20Service_23(service: OAuth20Service): Int32 {
 func testOAuth20Service_24(service: OAuth20Service): Int32 {
     try {
         let res: Future<Unit> = service.revokeTokenAsync("scope", None)
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -492,7 +492,7 @@ func testOAuth20Service_24(service: OAuth20Service): Int32 {
 func testOAuth20Service_25(service: OAuth20Service): Int32 {
     try {
         let res: Future<DeviceAuthorization> = service.getDeviceAuthorizationCodes(None)
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -502,7 +502,7 @@ func testOAuth20Service_25(service: OAuth20Service): Int32 {
 func testOAuth20Service_26(service: OAuth20Service): Int32 {
     try {
         let res: Future<DeviceAuthorization> = service.getDeviceAuthorizationCodes(Some("scope"), None)
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -530,7 +530,7 @@ func testOAuth20Service_28(service: OAuth20Service): Int32 {
 func testOAuth20Service_29(service: OAuth20Service): Int32 {
     try {
         let res: Future<DeviceAuthorization> = service.getDeviceAuthorizationCodesAsync()
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -540,7 +540,7 @@ func testOAuth20Service_29(service: OAuth20Service): Int32 {
 func testOAuth20Service_30(service: OAuth20Service): Int32 {
     try {
         let res: Future<DeviceAuthorization> = service.getDeviceAuthorizationCodesAsync(Some("scope"))
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -561,7 +561,7 @@ func testOAuth20Service_32(service: OAuth20Service): Int32 {
     try {
         let da: DeviceAuthorization = DeviceAuthorization("deviceCode", "userCode", "verificationUri", 0)
         let res: Future<OAuth2AccessToken> = service.getAccessTokenDeviceAuthorizationGrant(da, None)
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }
@@ -572,7 +572,7 @@ func testOAuth20Service_33(service: OAuth20Service): Int32 {
     try {
         let da: DeviceAuthorization = DeviceAuthorization("deviceCode", "userCode", "verificationUri", 0)
         let res: Future<OAuth2AccessToken> = service.getAccessTokenDeviceAuthorizationGrantAsync(da)
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
     } catch (ex: Exception) {
         return 0
     }

@@ -5,7 +5,7 @@ from std import unittest.*
 from std import unittest.testmacro.*
 from cryptocj import sha256cj.*
 from oauth4cj import pkce.*
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 @Test
 public class TestPKCECodeChallengeMethodB002{
     /***

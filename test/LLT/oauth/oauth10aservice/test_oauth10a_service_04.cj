@@ -16,7 +16,7 @@ from oauth4cj import exceptions.*
 func testOAuth10aService09(service: OAuth10aService): Int32 {
     try {
         let res: Future<OAuth1RequestToken> = service.getRequestTokenAsync()
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
         return -1
     } catch (ex: Exception) {
         return 0
@@ -26,7 +26,7 @@ func testOAuth10aService09(service: OAuth10aService): Int32 {
 func testOAuth10aService10(service: OAuth10aService): Int32 {
     try {
         let res: Future<OAuth1RequestToken> = service.getRequestTokenAsync(MyCallBack())
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
         return -1
     } catch (ex: Exception) {
         return 0
@@ -38,7 +38,7 @@ func testOAuth10aService11(service: OAuth10aService): Int32 {
         let requestToken = OAuth1RequestToken("token", "tokenSecret")
         let oauthVerifier = "oauthVerifier"
         let res: Future<OAuth1AccessToken> = service.getAccessTokenAsync(requestToken, oauthVerifier)
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
         return -1
     } catch (ex: Exception) {
         return 0
@@ -50,7 +50,7 @@ func testOAuth10aService12(service: OAuth10aService): Int32 {
         let requestToken = OAuth1RequestToken("token", "tokenSecret")
         let oauthVerifier = "oauthVerifier"
         let res: Future<OAuth1AccessToken> = service.getAccessTokenAsync(requestToken, oauthVerifier, MyCallBack())
-        res.getResult(1000 * 1000 * 1000)
+        res.get(1000 * 1000 * 1000)
         return -1
     } catch (ex: Exception) {
         return 0

@@ -2,7 +2,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 
 main (){
     let plain: Array<String> = ["Ladies + Gentlemen", "An encoded string!", "Dogs, Cats & Mice"]

@@ -12,9 +12,9 @@ public abstract class OAuthService <: Resource {
     private var httpClient: Option<HttpClient> = Option<HttpClient>.None
     private var debugStream: Option<OutputStream> = Option<OutputStream>.None
     private var isClosedFlag: Bool = false
-    var hasClient = false
-    var hasConfig = false
-    var hasProvider = false
+    var hasClient: Bool = false
+    var hasConfig: Bool = false
+    var hasProvider: Bool = false
 
     /**
      * Create OAuthService instance.
@@ -153,7 +153,7 @@ public abstract class OAuthService <: Resource {
         let filePayload: Option<File> = request.getFilePayload()
         let stringPayload: String = request.getStringPayload()
 
-        var hasFile = false
+        var hasFile: Bool = false
         match (filePayload) {
             case None => hasFile = false
             case Some(data) => hasFile = true
@@ -182,13 +182,13 @@ public abstract class OAuthService <: Resource {
         let stringPayload: String = request.getStringPayload()
         let multipartPayload: Option<MultipartPayload> = request.getMultipartPayload()
 
-        var hasFile = false
+        var hasFile: Bool = false
         match (filePayload) {
             case None => hasFile = false
             case Some(data) => hasFile = true
         }
 
-        var hasMultipart = false
+        var hasMultipart: Bool = false
         match (multipartPayload) {
             case None => hasMultipart = false
             case Some(data) => hasMultipart = true

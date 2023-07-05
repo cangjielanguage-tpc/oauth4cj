@@ -66,7 +66,7 @@ public class PKCEService {
     }
 
     private func setArrayByRandom(bytes: Array<UInt8>): Unit {
-        RANDOM.setSeed(UInt64(numberOFOctets))
+        RANDOM.seed = UInt64(numberOFOctets)
         for (i in 0..bytes.size) {
             bytes[i] = RANDOM.nextUInt8()
         }

@@ -10,7 +10,7 @@ package pkce
 
 from cryptocj import sha256cj.*
 
-import utils.*
+import commons.*
 import exceptions.*
 
 public enum PKCECodeChallengeMethod <: ToString {

@@ -131,7 +131,7 @@ public func testOkHttpHttpClient_06(): Int32 {
     try {
         let res: Future<Any> = client.executeAsync("", HashMap<String, String>(), Verb.GET,
                                 "http://127.0.0.1:8080/", Array<UInt8>(), None, None)
-        res.getResult(1000 * 1000)
+        res.get(1000 * 1000)
     } catch (e: Exception) {
         //e.printStackTrace()
         println(7)
@@ -147,7 +147,7 @@ public func testOkHttpHttpClient_07(): Int32 {
     try {
         let res: Future<Any> = client.executeAsync("", HashMap<String, String>(), Verb.POST,
                                 "http://127.0.0.1:8080/", Array<UInt8>(), None, None)
-        res.getResult(1000 * 1000)
+        res.get(1000 * 1000)
     } catch (e: Exception) {
         //e.printStackTrace()
         println(8)

@@ -6,7 +6,7 @@
 /**
  * @file The file declars the Base64Utils class.
  */
-package utils
+package commons
 
 from encoding import base64.*
 

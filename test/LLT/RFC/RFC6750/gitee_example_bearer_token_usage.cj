@@ -1,7 +1,7 @@
 
 from std import collection.*
 
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 from oauth4cj import oauth.*
 from oauth4cj import model.*
 from oauth4cj import httpclient.*
@@ -44,7 +44,7 @@ main() {
     //RFC 6749 OAuth 2.0授权框架，资源所有者密码凭据授权授予
     let res: Future<OAuth2AccessToken> = service.getAccessTokenPasswordGrantAsync(USER_NAME, PASSWORD)
     println("测试异步的密码模式......")
-    let accessToken: OAuth2AccessToken = res.getResult()
+    let accessToken: OAuth2AccessToken = res.get()
 
     println("(原始响应如下：" + accessToken.getRawResponse() + "')")
 

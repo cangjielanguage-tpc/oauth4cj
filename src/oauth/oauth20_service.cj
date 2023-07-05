@@ -4,9 +4,12 @@
 
 package oauth
 
+from std import sync.*
+from std import time.*
+
 import pkce.*
 import util.*
-import utils.*
+import commons.*
 import revoke.*
 import exceptions.*
 import model.*
@@ -216,7 +219,7 @@ public class OAuth20Service <: OAuthService {
         let res: Future<Any> = execute(request, callback, Some(rc))
 
         let nowFuture: Future<OAuth2AccessToken> = spawn {
-            let result = res.getResult()
+            let result = res.get()
             let token: Option<OAuth2AccessToken> = result as OAuth2AccessToken
             match(token) {
                 case Some(v) => return v
@@ -758,15 +761,17 @@ public class OAuth20Service <: OAuthService {
         let res: Future<Any> = execute(request, callback, Some(rc))
 
         let nowFuture: Future<Unit> = spawn {
-            let result = res.getResult()
-            let revokeToken: Option<ResponseConverterRevokeToken> = result as ResponseConverterRevokeToken
-            match(revokeToken) {
-                case Some(v) => return ()
-                case None =>
-                    let err: String = "Exception in parsing Unit, response is: ${rc.responseString}"
-                    let ex: Exception = (result as Exception) ?? OAuth4cjException(err)
-                    throw OAuth4cjException(ex.message)
+            let result = res.get()
+
+            func insideGet(): Exception {
+                let err: String = "Exception in parsing Unit, response is: ${rc.responseString}"
+                let ex: Exception = (result as Exception) ?? OAuth4cjException(err)
+                return OAuth4cjException(ex.message)
             }
+
+            let revokeToken: Option<ResponseConverterRevokeToken> = result as ResponseConverterRevokeToken
+            revokeToken.getOrThrow(insideGet)
+            return ()
         }
         return nowFuture
     }
@@ -850,7 +855,7 @@ public class OAuth20Service <: OAuthService {
         let res: Future<Any> = execute(request, callback, Some(rc))
 
         let nowFuture: Future<DeviceAuthorization> = spawn {
-            let result = res.getResult()
+            let result = res.get()
             let deviceAuthorization: Option<DeviceAuthorization> = result as DeviceAuthorization
             match(deviceAuthorization) {
                 case Some(v) => return v
@@ -935,7 +940,7 @@ public class OAuth20Service <: OAuthService {
         let res: Future<Any> = execute(request, callback, Some(rc))
 
         let nowFuture: Future<OAuth2AccessToken> = spawn {
-            let result = res.getResult()
+            let result = res.get()
             let token: Option<OAuth2AccessToken> = result as OAuth2AccessToken
             match(token) {
                 case Some(v) => return v
@@ -991,7 +996,7 @@ public class OAuth20Service <: OAuthService {
                     }
                 }
             }
-            sleep(intervalMillis)
+            sleep(intervalMillis * Duration.nanosecond)
         }
         return OAuth2AccessToken("")
     }

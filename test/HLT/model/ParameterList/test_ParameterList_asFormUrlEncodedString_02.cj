@@ -5,7 +5,7 @@ from std import unittest.*
 from std import unittest.testmacro.*
 from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 
 @Test
 public class TestParameterListB001{

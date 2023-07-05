@@ -4,7 +4,7 @@
 from std import fs.*
 
 from oauth4cj import services.*
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 from oauth4cj import exceptions.*
 
 main() {

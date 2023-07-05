@@ -5,7 +5,7 @@
 <p align="center">
 <img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjc-v0.38.2-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjc-v0.39.4-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjcov-91.2%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
@@ -166,7 +166,7 @@ https://open.weibo.com/wiki/%E6%96%B0%E6%89%8B%E6%8C%87%E5%8D%97
 from std import random.*
 from std import collection.*
 
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 from oauth4cj import oauth.*
 from oauth4cj import model.*
 from oauth4cj import httpclient.*
@@ -192,7 +192,7 @@ main() {
     let PROTECTED_RESOURCE_URL: String = "https://gitee.com/api/v5/emails"
 
     let m: Random = Random()
-    m.setSeed(3)
+    m.seed = 3
     let c: UInt32 = m.nextUInt32()
 
     let secretState: String = "secret" + c.toString()
@@ -311,7 +311,7 @@ public class GiteeApi <: DefaultApi20 {
 ```cangjie
 from std import collection.*
 
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 from oauth4cj import oauth.*
 from oauth4cj import model.*
 from oauth4cj import httpclient.*
@@ -440,7 +440,7 @@ public class GiteeApi <: DefaultApi20 {
 ```cangjie
 from std import collection.*
 
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 from oauth4cj import oauth.*
 from oauth4cj import model.*
 from oauth4cj import httpclient.*
@@ -562,7 +562,7 @@ func getDeviceBaseUrl(userCode: String): String {
 ```cangjie
 from std import collection.*
 
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 from oauth4cj import oauth.*
 from oauth4cj import model.*
 from oauth4cj import httpclient.*
