@@ -11,7 +11,6 @@ public class TestOAuth4cjRequestB001{
         初始化查询：url不带参数，url无效协议
     ***/
     @TestCase
-    @Skip
     func testOAuth4cjRequestgetQueryStringParams0102(): Unit {
         var url="sss://www.baidu.com"
         var exp_flag=0
