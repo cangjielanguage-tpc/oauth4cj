@@ -54,10 +54,10 @@ public var int32Values=Array<Int32>([Int32.Max,Int32.Min,Int32.Max-1,Int32.Min+1
 /*****    Bool等价类  ******/
 public var boolValues=Array<Bool>([true,false])
 /*****    返回固定长度字符串 ****/
-public func getStringByLength(length:Int64):String{
+public func getStringByLength(len:Int64):String{
     var str02=""
     var i=0
-    while(i<10000){
+    while(i<len){
         str02+=i.toString()
         i=str02.size
     }
@@ -338,9 +338,11 @@ public class SubOAuthAsyncRequestCallback <:OAuthAsyncRequestCallback{
     public static var flag_onCompleted="fail"
     public static var flag_onThrowable="fail"
     public func onCompleted(response: Any): Unit{
+        println(response is model.Response)
         flag_onCompleted="pass"
     }
     public func onThrowable(e: Exception): Unit{
+        println(e is OAuth4cjException)
         flag_onThrowable="pass"
     }
     public func getFlagOnCompleted():String{
@@ -444,10 +446,10 @@ class MyInterceptor <: Interceptor {
 
     public func intercept(chain: Chain): okhttp.Response {
         let dispatcher = client.getOrThrow().getDispatcher()
-        let run = dispatcher.runningCalls()
+        dispatcher.runningCalls()
         let request: okhttp.Request = chain.getRequest()
         let requestBuilder: okhttp.RequestBuilder  = request.newBuilder()
-        let header: Header = request.getHeaders()
+        //let header: Header = request.getHeaders()
         var response: okhttp.Response =  chain.proceed(requestBuilder.build())
         let responseBuilder: okhttp.ResponseBuilder = response.newBuilder().request(request)
         return responseBuilder.build()

@@ -141,7 +141,7 @@ public func testParameterList_07(): Int32 {
     try {
     	pars.addQuerystring(queryString03)
     } catch (e: Exception) {
-    	e.printStackTrace()
+    	//e.printStackTrace()
     	return 0
     }
     println(18)

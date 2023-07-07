@@ -28,6 +28,17 @@ main() {
         println(test_01)
         return test_01
     }
+
+    test_01 = testOAuth2AccessTokenJsonExtractor_03()
+    if (test_01 != 0){
+        println(test_01)
+        return test_01
+    }
+    test_01 = testOAuth2AccessTokenJsonExtractor_04()
+    if (test_01 != 0){
+        println(test_01)
+        return test_01
+    }
     return test_01
 }
 
@@ -39,8 +50,9 @@ func testOAuth2AccessTokenJsonExtractor_01(): Int32 {
     try {
         let response: Response = error(responseBody)
         let extracted: OAuth2AccessToken = extractor.extract(response)
+        println(extracted.getAccessToken())
     } catch (e: OAuth2AccessTokenErrorResponse) {
-        e.printStackTrace()
+        //e.printStackTrace()
         if (!OAuth2Error.INVALID_GRANT.getErrorString().equals(e.getError().getOrThrow().getErrorString())) {
             println(1)
             return 1
@@ -64,8 +76,9 @@ func testOAuth2AccessTokenJsonExtractor_02(): Int32 {
 
     let response: Response = ok(responseBody)
     let extracted: OAuth2AccessToken = extractor.extract(response)
+    let str: String = extracted.getAccessToken()
 
-    if (!extracted.getAccessToken().equals("I0122HKLEM2/MV3ABKFTDT3T5X")) {
+    if (!str.equals("I0122HKLEM2/MV3ABKFTDT3T5X")) {
         println(3)
         return 3
     }

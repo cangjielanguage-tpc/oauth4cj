@@ -28,8 +28,10 @@ main (){
 
 func testGeneratingPKCE(len: Int64): String {
     var str: String = ""
-    for (i in 0..len) {
+    var i: Int64 = 0
+    while (i < len) {
         str += "s"
+        i++
     }
     return str
 }

@@ -12,7 +12,7 @@ from std import io.*
 // public init(200, "message", headers, stream, closeables, "") getCode() getMessage() getHeaders() getHeader("header2") getBody()
 public func testResponse_01():Int32 {
     var headers:HashMap<String, String> = HashMap<String, String>()
-    var stream:ByteArrayStream = ByteArrayStream()
+    //var stream:ByteArrayStream = ByteArrayStream()
     headers.put("header1", "value1")
     headers.put("header2", "value2")
     var response:Response = Response(200, "message", headers, "123456")
@@ -38,7 +38,7 @@ public func testResponse_01():Int32 {
 // isSuccessful()
 public func testResponse_02():Int32 {
     var headers:HashMap<String, String> = HashMap<String, String>()
-    var stream:ByteArrayStream = ByteArrayStream()
+    //var stream:ByteArrayStream = ByteArrayStream()
     var response_1:Response = Response(200, "message", headers, "123456")
     if (!response_1.isSuccessful()) {
         return -1

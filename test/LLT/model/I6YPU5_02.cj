@@ -64,7 +64,7 @@ public func testParameterList_04(): Int32 {
     try {
     	pars.addQuerystring(queryString03)
     } catch (e: Exception) {
-    	e.printStackTrace()
+    	//e.printStackTrace()
     	return 0
     }
     println(8)
@@ -79,7 +79,7 @@ public func testParameterList_05(): Int32 {
     try {
     	pars.addQuerystring(queryString03)
     } catch (e: Exception) {
-    	e.printStackTrace()
+    	//e.printStackTrace()
     	return 0
     }
     println(9)

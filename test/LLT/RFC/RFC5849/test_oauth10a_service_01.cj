@@ -92,7 +92,7 @@ main() {
     let clientId: String = "dpf43f3p2l4k3l03"
     let clientSecret: String = "kd94hf93k423kf4"
 
-    let callbackUrl: String = "http://127.0.0.1:${port}/token"
+    //let callbackUrl: String = "http://127.0.0.1:${port}/token"
 
     // 模拟photos.example.net（服务器）网站提供的oauth接入地址封装的api
     let PROTECTED_RESOURCE_URL: String = "http://127.0.0.1:${port}/ready"
@@ -120,6 +120,7 @@ main() {
     // 3. 'printer.example.com'向'photos.example.net'请求资源所有者授权
     // 将PhotosApi中的资源所有者授权URI拼接上刚才请求的未授权的临时requestToken
     let authorizationUrl: String = service.getAuthorizationUrl(requestToken)
+    println("授权链接：" + authorizationUrl)
     let oauthVerifier: String = "123456"
     // 4. 验证授权后的返回值
     /**
@@ -356,12 +357,13 @@ class MyInterceptor <: Interceptor {
 
     public func intercept(chain: Chain): okhttp.Response {
         let dispatcher = client.getOrThrow().getDispatcher()
-        let run = dispatcher.runningCalls()
+        dispatcher.runningCalls()
+        //let run = dispatcher.runningCalls()
         // println(run.size)
 
         let request: okhttp.Request = chain.getRequest()
         let requestBuilder: okhttp.RequestBuilder  = request.newBuilder()
-        let header: Header = request.getHeaders()
+        //let header: Header = request.getHeaders()
         var response: okhttp.Response =  chain.proceed(requestBuilder.build())
         let responseBuilder: okhttp.ResponseBuilder = response.newBuilder().request(request)
         println("")

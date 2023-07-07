@@ -19,6 +19,7 @@ func testServiceBuilder_01(): Int32 {
                                     .setHttpClient(Option<HttpClient>.None)
                                     .withScope("scope")
                                     .build(api)
+        println(service.getVersion())
         return 0
     } catch (e: Exception) {
         return -1
@@ -38,6 +39,7 @@ func testServiceBuilder_02(): Int32 {
                                     .setDefaultScope("scope")
                                     .setResponseType("responseType")
                                     .build(api)
+        println(service.getResponseType())
         return 0
     } catch (e: Exception) {
         return -1
@@ -49,6 +51,7 @@ func testServiceBuilder_03(): Int32 {
     try {
         var service: OAuth10aService = ServiceBuilderOAuth10a("apiKey")
                                         .setHttpClientConfig(Option<HttpClientConfig>.None).build(api)
+        println(service.getVersion())//getVersion(): String
         return -1
     } catch (e: IllegalArgumentException) {
         return 0
@@ -71,6 +74,7 @@ func testServiceBuilder_04(): Int32 {
                                     .setDefaultScope(scopeBuilder)
                                     .setResponseType("responseType")
                                     .build(api)
+        println(service.getResponseType())
         return 0
     } catch (e: Exception) {
         return -1

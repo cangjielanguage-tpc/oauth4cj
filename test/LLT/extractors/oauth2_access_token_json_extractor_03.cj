@@ -8,9 +8,6 @@ from oauth4cj import extractors.*
 from oauth4cj import model.*
 from oauth4cj import exceptions.*
 
-func ok(body: String): Response {
-    return Response(200, "", HashMap<String, String>(), body)
-}
 func error(body: String): Response {
     return Response(400, "", HashMap<String, String>(), body)
 }
@@ -32,8 +29,9 @@ func testOAuth2AccessTokenJsonExtractor_01(): Int32 {
     try {
         let response: Response = error(responseBody)
         let extracted: OAuth2AccessToken = extractor.extract(response)
+        println(extracted.getAccessToken())
     } catch (e: IllegalArgumentException) {
-        e.printStackTrace()
+        //e.printStackTrace()
         return 0
     }
     println(1)

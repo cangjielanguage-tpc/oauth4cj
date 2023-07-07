@@ -135,8 +135,9 @@ func testDeviceAuthorizationJsonExtractor_03(): Int32 {
     let response: Response = ok(responseBody)
     try {
         let da: DeviceAuthorization = extractor.extract(response)
+        println(da.getDeviceCode())
     } catch (e: Exception) {
-        e.printStackTrace()
+        //e.printStackTrace()
         return 0
     }
     println(3)
@@ -152,8 +153,9 @@ func testDeviceAuthorizationJsonExtractor_04(): Int32 {
     let response: Response = ok(responseBody)
     try {
         let da: DeviceAuthorization = extractor.extract(response)
+        println(da.getDeviceCode())
     } catch (e: Exception) {
-        e.printStackTrace()
+        //e.printStackTrace()
         return 0
     }
     println(4)
@@ -301,8 +303,9 @@ func testDeviceAuthorizationJsonExtractor_11(): Int32 {
     let response: Response = ok(responseBody)
     try {
         let da: DeviceAuthorization = extractor.extract(response)
+        println(da.getDeviceCode())
     } catch (e: Exception) {
-        e.printStackTrace()
+        //e.printStackTrace()
         return 0
     }
     println(11)

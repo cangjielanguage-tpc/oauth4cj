@@ -36,7 +36,7 @@ public func testCheckBoundarySyntax_01(): Int32 {
     try {
         MultipartUtils.checkBoundarySyntax("0aA'()+_,-./:=?")
     } catch (e: Exception) {
-        e.printStackTrace()
+        //e.printStackTrace()
         println(1)
         return 1
     }
@@ -47,7 +47,7 @@ public func testCheckBoundarySyntax_02(): Int32 {
     try {
         MultipartUtils.checkBoundarySyntax("0aA'()+_,- ./:=?")
     } catch (e: Exception) {
-        e.printStackTrace()
+        //e.printStackTrace()
         println(2)
         return 2
     }
@@ -58,7 +58,7 @@ public func testCheckBoundarySyntax_03(): Int32 {
     try {
         MultipartUtils.checkBoundarySyntax(" 0aA'()+_,-./:=?")
     } catch (e: Exception) {
-        e.printStackTrace()
+        //e.printStackTrace()
         println(3)
         return 3
     }
@@ -69,7 +69,7 @@ public func testCheckBoundarySyntax_04(): Int32 {
     try {
         MultipartUtils.checkBoundarySyntax("1234567890123456789012345678901234567890123456789012345678901234567890")
     } catch (e: Exception) {
-        e.printStackTrace()
+        //e.printStackTrace()
         println(4)
         return 4
     }

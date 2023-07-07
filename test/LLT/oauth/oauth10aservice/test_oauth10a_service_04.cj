@@ -82,10 +82,12 @@ main() {
 class MyCallBack <: OAuthAsyncRequestCallback {
     public init() {}
     public func onCompleted(response: Any): Unit {
+        println(response as String)
         println("MyCallBack onCompleted")
     }
 
     public func onThrowable(e: Exception): Unit {
+        println(e.message)
         println("MyCallBack onThrowable")
     }
 }

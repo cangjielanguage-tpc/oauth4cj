@@ -327,6 +327,7 @@ func testOAuth20Service_07(service: OAuth20Service): Int32 {
 func testOAuth20Service_08(service: OAuth20Service): Int32 {
     try {
         let res: OAuth2AccessToken = service.refreshAccessToken("code")
+        println(res.getAccessToken())
     } catch (ex: Exception) {
         return 0
     }
@@ -336,6 +337,7 @@ func testOAuth20Service_08(service: OAuth20Service): Int32 {
 func testOAuth20Service_09(service: OAuth20Service): Int32 {
     try {
         let res: OAuth2AccessToken = service.refreshAccessToken("code", "scope")
+        println(res.getAccessToken())
     } catch (ex: Exception) {
         return 0
     }
@@ -365,6 +367,7 @@ func testOAuth20Service_11(service: OAuth20Service): Int32 {
 func testOAuth20Service_12(service: OAuth20Service): Int32 {
     try {
         let res: OAuth2AccessToken = service.getAccessTokenPasswordGrant("username", "password", "scope")
+        println(res.getAccessToken())
     } catch (ex: Exception) {
         return 0
     }
@@ -415,6 +418,7 @@ func testOAuth20Service_16(service: OAuth20Service): Int32 {
 func testOAuth20Service_17(service: OAuth20Service): Int32 {
     try {
         let res: OAuth2AccessToken = service.getAccessTokenClientCredentialsGrant("scope")
+        println(res.getAccessToken())
     } catch (ex: Exception) {
         return 0
     }
@@ -464,6 +468,7 @@ func testOAuth20Service_21(service: OAuth20Service): Int32 {
 func testOAuth20Service_22(service: OAuth20Service): Int32 {
     try {
         let res: Unit = service.revokeToken("scope")
+        println(res is Unit)
     } catch (ex: Exception) {
         return 0
     }
@@ -473,6 +478,7 @@ func testOAuth20Service_22(service: OAuth20Service): Int32 {
 func testOAuth20Service_23(service: OAuth20Service): Int32 {
     try {
         let res: Unit = service.revokeToken("scope", Some(TokenTypeHint.ACCESS_TOKEN_HINT))
+        println(res is Unit)
     } catch (ex: Exception) {
         return 0
     }
@@ -512,6 +518,7 @@ func testOAuth20Service_26(service: OAuth20Service): Int32 {
 func testOAuth20Service_27(service: OAuth20Service): Int32 {
     try {
         let res: DeviceAuthorization = service.getDeviceAuthorizationCodes()
+        println(res.getDeviceCode())
     } catch (ex: Exception) {
         return 0
     }
@@ -521,6 +528,7 @@ func testOAuth20Service_27(service: OAuth20Service): Int32 {
 func testOAuth20Service_28(service: OAuth20Service): Int32 {
     try {
         let res: DeviceAuthorization = service.getDeviceAuthorizationCodes(Some("scope"))
+        println(res.getDeviceCode())
     } catch (ex: Exception) {
         return 0
     }
@@ -551,6 +559,7 @@ func testOAuth20Service_31(service: OAuth20Service): Int32 {
     try {
         let da: DeviceAuthorization = DeviceAuthorization("deviceCode", "userCode", "verificationUri", 0)
         let res: OAuth2AccessToken = service.getAccessTokenDeviceAuthorizationGrant(da)
+        println(res.getAccessToken())
     } catch (ex: Exception) {
         return 0
     }

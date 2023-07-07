@@ -32,7 +32,7 @@ public func testOkHttpHttpClientConfig_01(): Int32 {
     let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(OkHttpClient.builder())
     let client: Option<HttpClient> = bp.createClient(config)
     match(client) {
-        case Some(v) => ()
+        case Some(v) => println(v is OkHttpHttpClient)
         case None =>
             println(1)
             return 1
@@ -46,7 +46,7 @@ public func testOkHttpHttpClientConfig_02(): Int32 {
     let config2: OkHttpHttpClientConfig = config.createDefaultConfig()
     let client: Option<HttpClient> = bp.createClient(config2)
     match(client) {
-        case Some(v) => ()
+        case Some(v) => println(v is OkHttpHttpClient)
         case None =>
             println(2)
             return 2
@@ -61,7 +61,7 @@ public func testOkHttpHttpClientConfig_03(): Int32 {
     let config2: OkHttpHttpClientConfig = OkHttpHttpClientConfig(ob)
     let client: Option<HttpClient> = bp.createClient(config2)
     match(client) {
-        case Some(v) => ()
+        case Some(v) => println(v is OkHttpHttpClient)
         case None =>
             println(2)
             return 2

@@ -26,7 +26,7 @@ let SCOP: String = "user_info emails"
 
 main() {
 
-    let debugStream: OutputStream = ByteArrayStream()
+    //let debugStream: OutputStream = ByteArrayStream()
 
     let service: OAuth20Service = ServiceBuilderOAuth20(clientId).
                                   setApiSecret(clientSecret).

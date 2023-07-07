@@ -108,7 +108,7 @@ public func testOAuth1_04():Int32 {
     }
 
     var oauth1Token_6:OAuth1AccessToken = OAuth1AccessToken("token", "tokenSecret", "rawResponse6")
-    if (!oauth1Token_0.equals(oauth1Token_3)){ //相同类型rawResponse6不同返回true
+    if (!oauth1Token_0.equals(oauth1Token_6)){ //相同类型rawResponse6不同返回true
         return -1
     }
     return 0

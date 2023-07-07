@@ -24,6 +24,7 @@ func testOAuth10aService05(): Int32 {
         httpClientConfig, httpClient, httpClientProvider)
     try {
         var requestToken = service.getRequestToken()
+        println(requestToken.getToken())
         return -1
     } catch (e: OAuth4cjException) {
         return 0
@@ -42,6 +43,7 @@ func testOAuth10aService06(): Int32 {
     var requestToken = OAuth1RequestToken("token", "tokenSecret")
     try {
         var accessToken = service.getAccessToken(requestToken, "oauthVerifier")
+        println(accessToken.getToken())
         return -1
     } catch (e: Exception) {
         return 0

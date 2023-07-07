@@ -28,7 +28,7 @@ func testOAuth4cjRequestgetQueryStringParams01(): Int64 {
         var oauth4cjRequest=OAuth4cjRequest(Verb.GET,url)
         oauth4cjRequest.getQueryStringParams().asFormUrlEncodedString()
     }catch(e:Exception){
-        e.printStackTrace()
+        //e.printStackTrace()
         if(e.toString().contains("Malformed URL")){
              return 0
         }

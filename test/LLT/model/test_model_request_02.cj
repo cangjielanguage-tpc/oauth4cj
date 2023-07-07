@@ -75,6 +75,7 @@ public func testRequest_07():Int32 {
     var flag = true
     try {
         var queryParamList_3 = request_3.getQueryStringParams()
+        println(queryParamList_3.size())
     } catch (ex: OAuth4cjException) {
         println(ex)
         flag = false
