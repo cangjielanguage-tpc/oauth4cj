@@ -5,7 +5,7 @@
 /**
  * @file The file declars the CharacterUtil class.
  */
-package utils
+package commons
 
 
 // '0'-'9': 48-57

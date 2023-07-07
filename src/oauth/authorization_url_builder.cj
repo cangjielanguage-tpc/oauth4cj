@@ -105,11 +105,8 @@ func build(oauth20Service: OAuth20Service, state: Option<String>,
             params.putAll(x.getAuthorizationUrlParams())
         case _ => params = additionalParams
     }
-    var scopeBuild: Option<String> = oauth20Service.getDefaultScope()
-    match (scope) {
-        case Some(x) => scopeBuild = scope
-        case _ => ()
-    }
+
+    let scopeBuild: Option<String> = scope ?? oauth20Service.getDefaultScope()
 
     return oauth20Service.getApi().getAuthorizationUrl(oauth20Service.getResponseType(), oauth20Service.getApiKey(),
             oauth20Service.getCallback(), scopeBuild, state, params)

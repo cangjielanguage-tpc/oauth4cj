@@ -1,11 +1,12 @@
-
+from std import sync.*
+from std import time.*
 from std import math.*
 from std import unittest.*
 from std import unittest.testmacro.*
 from oauth4cj import oauth.*
 from oauth4cj import model.*
 from oauth4cj import oauth2.*
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 from oauth4cj import builder.*
 from oauth4cj import httpclient.multipart.*
 from oauth4cj import httpclient.*
@@ -353,7 +354,7 @@ public var port:UInt16=0
 public func serve10a(){
     let hd = http.Route()
     hd.handle("/1234", { rws: http.ResponseWriteStream, req: http.Request =>
-        sleep(1000*1000*1000)
+        sleep(1000*1000*1000 * Duration.nanosecond)
         var returnJson: String = "error"
         let header = req.header
         let authorizationSub = header.get("Authorization").getOrThrow().substring(6)
@@ -395,7 +396,7 @@ public func serve10a(){
 public func serve20(){
     let hd = http.Route()
     hd.handle("/1234", { rws: http.ResponseWriteStream, req: http.Request =>
-        sleep(1000*1000*1000)
+        sleep(1000*1000*1000 * Duration.nanosecond)
         var returnJson: String = "error"
         let header = req.header
         let authorizationSub = header.get("Authorization").getOrThrow().substring(6)

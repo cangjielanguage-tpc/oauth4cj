@@ -1,7 +1,7 @@
 
 from std import collection.*
 
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 from oauth4cj import oauth.*
 from oauth4cj import model.*
 from oauth4cj import httpclient.*

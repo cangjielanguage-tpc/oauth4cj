@@ -50,7 +50,7 @@ public open class Base64Utils {
 ##### 1.1.2 示例
 
 ```cangjie
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 main(): Int64 {
     let bytes: Array<UInt8> = "Hello World".toUtf8Array()
     let encoded: String = "SGVsbG8gV29ybGQ="
@@ -188,7 +188,7 @@ public class Preconditions {
 ##### 1.2.2 示例
 
 ```cangjie
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 from std import io.*
 main (){
     let str: String = "Hello World"
@@ -1003,7 +1003,9 @@ public class OAuth4cjRequest {
      * @参数 charsetName 字符集名称,当前仅支持UTF-8
      */
     public func setCharset(charsetName: String): Unit
-    
+}
+
+public interface ResponseConverter {
     /**
      * 继承此方法的实现应该关闭提供的响应，防止响应不包括在Any<T>的返回对象中
      * 如果响应不包括在返回对象中，那么要在请求回调完成的方法中关闭响应
@@ -1011,7 +1013,7 @@ public class OAuth4cjRequest {
      * @参数 response 响应对象
      * @返回值 Any 
      */
-    public open func convert(response: Response): Any
+    func convert(response: Response): Any
 }
 ```
 
@@ -1647,7 +1649,7 @@ public class TimestampServiceImpl <: TimestampService {
 
 ```cangjie
 from oauth4cj import services.*
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 
 public func testHMACSha1SignatureService_01(): Int32 {
     let hmac: HMACSha1SignatureService = HMACSha1SignatureService()

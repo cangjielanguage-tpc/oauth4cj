@@ -5,7 +5,7 @@
 from encoding import base64.*
 
 from oauth4cj import services.*
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 
 public func testPlaintextSignatureService_01(rsa: RSASha1SignatureService): Int32 {
 

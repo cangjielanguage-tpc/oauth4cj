@@ -4,7 +4,7 @@
 from oauth4cj import pkce.*
 
 from encoding import base64.*
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 
 // public init()  public func setCodeChallenge(codeChallenge: String) public func getCodeChallenge()
 public func testPKCE_01():Int32 {

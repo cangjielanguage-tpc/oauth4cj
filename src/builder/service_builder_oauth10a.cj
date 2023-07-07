@@ -5,7 +5,7 @@ package builder
 
 from std import io.*
 import oauth.*
-import utils.*
+import commons.*
 import util.*
 
 /**
@@ -102,12 +102,13 @@ public class ServiceBuilderOAuth10a <: ServiceBuilderCommon {
      * @return ServiceBuilderOAuth10a ServiceBuilderOAuth10a instance
      */
     public func setHttpClientConfig(httpClientConfig: Option<HttpClientConfig>): ServiceBuilderOAuth10a {
-        match (httpClientConfig) {
-            case Some(v) => 
-                this.httpClientConfig = httpClientConfig
-                return this
-            case None => throw IllegalArgumentException("httpClientConfig can't be null")
-        }
+        httpClientConfig.getOrThrow(insideSetHttpClientConfig)
+        this.httpClientConfig = httpClientConfig
+        return this
+    }
+
+    private func insideSetHttpClientConfig(): Exception {
+    	return IllegalArgumentException("httpClientConfig can't be null")
     }
 
     /**

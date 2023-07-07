@@ -3,7 +3,7 @@
 from std import unittest.*
 from std import unittest.testmacro.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 from oauth4cj import extractors.*
 
 @Test

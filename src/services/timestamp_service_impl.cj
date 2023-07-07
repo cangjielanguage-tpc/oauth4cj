@@ -66,12 +66,12 @@ class ServiceTimer {
     }
 
     func getRandomInteger(): Int32 {
-        RANDOM.setSeed(DEFAULT_NUM)
+        RANDOM.seed = DEFAULT_NUM
         return RANDOM.nextInt32()
     }
 }
 
 func getCurrentTimeMillis(): Int64 {
-    let res: Duration = Time.now() - Time(1970, Month.January, 1)
-    return res.milliseconds()
+    let res: Duration = DateTime.now() - DateTime.of(year: 1970, month: Month.January, dayOfMonth: 1)
+    return res.toMilliseconds()
 }

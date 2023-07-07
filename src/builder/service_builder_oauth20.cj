@@ -119,12 +119,13 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
      * @return ServiceBuilderOAuth20 ServiceBuilderOAuth20 instance
      */
     public func setHttpClientConfig(httpClientConfig: Option<HttpClientConfig>): ServiceBuilderOAuth20 {
-        match (httpClientConfig) {
-            case Some(v) => 
-                this.httpClientConfig = httpClientConfig
-                return this
-            case None => throw IllegalArgumentException("httpClientConfig can't be null")
-        }
+        httpClientConfig.getOrThrow(insideSetHttpClientConfig)
+        this.httpClientConfig = httpClientConfig
+        return this
+    }
+
+    private func insideSetHttpClientConfig(): Exception {
+    	return IllegalArgumentException("httpClientConfig can't be null")
     }
 
     /**

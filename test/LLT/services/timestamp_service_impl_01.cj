@@ -5,8 +5,8 @@ from oauth4cj import services.*
 from std import time.*
 
 func getCurrentTimeMillis(): Int64 {
-    let res: Duration = Time.now() - Time(1970, Month.January, 1)
-    return res.milliseconds()
+    let res: Duration = DateTime.now() - DateTime.of(year: 1970, month: Month.January, dayOfMonth: 1)
+    return res.toMilliseconds()
 }
 
 public func testTimestampServiceImpl_01(): Int32 {

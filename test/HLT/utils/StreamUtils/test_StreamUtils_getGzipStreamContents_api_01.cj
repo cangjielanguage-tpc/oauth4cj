@@ -2,7 +2,7 @@
 
 from std import unittest.*
 from std import unittest.testmacro.*
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 from oauth4cj import exceptions.*
 from compress import zlib.*
 from std import io.*

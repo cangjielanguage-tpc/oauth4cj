@@ -2,7 +2,7 @@
 // EXEC: ./main
 
 from oauth4cj import model.*
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 
 // public init("", "") public init("key", "value")  public func getKey() public func getValue()
 public func testParameter_01():Int32 {

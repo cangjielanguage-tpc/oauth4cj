@@ -332,19 +332,19 @@ public open class OAuth4cjRequest {
      * @since 0.37.2
      */
     public func getQueryStringParams(): ParameterList {
+        let urlArr: Array<String> = url.split(":")
+        if (urlArr.size == 1) {
+            throw OAuth4cjException("Malformed URL! no protocol: ${url}!")
+        }
+        let urlHeader: String = (urlArr[0]).toAsciiLower()
+        let urlIsTrue: Bool = urlHeader.startsWith("http") || urlHeader.startsWith("https") ||
+            urlHeader.startsWith("file") || urlHeader.startsWith("mailto") || urlHeader.startsWith("ftp")
+        if (!urlIsTrue) {
+            throw OAuth4cjException("Malformed URL! unknown protocol: ${urlHeader}!")
+        }
         try {
             let result: ParameterList = ParameterList()
-            let urlArr: Array<String> = url.split(":")
-            if (urlArr.size == 1) {
-                throw OAuth4cjException("no protocol: ${url}!")
-            }
-            let urlHeader: String = (urlArr[0]).toAsciiLower()
-            let urlIsTrue: Bool = urlHeader.startsWith("http") || urlHeader.startsWith("https") ||
-                urlHeader.startsWith("file") || urlHeader.startsWith("mailto") || urlHeader.startsWith("ftp")
-            if (!urlIsTrue) {
-                throw OAuth4cjException("unknown protocol: ${urlHeader}!")
-            }
-            let queryString: String = URL.parse(url).rawQuery
+            let queryString: String = URL.parse(url).rawQuery ?? ""
             result.addQuerystring(queryString)
             result.addAll(querystringParams)
             return result
@@ -480,17 +480,6 @@ public open class OAuth4cjRequest {
         }
         this.charset = charsetName
     }
-
-    /**
-     * If the response is not included in the type&lt; T&gt；
-     * Then close the response on OAuthAsyncRequestCallback.onCompleted(response: T)
-     *
-     * @param key of Response
-     *
-     * @return Type of Any
-     * @since 0.37.2
-     */
-    public open func convert(response: Response): Any {}
 }
 
 /**

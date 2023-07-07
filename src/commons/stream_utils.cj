@@ -5,7 +5,7 @@
 /**
  * @file The file declars the StreamUtils class.
  */
-package utils
+package commons
 
 from std import io.*
 from std import collection.*

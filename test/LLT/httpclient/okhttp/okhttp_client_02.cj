@@ -61,7 +61,7 @@ public func testOkHttpHttpClient_01(): Int32 {
         headers.put(CONTENT_TYPE, "application/x-www-form-urlencoded")
         let res: Future<Any> = client.executeAsync("", headers, Verb.POST,
                                 "http://127.0.0.1:8080/", Array<UInt8>(), None, None)
-        res.getResult(1000 * 1000)
+        res.get(1000 * 1000)
     } catch (e: Exception) {
         //e.printStackTrace()
         println(1)
@@ -77,7 +77,7 @@ public func testOkHttpHttpClient_02(): Int32 {
     try {
         let res: Future<Any> = client.executeAsync("", HashMap<String, String>(), Verb.GET,
                                 "http://127.0.0.1:8080/", "", None, None)
-        res.getResult(1000 * 1000)
+        res.get(1000 * 1000)
     } catch (e: Exception) {
         //e.printStackTrace()
         println(2)
@@ -95,7 +95,7 @@ public func testOkHttpHttpClient_03(): Int32 {
     try {
         let res: Future<Any> = client.executeAsync("", HashMap<String, String>(), Verb.GET,
                                 "http://127.0.0.1:8080/", file, None, None)
-        res.getResult(1000 * 1000)
+        res.get(1000 * 1000)
     } catch (e: Exception) {
         //e.printStackTrace()
         println(3)

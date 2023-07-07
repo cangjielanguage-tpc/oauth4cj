@@ -1,7 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 
 main (){
     let bytes: Array<UInt8> = "Hello World".toUtf8Array()

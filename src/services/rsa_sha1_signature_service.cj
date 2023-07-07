@@ -51,6 +51,9 @@ public class RSASha1SignatureService <: SignatureService {
             sha1(data, md)
             let rsa: RSA = pemReadRsaPri(privateKey, false)
             let (ret, signArray): (Int32, Array<UInt8>) = rsaSign(NID_sha1, md, UInt32(SHA_DIGEST_LENGTH), rsa)
+            if (ret == 0) {
+                throw OAuth4cjSignatureException("RSA-SHA1 algorithm signature failed.")
+            }
             rsaFree(rsa)
 
             return Base64Utils.encode(signArray)

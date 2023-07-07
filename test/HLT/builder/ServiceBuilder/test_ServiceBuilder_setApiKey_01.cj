@@ -7,7 +7,7 @@ from std import unittest.testmacro.*
 from encoding import base64.*
 from std import collection.*
 from oauth4cj import model.*
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 from std import io.*
 */
 from oauth4cj import builder.*

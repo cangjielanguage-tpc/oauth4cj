@@ -4,7 +4,7 @@ from std import random.*
 from std import collection.*
 from encoding import json.*
 
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 from oauth4cj import oauth.*
 from oauth4cj import model.*
 from oauth4cj import httpclient.*
@@ -77,7 +77,7 @@ main() {
     //service.revokeToken(accessToken.getAccessToken())
     //5.2 异步撤销令牌
     let res: Future<Unit> = service.revokeTokenAsync(accessToken.getAccessToken())
-    res.getResult()
+    res.get()
 
     //6.请求一个受保护的资源！--获取uid
     //RFC 6750 OAuth 2.0授权框架：承载令牌使用

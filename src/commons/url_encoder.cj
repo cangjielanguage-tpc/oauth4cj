@@ -5,7 +5,7 @@
 /**
  * @file The file declars the URLEncoder class.
  */
-package utils
+package commons
 
 from std import convert.*
 

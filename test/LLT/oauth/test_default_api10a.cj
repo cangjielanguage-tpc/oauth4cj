@@ -142,8 +142,8 @@ func createSampleOAuthRequest(): OAuth4cjRequest {
 }
 
 func getCurrentTimeMillis(): Int64 {
-    let res: Duration = Time.now() - Time(1970, Month.January, 1)
-    return res.milliseconds()
+    let res: Duration = DateTime.now() - DateTime.of(year: 1970, month: Month.January, dayOfMonth: 1)
+    return res.toMilliseconds()
 }
 
 main() {

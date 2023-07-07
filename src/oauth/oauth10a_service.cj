@@ -84,7 +84,7 @@ public class OAuth10aService <: OAuthService {
         let defaultConverter: DefaultRequestTokenConverter = DefaultRequestTokenConverter(api)
         let res: Future<Any> = execute(request, callback, Some(defaultConverter))
         let newFuture: Future<OAuth1RequestToken> = spawn {
-            let result = res.getResult()
+            let result = res.get()
             let token: Option<OAuth1RequestToken> = result as OAuth1RequestToken
             match(token) {
                 case Some(v) => return v
@@ -100,16 +100,13 @@ public class OAuth10aService <: OAuthService {
 
     protected func prepareRequestTokenRequest(): OAuth4cjRequest {
         var request: OAuth4cjRequest = OAuth4cjRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint())
-        var callback: Option<String> = getCallback()
-        match(callback) {
-            case Some(v) => ()
-            case None => callback = Some(OAuthConstants.OOB)
-        }
+
+        let callback: String = getCallback() ?? OAuthConstants.OOB
 
         if (isDebug()) {
-            log("setting oauth_callback to ${callback.getOrThrow()}")
+            log("setting oauth_callback to ${callback}")
         }
-        request.addOAuthParameter(OAuthConstants.CALLBACK, callback.getOrThrow())
+        request.addOAuthParameter(OAuthConstants.CALLBACK, callback)
         addOAuthParams(request, "")
         appendSignature(request)
         return request
@@ -183,7 +180,7 @@ public class OAuth10aService <: OAuthService {
         let res: Future<Any> = execute(request, callback, Some(defaultConverter))
 
         let newFuture: Future<OAuth1AccessToken> = spawn {
-            let result = res.getResult()
+            let result = res.get()
             let token: Option<OAuth1AccessToken> = result as OAuth1AccessToken
             match(token) {
                 case Some(v) => return v

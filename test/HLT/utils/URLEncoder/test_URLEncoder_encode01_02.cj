@@ -2,7 +2,7 @@
 // dependence: ../../common_Values.cj
 from std import unittest.*
 from std import unittest.testmacro.*
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 
 @Test
 public class TestURLEncoderB001{

@@ -35,13 +35,14 @@ public class MultipartUtils {
         }
         let matcher: Matcher = BOUNDARY_REGEXP.matcher(boundary)
         let res: Option<MatchData> = matcher.fullMatch()
-        match (res) {
-            case Some(md) => return ()
-            case None =>
-                let err: String = "{'boundary'='" + boundary + "'} has invalid syntax. Should be '" +
-                                    BOUNDARY_PATTERN + "'."
-                throw IllegalArgumentException(err)
+
+        func insideGet(): Exception {
+            let err: String = "{'boundary'='" + boundary + "'} has invalid syntax. Should be '" +
+                                BOUNDARY_PATTERN + "'."
+            throw IllegalArgumentException(err)
         }
+        res.getOrThrow(insideGet)
+        return ()
     }
 
     /**
@@ -73,8 +74,8 @@ public class MultipartUtils {
      * @since 0.37.2
      */
     public static func generateDefaultBoundary(): String {
-        let res: Duration = Time.now() - Time(1970, Month.January, 1)
-        let timeMillis: Int64 = res.milliseconds()
+        let res: Duration = DateTime.now() - DateTime.of(year: 1970, month: Month.January, dayOfMonth: 1)
+        let timeMillis: Int64 = res.toMilliseconds()
         return "----OAuth4cj----" + timeMillis.toString()
     }
 

@@ -3,7 +3,7 @@
 from std import random.*
 from std import collection.*
 
-from oauth4cj import utils.*
+from oauth4cj import commons.*
 from oauth4cj import oauth.*
 from oauth4cj import model.*
 from oauth4cj import httpclient.*
@@ -28,7 +28,7 @@ main() {
     let PROTECTED_RESOURCE_URL: String = "https://gitee.com/api/v5/emails"
 
     let m: Random = Random()
-    m.setSeed(3)
+    m.seed = 3
     let c: UInt32 = m.nextUInt32()
 
     let secretState: String = "secret" + c.toString()
