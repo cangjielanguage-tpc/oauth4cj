@@ -121,8 +121,9 @@ public func testHMACSha1SignatureService_07(): Int32 {
 
     try {
         let str: String = hmac.getSignature(baseString, apiSecret, tokenSecret)
+        println(str.size)
     } catch (e: Exception) {
-        e.printStackTrace()
+        //e.printStackTrace()
         return 0
     }
 
@@ -137,8 +138,9 @@ public func testHMACSha1SignatureService_08(): Int32 {
 
     try {
         let str: String = hmac.getSignature(baseString, apiSecret, tokenSecret)
+        println(str.size)
     } catch (e: Exception) {
-        e.printStackTrace()
+        //e.printStackTrace()
         return 0
     }
 

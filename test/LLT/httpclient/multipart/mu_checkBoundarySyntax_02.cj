@@ -16,7 +16,7 @@ func testNotValidBoundary(boundary: String): Int32 {
         if (e.message.startsWith(err)) {
             return 0
         }
-        e.printStackTrace()
+        //e.printStackTrace()
         println(-1)
         return -1
     }

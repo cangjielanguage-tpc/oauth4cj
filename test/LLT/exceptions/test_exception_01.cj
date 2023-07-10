@@ -7,7 +7,8 @@ main (){
 
     let ose: OAuth4cjSignatureException = OAuth4cjSignatureException()
     let ose2: OAuth4cjException = OAuth4cjSignatureException("ceshi-1")
-    if (!(ose is OAuth4cjException)) {
+    var flag: Bool = ose is OAuth4cjException
+    if (!ose.message.isEmpty() || !flag) {
         println(1)
         return 1
     }
@@ -19,7 +20,8 @@ main (){
 
     let ope: OAuth4cjParametersMissingException = OAuth4cjParametersMissingException()
     let ope2: OAuth4cjException = OAuth4cjParametersMissingException("ceshi-2")
-    if (!(ope is OAuth4cjException)) {
+    flag = ope is OAuth4cjException
+    if (!ope.message.isEmpty() || !flag) {
         println(3)
         return 3
     }

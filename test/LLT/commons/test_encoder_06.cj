@@ -19,6 +19,7 @@ main () {
     // encode 的 OAuth4cjException异常触发不到
     try {
         var decode_2 = OAuthEncoder.decode("%%")
+        println(decode_2.size)
     } catch (ex: OAuth4cjException) {
         println(ex)
         flag = true

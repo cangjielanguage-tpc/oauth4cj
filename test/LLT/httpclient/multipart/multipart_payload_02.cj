@@ -83,8 +83,9 @@ public func testMultipartPayload_03(): Int32 {
     let headers: HashMap<String, String> = HashMap<String, String>()
     try {
         let mp: MultipartPayload = MultipartPayload("", headers)
+        println(mp.getPreamble())
     } catch (e: Exception) {
-        e.printStackTrace()
+        //e.printStackTrace()
         return 0
     }
 

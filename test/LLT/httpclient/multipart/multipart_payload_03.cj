@@ -128,7 +128,7 @@ public func testMultipartPayload_04(): Int32 {
         let mp2: MultipartPayload = MultipartPayload("boundary", headers)
         mp.addBodyPart(mp2)
     } catch (e: IllegalArgumentException) {
-        e.printStackTrace()
+        //e.printStackTrace()
         return 0
     }
 
@@ -139,8 +139,9 @@ public func testMultipartPayload_04(): Int32 {
 public func testMultipartPayload_05(): Int32 {
     try {
         let mp: MultipartPayload = MultipartPayload("~~test1~~")
+        println(mp.getPreamble())
     } catch (e: IllegalArgumentException) {
-        e.printStackTrace()
+        //e.printStackTrace()
         return 0
     }
 

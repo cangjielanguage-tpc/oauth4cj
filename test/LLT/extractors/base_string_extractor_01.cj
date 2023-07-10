@@ -187,8 +187,9 @@ func testBaseStringExtractor_08(): Int32 {
 
         let request: OAuth4cjRequest = OAuth4cjRequest(Verb.GET, "http://example.com")
         let baseString: String = extractor.extract(request)
+        println(baseString.size)
     } catch (e: Exception) {
-        e.printStackTrace()
+        //e.printStackTrace()
         return 0
     }
 

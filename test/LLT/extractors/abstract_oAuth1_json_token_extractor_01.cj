@@ -37,8 +37,9 @@ func testAbstractOAuth1JSONTokenExtractor_01(): Int32 {
     let response: Response = ok(responseBody)
     try {
         let extracted: OAuth1RequestToken = extractor.extract(response)
+        println(extracted.getToken())
     } catch (e: OAuth4cjException) {
-        e.printStackTrace()
+        //e.printStackTrace()
         return 0
     }
     println(1)
@@ -52,8 +53,9 @@ func testAbstractOAuth1JSONTokenExtractor_02(): Int32 {
     let response: Response = ok(responseBody)
     try {
         let extracted: OAuth1RequestToken = extractor.extract(response)
+        println(extracted.getToken())
     } catch (e: OAuth4cjException) {
-        e.printStackTrace()
+        //e.printStackTrace()
         return 0
     }
     println(2)

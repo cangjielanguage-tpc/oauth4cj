@@ -38,8 +38,9 @@ func testOAuth1AccessTokenExtractor_01(): Int32 {
     try {
         let response: Response = ok(responseBody)
         let extracted: OAuth1Token = extractor.extract(response)
+        println(extracted.getToken())
     } catch (e: OAuth4cjException) {
-        e.printStackTrace()
+        //e.printStackTrace()
         return 0
     }
     println(1)
@@ -52,8 +53,9 @@ func testOAuth1AccessTokenExtractor_02(): Int32 {
     try {
         let response: Response = ok(responseBody)
         let extracted: OAuth1Token = extractor.extract(response)
+        println(extracted.getToken())
     } catch (e: OAuth4cjException) {
-        e.printStackTrace()
+        //e.printStackTrace()
         return 0
     }
     println(2)
@@ -66,8 +68,9 @@ func testOAuth1AccessTokenExtractor_03(): Int32 {
     try {
         let response: Response = ok(responseBody)
         let extracted: OAuth1Token = extractor.extract(response)
+        println(extracted.getToken())
     } catch (e: IllegalArgumentException) {
-        e.printStackTrace()
+        //e.printStackTrace()
         return 0
     }
     println(3)

@@ -29,8 +29,8 @@ func testAPI20_01(): Int32 {
     }
 
     try {
-        var bearerSignature = apiA.getBearerSignature()
-        var clientAuthentication = apiA.getClientAuthentication()
+        apiA.getBearerSignature()
+        apiA.getClientAuthentication()
         
     } catch (e: Exception) {
         println(e)
@@ -43,6 +43,7 @@ func testAPI20_02(): Int32 {
     var apiA: A = A()
     try {
         var revokeTEndpoint = apiA.getRevokeTokenEndpoint()
+        println(revokeTEndpoint.size)
         return -1
     } catch (e: IllegalArgumentException) {
         println(e)
@@ -54,6 +55,7 @@ func testAPI20_03(): Int32 {
     var apiA: A = A()
     try {
         var deviceAEndpoint:String = apiA.getDeviceAuthorizationEndpoint()
+        println(deviceAEndpoint.size)
         return -1
     } catch (e: Exception) {
         println(e)

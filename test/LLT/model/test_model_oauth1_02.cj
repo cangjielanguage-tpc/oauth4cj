@@ -70,7 +70,7 @@ public func testOAuth1_07():Int32 {
     }
 
     var oauth1Token_6:OAuth1RequestToken = OAuth1RequestToken("token", "tokenSecret", true, "rawResponse6")
-    if (!oauth1Token_0.equals(oauth1Token_3)){ //相同类型rawResponse不同不影响,返回true
+    if (!oauth1Token_0.equals(oauth1Token_6)){ //相同类型rawResponse不同不影响,返回true
         return -1
     }
 

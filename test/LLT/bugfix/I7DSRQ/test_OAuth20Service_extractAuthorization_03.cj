@@ -24,7 +24,7 @@ func testOAuth20ServiceGetAuthorizationUrl02(): Int64 {
     try{
        oauth20Service.extractAuthorization(redirectLocation01)
     }catch(e:OAuth4cjException){
-        e.printStackTrace()
+        //e.printStackTrace()
         if(e.toString().contains("unsupported decoding.") && e.toString().contains("URLDecoder: Incomplete trailing escape (%) pattern")){
             flag=0
         }

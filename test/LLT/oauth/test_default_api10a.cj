@@ -103,11 +103,7 @@ func testAPI10a_05(): Int32 {
     let responseBody: String = "oauth_token=access_token&oauth_token_secret=123456"
     let response: Response = Response(200, "", HashMap<String, String>(), responseBody)
     let oauth1RequestToken = tokenERequest.extract(response) as OAuth1RequestToken
-    var url = ""
-    match (oauth1RequestToken) {
-        case Some(x) => url = apiA.getAuthorizationUrl(x)
-        case _ => return -1
-    }
+    var url = apiA.getAuthorizationUrl(oauth1RequestToken.getOrThrow())
     
     let requestUrl = "getAuthorizationBaseUrl?oauth_token=access_token"
     if (!url.equals(requestUrl)) {
