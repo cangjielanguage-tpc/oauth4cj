@@ -1,10 +1,6 @@
 // 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/okhttp
 // dependence: ../../common_Values.cj
-
-from std import unittest.*
-from std import unittest.testmacro.*
-from std import collection.*
-from oauth4cj import model.*
 
 @Test
 public class TestParameterListB001{
@@ -17,13 +13,13 @@ public class TestParameterListB001{
         var s01_pl01=pl01.sort()
         var s01_pl02=pl01.sort()
         @Assert(s01_pl01.getParams().size,0)
-        @Assert(s01_pl01.getParams().size,0)
+        @Assert(s01_pl02.getParams().size,0)
         pl01.add("key03","value04")
         pl02.add("key03","value04")
         var s02_pl01=pl01.sort()
         var s02_pl02=pl01.sort()
         @Assert(s02_pl01.getParams().size,1)
-        @Assert(s02_pl01.getParams().size,1)
+        @Assert(s02_pl02.getParams().size,1)
         pl01.add("key03","value03")
         pl02.add("key03","value03")
         pl01.add("key04","value03")

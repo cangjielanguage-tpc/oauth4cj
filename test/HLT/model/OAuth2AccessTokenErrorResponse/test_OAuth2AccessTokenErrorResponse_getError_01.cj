@@ -1,12 +1,7 @@
 // 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/okhttp
 // dependence: ../../common_Values.cj
 
-from std import unittest.*
-from std import unittest.testmacro.*
-from std import collection.*
-from oauth4cj import model.*
-from oauth4cj import oauth2.*
-from encoding import url.*
 @Test
 public class TestOAuth2AccessTokenErrorResponseB004{
     /***
@@ -18,7 +13,7 @@ public class TestOAuth2AccessTokenErrorResponseB004{
     func testOAuth2AccessTokenErrorResponseGetError01(): Unit {
         var error=OAuth2Error.INVALID_REQUEST
         var url=URL.parse("https://www.baidu.com")
-        var response=Response(Int32(2),"message",HashMap<String,String>(),"body")
+        var response=oauth4cj.model.Response(Int32(2),"message",HashMap<String,String>(),"body")
         var oAuth2AccessTokenErrorResponse=OAuth2AccessTokenErrorResponse(error,"errorDescription",url,response)
         var re_error=oAuth2AccessTokenErrorResponse.getError().getOrThrow()
         @Assert(re_error.getErrorString(),error.getErrorString())

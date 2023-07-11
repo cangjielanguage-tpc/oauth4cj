@@ -1,23 +1,19 @@
 // 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/okhttp
 // dependence: ../../common_Values.cj
 
-from std import unittest.*
-from std import unittest.testmacro.*
-from std import collection.*
-from oauth4cj import model.*
-from std import fs.*
 
 @Test
 public class TestResponseB001{
     //构造器该字段为非空map.10/100个元素
     @TestCase
     func testResponseGetHeaders01(): Unit {
-        var response01_10=Response(Int32(2),"message",getHashMapByLength(10),"body")
-        var response01_100=Response(Int32(2),"message",getHashMapByLength(100),"body")
+        var response01_10=oauth4cj.model.Response(Int32(2),"message",getHashMapByLength(10),"body")
+        var response01_100=oauth4cj.model.Response(Int32(2),"message",getHashMapByLength(100),"body")
         var sub01=SubResource(File("../../common_Values.cj",OpenOption.CreateOrTruncate(true)))
         var inputStream01=ByteArrayStream()
-        var response02_10=Response(Int32(2),"message",getHashMapByLength(10),inputStream01,ArrayList<Resource>([sub01]))
-        var response02_100=Response(Int32(2),"message",getHashMapByLength(100),inputStream01,ArrayList<Resource>([sub01]))
+        var response02_10=oauth4cj.model.Response(Int32(2),"message",getHashMapByLength(10),inputStream01,ArrayList<Resource>([sub01]))
+        var response02_100=oauth4cj.model.Response(Int32(2),"message",getHashMapByLength(100),inputStream01,ArrayList<Resource>([sub01]))
 
         var headers01=response01_10.getHeaders()
         var headers02=response01_100.getHeaders()

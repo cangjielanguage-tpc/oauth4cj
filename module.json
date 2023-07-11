@@ -3,7 +3,7 @@
   "organization": "cangjie",
   "name": "oauth4cj",
   "description": "nothing here",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "requires": {
     "cryptocj": {
       "organization": "cangjie",

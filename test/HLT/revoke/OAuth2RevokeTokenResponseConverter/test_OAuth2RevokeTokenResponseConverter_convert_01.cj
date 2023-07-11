@@ -1,11 +1,7 @@
 // 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/okhttp
+// dependence: ../../common_Values.cj
 
-from std import unittest.*
-from std import unittest.testmacro.*
-from std import collection.*
-from oauth4cj import model.*
-from oauth4cj import revoke.*
-from std import fs.*
 @Test
 public class TestOAuth2RevokeTokenResponseConverterB004{
     /***
@@ -15,7 +11,7 @@ public class TestOAuth2RevokeTokenResponseConverterB004{
     @TestCase
     func testOAuth2RevokeTokenResponseConverterConvert01(): Unit {
         var oAuth2RevokeTokenResponseConverter01=OAuth2RevokeTokenResponseConverter()
-        var response01=Response(Int32(200),"message",HashMap<String,String>(),"body")
+        var response01=oauth4cj.model.Response(Int32(200),"message",HashMap<String,String>(),"body")
         var flag=1
         oAuth2RevokeTokenResponseConverter01.convert(response01)
         try{
