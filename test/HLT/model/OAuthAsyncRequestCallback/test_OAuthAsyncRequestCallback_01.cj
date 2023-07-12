@@ -1,9 +1,7 @@
 // 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/okhttp
 // dependence: ../../common_Values.cj
 
-from std import unittest.*
-from std import unittest.testmacro.*
-from oauth4cj import model.*
 
 @Test
 public class TestOAuthAsyncRequestCallbackB004{
@@ -19,22 +17,5 @@ public class TestOAuthAsyncRequestCallbackB004{
         sub01.onThrowable(Exception())
         @Assert(sub01.getFlagOnCompleted(),"pass")
         @Assert(sub01.getFlagOnThrowable(),"pass")
-    }
-}
-
-public class SubOAuthAsyncRequestCallback <:OAuthAsyncRequestCallback{
-    public static var flag_onCompleted="fail"
-    public static var flag_onThrowable="fail"
-    public func onCompleted(response: Any): Unit{
-        flag_onCompleted="pass"
-    }
-    public func onThrowable(e: Exception): Unit{
-        flag_onThrowable="pass"
-    }
-    public func getFlagOnCompleted():String{
-        return  (flag_onCompleted  as String).getOrThrow()
-    }
-    public func getFlagOnThrowable():String{
-        return  (flag_onThrowable  as String).getOrThrow()
     }
 }

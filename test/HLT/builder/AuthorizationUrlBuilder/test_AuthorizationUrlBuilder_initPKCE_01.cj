@@ -1,11 +1,6 @@
 // 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/okhttp
 // dependence: ../../common_Values.cj
-from std import unittest.*
-from std import unittest.testmacro.*
-from std import collection.*
-from oauth4cj import util.*
-from oauth4cj import httpclient.*
-from oauth4cj import pkce.*
 
 @Test
 public class TestAuthorizationUrlBuilderB005{
@@ -29,7 +24,6 @@ public class TestAuthorizationUrlBuilderB005{
                     .setResponseType("responseType")
                     .build(api)
         var oathorizationUrlBuilder01=AuthorizationUrlBuilder(oauth20Service)
-        var pkce=PKCE()
         var oathorizationUrlBuilder02=oathorizationUrlBuilder01.initPKCE()
         var after_pkce=oathorizationUrlBuilder02.getPkce().getOrThrow()
         var re=oathorizationUrlBuilder02.build()

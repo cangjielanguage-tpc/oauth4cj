@@ -1,9 +1,7 @@
 // 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/okhttp
 // dependence: ../../common_Values.cj
 
-from std import unittest.*
-from std import unittest.testmacro.*
-from oauth4cj import builder.*
 @Test
 public class TestServiceBuilderB004{
     /***
@@ -13,7 +11,6 @@ public class TestServiceBuilderB004{
     @TestCase
     func testServiceBuildersetDefaultScope0102(): Unit {
         var serviceBuilder01=ServiceBuilderOAuth20("abc")
-        var subDefaultApi20=SubDefaultApi20()
         var re=serviceBuilder01.setDefaultScope("str")
         @Assert(re is ServiceBuilderOAuth20,true)
     }

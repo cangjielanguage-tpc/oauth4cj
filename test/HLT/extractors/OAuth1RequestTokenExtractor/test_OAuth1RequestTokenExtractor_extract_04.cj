@@ -1,10 +1,7 @@
 // 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/okhttp
+// dependence: ../../common_Values.cj
 
-from std import unittest.*
-from std import unittest.testmacro.*
-from oauth4cj import model.*
-from std import collection.*
-from oauth4cj import extractors.*
 
 @Test
 public class TestOAuth1RequestTokenExtractorB004{
@@ -17,7 +14,7 @@ public class TestOAuth1RequestTokenExtractorB004{
         var oauth1RequestTokenExtractor01=OAuth1RequestTokenExtractor.instance()
 
         var body="oauth_token=oauth_token&oauth_token_secret=oauth_token_secret&abc"
-        var response01=Response(Int32(2),"message",HashMap<String,String>(),body)
+        var response01=oauth4cj.model.Response(Int32(2),"message",HashMap<String,String>(),body)
 
 
         var oauth1AccessToken02=oauth1RequestTokenExtractor01.extract(response01)

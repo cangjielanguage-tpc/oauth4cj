@@ -1,11 +1,7 @@
 // 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/okhttp
 // dependence: ../../common_Values.cj
 
-from std import unittest.*
-from std import unittest.testmacro.*
-from std import collection.*
-from oauth4cj import model.*
-from oauth4cj import commons.*
 
 @Test
 public class TestParameterListB001{
@@ -15,9 +11,9 @@ public class TestParameterListB001{
         var map02=HashMap<String,String>([("key01","value01"),("key02","value02"),("key03","")])
         var pl03=ParameterList(map02)//非空表
         var re_exp=""
-        for (i in map02){
-            re_exp=re_exp+"&"+OAuthEncoder.encode(i[0]).concat("=").concat(OAuthEncoder.encode(i[1]))
-        }
+		for (i in map02){
+		    re_exp=re_exp+"&"+OAuthEncoder.encode(i[0]).concat("=").concat(OAuthEncoder.encode(i[1]))
+		}
         re_exp=re_exp.substring(1)
         @Assert(pl03.asOauthBaseString(),OAuthEncoder.encode(re_exp))
     }

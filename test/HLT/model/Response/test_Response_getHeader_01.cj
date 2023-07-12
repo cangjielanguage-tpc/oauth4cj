@@ -1,11 +1,7 @@
 // 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/okhttp
 // dependence: ../../common_Values.cj
 
-from std import unittest.*
-from std import unittest.testmacro.*
-from std import collection.*
-from oauth4cj import model.*
-from std import fs.*
 
 @Test
 public class TestResponseB001{
@@ -13,10 +9,10 @@ public class TestResponseB001{
     @TestCase
     func testResponseGetHeader01(): Unit {
         var headers01=getHashMapByLength(10)
-        var response01=Response(Int32(2),"message",headers01,"body")
+        var response01=oauth4cj.model.Response(Int32(2),"message",headers01,"body")
         var sub01=SubResource(File("../../common_Values.cj",OpenOption.CreateOrTruncate(true)))
         var inputStream01=ByteArrayStream()
-        var response02=Response(Int32(2),"message",headers01,inputStream01,ArrayList<Resource>([sub01]))
+        var response02=oauth4cj.model.Response(Int32(2),"message",headers01,inputStream01,ArrayList<Resource>([sub01]))
         for (i in 0..headers01.size){
             @Assert(response01.getHeader(i.toString()),i.toString())
             @Assert(response02.getHeader(i.toString()),i.toString())
