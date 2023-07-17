@@ -7,6 +7,8 @@ from oauth4cj import httpclient.*
 from oauth4cj import oauth.*
 from oauth4cj import util.*
 
+type OAuth4cjHttpClient = oauth4cj.httpclient.HttpClient
+
 func testServiceBuilder_01(): Int32 {
     var api: MyApi10a = MyApi10a()
     var config: Option<HttpClientConfig> = Some(MyConfig().createDefaultConfig())
@@ -16,7 +18,7 @@ func testServiceBuilder_01(): Int32 {
                                     .setApiSecret("apiSecret")
                                     .setUserAgent("user agent")
                                     .setHttpClientConfig(config)
-                                    .setHttpClient(Option<HttpClient>.None)
+                                    .setHttpClient(Option<OAuth4cjHttpClient>.None)
                                     .withScope("scope")
                                     .build(api)
         println(service.getVersion())
@@ -34,7 +36,7 @@ func testServiceBuilder_02(): Int32 {
                                     .setCallback("callback")
                                     .setApiSecret("apiSecret")
                                     .setHttpClientConfig(config)
-                                    .setHttpClient(Option<HttpClient>.None)
+                                    .setHttpClient(Option<OAuth4cjHttpClient>.None)
                                     .setUserAgent("user agent")
                                     .setDefaultScope("scope")
                                     .setResponseType("responseType")
@@ -68,7 +70,7 @@ func testServiceBuilder_04(): Int32 {
                                     .setCallback("callback")
                                     .setApiSecret("apiSecret")
                                     .setHttpClientConfig(config)
-                                    .setHttpClient(Option<HttpClient>.None)
+                                    .setHttpClient(Option<OAuth4cjHttpClient>.None)
                                     .setUserAgent("user agent")
                                     .setApiSecretIsEmptyStringUnsafe()
                                     .setDefaultScope(scopeBuilder)

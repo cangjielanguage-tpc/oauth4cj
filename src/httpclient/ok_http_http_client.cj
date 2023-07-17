@@ -32,7 +32,7 @@ public class OkHttpHttpClient <: HttpClient {
 
     private static let DEFAULT_CONTENT_TYPE_MEDIA_TYPE: Option<MediaType> = MediaType.parse(DEFAULT_CONTENT_TYPE)
 
-    private let client: OkHttpClient
+    private let client: httpclient4cj.HttpClient
 
     private var closed: Bool = false
 
@@ -52,22 +52,22 @@ public class OkHttpHttpClient <: HttpClient {
      * @since 0.38.2
      */
     public init(config: OkHttpHttpClientConfig) {
-        let clientBuilder: OkHttpClientBuilder = config.getClientBuilder()
+        let clientBuilder: HttpClientBuilder = config.getClientBuilder()
         this.client = clientBuilder.build()
     }
 
     /**
      * Create a OkHttpHttpClient instance according to the parameter.
      *
-     * @param client of OkHttpClient.
+     * @param client of httpclient4cj.HttpClient.
      * @since 0.38.2
      */
-    public init(client: OkHttpClient) {
+    public init(client: httpclient4cj.HttpClient) {
         this.client = client
     }
 
     /**
-     * Close resources in OkHttpClient.
+     * Close resources in httpclient4cj.HttpClient.
      *
      * @since 0.38.2
      */
@@ -306,7 +306,7 @@ public class OkHttpHttpClient <: HttpClient {
         return client.newCall(requestBuilder.build())
     }
 
-    static func convertResponse(okHttpResponse: okhttp.Response): OAuth4cjResponse {
+    static func convertResponse(okHttpResponse: httpclient4cj.Response): OAuth4cjResponse {
         let headers: Header = okHttpResponse.getHeaders()
         let headersMap: HashMap<String, String> = HashMap<String, String>()
         for ((k, v) in headers) {

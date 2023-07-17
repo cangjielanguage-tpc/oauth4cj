@@ -3,7 +3,7 @@
 
 from std import collection.*
 // from std import io.*
-from okhttp import okhttp.*
+from httpclient4cj import httpclient4cj.*
 from std import sync.*
 from std import time.*
 from net import http.*
@@ -98,7 +98,7 @@ main() {
     let PROTECTED_RESOURCE_URL: String = "http://127.0.0.1:${port}/ready"
 
     let myInterceptor = MyInterceptor()
-    let client: OkHttpClient = OkHttpClient.builder().addInterceptor(myInterceptor).build()
+    let client: httpclient4cj.HttpClient = httpclient4cj.HttpClient.builder().addInterceptor(myInterceptor).build()
     myInterceptor.setClient(client)
     let myClient: OkHttpHttpClient = OkHttpHttpClient(client)
 
@@ -350,22 +350,22 @@ func serve(){
 }
 
 class MyInterceptor <: Interceptor {
-    var client: Option<OkHttpClient> = Option<OkHttpClient>.None
-    public func setClient(client: OkHttpClient) {
+    var client: Option<httpclient4cj.HttpClient> = Option<httpclient4cj.HttpClient>.None
+    public func setClient(client: httpclient4cj.HttpClient) {
         this.client = client
     }
 
-    public func intercept(chain: Chain): okhttp.Response {
+    public func intercept(chain: Chain): httpclient4cj.Response {
         let dispatcher = client.getOrThrow().getDispatcher()
         dispatcher.runningCalls()
         //let run = dispatcher.runningCalls()
         // println(run.size)
 
-        let request: okhttp.Request = chain.getRequest()
-        let requestBuilder: okhttp.RequestBuilder  = request.newBuilder()
+        let request: httpclient4cj.Request = chain.getRequest()
+        let requestBuilder: httpclient4cj.RequestBuilder  = request.newBuilder()
         //let header: Header = request.getHeaders()
-        var response: okhttp.Response =  chain.proceed(requestBuilder.build())
-        let responseBuilder: okhttp.ResponseBuilder = response.newBuilder().request(request)
+        var response: httpclient4cj.Response =  chain.proceed(requestBuilder.build())
+        let responseBuilder: httpclient4cj.ResponseBuilder = response.newBuilder().request(request)
         println("")
         println("-----interceptor message------")
         

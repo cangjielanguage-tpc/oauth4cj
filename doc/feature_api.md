@@ -4329,12 +4329,12 @@ public class OkHttpHttpClient <: HttpClient {
     /**
      * 根据参数创建一个 OkHttpHttpClient 实例。
      * 
-     * @参数 client - OkHttpClient 数据类型, Call 的工厂类。
+     * @参数 client - httpclient4cj.HttpClient 数据类型, Call 的工厂类。
      */
-    public init(client: OkHttpClient)
+    public init(client: httpclient4cj.HttpClient)
     
     /**
-     * 关闭 OkHttpClient 中的资源。
+     * 关闭 httpclient4cj.HttpClient 中的资源。
      */
     public func close(): Unit
     
@@ -4481,16 +4481,16 @@ public class OkHttpHttpClientConfig <: HttpClientConfig {
     /**
      * 根据参数创建一个 OkHttpClientConfig 实例。
      * 
-     * @参数 clientBuilder - OkHttpClient 的生成器。
+     * @参数 clientBuilder - httpclient4cj.HttpClient 的生成器。
      */
-    public init(clientBuilder: OkHttpClientBuilder)
+    public init(clientBuilder: HttpClientBuilder)
     
     /**
-     * 获取 OkHttpClient 的生成器。
+     * 获取 httpclient4cj.HttpClient 的生成器。
      * 
-     * @返回值 OkHttpClientBuilder - OkHttpClient 的生成器。
+     * @返回值 HttpClientBuilder - httpclient4cj.HttpClient 的生成器。
      */
-    public func getClientBuilder(): OkHttpClientBuilder
+    public func getClientBuilder(): HttpClientBuilder
     
     /**
      * 生成默认的 OkHttpHttpClientConfig 配置实例。

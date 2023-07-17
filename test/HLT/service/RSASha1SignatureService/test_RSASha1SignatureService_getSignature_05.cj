@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/okhttp
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../../common_Values.cj
 
 
@@ -33,6 +33,9 @@ public func getExpResult(prikey:String,baseString:String):String{
     sha1(data, md)
     let rsa: RSA = pemReadRsaPri(prikey, false)
     let (ret, signArray)= rsaSign(RsaTypeId.NID_sha1, md, UInt32(SHA_DIGEST_LENGTH), rsa)
+    if (ret == 0) {
+        throw OAuth4cjSignatureException("RSA-SHA1 algorithm signature failed.")
+    }
     rsaFree(rsa)
     return Base64Utils.encode(signArray)
 }

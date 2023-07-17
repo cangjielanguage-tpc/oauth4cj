@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/okhttp
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../../common_Values.cj
 
 @Test
@@ -16,12 +16,16 @@ public class TestAccessTokenRequestParamsB005{
         var result02 = false 
 
         match (accessTokenRequestParams01.getPkceCodeVerifier()) {
-            case Some(x) => result01 = false
+            case Some(x) =>
+                println(x)
+                result01 = false
             case None => result01 = true // 默认为None
         }
 
         match (accessTokenRequestParams02.getPkceCodeVerifier()) {
-            case Some(x) => result02 = false
+            case Some(x) =>
+                println(x)
+                result02 = false
             case None => result02 = true // 默认为None
         }
 

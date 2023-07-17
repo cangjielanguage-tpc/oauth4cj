@@ -1,11 +1,11 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/okhttp
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../../common_Values.cj
 
 @Test
 public class TestOkHttpProviderB008{
     /***
-        public func createClient(config: HttpClientConfig): Option<HttpClient>
+        public func createClient(config: HttpClientConfig): Option<OAuth4cjHttpClient>
         测试场景: config不是OkHttpHttpClientConfig,返回Option<OkHttpHttpClient>.None
     ***/
 
@@ -24,23 +24,23 @@ public class TestOkHttpProviderB008{
 }
 
 public func getOtherHttpClientConfig():OtherHttpClientConfig{
-    var okhttpClientBuilder=OkHttpClient.builder()
+    var okhttpClientBuilder=httpclient4cj.HttpClient.builder()
     var otherHttpClientConfig=OtherHttpClientConfig(okhttpClientBuilder)
     return otherHttpClientConfig
 }
 
 public class OtherHttpClientConfig <: HttpClientConfig {
-    private var clientBuilder=OkHttpClient.builder()
-    public init(clientBuilder:okhttp.OkHttpClientBuilder) {
+    private var clientBuilder=httpclient4cj.HttpClient.builder()
+    public init(clientBuilder:httpclient4cj.HttpClientBuilder) {
         this.clientBuilder = clientBuilder
     }
-    public func getClientBuilder(): OkHttpClientBuilder {
+    public func getClientBuilder(): HttpClientBuilder {
         return clientBuilder
     }
     public func createDefaultConfig():OtherHttpClientConfig {
         return defaultConfig()
     }
     public static func defaultConfig():OtherHttpClientConfig {
-        return OtherHttpClientConfig(OkHttpClient.builder());
+        return OtherHttpClientConfig(httpclient4cj.HttpClient.builder());
     }
 }

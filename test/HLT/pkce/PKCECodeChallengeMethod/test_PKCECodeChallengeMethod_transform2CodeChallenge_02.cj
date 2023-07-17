@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/okhttp
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../../common_Values.cj
 
 
@@ -12,7 +12,7 @@ public class TestPKCECodeChallengeMethodB002{
     func testPKCECodeChallengeMethodTransform2CodeChallenge02(): Unit {
         var codeChallengeMethod_PLAIN=PKCECodeChallengeMethod.PLAIN
         var re=""
-        var exp_re=""
+        //var exp_re=""
         for (str in strValues){
             re=codeChallengeMethod_PLAIN.transform2CodeChallenge(str)
             @Assert(re,str)

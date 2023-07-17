@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/okhttp
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 
 from std import unittest.*
 from std import unittest.testmacro.*
@@ -22,7 +22,7 @@ from oauth4cj import util.*
 from std import io.*
 from std import fs.*
 from std import collection.*
-from okhttp import okhttp.*
+from httpclient4cj import httpclient4cj.*
 from net import tls.*
 from net import http.*
 from std import socket.*
@@ -39,6 +39,9 @@ from cryptocj import hmaccj.*
 from cryptocj import rsacj.*
 from std import sync.*
 from std import time.*
+
+type OAuth4cjHttpClient = oauth4cj.httpclient.HttpClient
+
 /*****   字符串等价类
 1. 空字符串--strEmpty
 2. 固定长度(length)字符串--getStringByLength(length)
@@ -168,7 +171,7 @@ public func getExpByteArrayStream(multipartPayload:MultipartPayload):ByteArraySt
 }
 //获取HttpClientConfig
 public func getOkHttpHttpClientConfig():OkHttpHttpClientConfig{
-    var okhttpClientBuilder=OkHttpClient.builder()
+    var okhttpClientBuilder=httpclient4cj.HttpClient.builder()
     var okhttpHttpClientConfig=OkHttpHttpClientConfig(okhttpClientBuilder)
     return okhttpHttpClientConfig
 }
@@ -208,14 +211,14 @@ public class OAuthServiceTest{
     public static var  byteArrayStream_oauth20Service=ByteArrayStream()
     public static let  httpClientConfig_oauth10aService=Option<HttpClientConfig>.Some(getOkHttpHttpClientConfig())
     public static let  httpClientConfig_oauth10aService_None=Option<HttpClientConfig>.None
-    public static let  httpClient_oauth10aService=Option<HttpClient>.Some(getOkHttpHttpClient())
-    public static let  httpClient_oauth10aService_None=Option<HttpClient>.None
+    public static let  httpClient_oauth10aService=Option<OAuth4cjHttpClient>.Some(getOkHttpHttpClient())
+    public static let  httpClient_oauth10aService_None=Option<OAuth4cjHttpClient>.None
     public static let  httpClientProvider_oauth10aService=Option<HttpClientProvider>.Some(OkHttpProvider())
     public static let  httpClientProvider_oauth10aService_None=Option<HttpClientProvider>.None
     public static let  httpClientConfig_oauth20Service=Option<HttpClientConfig>.Some(getOkHttpHttpClientConfig())
     public static let  httpClientConfig_oauth20Service_None=Option<HttpClientConfig>.None
-    public static let  httpClient_oauth20Service=Option<HttpClient>.Some(getOkHttpHttpClient())
-    public static let  httpClient_oauth20Service_None=Option<HttpClient>.None
+    public static let  httpClient_oauth20Service=Option<OAuth4cjHttpClient>.Some(getOkHttpHttpClient())
+    public static let  httpClient_oauth20Service_None=Option<OAuth4cjHttpClient>.None
     public static let  httpClientProvider_oauth20Service=Option<HttpClientProvider>.Some(OkHttpProvider())
     public static let  httpClientProvider_oauth20Service_None=Option<HttpClientProvider>.None
 
@@ -453,19 +456,19 @@ public func serve20(){
 
 
 class MyInterceptor <: Interceptor {
-    var client: Option<OkHttpClient> = Option<OkHttpClient>.None
-    public func setClient(client: OkHttpClient) {
+    var client: Option<httpclient4cj.HttpClient> = Option<httpclient4cj.HttpClient>.None
+    public func setClient(client: httpclient4cj.HttpClient) {
         this.client = client
     }
 
-    public func intercept(chain: Chain): okhttp.Response {
+    public func intercept(chain: Chain): httpclient4cj.Response {
         let dispatcher = client.getOrThrow().getDispatcher()
         dispatcher.runningCalls()//let run = dispatcher.runningCalls()
-        let request: okhttp.Request = chain.getRequest()
-        let requestBuilder: okhttp.RequestBuilder  = request.newBuilder()
+        let request: httpclient4cj.Request = chain.getRequest()
+        let requestBuilder: httpclient4cj.RequestBuilder  = request.newBuilder()
         //let header: Header = request.getHeaders()
-        var response: okhttp.Response =  chain.proceed(requestBuilder.build())
-        let responseBuilder: okhttp.ResponseBuilder = response.newBuilder().request(request)
+        var response: httpclient4cj.Response =  chain.proceed(requestBuilder.build())
+        let responseBuilder: httpclient4cj.ResponseBuilder = response.newBuilder().request(request)
         return responseBuilder.build()
     }
 }

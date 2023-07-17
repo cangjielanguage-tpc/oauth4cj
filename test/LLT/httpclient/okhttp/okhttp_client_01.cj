@@ -7,7 +7,7 @@ from oauth4cj import httpclient.*
 from oauth4cj import exceptions.*
 from oauth4cj import model.*
 
-from okhttp import okhttp.*
+from httpclient4cj import httpclient4cj.*
 
 main() {
 
@@ -51,10 +51,10 @@ main() {
 }
 
 public func testOkHttpHttpClient_01(): Int32 {
-    let ohc: OkHttpClient = OkHttpClient.builder().build()//: OkHttpClientBuilder
+    let ohc: httpclient4cj.HttpClient = httpclient4cj.HttpClient.builder().build()//: HttpClientBuilder
     let client0: OkHttpHttpClient = OkHttpHttpClient(ohc)
     client0.close()
-    let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(OkHttpClient.builder())
+    let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(httpclient4cj.HttpClient.builder())
     let client: OkHttpHttpClient = OkHttpHttpClient(config)
     if (client.isClosed() || OkHttpHttpClient().isClosed() || !client0.isClosed()) {
         println(1)
@@ -71,7 +71,7 @@ public func testOkHttpHttpClient_01(): Int32 {
 }
 
 public func testOkHttpHttpClient_02(): Int32 {
-    let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(OkHttpClient.builder())
+    let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(httpclient4cj.HttpClient.builder())
     let client: OkHttpHttpClient = OkHttpHttpClient(config)
 
     try {
@@ -84,7 +84,7 @@ public func testOkHttpHttpClient_02(): Int32 {
 }
 
 public func testOkHttpHttpClient_03(): Int32 {
-    let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(OkHttpClient.builder())
+    let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(httpclient4cj.HttpClient.builder())
     let client: OkHttpHttpClient = OkHttpHttpClient(config)
 
     try {
@@ -97,7 +97,7 @@ public func testOkHttpHttpClient_03(): Int32 {
 }
 
 public func testOkHttpHttpClient_04(): Int32 {
-    let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(OkHttpClient.builder())
+    let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(httpclient4cj.HttpClient.builder())
     let client: OkHttpHttpClient = OkHttpHttpClient(config)
 
     try {
@@ -111,7 +111,7 @@ public func testOkHttpHttpClient_04(): Int32 {
 }
 
 public func testOkHttpHttpClient_05(): Int32 {
-    let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(OkHttpClient.builder())
+    let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(httpclient4cj.HttpClient.builder())
     let client: OkHttpHttpClient = OkHttpHttpClient(config)
 
     try {
@@ -125,7 +125,7 @@ public func testOkHttpHttpClient_05(): Int32 {
 }
 
 public func testOkHttpHttpClient_06(): Int32 {
-    let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(OkHttpClient.builder())
+    let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(httpclient4cj.HttpClient.builder())
     let client: OkHttpHttpClient = OkHttpHttpClient(config)
 
     try {
@@ -141,7 +141,7 @@ public func testOkHttpHttpClient_06(): Int32 {
 }
 
 public func testOkHttpHttpClient_07(): Int32 {
-    let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(OkHttpClient.builder())
+    let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(httpclient4cj.HttpClient.builder())
     let client: OkHttpHttpClient = OkHttpHttpClient(config)
 
     try {

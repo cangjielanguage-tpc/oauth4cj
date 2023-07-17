@@ -6,6 +6,8 @@ from oauth4cj import pkce.*
 from oauth4cj import oauth.*
 from oauth4cj import httpclient.*
 
+type OAuth4cjHttpClient = oauth4cj.httpclient.HttpClient
+
 func testAuthorizationURL_01(): Int32 {
     var mapAdditional = HashMap<String, String>()
     mapAdditional.put("name1", "value1")
@@ -105,7 +107,7 @@ func testAuthorizationURL_05(): Int32 {
                                     .setCallback("callback")
                                     .setApiSecret("apiSecret")
                                     .setHttpClientConfig(config)
-                                    .setHttpClient(Option<HttpClient>.None)
+                                    .setHttpClient(Option<OAuth4cjHttpClient>.None)
                                     .setUserAgent("user agent")
                                     .setResponseType("responseType")
                                     .setDefaultScope("DefaultScope")
@@ -133,7 +135,7 @@ func getService(): OAuth20Service {
                                     .setCallback("callback")
                                     .setApiSecret("apiSecret")
                                     .setHttpClientConfig(config)
-                                    .setHttpClient(Option<HttpClient>.None)
+                                    .setHttpClient(Option<OAuth4cjHttpClient>.None)
                                     .setUserAgent("user agent")
                                     .setResponseType("responseType")
                                     .build(api)

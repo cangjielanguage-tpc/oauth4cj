@@ -12,11 +12,12 @@ from oauth4cj import services.*
 from oauth4cj import httpclient.*
 from oauth4cj import exceptions.*
 
+type OAuth4cjHttpClient = oauth4cj.httpclient.HttpClient
 
 func testOAuth10aService05(): Int32 {
     var oauth10aApi = OAuth10aApi(false)
     var httpClientConfig = Option<HttpClientConfig>.None
-    var httpClient = Option<HttpClient>.None
+    var httpClient = Option<OAuth4cjHttpClient>.None
     var httpClientProvider = Option<HttpClientProvider>.None
     var stream = ByteArrayStream()
     var service = OAuth10aService(oauth10aApi, "apiKey", "apiSecret", "callback", 
@@ -34,7 +35,7 @@ func testOAuth10aService05(): Int32 {
 func testOAuth10aService06(): Int32 {
     var oauth10aApi = OAuth10aApi(false)
     var httpClientConfig = Option<HttpClientConfig>.None
-    var httpClient = Option<HttpClient>.None
+    var httpClient = Option<OAuth4cjHttpClient>.None
     var httpClientProvider = Option<HttpClientProvider>.None
     var stream = ByteArrayStream()
     var service = OAuth10aService(oauth10aApi, "apiKey", "apiSecret", "callback", 
@@ -53,7 +54,7 @@ func testOAuth10aService06(): Int32 {
 func testOAuth10aService07(): Int32 {
     var oauth10aApi = OAuth10aApi(true)
     var httpClientConfig = OkHttpHttpClientConfig.defaultConfig()
-    var httpClient = Option<HttpClient>.None
+    var httpClient = Option<OAuth4cjHttpClient>.None
     var httpClientProvider = OkHttpProvider()
     var stream = ByteArrayStream()
     var service = OAuth10aService(oauth10aApi, "apiKey", "apiSecret", "callback", 
@@ -76,7 +77,7 @@ func testOAuth10aService07(): Int32 {
 func testOAuth10aService08(): Int32 {
     var oauth10aApi = OAuth10aApi(true)
     var httpClientConfig = Option<HttpClientConfig>.None
-    var httpClient: HttpClient = OkHttpHttpClient(OkHttpHttpClientConfig.defaultConfig())
+    var httpClient: OAuth4cjHttpClient = OkHttpHttpClient(OkHttpHttpClientConfig.defaultConfig())
     var httpClientProvider = Option<HttpClientProvider>.None
     var stream = ByteArrayStream()
     var service = OAuth10aService(oauth10aApi, "apiKey", "apiSecret", "callback", 

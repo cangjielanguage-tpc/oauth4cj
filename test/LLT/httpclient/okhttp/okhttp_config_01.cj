@@ -5,7 +5,9 @@ from std import collection.*
 from oauth4cj import httpclient.multipart.*
 from oauth4cj import httpclient.*
 
-from okhttp import okhttp.*
+from httpclient4cj import httpclient4cj.*
+
+type OAuth4cjHttpClient = oauth4cj.httpclient.HttpClient
 
 main() {
 
@@ -29,8 +31,8 @@ main() {
 
 public func testOkHttpHttpClientConfig_01(): Int32 {
     let bp: OkHttpProvider = OkHttpProvider()
-    let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(OkHttpClient.builder())
-    let client: Option<HttpClient> = bp.createClient(config)
+    let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(httpclient4cj.HttpClient.builder())
+    let client: Option<OAuth4cjHttpClient> = bp.createClient(config)
     match(client) {
         case Some(v) => println(v is OkHttpHttpClient)
         case None =>
@@ -44,7 +46,7 @@ public func testOkHttpHttpClientConfig_02(): Int32 {
     let bp: OkHttpProvider = OkHttpProvider()
     let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig.defaultConfig()
     let config2: OkHttpHttpClientConfig = config.createDefaultConfig()
-    let client: Option<HttpClient> = bp.createClient(config2)
+    let client: Option<OAuth4cjHttpClient> = bp.createClient(config2)
     match(client) {
         case Some(v) => println(v is OkHttpHttpClient)
         case None =>
@@ -57,9 +59,9 @@ public func testOkHttpHttpClientConfig_02(): Int32 {
 public func testOkHttpHttpClientConfig_03(): Int32 {
     let bp: OkHttpProvider = OkHttpProvider()
     let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig.defaultConfig()
-    let ob: OkHttpClientBuilder = config.getClientBuilder()
+    let ob: HttpClientBuilder = config.getClientBuilder()
     let config2: OkHttpHttpClientConfig = OkHttpHttpClientConfig(ob)
-    let client: Option<HttpClient> = bp.createClient(config2)
+    let client: Option<OAuth4cjHttpClient> = bp.createClient(config2)
     match(client) {
         case Some(v) => println(v is OkHttpHttpClient)
         case None =>
