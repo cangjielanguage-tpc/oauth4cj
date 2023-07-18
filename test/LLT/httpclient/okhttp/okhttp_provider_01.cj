@@ -5,7 +5,9 @@ from std import collection.*
 from oauth4cj import httpclient.multipart.*
 from oauth4cj import httpclient.*
 
-from okhttp import okhttp.*
+from httpclient4cj import httpclient4cj.*
+
+type OAuth4cjHttpClient = oauth4cj.httpclient.HttpClient
 
 main() {
 
@@ -25,7 +27,7 @@ main() {
 public func testOkHttpProvider_01(): Int32 {
     let bp: OkHttpProvider = OkHttpProvider()
     let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig.defaultConfig()
-    let client: Option<HttpClient> = bp.createClient(config)
+    let client: Option<OAuth4cjHttpClient> = bp.createClient(config)
     match(client) {
         case Some(v) => println(v is OkHttpHttpClient)
         case None =>
@@ -38,7 +40,7 @@ public func testOkHttpProvider_01(): Int32 {
 public func testOkHttpProvider_02(): Int32 {
     let bp: OkHttpProvider = OkHttpProvider()
     let config: HttpClientConfig = DefaultHttpClientConfig()
-    let client: Option<HttpClient> = bp.createClient(config)
+    let client: Option<OAuth4cjHttpClient> = bp.createClient(config)
     match(client) {
         case Some(v) =>
             println(v is OkHttpHttpClient)

@@ -7,7 +7,7 @@
  */
 package httpclient
 
-from okhttp import okhttp.*
+from httpclient4cj import httpclient4cj.*
 
 /**
  * Provide HttpClient based on HttpClient configuration.

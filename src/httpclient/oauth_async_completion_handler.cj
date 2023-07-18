@@ -47,7 +47,7 @@ class OAuthAsyncCompletionHandler <: Callback {
         }
     }
 
-    public func onResponse(call: Call, okHttpResponse: okhttp.Response): Unit {
+    public func onResponse(call: Call, okHttpResponse: httpclient4cj.Response): Unit {
         synchronized(m) {
             let response: OAuth4cjResponse = OkHttpHttpClient.convertResponse(okHttpResponse)
 

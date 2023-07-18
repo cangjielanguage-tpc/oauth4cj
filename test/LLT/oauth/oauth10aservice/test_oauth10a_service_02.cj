@@ -12,10 +12,12 @@ from oauth4cj import services.*
 from oauth4cj import httpclient.*
 from oauth4cj import exceptions.*
 
+type OAuth4cjHttpClient = oauth4cj.httpclient.HttpClient
+
 func testOAuth10aService01(): Int32 {
     var oauth10aApi = OAuth10aApi(false)
     var httpClientConfig = Option<HttpClientConfig>.None
-    var httpClient = Option<HttpClient>.None
+    var httpClient = Option<OAuth4cjHttpClient>.None
     var httpClientProvider = Option<HttpClientProvider>.None
     var service = OAuth10aService(oauth10aApi, "apiKey", "apiSecret", "callback", 
         Option<String>.None, Option<OutputStream>.None, "userAgent", 
@@ -32,7 +34,7 @@ func testOAuth10aService01(): Int32 {
 func testOAuth10aService02(): Int32 {
     var oauth10aApi = OAuth10aApi(false)
     var httpClientConfig = Option<HttpClientConfig>.None
-    var httpClient = Option<HttpClient>.None
+    var httpClient = Option<OAuth4cjHttpClient>.None
     var httpClientProvider = Option<HttpClientProvider>.None
     var service = OAuth10aService(oauth10aApi, "apiKey", "apiSecret", "callback", 
         Option<String>.None, Option<OutputStream>.None, "userAgent", 
@@ -50,7 +52,7 @@ func testOAuth10aService02(): Int32 {
 func testOAuth10aService03(): Int32 {
     var oauth10aApi = OAuth10aApi(true)
     var httpClientConfig = Option<HttpClientConfig>.None
-    var httpClient = Option<HttpClient>.None
+    var httpClient = Option<OAuth4cjHttpClient>.None
     var httpClientProvider = Option<HttpClientProvider>.None
     var service = OAuth10aService(oauth10aApi, "apiKey", "apiSecret", "callback", 
         Option<String>.None, Option<OutputStream>.None, "userAgent", 
@@ -72,7 +74,7 @@ func testOAuth10aService03(): Int32 {
 func testOAuth10aService04(): Int32 {
     var oauth10aApi = OAuth10aApi(true)
     var httpClientConfig = Option<HttpClientConfig>.None
-    var httpClient = Option<HttpClient>.None
+    var httpClient = Option<OAuth4cjHttpClient>.None
     var httpClientProvider = Option<HttpClientProvider>.None
     var service = OAuth10aService(oauth10aApi, "apiKey", "apiSecret", "callback", 
         Option<String>.None, Option<OutputStream>.None, "userAgent", 

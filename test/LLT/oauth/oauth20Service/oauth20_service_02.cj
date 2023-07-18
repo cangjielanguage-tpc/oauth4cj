@@ -15,7 +15,7 @@ from oauth4cj import extractors.*
 from oauth4cj import exceptions.*
 from oauth4cj import util.*
 
-from okhttp import okhttp.*
+from httpclient4cj import httpclient4cj.*
 
 //将这些替换为您的客户端id和机密
 let clientId: String = "your client id"

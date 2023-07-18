@@ -8,12 +8,12 @@
     "cryptocj": {
       "organization": "cangjie",
       "version": "0.0.6",
-      "path": "./okhttp/cryptocj"
+      "path": "./httpclient4cj/cryptocj"
     },
-    "okhttp": {
+    "httpclient4cj": {
       "organization": "cangjie",
       "version": "0.0.6",
-      "path": "./okhttp"
+      "path": "./httpclient4cj"
     }
   },
   "package_requires": {},

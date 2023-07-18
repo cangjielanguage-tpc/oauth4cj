@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/okhttp
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/okhttp
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../../common_Values.cj
 
 @Test
@@ -20,7 +20,7 @@ public class TestOAuth10aServiceB008{
         let appSecret: String = "123456789"
 
         let myInterceptor = MyInterceptor()
-        let client: OkHttpClient = OkHttpClient.builder().addInterceptor(myInterceptor).build()
+        let client: httpclient4cj.HttpClient = httpclient4cj.HttpClient.builder().addInterceptor(myInterceptor).build()
         myInterceptor.setClient(client)
 
         let myClient: OkHttpHttpClient = OkHttpHttpClient(client)

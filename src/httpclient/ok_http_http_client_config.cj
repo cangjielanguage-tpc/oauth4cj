@@ -12,25 +12,25 @@ package httpclient
  */
 public class OkHttpHttpClientConfig <: HttpClientConfig {
 
-    private let clientBuilder: OkHttpClientBuilder
+    private let clientBuilder: HttpClientBuilder
 
     /**
      * Create a OkHttpHttpClientConfig instance according to the parameter.
      *
-     * @param clientBuilder of OkHttpClientBuilder, the Builder for OkHttpClient.
+     * @param clientBuilder of HttpClientBuilder, the Builder for httpclient4cj.HttpClient.
      * @since 0.38.2
      */
-    public init(clientBuilder: OkHttpClientBuilder) {
+    public init(clientBuilder: HttpClientBuilder) {
         this.clientBuilder = clientBuilder
     }
 
     /**
-     * get the OkHttpClientBuilder.
+     * get the HttpClientBuilder.
      *
-     * @Return OkHttpClientBuilder the Builder for OkHttpClient.
+     * @Return HttpClientBuilder the Builder for httpclient4cj.HttpClient.
      * @since 0.38.2
      */
-    public func getClientBuilder(): OkHttpClientBuilder {
+    public func getClientBuilder(): HttpClientBuilder {
         return this.clientBuilder
     }
     
@@ -51,7 +51,7 @@ public class OkHttpHttpClientConfig <: HttpClientConfig {
      * @since 0.38.2
      */
     public static func defaultConfig(): OkHttpHttpClientConfig {
-        /* OkHttpClient.builder() is OkHttpClientBuilder */
-        return OkHttpHttpClientConfig(OkHttpClient.builder())
+        /* httpclient4cj.HttpClient.builder() is HttpClientBuilder */
+        return OkHttpHttpClientConfig(httpclient4cj.HttpClient.builder())
     }
 }
