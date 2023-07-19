@@ -8,7 +8,7 @@
     "crypto4cj": {
       "organization": "cangjie",
       "version": "0.0.6",
-      "path": "./httpclient4cj/crypto4cj"
+      "path": "./crypto4cj"
     },
     "httpclient4cj": {
       "organization": "cangjie",
