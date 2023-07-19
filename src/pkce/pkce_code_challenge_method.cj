@@ -8,7 +8,7 @@
  */
 package pkce
 
-from cryptocj import sha256cj.*
+from crypto4cj import sha256cj.*
 
 import commons.*
 import exceptions.*

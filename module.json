@@ -5,10 +5,10 @@
   "description": "nothing here",
   "version": "0.0.2",
   "requires": {
-    "cryptocj": {
+    "crypto4cj": {
       "organization": "cangjie",
       "version": "0.0.6",
-      "path": "./httpclient4cj/cryptocj"
+      "path": "./httpclient4cj/crypto4cj"
     },
     "httpclient4cj": {
       "organization": "cangjie",
