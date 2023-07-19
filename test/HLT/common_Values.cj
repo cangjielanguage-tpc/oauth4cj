@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/cryptocj:oauth4cj/build/httpclient4cj
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/cryptocj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 
 from std import unittest.*
 from std import unittest.testmacro.*
@@ -33,10 +33,10 @@ from encoding import hex.*
 from encoding import base64.*
 from encoding import json.*
 from encoding import url.*
-from cryptocj import sha256cj.*
-from cryptocj import sha1cj.*
-from cryptocj import hmaccj.*
-from cryptocj import rsacj.*
+from crypto4cj import sha256cj.*
+from crypto4cj import sha1cj.*
+from crypto4cj import hmaccj.*
+from crypto4cj import rsacj.*
 from std import sync.*
 from std import time.*
 

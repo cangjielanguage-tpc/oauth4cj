@@ -10,8 +10,8 @@ package services
 
 from std import collection.*
 
-from cryptocj import rsacj.*
-from cryptocj import sha1cj.*
+from crypto4cj import rsacj.*
+from crypto4cj import sha1cj.*
 
 /**
  * RSA-SHA1 implementation of the SignatureService interface.
