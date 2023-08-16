@@ -8,6 +8,7 @@ from std import sync.*
 from std import time.*
 from net import http.*
 from std import socket.*
+from std import unicode.*
 // from encoding import url.*
 
 from oauth4cj import commons.*
@@ -83,9 +84,8 @@ from oauth4cj import exceptions.*
 var port: UInt16 = 0
 
 main() { 
-    spawn {
-        serve()
-    }
+    serve()
+
     sleep(1000*1000*1000 * Duration.nanosecond)
 
     // 模拟'printer.example.com'（客户端）在'photos.example.net'（服务器）中注册的凭证
@@ -166,20 +166,25 @@ main() {
     return 0
 }
 
+
 func serve(){
-    let hd = http.Route()
+    let serverSocket = TcpServerSocket(bindAt: 0)
+    let server = ServerBuilder.new().listener(serverSocket).build()
+
     // 模拟接收'printer.example.com'向'photos.example.net'请求未授权的临时requestToken
-    hd.handle("/initiate", { rws: http.ResponseWriteStream, req: http.Request =>
+    server.distributor.register("/initiate", { httpContext =>
         sleep(1000*1000*10 * Duration.nanosecond)
         println("receive printer.example.com request: get requestToken")
         // 模拟服务器返回的json信息
         var returnJson: String = ""
         // 获取请求中的头信息
-        let header = req.header
+        let header = httpContext.request.headers
         // 请求头信息的Authorization相关信息，从第5位置开始截取
         // Authorization信息是"OAuth "开头，后面是键值对信息
-        let authorizationSub = header.get("Authorization").getOrThrow().substring(6)
-
+        let authorizationSub = header.get("Authorization").getOrThrow()[0].substring(6)
+        // [OAuth oauth_callback="oob", oauth_timestamp="1692197160", oauth_nonce="546459459", oauth_consumer_key="dpf43f3p2l4k3l03", 
+        // oauth_signature_method="HMAC-SHA1", oauth_version="1.0", oauth_signature="6c2NvCIbb5bYkRlG%2Bx3MUJo%2FBPs%3D"]
+        
         // 使用“,”进行分割
         let splitArray: Array<String> = authorizationSub.split(",")
 
@@ -207,21 +212,21 @@ func serve(){
         }
 
         let resp = returnJson.toUtf8Array()
-        rws.write(resp)
+        httpContext.responseBuilder.body(resp)
         return
     })
 
     // 模拟接收'printer.example.com'向'photos.example.net'请求正式的 accessToken
-    hd.handle("/token", { rws: http.ResponseWriteStream, req: http.Request =>
+    server.distributor.register("/token", { httpContext =>
         sleep(1000*1000*10 * Duration.nanosecond)
         println("receive printer.example.com request: get accessToken")
         // 模拟服务器返回的json信息
         var returnJson: String = "error"
         // 获取请求中的头信息
-        let header = req.header
+        let header = httpContext.request.headers
         // 请求头信息的Authorization相关信息，从第5位置开始截取
         // Authorization信息是"OAuth "开头，后面是键值对信息
-        let authorizationSub = header.get("Authorization").getOrThrow().substring(6)
+        let authorizationSub = header.get("Authorization").getOrThrow()[0].substring(6)
 
         // 使用“,”进行分割
         let splitArray: Array<String> = authorizationSub.split(",")
@@ -273,21 +278,21 @@ func serve(){
         }
 
         let resp = returnJson.toUtf8Array()
-        rws.write(resp)
+        httpContext.responseBuilder.body(resp)
         return
     })
 
     // 模拟接收'printer.example.com'向'photos.example.net'请求照片（受保护资源）
-    hd.handle("/ready", { rws: http.ResponseWriteStream, req: http.Request =>
+    server.distributor.register("/ready", { httpContext =>
         sleep(1000*1000*10 * Duration.nanosecond)
         println("receive printer.example.com request: get photo")
         // 模拟服务器返回的json信息
         var returnJson: String = "error"
         // 获取请求中的头信息
-        let header = req.header
+        let header = httpContext.request.headers
         // 请求头信息的Authorization相关信息，从第5位置开始截取
         // Authorization信息是"OAuth "开头，后面是键值对信息
-        let authorizationSub = header.get("Authorization").getOrThrow().substring(6)
+        let authorizationSub = header.get("Authorization").getOrThrow()[0].substring(6)
 
         // 使用“,”进行分割
         let splitArray: Array<String> = authorizationSub.split(",")
@@ -339,14 +344,15 @@ func serve(){
         }
 
         let resp = returnJson.toUtf8Array()
-        rws.write(resp)
+        httpContext.responseBuilder.body(resp)
         return
     })
 
-    let server = http.Server(hd)
-    let socket = socket.SocketServer(SocketNet.TCP, "0.0.0.0", port)
-    port = socket.port
-    server.serve(socket)
+    spawn{ 
+        server.serve() 
+    }
+    sleep(Duration.second)
+    port = serverSocket.localAddress.port
 }
 
 class MyInterceptor <: Interceptor {

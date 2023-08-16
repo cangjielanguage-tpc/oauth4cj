@@ -33,7 +33,7 @@ func testRSASha1SignatureServiceGetSignature06(): Int64 {
     }catch(e:OAuth4cjSignatureException){
         println(e.toString())
         if(e.toString().contains("baseString") &&
-                e.toString().contains("Please check the key")){
+                e.toString().contains("Illegal RSA Private key")){
             flag = 0
         }
     }
