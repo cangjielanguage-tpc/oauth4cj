@@ -7,7 +7,7 @@
  */
 package httpclient
 
-from net import http.Header
+from net import http.HttpHeaders 
 
 import exceptions.*
 

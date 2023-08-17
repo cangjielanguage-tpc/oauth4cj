@@ -2,7 +2,6 @@
 // 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../common_Values.cj
 
-
 @Test
 public class TestRSASha1SignatureServiceB004{
     /***
@@ -16,7 +15,8 @@ public class TestRSASha1SignatureServiceB004{
         try{
             rsss.getSignature("baseString","apiSecret","tokenSecret")
         }catch(e:Exception){
-            if(e.toString().contains("Error while signing string: "+"baseString: "+"Please provide the path of RSA private key file!")){
+            println(e.message)
+            if(e.toString().contains("Error while signing string: "+"baseString: "+"The file does not exist")){
                 flag=0
             }
 
@@ -34,7 +34,8 @@ public class TestRSASha1SignatureServiceB004{
         try{
             rsss.getSignature("baseString","apiSecret","tokenSecret")
         }catch(e:Exception){
-            if(e.toString().contains("Error while signing string: "+"baseString: "+"The end of the file name is .pem")){
+            println(e.message)
+            if(e.toString().contains("Error while signing string: "+"baseString: "+"The file does not exist")){
                 flag=0
             }
 
@@ -52,8 +53,7 @@ public class TestRSASha1SignatureServiceB004{
         try{
             rsss.getSignature("baseString","apiSecret","tokenSecret")
         }catch(e:Exception){
-
-            if(e.toString().contains("Error while signing string: "+"baseString: "+"Please check the key")){
+            if(e.toString().contains("Error while signing string: "+"baseString: "+"The file does not exist")){
                 flag=0
             }
 
@@ -72,8 +72,7 @@ public class TestRSASha1SignatureServiceB004{
         try{
             rsss.getSignature("baseString","apiSecret","tokenSecret")
         }catch(e:Exception){
-
-            if(e.toString().contains("Error while signing string: "+"baseString: "+"Please check the key")){
+            if(e.toString().contains("Error while signing string: "+"baseString: "+"Illegal RSA Private key")){
                 flag=0
             }
         }
@@ -108,7 +107,7 @@ public class TestRSASha1SignatureServiceB004{
         try{
             rsss.getSignature("baseString","apiSecret","tokenSecret")
         }catch(e:Exception){
-            if(e.toString().contains("Error while signing string: "+"baseString: "+"Please check the key")){
+            if(e.toString().contains("Error while signing string: "+"baseString: "+"Illegal RSA Private key")){
                 flag=0
             }
         }
@@ -129,22 +128,37 @@ public class TestRSASha1SignatureServiceB004{
 }
 
 public func getPrivatePem():String{
-    var r: RSA = rsaNew()
-    rsaGenerateKey(r, Int32(1024))
-    pemWriteRsaPri("Prikey.pem",r,false)
-    rsaFree(r)
+    // var r: RSA = rsaNew()
+    // rsaGenerateKey(r, Int32(1024))
+    // pemWriteRsaPri("Prikey.pem",r,false)
+    // rsaFree(r)
+    var rsa: RSAPrivateKey = RSA.generateKey(1024)
+    let priKey: Array<UInt8> = rsa.getPrivateKey()
+    var prik: RSAPrivateKey = RSA.setPrivateKey(priKey)
+    prik.writePriKeyToFile("Prikey.pem")
     return "Prikey.pem"
 }
 
 public func getExpResult(prikey:String,baseString:String):String{
-    let md: Array<UInt8> = Array<UInt8>(SHA_DIGEST_LENGTH, item: 0)
+    // let md: Array<UInt8> = Array<UInt8>(SHA_DIGEST_LENGTH, item: 0)
+    // let data: Array<UInt8> = baseString.toUtf8Array()
+    // sha1(data, md)
+    // let rsa: RSA = pemReadRsaPri(prikey, false)
+    // let (ret, signArray)= rsaSign(RsaTypeId.NID_sha1, md, UInt32(SHA_DIGEST_LENGTH), rsa)
+    // if (ret == 0) {
+    //     throw OAuth4cjSignatureException("RSA-SHA1 algorithm signature failed.")
+    // }
+    // rsaFree(rsa)
+
     let data: Array<UInt8> = baseString.toUtf8Array()
-    sha1(data, md)
-    let rsa: RSA = pemReadRsaPri(prikey, false)
-    let (ret, signArray)= rsaSign(RsaTypeId.NID_sha1, md, UInt32(SHA_DIGEST_LENGTH), rsa)
-    if (ret == 0) {
+    // sha1(data, md)
+    var digest: Array<UInt8> = Digest.digest(DigestType.sha1, data)
+    // let rsa: RSA = pemReadRsaPri(privateKey, false)
+    let rsa: RSAPrivateKey = RSA.readPriKeyfromFile(prikey)
+    // let (ret, signArray): (Int32, Array<UInt8>) = rsaSign(NID_sha1, md, UInt32(SHA_DIGEST_LENGTH), rsa)
+    let signArray: Array<UInt8> = RSA.sign(DigestType.sha1, digest, rsa)
+    if (signArray.size == 0) {
         throw OAuth4cjSignatureException("RSA-SHA1 algorithm signature failed.")
     }
-    rsaFree(rsa)
     return Base64Utils.encode(signArray)
 }

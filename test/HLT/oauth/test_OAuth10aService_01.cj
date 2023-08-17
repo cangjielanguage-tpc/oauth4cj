@@ -78,9 +78,7 @@ public class TestOAuth10aServiceB008{
 
     @TestCase
     func testOAuth10aServiceUse0101(): Unit {
-        spawn {
-            serve10a()
-        }
+        serve10a()
         sleep(1*Duration.second)
         let appKey: String = "123456789"
         let appSecret: String = "123456789"
@@ -112,9 +110,7 @@ public class TestOAuth10aServiceB008{
 
     @TestCase
     func testOAuth10aServiceUse0102(): Unit {
-        spawn {
-            serve10a()
-        }
+        serve10a()
         sleep(1*Duration.second)
         let appKey: String = "123456789"
         let appSecret: String = "123456789"
@@ -145,9 +141,7 @@ public class TestOAuth10aServiceB008{
 
     @TestCase
     func testOAuth10aServiceUse02(): Unit {
-        spawn {
-            serve10a()
-        }
+        serve10a()
         sleep(1*Duration.second)
         let appKey: String = "123456789"
         let appSecret: String = "123456789"

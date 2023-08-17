@@ -39,6 +39,8 @@ from crypto4cj import hmaccj.*
 from crypto4cj import rsacj.*
 from std import sync.*
 from std import time.*
+from std import unicode.*
+from crypto4cj import digestcj.*
 
 type OAuth4cjHttpClient = oauth4cj.httpclient.HttpClient
 
@@ -182,15 +184,17 @@ public func getOkHttpHttpClient():OkHttpHttpClient{
     var okhttpHttpClient=OkHttpHttpClient(okhttpHttpClientConfig)
     return okhttpHttpClient
 }
-//判等TlsClientVerifyMode
-public func assertTlsClientVerifyMode(thisTlsmode:TlsClientVerifyMode,thatTlsmode:TlsClientVerifyMode):Bool{
+//判等TlsClientVerifyMode(CertificateVerifyMode)
+public func assertTlsClientVerifyMode(thisTlsmode:CertificateVerifyMode,thatTlsmode:CertificateVerifyMode):Bool{
      let firstTlsmode=match(thisTlsmode){
-        case TlsClientVerifyMode.VerifyNone => "VerifyNone"
-        case TlsClientVerifyMode.VerifyServer =>  "VerifyServer"
+        case CertificateVerifyMode.Default => "Default"
+        case CertificateVerifyMode.TrustAll =>  "TrustAll"
+        case _ => "CustomCA"
     }
     let secondTlsmode=match(thatTlsmode){
-        case TlsClientVerifyMode.VerifyNone =>  "VerifyNone"
-        case TlsClientVerifyMode.VerifyServer =>  "VerifyServer"
+        case CertificateVerifyMode.Default =>  "Default"
+        case CertificateVerifyMode.TrustAll =>  "TrustAll"
+        case _ => "CustomCA"
     }
     return firstTlsmode==secondTlsmode
 }
@@ -371,12 +375,13 @@ public class SubOAuthAsyncRequestCallback <:OAuthAsyncRequestCallback{
 }
 public var port:UInt16=0
 public func serve10a(){
-    let hd = http.Route()
-    hd.handle("/1234", { rws: http.ResponseWriteStream, req: http.Request =>
+    let serverSocket = TcpServerSocket(bindAt: 0)
+    let server = ServerBuilder.new().listener(serverSocket).build()
+    server.distributor.register("/1234", { httpContext =>
         sleep(1*Duration.second)
         var returnJson: String = "error"
-        let header = req.header
-        let authorizationSub = header.get("Authorization").getOrThrow().substring(6)
+        let header = httpContext.request.headers
+        let authorizationSub = header.get("Authorization").getOrThrow()[0].substring(6)
         let splitArray: Array<String> = authorizationSub.split(",")
         let splitMap: HashMap<String, String> = HashMap<String, String>()
         for (item in splitArray) {
@@ -403,22 +408,24 @@ public func serve10a(){
             }
         }
         let resp = returnJson.toUtf8Array()
-        rws.write(resp)
+        httpContext.responseBuilder.body(resp)
         return
     })
-    let server = http.Server(hd)
-    let socket = socket.SocketServer(SocketNet.TCP, "0.0.0.0", port)
-    port = socket.port
-    server.serve(socket)
+    spawn{ 
+        server.serve() 
+    }
+    sleep(Duration.second)
+    port = serverSocket.localAddress.port
 }
 
 public func serve20(){
-    let hd = http.Route()
-    hd.handle("/1234", { rws: http.ResponseWriteStream, req: http.Request =>
+    let serverSocket = TcpServerSocket(bindAt: 0)
+    let server = ServerBuilder.new().listener(serverSocket).build()
+    server.distributor.register("/1234", { httpContext =>
         sleep(1*Duration.second)
         var returnJson: String = "error"
-        let header = req.header
-        let authorizationSub = header.get("Authorization").getOrThrow().substring(6)
+        let header = httpContext.request.headers
+        let authorizationSub = header.get("Authorization").getOrThrow()[0].substring(6)
         let splitArray: Array<String> = authorizationSub.split(",")
         let splitMap: HashMap<String, String> = HashMap<String, String>()
         for (item in splitArray) {
@@ -445,13 +452,14 @@ public func serve20(){
             }
         }
         let resp = returnJson.toUtf8Array()
-        rws.write(resp)
+        httpContext.responseBuilder.body(resp)
         return
     })
-    let server = http.Server(hd)
-    let socket = socket.SocketServer(SocketNet.TCP, "0.0.0.0", port)
-    port = socket.port
-    server.serve(socket)
+    spawn{ 
+        server.serve() 
+    }
+    sleep(Duration.second)
+    port = serverSocket.localAddress.port
 }
 
 

@@ -15,7 +15,7 @@ public class TestTokenTypeHintB004{
         var tokentypehint02=TokenTypeHint.REFRESH_TOKEN_HINT
         var res01=tokentypehint01.getValue()
         var res02=tokentypehint02.getValue()
-        @Assert(res01,"access_token_hint")
-        @Assert(res02,"refresh_token_hint")
+        @Assert(res01,"access_token")
+        @Assert(res02,"refresh_token")
     }
 }

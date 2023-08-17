@@ -11,6 +11,7 @@ package services
 from std import collection.*
 
 from crypto4cj import rsacj.*
+from crypto4cj import digestcj.*
 from crypto4cj import sha1cj.*
 
 /**
@@ -48,13 +49,12 @@ public class RSASha1SignatureService <: SignatureService {
         try {
             let md: Array<UInt8> = Array<UInt8>(SHA_DIGEST_LENGTH, item: 0)
             let data: Array<UInt8> = baseString.toUtf8Array()
-            sha1(data, md)
-            let rsa: RSA = pemReadRsaPri(privateKey, false)
-            let (ret, signArray): (Int32, Array<UInt8>) = rsaSign(NID_sha1, md, UInt32(SHA_DIGEST_LENGTH), rsa)
-            if (ret == 0) {
+            var digest: Array<UInt8> = Digest.digest(DigestType.sha1, data)
+            let rsa: RSAPrivateKey = RSA.readPriKeyfromFile(privateKey)
+            let signArray: Array<UInt8> = RSA.sign(DigestType.sha1, digest, rsa)
+            if (signArray.size == 0) {
                 throw OAuth4cjSignatureException("RSA-SHA1 algorithm signature failed.")
             }
-            rsaFree(rsa)
 
             return Base64Utils.encode(signArray)
         } catch (e: Exception) {
