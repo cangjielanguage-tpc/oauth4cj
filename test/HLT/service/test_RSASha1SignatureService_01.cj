@@ -35,7 +35,7 @@ public class TestRSASha1SignatureServiceB004{
             rsss.getSignature("baseString","apiSecret","tokenSecret")
         }catch(e:Exception){
             println(e.message)
-            if(e.toString().contains("Error while signing string: "+"baseString: "+"The file does not exist")){
+            if(e.toString().contains("Illegal RSA Private key")){
                 flag=0
             }
 
