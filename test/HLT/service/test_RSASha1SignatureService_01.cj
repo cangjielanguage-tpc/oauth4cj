@@ -29,7 +29,7 @@ public class TestRSASha1SignatureServiceB004{
     ***/
     @TestCase
     func testRSASha1SignatureServiceGetSignature02(): Unit {
-        let rsss=RSASha1SignatureService("./test_HMACSha1SignatureService_01.cj.out")
+        let rsss=RSASha1SignatureService("./test_RSASha1SignatureService_01.cj.out")
         var flag=1
         try{
             rsss.getSignature("baseString","apiSecret","tokenSecret")
