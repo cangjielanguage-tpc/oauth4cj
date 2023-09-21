@@ -70,19 +70,7 @@ OAuth 定义了四种角色：
 ```shell
 .
 ├── doc  
-├── src
-│   ├── builder                     --- Builder 模式的实现，使用一个流畅的接口创建 OAuthService
-│   ├── exceptions                  --- OAuth4cj 默认异常，参数缺失异常，签名异常
-│   ├── extractors                  --- 从字符串中提取具体令牌
-│   ├── httpclient                  --- 提供异步和同步执行 api
-│   ├── model                       --- 提供 OAuth 的请求/响应/令牌对象
-│   ├── oauth                       --- Builder 模式的实现，提供 OAuth 协议的默认实现及 OAuthService 的接口及实现
-│   ├── oauth2                      --- 客户端身份验证，请求签名
-│   ├── pkce                        --- 用于通过 OAuth 公共客户端实现代码交换的证明密钥
-│   ├── revoke                      --- 撤销请求枚举类型, OAuth2 撤销令牌响应转换器
-│   ├── services                    --- 提供对基字符串使用算法进行签名，返回OAuth签名;提供Unix时间戳生成器
-│   ├── util                        --- OAuth2.0 作用域生成器,访问令牌请求参数
-│   └── utils                       --- 提供 URL 编解码功能和处理 Streams 的工具类
+├── src                             --- 源码
 └── test
 │   ├── HLT                         --- 测试用例
 │   └── LLT                         --- 自测用例
@@ -91,7 +79,7 @@ OAuth 定义了四种角色：
 ├── LICENSE.txt  
 ├── module.json  
 ├── README.md  
-├── README.OpenSource  
+└── README.OpenSource  
 ```
 
 - `doc`  文档目录，存放API接口等文档
@@ -106,15 +94,80 @@ OAuth 定义了四种角色：
 
 ### 编译构建
 
-描述具体的编译过程：
+进入到oauth4cj目录下, 拉取两个依赖库
 
 ```shell
-git clone https://gitee.com/HW-PLLab/oauth4cj.git    ---> 拉取代码
-git clone https://gitee.com/HW-PLLab/testJekins.git  ---> 拉取编译脚本
-cd oauth4cj                                          ---> 进入到oauth4cj目录下
-cp -r ../testJekins/src/ci_test .                    ---> 将ci_test复制到oauth4cj的根目录
-python3 ci_test/main.py build                        ---> 编译
+cd oauth4cj                                              
+git clone https://gitee.com/HW-PLLab/httpclient4cj.git  
+git clone https://gitee.com/HW-PLLab/crypto4cj.git      
 ```
+crypto4cj需要libcrypto.so 和 libmycrypto.so (windows系统是libcrypto.dll 和 libmycrypto.dll)
+可自己编译也可直接获取, 详见crypto4cj的说明
+
+编译好两个.so/.dll 文件, 进入到oauth4cj/crypto4cj目录下, 创建lib文件夹并复制.so/.dll 文件
+
+```shell
+cd crypto4cj 
+mkdir lib
+cp -r so库存放地址/libcrypto.so ./lib
+cp -r so库存放地址/libmycrypto.so ./lib
+```
+返回到oauth4cj目录下进行编译
+
+```shell
+cjpm build
+```
+
+编译完成后将两个.so/.dll 文件也复制到oauth4cj/build/crypto4cj目录下
+
+### 执行用例
+
+示例
+
+```shell
+cjc -O2 --import-path xxxxx/oauth4cj/build/oauth4cj/.. -L xxxxx/oauth4cj/build/oauth4cj -l oauth4cj_oauth4cj --import-path xxxxx/oauth4cj/build/httpclient4cj/.. -L xxxxx/oauth4cj/build/httpclient4cj -l httpclient4cj_httpclient4cj --import-path xxxxx/oauth4cj/build/crypto4cj/.. -L xxxxx/oauth4cj/build/crypto4cj -l crypto -l crypto4cj_aescj -l crypto4cj_bignumcj -l crypto4cj_dhcj -l crypto4cj_digestcj -l crypto4cj_dsacj -l crypto4cj_eccj -l crypto4cj_hmaccj -l crypto4cj_md5cj -l crypto4cj_rc2cj -l crypto4cj_rc4cj -l crypto4cj_rsacj -l crypto4cj_sha1cj -l crypto4cj_sha224cj -l crypto4cj_sha256cj -l crypto4cj_sha384cj -l crypto4cj_sha512cj -l crypto4cj_symmetrycj -l crypto4cj_utils -l mycrypto  xxxxx/oauth4cj/test/HLT/utils/test_URLEncoder_01.cj xxxxx/oauth4cj/test/HLT//common.cj -o xxxxx/oauth4cj/test/tmp/test.cj.out --test
+```
+具体说明
+
+- cjc命令, -O2表示开启优化
+```shell
+cjc -O2
+```
+- --import-path 导入oauth库编译出来的库文件地址, 注意地址最后有".."
+- -L 导入库文件的完整路径
+- 导入多个库,每个库都需要--import-path和 -L
+
+```shell
+--import-path xxxxx/oauth4cj/build/oauth4cj/.. -L xxxxx/oauth4cj/build/oauth4cj -l oauth4cj_oauth4cj
+--import-path xxxxx/oauth4cj/build/httpclient4cj/.. -L xxxxx/oauth4cj/build/httpclient4cj -l httpclient4cj_httpclient4cj
+```
+- -l 要导入的具体的包, 用"库名_包名",一般库文件生成时是"lib库名_包名.后缀"的格式
+- 导入一个库中有多个包时,用多个 -l
+```shell
+--import-path xxxxx/oauth4cj/build/crypto4cj/.. -L xxxxx/cj_project/oauth4cj/build/crypto4cj -l crypto -l crypto4cj_aescj -l crypto4cj_bignumcj -l crypto4cj_dhcj -l crypto4cj_digestcj -l crypto4cj_dsacj -l crypto4cj_eccj -l crypto4cj_hmaccj -l crypto4cj_md5cj -l crypto4cj_rc2cj -l crypto4cj_rc4cj -l crypto4cj_rsacj -l crypto4cj_sha1cj -l crypto4cj_sha224cj -l crypto4cj_sha256cj -l crypto4cj_sha384cj -l crypto4cj_sha512cj -l crypto4cj_symmetrycj -l crypto4cj_utils -l mycrypto
+```
+
+- 测试用例的完整路径和用例中引入文件的完整路径
+- -o 用例编译后输出的位置和名称, .out结尾, 一般使用"用例名称.out"
+- --test 用例编译命令结尾
+```shell
+xxxxx/oauth4cj/test/HLT/utils/test.cj xxxxx/oauth4cj/test/HLT/common.cj -o xxxxx/oauth4cj/test/tmp/test.cj.out --test
+```
+
+- 把oauth4cj/build目录、oauth4cj/crypto4cj目录、oauth4cj/httpclient4cj目录中的库文件都复制到.out文件位置(包括之前的两个.so/.dll 文件)
+- 进入到.out文件位置执行用例
+```shell
+cd xxxxx/oauth4cj/test/tmp/
+```
+- windows系统打开cmd,输入.out文件完整名称即可执行
+```shell
+test.cj.out
+```
+- Linux系统使用 ./.out文件完整名称
+```shell
+./test.cj.out
+```
+
 
 ### 功能示例
 
@@ -165,55 +218,41 @@ https://open.weibo.com/wiki/%E6%96%B0%E6%89%8B%E6%8C%87%E5%8D%97
 ```cangjie
 from std import random.*
 from std import collection.*
-
-from oauth4cj import commons.*
-from oauth4cj import oauth.*
-from oauth4cj import model.*
-from oauth4cj import httpclient.*
-from oauth4cj import builder.*
-from oauth4cj import extractors.*
-from oauth4cj import exceptions.*
-from oauth4cj import oauth2.clientauthentication.*
-from oauth4cj import oauth2.bearersignature.*
+from oauth4cj import oauth4cj.*
 
 main() {
     //将这些替换为在【授权服务器-gitee】中生成的 client_id 和 client_secret
     let clientId: String = "your client id"
     let clientSecret: String = "your client secret"
-
     //替换成自己需要的权限范围
     //此授权范围是在【授权服务器-gitee】成功创建的应用中对应的权限描述，多个权限用空格隔开
     let SCOP: String = "user_info emails"
-
     let NETWORK_NAME: String = "Gitee"
-    
     //替换成自己需要请求的，受保护的资源的链接
     //授权成功拿到访问令牌后，准备请求的受保护的资源的链接
     let PROTECTED_RESOURCE_URL: String = "https://gitee.com/api/v5/emails"
-
     let m: Random = Random()
     m.seed = 3
     let c: UInt32 = m.nextUInt32()
-
+    let redirect_uri="" //设置回调url{redirect_uri}，用于后面获取授权码code
     let secretState: String = "secret" + c.toString()
     let service: OAuth20Service = ServiceBuilderOAuth20(clientId).
             setApiSecret(clientSecret).
             setDefaultScope(SCOP).
-            //设置回调url{redirect_uri}，用于后面获取授权码code
             setCallback("${redirect_uri}").
             build(GiteeApi.instance())
 
     //=== Gitee的OAuth工作流 ===
 
     //1. 获取授权 URL
-    
+
     //1.1 对授权连接中的配置，进行设置
     let additionalParams: HashMap<String, String> = HashMap<String, String>()
     //通过设置 access_type=offline 以获取刷新令牌
     additionalParams.put("access_type", "offline")
     //强制reget刷新令牌（如果不是第一次询问用户）
     additionalParams.put("prompt", "consent")
- 
+
     //1.2 生成可以获取授权码的链接
     //授权认证服务器通过回调地址{redirect_uri}将【用户授权码】code 传递给【应用服务器】或者直接在 Webview 中跳转到携带用户授权码的回调地址上，
     //Webview(网页) 直接获取 code 即可。（{redirect_uri}?code=abc&state=xyz)
@@ -222,7 +261,7 @@ main() {
             setAdditionalParams(additionalParams).
             build()
     println("授权URL: " + authorizationUrl)
-    
+
     //1.3 替换成上一步生成的一次性授权码
     let code: String = "your code"
 
@@ -237,12 +276,12 @@ main() {
     //4.请求一个受保护的资源！
     let requestUrl: String = PROTECTED_RESOURCE_URL
     let request: OAuth4cjRequest = OAuth4cjRequest(Verb.GET, requestUrl)
-    
+
     //4.1 请求签名
     service.signRequest(accessToken, request)
 
     //4.2 调用同步请求执行
-    let response: Response = service.execute(request)
+    let response: OAuth4cjResponse = service.execute(request)
     println(response.getCode())
     println(response.getBody())
 }
@@ -310,19 +349,9 @@ public class GiteeApi <: DefaultApi20 {
 
 ```cangjie
 from std import collection.*
-
-from oauth4cj import commons.*
-from oauth4cj import oauth.*
-from oauth4cj import model.*
-from oauth4cj import httpclient.*
-from oauth4cj import builder.*
-from oauth4cj import extractors.*
-from oauth4cj import exceptions.*
-from oauth4cj import oauth2.clientauthentication.*
-from oauth4cj import oauth2.bearersignature.*
+from oauth4cj import oauth4cj.*
 
 main() {
-
     var test_01 = testPassword_01()
     if (test_01 != 0){
         println(test_01)
@@ -335,7 +364,7 @@ public func testPassword_01(): Int32 {
     //将"your_username"和"your_password"替换成实际的 gitee 账户名和密码
     let USER_NAME: String = "your_username"
     let PASSWORD: String = "your_password"
-    
+
     //将这些替换为在【授权服务器-gitee】中生成的 client_id 和 client_secret
     let clientId: String = "your client id"
     let clientSecret: String = "your client secret"
@@ -345,11 +374,11 @@ public func testPassword_01(): Int32 {
     let SCOP: String = "user_info emails"
 
     let NETWORK_NAME: String = "Gitee"
-    
+
     //替换成自己需要请求的，受保护的资源的链接
     //授权成功拿到访问令牌后，准备请求的受保护的资源的链接
     let PROTECTED_RESOURCE_URL: String = "https://gitee.com/api/v5/emails"
-
+    let redirect_uri=""//设置回调url{redirect_uri}，用于后面获取授权码code
     let service: OAuth20Service = ServiceBuilderOAuth20(clientId).
             setApiSecret(clientSecret).
             setDefaultScope(SCOP).
@@ -365,12 +394,12 @@ public func testPassword_01(): Int32 {
     //2. 请求一个受保护的资源！
     let requestUrl: String = PROTECTED_RESOURCE_URL
     let request: OAuth4cjRequest = OAuth4cjRequest(Verb.GET, requestUrl)
-    
+
     //2.1 请求签名
     service.signRequest(accessToken, request)
 
     //2.2 调用同步请求执行
-    let response: Response = service.execute(request)
+    let response: OAuth4cjResponse = service.execute(request)
     println(response.getCode())
     println(response.getBody())
 
@@ -440,15 +469,7 @@ public class GiteeApi <: DefaultApi20 {
 ```cangjie
 from std import collection.*
 
-from oauth4cj import commons.*
-from oauth4cj import oauth.*
-from oauth4cj import model.*
-from oauth4cj import httpclient.*
-from oauth4cj import builder.*
-from oauth4cj import extractors.*
-from oauth4cj import exceptions.*
-from oauth4cj import oauth2.clientauthentication.*
-from oauth4cj import oauth2.bearersignature.*
+from oauth4cj import oauth4cj.*
 
 main() {
     //将这些替换为在【授权服务器-华为】中生成的 client_id 和 client_secret
@@ -462,11 +483,10 @@ main() {
     //替换成自己需要请求的，受保护的资源的链接
     //授权成功拿到访问令牌后，准备请求的受保护的资源的链接
     let PROTECTED_RESOURCE_URL: String = "https://account.cloud.huawei.com/rest.php?nsp_svc=GOpen.User.getInfo"
-
+    let redirect_uri=""//设置回调url{redirect_uri}，用于后面获取授权码code
     let service: OAuth20Service = ServiceBuilderOAuth20(clientId).
             setApiSecret(clientSecret).
             setDefaultScope(SCOP).
-            //设置回调url{redirect_uri}，用于后面获取授权码code
             setCallback("${redirect_uri}").
             build(HuaweiApi.instance())
 
@@ -484,7 +504,7 @@ main() {
     service.signRequest(accessToken, request)
 
     //2.2 调用同步请求执行
-    let response: Response = service.execute(request)
+    let response: OAuth4cjResponse = service.execute(request)
     println(response.getCode())
     println(response.getBody())
 }
@@ -562,15 +582,7 @@ func getDeviceBaseUrl(userCode: String): String {
 ```cangjie
 from std import collection.*
 
-from oauth4cj import commons.*
-from oauth4cj import oauth.*
-from oauth4cj import model.*
-from oauth4cj import httpclient.*
-from oauth4cj import builder.*
-from oauth4cj import extractors.*
-from oauth4cj import exceptions.*
-from oauth4cj import oauth2.clientauthentication.*
-from oauth4cj import oauth2.bearersignature.*
+from oauth4cj import oauth4cj.*
 
 main() {
     //将这些替换为在【授权服务器-腾讯】中生成的 client_id 和 client_secret
@@ -580,16 +592,15 @@ main() {
     //替换成自己需要的权限范围
     //此授权范围是在【授权服务器-腾讯】添加的应用的授权，多个权限请用逗号隔开
     let SCOP: String = "get_user_info"
-
+    let redirect_uri=""//设置回调url{redirect_uri}，用于后面获取access_token
     let service: OAuth20Service = ServiceBuilderOAuth20(clientId).
             setApiSecret(clientSecret).
             setDefaultScope(SCOP).
-            //设置回调url{redirect_uri}，用于后面获取access_token
             setCallback("${redirect_uri}").
             build(TengxunApi.instance())
 
     //=== 腾讯的OAuth工作流 ===
-
+    let secretState=""
     //调用简化模式，获取访问令牌！
     let authorizationUrl: String = AuthorizationUrlBuilder(service).
             setState(secretState).
