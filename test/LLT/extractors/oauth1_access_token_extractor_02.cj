@@ -3,12 +3,10 @@
 
 from std import collection.*
 
-from oauth4cj import extractors.*
-from oauth4cj import model.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
-func ok(body: String): Response {
-    return Response(200, "", HashMap<String, String>(), body)
+func ok(body: String): OAuth4cjResponse {
+    return OAuth4cjResponse (200, "", HashMap<String, String>(), body)
 }
 
 main() {
@@ -36,7 +34,7 @@ func testOAuth1AccessTokenExtractor_01(): Int32 {
     let extractor: OAuth1AccessTokenExtractor = OAuth1AccessTokenExtractor.instance()
     let responseBody: String = "oauth_secret=hh5s93j4hdidpola&callback_confirmed=true"
     try {
-        let response: Response = ok(responseBody)
+        let response: OAuth4cjResponse = ok(responseBody)
         let extracted: OAuth1Token = extractor.extract(response)
         println(extracted.getToken())
     } catch (e: OAuth4cjException) {
@@ -51,7 +49,7 @@ func testOAuth1AccessTokenExtractor_02(): Int32 {
     let extractor: OAuth1AccessTokenExtractor = OAuth1AccessTokenExtractor.instance()
     let responseBody: String = "oauth_token=hh5s93j4hdidpola&callback_confirmed=true"
     try {
-        let response: Response = ok(responseBody)
+        let response: OAuth4cjResponse = ok(responseBody)
         let extracted: OAuth1Token = extractor.extract(response)
         println(extracted.getToken())
     } catch (e: OAuth4cjException) {
@@ -66,7 +64,7 @@ func testOAuth1AccessTokenExtractor_03(): Int32 {
     let extractor: OAuth1AccessTokenExtractor = OAuth1AccessTokenExtractor.instance()
     let responseBody: String = ""
     try {
-        let response: Response = ok(responseBody)
+        let response: OAuth4cjResponse = ok(responseBody)
         let extracted: OAuth1Token = extractor.extract(response)
         println(extracted.getToken())
     } catch (e: IllegalArgumentException) {

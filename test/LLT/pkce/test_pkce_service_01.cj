@@ -1,7 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import pkce.*
+from oauth4cj import oauth4cj.*
 
 let RANDOM_BYTES: Array<UInt8> = Array<UInt8>([116, 24, 223, 180, 151, 153,
             224, 37, 79, 250, 96, 125, 216, 173, 187, 186, 22, 212, 37, 77,
@@ -22,15 +22,21 @@ main (){
     println("str01 == str11: ${str01 == str11}")
     println("str02 == str12: ${str02 == str12}")
     if (!str00.equals(str10)) {
+        println(str00)
+        println(str10)
         println(1)
         return 1
     }
     if (!str01.equals(str11)) {
         println(2)
+        println(str01)
+        println(str11)
         return 2
     }
     if (!str02.equals(str12)) {
         println(3)
+        println(str02)
+        println(str12)
         return 3
     }
 

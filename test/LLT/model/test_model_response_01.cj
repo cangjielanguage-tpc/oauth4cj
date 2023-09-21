@@ -1,7 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import model.*
+from oauth4cj import oauth4cj.*
 
 from std import collection.HashMap
 from std import collection.ArrayList
@@ -15,7 +15,7 @@ public func testResponse_01():Int32 {
     //var stream:ByteArrayStream = ByteArrayStream()
     headers.put("header1", "value1")
     headers.put("header2", "value2")
-    var response:Response = Response(200, "message", headers, "123456")
+    var response: OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, "123456")
     if (response.getCode() != 200){ 
         return -1
     }
@@ -39,23 +39,23 @@ public func testResponse_01():Int32 {
 public func testResponse_02():Int32 {
     var headers:HashMap<String, String> = HashMap<String, String>()
     //var stream:ByteArrayStream = ByteArrayStream()
-    var response_1:Response = Response(200, "message", headers, "123456")
+    var response_1: OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, "123456")
     if (!response_1.isSuccessful()) {
         return -1
     }
-    var response_2:Response = Response(400, "message", headers, "123456")
+    var response_2: OAuth4cjResponse = OAuth4cjResponse(400, "message", headers, "123456")
     if (response_2.isSuccessful()) {
         return -1
     }
-    var response_3:Response = Response(388, "message", headers, "123456")
+    var response_3: OAuth4cjResponse = OAuth4cjResponse(388, "message", headers, "123456")
     if (!response_3.isSuccessful()) {
         return -1
     }
-    var response_4:Response = Response(404, "message", headers, "123456")
+    var response_4: OAuth4cjResponse = OAuth4cjResponse(404, "message", headers, "123456")
     if (response_4.isSuccessful()) {
         return -1
     }
-    var response_5:Response = Response(100, "message", headers, "123456")
+    var response_5: OAuth4cjResponse = OAuth4cjResponse(100, "message", headers, "123456")
     if (response_5.isSuccessful()) {
         return -1
     }
@@ -68,7 +68,7 @@ public func testResponse_03():Int32 {
     var stream:ByteArrayStream = ByteArrayStream()
     var closeables:ArrayList<Resource> = ArrayList<Resource>()
     stream.write("abcdefg".toUtf8Array()) // 向流中写入测试数据
-    var response:Response = Response(200, "message", headers, stream, closeables)
+    var response: OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, stream, closeables)
     var responseStream = response.getStream()
     var buffer:Array<Byte> = Array<Byte>(7, item:0)
     responseStream.read(buffer) 
@@ -97,7 +97,7 @@ public func testResponse_04():Int32 {
     stream.write(bytes)
 
     var closeables:ArrayList<Resource> = ArrayList<Resource>()
-    var response:Response = Response(200, "message", headers, stream, closeables)
+    var response: OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, stream, closeables)
     var body:String = response.getBody()
     
     if (!str.equals(body)) {

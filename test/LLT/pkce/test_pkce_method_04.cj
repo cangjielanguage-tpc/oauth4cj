@@ -2,7 +2,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import pkce.*
+from oauth4cj import oauth4cj.*
 
 main (){
 

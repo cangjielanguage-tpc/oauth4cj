@@ -3,8 +3,7 @@
 // EXEC: ./main
 
 from std import collection.*
-from oauth4cj import httpclient.multipart.*
-from oauth4cj import httpclient.*
+from oauth4cj import oauth4cj.*
 
 main() {
 
@@ -39,7 +38,7 @@ public func testFileByteArrayBodyPartPayload_01(): Int32 {
         println(1)
         return 1
     }
-    if (!headers.contains(CONTENT_TYPE) || !headers[CONTENT_TYPE].equals("contentType_test")) {
+    if (!headers.contains(OAuthConstants.CONTENT_TYPE) || !headers[OAuthConstants.CONTENT_TYPE].equals("contentType_test")) {
         println(11)
         return 11
     }
@@ -64,7 +63,7 @@ public func testFileByteArrayBodyPartPayload_02(): Int32 {
         println(3)
         return 3
     }
-    if (!headers.contains(CONTENT_TYPE) || !headers[CONTENT_TYPE].equals("contentType_test")) {
+    if (!headers.contains(OAuthConstants.CONTENT_TYPE) || !headers[OAuthConstants.CONTENT_TYPE].equals("contentType_test")) {
         println(4)
         return 4
     }
@@ -88,7 +87,7 @@ public func testFileByteArrayBodyPartPayload_03(): Int32 {
         println(6)
         return 6
     }
-    if (!headers.contains(CONTENT_TYPE) || !headers[CONTENT_TYPE].equals("contentType_test")) {
+    if (!headers.contains(OAuthConstants.CONTENT_TYPE) || !headers[OAuthConstants.CONTENT_TYPE].equals("contentType_test")) {
         println(7)
         return 7
     }

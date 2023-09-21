@@ -4,12 +4,10 @@
 
 from std import collection.*
 
-from oauth4cj import extractors.*
-from oauth4cj import model.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
-func ok(body: String): Response {
-    return Response(200, "", HashMap<String, String>(), body)
+func ok(body: String): OAuth4cjResponse {
+    return OAuth4cjResponse (200, "", HashMap<String, String>(), body)
 }
 
 main() {
@@ -41,7 +39,7 @@ func testDeviceAuthorizationJsonExtractor_01(): Int32 {
                                     "verification_uri": "3","expires_in": "300","interval": "8",
                                     "verification_uri_complete": 6}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let da: DeviceAuthorization = extractor.extract(response)
     let str: String = da.toString()
 
@@ -65,7 +63,7 @@ func testDeviceAuthorizationJsonExtractor_02(): Int32 {
                                     "verification_uri": 3,"expires_in": "300","interval": "8",
                                     "verification_uri_complete": 6}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let da: DeviceAuthorization = extractor.extract(response)
     let str: String = da.toString()
 
@@ -89,7 +87,7 @@ func testDeviceAuthorizationJsonExtractor_03(): Int32 {
                                     "verification_uri": 3,"expires_in": "300","interval": "++8",
                                     "verification_uri_complete": 6}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let da: DeviceAuthorization = extractor.extract(response)
     let str: String = da.toString()
 

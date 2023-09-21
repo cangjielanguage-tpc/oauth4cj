@@ -11,13 +11,7 @@ from std import socket.*
 from std import unicode.*
 // from encoding import url.*
 
-from oauth4cj import commons.*
-from oauth4cj import oauth.*
-from oauth4cj import model.*
-from oauth4cj import httpclient.*
-from oauth4cj import builder.*
-from oauth4cj import extractors.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
 // RFC5849文档中的示例
 
@@ -146,7 +140,7 @@ main() {
     service.signRequest(accessToken, request)
 
     try {
-        let response: model.Response = service.execute(request)
+        let response: OAuth4cjResponse = service.execute(request)
         // 8. 验证返回的资源是否正确
         if (response.getCode() != 200) {
             println("3")

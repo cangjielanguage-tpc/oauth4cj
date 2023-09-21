@@ -3,9 +3,7 @@
 
 from std import fs.*
 
-from oauth4cj import extractors.*
-from oauth4cj import model.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
 main() {
     var test_01 = testHeaderExtractor_01()

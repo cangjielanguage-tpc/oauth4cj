@@ -2,7 +2,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import commons.*
+from oauth4cj import oauth4cj.*
 
 main (){
     let plain: String = "abcde123456-._~"

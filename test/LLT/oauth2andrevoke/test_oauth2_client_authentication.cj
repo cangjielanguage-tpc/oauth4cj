@@ -1,9 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import model.*
-from oauth4cj import commons.*
-from oauth4cj import oauth2.clientauthentication.*
+from oauth4cj import oauth4cj.*
 
 func testClientAuthentication_01(): Int32 {
     var url = "http://test/test"

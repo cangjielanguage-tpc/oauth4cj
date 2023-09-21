@@ -2,15 +2,14 @@
 // EXEC: ./main
 
 from std import collection.*
-from oauth4cj import revoke.*
-from oauth4cj import model.*
+from oauth4cj import oauth4cj.*
 from std import io.*
 
 func testTokenReponseConverter_01(): Int32 {
     var headers:HashMap<String, String> = HashMap<String, String>()
     headers.put("header1", "value1")
     headers.put("header2", "value2")
-    var response:Response = Response(200, "message", headers, "123456")
+    var response: OAuth4cjResponse  = OAuth4cjResponse(200, "message", headers, "123456")
     var converter: OAuth2RevokeTokenResponseConverter = OAuth2RevokeTokenResponseConverter()
     converter.convert(response)
     return 0
@@ -20,7 +19,7 @@ func testTokenReponseConverter_02(): Int32 {
     var headers:HashMap<String, String> = HashMap<String, String>()
     headers.put("header1", "value1")
     headers.put("header2", "value2")
-    var response:Response = Response(300, "message", headers, "123456")
+    var response: OAuth4cjResponse  = OAuth4cjResponse(300, "message", headers, "123456")
     var converter: OAuth2RevokeTokenResponseConverter = OAuth2RevokeTokenResponseConverter()
     try {
         converter.convert(response)
@@ -36,7 +35,7 @@ func testTokenReponseConverter_03(): Int32 {
     var headers:HashMap<String, String> = HashMap<String, String>()
     headers.put("header1", "value1")
     headers.put("header2", "value2")
-    var response:Response = Response(404, "message", headers, responseBody)
+    var response: OAuth4cjResponse  = OAuth4cjResponse(404, "message", headers, responseBody)
     var converter: OAuth2RevokeTokenResponseConverter = OAuth2RevokeTokenResponseConverter()
     try {
         converter.convert(response)
@@ -60,7 +59,7 @@ func testTokenReponseConverter_04(): Int32 {
     var inputStream=ByteArrayStream()
     inputStream.write("hello cangjie".toUtf8Array())
     println(inputStream.isEmpty())
-    var response=Response(Int32(400),"message",HashMap<String,String>(),inputStream,ArrayList<Resource>())
+    var response=OAuth4cjResponse(Int32(400),"message",HashMap<String,String>(),inputStream,ArrayList<Resource>())
     try {
         converter.convert(response)
         return -1

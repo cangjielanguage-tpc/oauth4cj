@@ -1,7 +1,6 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
-
-from oauth4cj import services.*
+from oauth4cj import oauth4cj.*
 from std import time.*
 
 func getCurrentTimeMillis(): Int64 {

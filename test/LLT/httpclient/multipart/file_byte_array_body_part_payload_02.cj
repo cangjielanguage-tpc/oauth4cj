@@ -2,8 +2,7 @@
 // EXEC: ./main
 
 from std import collection.*
-from oauth4cj import httpclient.multipart.*
-from oauth4cj import httpclient.*
+from oauth4cj import oauth4cj.*
 
 main() {
 
@@ -90,7 +89,7 @@ public func testFileByteArrayBodyPartPayload_03(): Int32 {
         println(5)
         return 5
     }
-    if (!headers.contains(CONTENT_TYPE) || !headers[CONTENT_TYPE].equals("contentType_test")) {
+    if (!headers.contains(OAuthConstants.CONTENT_TYPE) || !headers[OAuthConstants.CONTENT_TYPE].equals("contentType_test")) {
         println(51)
         return 51
     }
@@ -113,7 +112,7 @@ public func testFileByteArrayBodyPartPayload_04(): Int32 {
         println(7)
         return 7
     }
-    if (!headers.contains(CONTENT_TYPE) || !headers[CONTENT_TYPE].isEmpty()) {
+    if (!headers.contains(OAuthConstants.CONTENT_TYPE) || !headers[OAuthConstants.CONTENT_TYPE].isEmpty()) {
         println(71)
         return 71
     }
@@ -136,7 +135,7 @@ public func testFileByteArrayBodyPartPayload_05(): Int32 {
         println(9)
         return 9
     }
-    if (!headers.contains(CONTENT_TYPE) || !headers[CONTENT_TYPE].equals("contentType_test")) {
+    if (!headers.contains(OAuthConstants.CONTENT_TYPE) || !headers[OAuthConstants.CONTENT_TYPE].equals("contentType_test")) {
         println(91)
         return 91
     }
@@ -159,7 +158,7 @@ public func testFileByteArrayBodyPartPayload_06(): Int32 {
         println(11)
         return 11
     }
-    if (!headers.contains(CONTENT_TYPE) || !headers[CONTENT_TYPE].isEmpty()) {
+    if (!headers.contains(OAuthConstants.CONTENT_TYPE) || !headers[OAuthConstants.CONTENT_TYPE].isEmpty()) {
         println(111)
         return 111
     }

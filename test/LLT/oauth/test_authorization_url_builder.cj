@@ -1,12 +1,9 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 from std import collection.*
-from oauth4cj import builder.*
-from oauth4cj import pkce.*
-from oauth4cj import oauth.*
-from oauth4cj import httpclient.*
+from oauth4cj import oauth4cj.*
 
-type OAuth4cjHttpClient = oauth4cj.httpclient.HttpClient
+type OAuth4cjHttpClient = oauth4cj.HttpClient
 
 func testAuthorizationURL_01(): Int32 {
     var mapAdditional = HashMap<String, String>()

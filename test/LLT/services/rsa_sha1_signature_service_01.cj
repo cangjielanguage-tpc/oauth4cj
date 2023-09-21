@@ -3,9 +3,7 @@
 // EXEC: ./main
 
 from encoding import base64.*
-
-from oauth4cj import services.*
-from oauth4cj import commons.*
+from oauth4cj import oauth4cj.*
 
 public func testPlaintextSignatureService_01(rsa: RSASha1SignatureService): Int32 {
 

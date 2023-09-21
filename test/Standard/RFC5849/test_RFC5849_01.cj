@@ -8,13 +8,7 @@ from std import unicode.*
 from std import time.*
 from net import http.*
 from std import socket.*
-from oauth4cj import commons.*
-from oauth4cj import oauth.*
-from oauth4cj import model.*
-from oauth4cj import httpclient.*
-from oauth4cj import builder.*
-from oauth4cj import extractors.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
 var port: UInt16 = 0
 
@@ -44,7 +38,7 @@ public class TestRFC5849{
         @Assert(accessToken.getToken(),"nnch734d00sl2jdk")
         let request: OAuth4cjRequest = OAuth4cjRequest(Verb.GET, PROTECTED_RESOURCE_URL)
         service.signRequest(accessToken, request)
-        let response: model.Response = service.execute(request)
+        let response: OAuth4cjResponse = service.execute(request)
         @Assert(response.getCode(),200)
         let bodyString = ##"{"photo1":"aaaaaa","photo2":"bbbbbbb"}"##
         @Assert(response.getBody(),bodyString)

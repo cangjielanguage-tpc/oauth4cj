@@ -3,8 +3,7 @@
 
 from std import collection.*
 
-from oauth4cj import model.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
 public func testAddHeader_01():Int32 {
     let url: String = "http://test/test"

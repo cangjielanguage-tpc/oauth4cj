@@ -11,7 +11,7 @@ public class TestOAuth1AccessTokenJSONExtractorB004{
     @TestCase
     func testOAuth1AccessTokenJSONExtractorExtract01(): Unit {
         var oauth1AccessTokenJSONExtractor=OAuth1AccessTokenJSONExtractor.instance()
-        var response01=oauth4cj.model.Response(Int32(2),"message",HashMap<String,String>(),"")
+        var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"")
         var flag=1
         try{
             oauth1AccessTokenJSONExtractor.extract(response01)
@@ -30,7 +30,7 @@ public class TestOAuth1AccessTokenJSONExtractorB004{
     func testOAuth1AccessTokenJsonExtractorExtract02(): Unit {
         var oauth1AccessTokenJsonExtractor02=OAuth1AccessTokenJSONExtractor.instance()
         var body=###"{"error_uri":"http://www.baidu.com"}"###
-        var response01=oauth4cj.model.Response(Int32(200),"message",HashMap<String,String>(),body)
+        var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
         var flag=1
         try{
             oauth1AccessTokenJsonExtractor02.extract(response01)
@@ -49,7 +49,7 @@ public class TestOAuth1AccessTokenJSONExtractorB004{
     func testOAuth1AccessTokenJsonExtractorExtract03(): Unit {
         var oauth1AccessTokenJsonExtractor02=OAuth1AccessTokenJSONExtractor.instance()
         var body=###"{"access_token":"dadadsasdada"}"###
-        var response01=oauth4cj.model.Response(Int32(200),"message",HashMap<String,String>(),body)
+        var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
         var flag=1
         try{
             oauth1AccessTokenJsonExtractor02.extract(response01)
@@ -68,7 +68,7 @@ public class TestOAuth1AccessTokenJSONExtractorB004{
     func testOAuth1AccessTokenJsonExtractorExtract04(): Unit {
         var oauth1AccessTokenJsonExtractor02 = OAuth1AccessTokenJSONExtractor.instance()
         var body=###"{"oauth_token":"dadadsasdada","oauth_token_secret":"dadadsasdada"}"###
-        var response01=oauth4cj.model.Response(Int32(200),"message",HashMap<String,String>(),body)
+        var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
 
         var oauth1AccessToken02=oauth1AccessTokenJsonExtractor02.extract(response01)
 

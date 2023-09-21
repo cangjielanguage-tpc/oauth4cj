@@ -1,8 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import services.*
-from oauth4cj import commons.*
+from oauth4cj import oauth4cj.*
 
 public func testHMACSha1SignatureService_01(): Int32 {
 
@@ -17,7 +16,7 @@ public func testHMACSha1SignatureService_01(): Int32 {
 
     return 0
 }
-
+ 
 public func testHMACSha1SignatureService_02(): Int32 {
     let hmac: HMACSha1SignatureService = HMACSha1SignatureService()
     let apiSecret: String = "api secret"

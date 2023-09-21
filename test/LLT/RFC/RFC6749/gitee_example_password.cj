@@ -1,13 +1,7 @@
 
 from std import collection.*
 
-from oauth4cj import commons.*
-from oauth4cj import oauth.*
-from oauth4cj import model.*
-from oauth4cj import httpclient.*
-from oauth4cj import builder.*
-from oauth4cj import extractors.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
 main() {
 
@@ -51,7 +45,7 @@ main() {
     service.signRequest(accessToken, request)
 
     //2.2 调用同步请求执行
-    let response: Response = service.execute(request)
+    let response: OAuth4cjResponse = service.execute(request)
     println(response.getCode())
     println(response.getBody())
 

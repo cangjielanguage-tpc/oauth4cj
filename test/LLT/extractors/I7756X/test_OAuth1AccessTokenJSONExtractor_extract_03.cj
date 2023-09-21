@@ -3,9 +3,7 @@
 
 from std import collection.*
 
-from oauth4cj import extractors.*
-from oauth4cj import model.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
 main() {
 
@@ -24,7 +22,7 @@ main() {
 func testOAuth1AccessTokenJsonExtractorExtract03(): Int64 {
     var oauth1AccessTokenJsonExtractor02=OAuth1AccessTokenJSONExtractor.instance()
     var body=###"{"access_token":"dadadsasdada"}"###
-    var response01=Response(Int32(200),"message",HashMap<String,String>(),body)
+    var response01=OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
     var flag: Int64 = 1
     try{
         oauth1AccessTokenJsonExtractor02.extract(response01)

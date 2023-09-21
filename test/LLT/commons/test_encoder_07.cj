@@ -1,8 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import commons.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
 main () {
     var flag = 0

@@ -3,12 +3,10 @@
 
 from std import collection.*
 
-from oauth4cj import extractors.*
-from oauth4cj import model.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
-func ok(body: String): Response {
-    return Response(200, "", HashMap<String, String>(), body)
+func ok(body: String): OAuth4cjResponse {
+    return OAuth4cjResponse (200, "", HashMap<String, String>(), body)
 }
 
 main() {
@@ -41,7 +39,7 @@ func testOAuth1RequestTokenJSONExtractor_01(): Int32 {
     let extractor: OAuth1RequestTokenJSONExtractor = OAuth1RequestTokenJSONExtractor.instance()
     let responseBody: String = ##"{"oauth_token": "hh5s93j4hdidpola","oauth_token_secret": "hdhd0244k9j7ao03"}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth1RequestToken = extractor.extract(response)
 
     if (!extracted.getToken().equals("hh5s93j4hdidpola")) {
@@ -59,7 +57,7 @@ func testOAuth1RequestTokenJSONExtractor_02(): Int32 {
     let extractor: OAuth1RequestTokenJSONExtractor = OAuth1RequestTokenJSONExtractor.instance()
     let responseBody: String = ##"{"oauth_token": "hdhd0244k9j7ao03","oauth_token_secret": "hh5s93j4hdidpola"}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth1RequestToken = extractor.extract(response)
 
     if (!extracted.getToken().equals("hdhd0244k9j7ao03")) {
@@ -77,7 +75,7 @@ func testOAuth1RequestTokenJSONExtractor_03(): Int32 {
     let extractor: OAuth1RequestTokenJSONExtractor = OAuth1RequestTokenJSONExtractor.instance()
     let responseBody: String = ##"{"oauth_token": "hh5s93j4hdidpola","oauth_token_secret": "hdhd0244k9j7ao03"}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth1RequestToken = extractor.extract(response)
 
     if (!extracted.getToken().equals("hh5s93j4hdidpola")) {
@@ -95,7 +93,7 @@ func testOAuth1RequestTokenJSONExtractor_04(): Int32 {
     let extractor: OAuth1RequestTokenJSONExtractor = OAuth1RequestTokenJSONExtractor.instance()
     let responseBody: String = ##"{"oauth_token": "hh5s93j4hdidpola","oauth_token_secret": ""}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth1RequestToken = extractor.extract(response)
 
     if (!extracted.getToken().equals("hh5s93j4hdidpola")) {

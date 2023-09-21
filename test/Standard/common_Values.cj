@@ -1,24 +1,7 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
-
 from std import unittest.*
 from std import unittest.testmacro.*
 from std import math.*
-from oauth4cj import builder.*
-from oauth4cj import exceptions.*
-from oauth4cj import extractors.*
-from oauth4cj import httpclient.*
-from oauth4cj import httpclient.multipart.*
-from oauth4cj import model.*
-from oauth4cj import oauth.*
-from oauth4cj import oauth2.*
-from oauth4cj import oauth2.clientauthentication.*
-from oauth4cj import oauth2.bearersignature.*
-from oauth4cj import pkce.*
-from oauth4cj import revoke.*
-from oauth4cj import services.*
-from oauth4cj import commons.*
-from oauth4cj import util.*
+from oauth4cj import oauth4cj.*
 from std import io.*
 from std import fs.*
 from std import collection.*
@@ -42,7 +25,7 @@ from std import time.*
 from std import unicode.*
 from crypto4cj import digestcj.*
 
-type OAuth4cjHttpClient = oauth4cj.httpclient.HttpClient
+type OAuth4cjHttpClient = oauth4cj.HttpClient
 
 /*****   字符串等价类
 1. 空字符串--strEmpty
@@ -352,7 +335,7 @@ public class OAuthServiceTest{
                                              httpClient_oauth20Service,
                                              httpClientProvider_oauth20Service_None)
     }
-
+    
 }
 
 public class SubOAuthAsyncRequestCallback <:OAuthAsyncRequestCallback{
@@ -360,7 +343,7 @@ public class SubOAuthAsyncRequestCallback <:OAuthAsyncRequestCallback{
     public static var flag_onThrowable="fail"
     public func onCompleted(response: Any): Unit{
         flag_onCompleted="pass"
-        (response as oauth4cj.model.Response)
+        (response as oauth4cj.OAuth4cjResponse)
     }
     public func onThrowable(e: Exception): Unit{
         flag_onThrowable="pass"
@@ -411,8 +394,8 @@ public func serve10a(){
         httpContext.responseBuilder.body(resp)
         return
     })
-    spawn{
-        server.serve()
+    spawn{ 
+        server.serve() 
     }
     sleep(Duration.second)
     port = serverSocket.localAddress.port
@@ -455,8 +438,8 @@ public func serve20(){
         httpContext.responseBuilder.body(resp)
         return
     })
-    spawn{
-        server.serve()
+    spawn{ 
+        server.serve() 
     }
     sleep(Duration.second)
     port = serverSocket.localAddress.port
@@ -629,7 +612,7 @@ public class SubResponseConverter<: ResponseConverter{
      public func getflag():Int64{
          return flag
      }
-     public func convert(response: oauth4cj.model.Response): OAuth2AccessToken {
+     public func convert(response: oauth4cj.OAuth4cjResponse): OAuth2AccessToken {
          let accessToken: OAuth2AccessToken = OAuth2AccessToken("123")
          response.close()
          flag+=5

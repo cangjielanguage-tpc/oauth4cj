@@ -2,7 +2,7 @@
 // EXEC: ./main
 
 from std import collection.*
-from oauth4cj import util.*
+from oauth4cj import oauth4cj.*
 
 func testTokenRequestParams_01(): Int32 {
     var code: String = "200"

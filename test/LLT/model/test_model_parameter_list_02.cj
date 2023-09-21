@@ -1,11 +1,9 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import model.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 from std import collection.HashMap
 from std import collection.ArrayList
-from oauth4cj import commons.*
 
 
 // public func addQuerystring(queryString: String)

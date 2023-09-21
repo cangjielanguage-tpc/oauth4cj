@@ -213,7 +213,7 @@ public class TestOkHttpHttpClientB008{
          let response_any=okhttpHttpClient.executeAsync(userAgent,headers,httpVerb,completeUrl,bodyContents,callback,converter).get()
          var reflag=1
          try{
-             (response_any as oauth4cj.model.Response).getOrThrow()
+             (response_any as oauth4cj.OAuth4cjResponse).getOrThrow()
          }catch(e:NoneValueException){
              reflag=0
          }
@@ -295,7 +295,7 @@ public class TestOkHttpHttpClientB008{
          let response_any=okhttpHttpClient.executeAsync(userAgent,headers,httpVerb,completeUrl,bodyContents,callback,converter).get()
          var reflag=1
          try{
-             (response_any as oauth4cj.model.Response).getOrThrow()
+             (response_any as oauth4cj.OAuth4cjResponse).getOrThrow()
          }catch(e:NoneValueException){
              reflag=0
          }
@@ -349,7 +349,7 @@ public class TestOkHttpHttpClientB008{
          let response_any=okhttpHttpClient.executeAsync(userAgent,headers,httpVerb,completeUrl,bodyContents,callback,converter).get()
          var reflag=1
          try{
-             (response_any as oauth4cj.model.Response).getOrThrow()
+             (response_any as oauth4cj.OAuth4cjResponse).getOrThrow()
              @Assert(subOAuthAsyncRequestCallback.getFlagOnCompleted(),"fail")
              @Assert(subOAuthAsyncRequestCallback.getFlagOnThrowable(),"pass")
          }catch(e:NoneValueException){

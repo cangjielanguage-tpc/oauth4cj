@@ -4,10 +4,7 @@
 from std import collection.*
 from std import fs.*
 
-from oauth4cj import httpclient.multipart.*
-from oauth4cj import httpclient.*
-from oauth4cj import exceptions.*
-from oauth4cj import model.*
+from oauth4cj import oauth4cj.*
 
 from httpclient4cj import httpclient4cj.*
 
@@ -58,7 +55,7 @@ public func testOkHttpHttpClient_01(): Int32 {
 
     try {
         let headers: HashMap<String, String> = HashMap<String, String>()
-        headers.put(CONTENT_TYPE, "application/x-www-form-urlencoded")
+        headers.put(OAuthConstants.CONTENT_TYPE, "application/x-www-form-urlencoded")
         let res: Future<Any> = client.executeAsync("", headers, Verb.POST,
                                 "http://127.0.0.1:8080/", Array<UInt8>(), None, None)
         res.get(1000 * 1000)
