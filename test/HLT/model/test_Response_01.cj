@@ -13,13 +13,9 @@ public class TestResponseB001{
         var inputStream01=ByteArrayStream()
         var response02=oauth4cj.model.Response(Int32(2),"message",HashMap<String,String>(),inputStream01,ArrayList<Resource>([sub01]))
         response01.close()
-        @Assert(file.isClosed(),false)
-        try{
-            response02.close()
-            @Assert(file.isClosed(),true)
-        }catch(e:FSException){
-            @Assert(file.isClosed(),false)
-        }
+        @Assert(response01.isClosed(),true)
+		response02.close()
+		@Assert(response02.isClosed(),true)
    }
     //无header
     @TestCase

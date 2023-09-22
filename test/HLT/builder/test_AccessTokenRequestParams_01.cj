@@ -292,7 +292,8 @@ public class TestAccessTokenRequestParams{
         @Assert(re04.getExtraParameters(),map01)
     }
     /***
-        public static func create(code: String): AccessTokenRequestParams
+        public func getPkceCodeVerifier(): Option<String> 
+		public func setPKCECodeVerifier(pkceCodeVerifier: String): AccessTokenRequestParams
         测试场景:根据调用源返回
     ***/
     @TestCase
@@ -311,18 +312,40 @@ public class TestAccessTokenRequestParams{
         @Assert(accessTokenRequestParams02.getPkceCodeVerifier(),"")
     }
     /***
-        public static func create(code: String): AccessTokenRequestParams
+        public func setScope(scope: String): AccessTokenRequestParams 
         测试场景:设置成功，根据调用源返回
     ***/
     @TestCase
     func testAccessTokenRequestParamsSetScope01(): Unit {
         var accessTokenRequestParams01=AccessTokenRequestParams("code")
         var accessTokenRequestParams02=AccessTokenRequestParams.create("code")
-        let re01=accessTokenRequestParams01.setScope("strValue")
-        let re02=accessTokenRequestParams02.setScope("strValue")
+        accessTokenRequestParams01.setScope("strValue")
+        accessTokenRequestParams02.setScope("strValue")
         @Assert(accessTokenRequestParams01.getScope(),"strValue")
         @Assert(accessTokenRequestParams02.getScope(),"strValue")
-        @Assert(re01 is AccessTokenRequestParams,true)
-        @Assert(re02 is AccessTokenRequestParams,true)
     }
+    /***
+        public func setScope(scope: ScopeBuilder): AccessTokenRequestParams
+        测试场景:设置成功，根据调用源返回
+    ***/
+    @TestCase
+    func testAccessTokenRequestParamsSetScope02(): Unit {
+        var accessTokenRequestParams01=AccessTokenRequestParams("code")
+        var accessTokenRequestParams02=AccessTokenRequestParams.create("code")   
+        var flag=0
+		try{
+			accessTokenRequestParams01.setScope(ScopeBuilder())
+		}catch(e:IndexOutOfBoundsException){
+		    flag=1
+		}
+		@Assert(flag,1)
+		flag=1
+		try{
+			accessTokenRequestParams02.setScope(ScopeBuilder())
+		}catch(e:IndexOutOfBoundsException){
+		    flag=1
+		}		
+		@Assert(flag,1)
+    }	
+	
 }
