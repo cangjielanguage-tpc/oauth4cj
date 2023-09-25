@@ -533,6 +533,26 @@ public class TestServiceBuilderB004{
         var re=serviceBuilder01.withScope("str")
         @Assert(re is ServiceBuilderOAuth10a,true)
     }
+    /***
+        public func setHttpClientProvider(httpClientProvider: Option<HttpClientProvider>): ServiceBuilderOAuth10a
+        测试场景:生成即可
+    ***/
+    @TestCase
+    func testServiceBuildersetHttpClientProvider01(): Unit {
+        var serviceBuilder01=ServiceBuilderOAuth10a("abc")
+        var re=serviceBuilder01.setHttpClientProvider(Option<HttpClientProvider>.None)
+        @Assert(re is ServiceBuilderOAuth10a,true)
+    }
+	/***
+	    public func setDebugStream(debugStream: Option<OutputStream>): ServiceBuilderOAuth10a
+        测试场景:生成即可
+    ***/
+    @TestCase
+    func testServiceBuildersetDebugStream01(): Unit {
+        var serviceBuilder01=ServiceBuilderOAuth10a("abc")
+        var re=serviceBuilder01.setDebugStream(Option<OutputStream>.None)
+        @Assert(re is ServiceBuilderOAuth10a,true)
+    }	
 }
 public class SubHttpClientConfig <:HttpClientConfig{
     public func createDefaultConfig():SubHttpClientConfig{
