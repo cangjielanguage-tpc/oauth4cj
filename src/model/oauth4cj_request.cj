@@ -333,7 +333,7 @@ public open class OAuth4cjRequest {
      */
     public func getQueryStringParams(): ParameterList {
         let urlArr: Array<String> = url.split(":")
-        if (urlArr.size == 1) {
+        if (urlArr.size <= 1) {
             throw OAuth4cjException("Malformed URL! no protocol: ${url}!")
         }
         let urlHeader: String = (urlArr[0]).toAsciiLower()
