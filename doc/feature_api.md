@@ -50,13 +50,16 @@ public open class Base64Utils {
 ##### 1.1.2 示例
 
 ```cangjie
-from oauth4cj import commons.*
+from oauth4cj import oauth4cj.*
 main(): Int64 {
     let bytes: Array<UInt8> = "Hello World".toUtf8Array()
     let encoded: String = "SGVsbG8gV29ybGQ="
     let str: String = Base64Utils.encode(bytes)
-    println("encoded == str: ${encoded == str}")
-    return 0
+    if(encoded == str){
+        println("encoded == str: ${encoded == str}")
+        return 0
+    }
+    return 1
 }
 ```
 
@@ -188,7 +191,7 @@ public class Preconditions {
 ##### 1.2.2 示例
 
 ```cangjie
-from oauth4cj import commons.*
+from oauth4cj import oauth4cj.*
 from std import io.*
 main (){
     let str: String = "Hello World"
@@ -196,12 +199,11 @@ main (){
     let bas: ByteArrayStream = ByteArrayStream(526)
     bas.write(bytes)
     let decoded: String = StreamUtils.getStreamContents(bas)
-    println("decoded == str: ${decoded == str}")
-    if (!str.equals(decoded)) {
-       println(1)
-       return 1
+    if(decoded == str){
+        println("decoded == str: ${decoded == str}")
+        return 0
     }
-    return 0
+    return 1
 }
 ```
 
@@ -213,7 +215,7 @@ decoded == str: true
 
 #### 1.3 提供OAuth的请求/响应/令牌对象
 
-OAuth4cj 提供 OAuth4cjRequest 类表示 HttpRequest，提供 Response 类表示 HttpResponse, 提供 Token 及其子类表示访问令牌。
+OAuth4cj 提供 OAuth4cjRequest 类表示 HttpRequest，提供 OAuth4cjResponse 类表示 HttpResponse, 提供 Token 及其子类表示访问令牌。
 
 ##### 1.3.1 主要接口
 
@@ -602,10 +604,10 @@ public class OAuth2Authorization {
 
 ###### 1.3.1.8 响应
 
-提供 Response 表示 Http 响应形式
+提供 OAuth4cjResponse 表示 Http 响应形式
 
 ```cangjie
-public class Response <: Closeable {
+public class OAuth4cjResponse <: Closeable {
     /**
      * 构造方法
      *
@@ -713,14 +715,14 @@ public class OAuthResponseException <: OAuth4cjException {
      *
      * @参数 rawResponse 响应数据
      */
-    public init(rawResponse: Response)
+    public init(rawResponse: OAuth4cjResponse)
     
     /**
      * 获取响应对象
      *
      * @返回值 Response 响应对象
      */
-    public func getResponse(): Response
+    public func getResponse(): OAuth4cjResponse
     
     /**
      * 获取HashCode
@@ -1013,7 +1015,7 @@ public interface ResponseConverter {
      * @参数 response 响应对象
      * @返回值 Any 
      */
-    func convert(response: Response): Any
+    func convert(response: OAuth4cjResponse): Any
 }
 ```
 
@@ -1407,7 +1409,7 @@ public class OAuth2AccessTokenErrorResponse <: OAuthResponseException {
      * @参数 errorUrl 错误信息URL实例
      * @参数 rawResponse 响应信息
      */
-    public init(error: Option<OAuth2Error>, errorDescription: String, errorUrl: URL, rawResponse: Response)
+    public init(error: Option<OAuth2Error>, errorDescription: String, errorUrl: URL, rawResponse: OAuth4cjResponse)
 
     /**
      * 获取OAuth2Error实例
@@ -1435,29 +1437,30 @@ public class OAuth2AccessTokenErrorResponse <: OAuthResponseException {
 ##### 1.3.2 示例
 
 ```cangjie
-from oauth4cj import model.*
+from oauth4cj import oauth4cj.*
 from std import collection.HashMap
 from std import collection.ArrayList
 from std import io.*
+
 main (){
     var headers:HashMap<String, String> = HashMap<String, String>()
     var stream:ByteArrayStream = ByteArrayStream()
-    var closeables:ArrayList<Closeable> = ArrayList<Closeable>()
+    var closeables:ArrayList<Resource> = ArrayList<Resource>()
     stream.write("abcdefg".toUtf8Array()) // 向流中写入测试数据
-    var response:Response = Response(200, "message", headers, stream, closeables)
+    var response:OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, stream, closeables)
     var responseStream = response.getStream()
     var buffer:Array<Byte> = Array<Byte>(7, item:0)
-    responseStream.read(buffer) 
+    responseStream.read(buffer)
     var str_1 = String.fromUtf8(buffer)
-    println(str_1)
-    if (!"abcdefg".equals(str_1)){ 
-       return -1
-    }
     var str_2:String = response.toString()
-    println(str_2)
-    if (!"Response{code=200, message='message', body='', headers=[]}" .equals(str_2)){ 
+    if ("abcdefg"!=str_1){
        return -1
     }
+    println(str_1)
+    if ("Response{code=200, message='message', body='', headers=[]}" !=str_2){
+       return -2
+    }
+    println(str_2)
     return 0
 }
 ```
@@ -1648,19 +1651,16 @@ public class TimestampServiceImpl <: TimestampService {
 ##### 1.4.2 示例
 
 ```cangjie
-from oauth4cj import services.*
-from oauth4cj import commons.*
+from oauth4cj import oauth4cj.*
 
 public func testHMACSha1SignatureService_01(): Int32 {
     let hmac: HMACSha1SignatureService = HMACSha1SignatureService()
     let str: String = hmac.getSignatureMethod()
     let result: String = "HMAC-SHA1"
+	if(str!=result){
+	    return 1
+	}
 	println("str = ${str}")
-
-    if (!str.equals(result)) {
-        println(1)
-        return 1
-    }
     return 0
 }
 
@@ -1669,28 +1669,22 @@ public func testHMACSha1SignatureService_02(): Int32 {
     let apiSecret: String = "api secret"
     let tokenSecret: String = "token secret"
     let baseString: String = "base string"
-    
     let signature: String = "uGymw2KHOTWI699YEaoi5xyLT50="
-    
     let str: String = hmac.getSignature(baseString, apiSecret, tokenSecret)
-    println("str = ${str}")
-    if (!str.equals(signature)) {
-        println(2)
+    if (str!=signature) {
         return 2
     }
+    println("str = ${str}")
     return 0
 }
 
 main() {
     var test_01 = testHMACSha1SignatureService_01()
     if (test_01 != 0){
-        println(test_01)
         return test_01
     }
-
     test_01 = testHMACSha1SignatureService_02()
     if (test_01 != 0){
-        println(test_01)
         return test_01
     }
 	println("ok!")
@@ -1725,7 +1719,7 @@ public interface TokenExtractor<T> where T <: Token {
      * @返回值 T 特定类型的 Token
      * @异常 IOException 从响应中检索正文失败时抛出
      */
-    func extract(response: Response): T
+    func extract(response: OAuth4cjResponse): T
 }
 ```
 
@@ -1753,7 +1747,7 @@ public abstract class AbstractOAuth1JSONTokenExtractor<T> <: TokenExtractor<T> w
      * @返回值 T 特定类型的 Token
      * @异常 IOException 从响应中检索正文失败时抛出
      */
-    public func extract(response: Response): T
+    public func extract(response: OAuth4cjResponse): T
 }
 ```
 
@@ -1773,7 +1767,7 @@ public abstract class AbstractOAuth1TokenExtractor<T> <: TokenExtractor<T> where
      * @返回值 T 特定类型的 Token
      * @异常 IOException 从响应中检索正文失败时抛出
      */
-    public func extract(response: Response): T
+    public func extract(response: OAuth4cjResponse): T
 }
 ```
 
@@ -1834,7 +1828,7 @@ public class DeviceAuthorizationJsonExtractor <: AbstractJsonExtractor {
      * @返回值 DeviceAuthorization 返回生成的 DeviceAuthorization 实例。
      * @异常 IOException 如果在以字符串形式获取响应主体时发生错误，则会抛出 IOException。
      */
-    public func extract(response: Response): DeviceAuthorization
+    public func extract(response: OAuth4cjResponse): DeviceAuthorization
 
     /**
      * 从响应主体中获取错误响应的字段信息，封装成一个 OAuth2AccessTokenErrorResponse 异常并抛出。
@@ -1843,7 +1837,7 @@ public class DeviceAuthorizationJsonExtractor <: AbstractJsonExtractor {
      * @异常 IOException 如果在以字符串形式获取响应主体时发生错误，则会抛出 IOException。
      * @异常 OAuth2AccessTokenErrorResponse 从响应主体中获取错误响应的字段信息，封装并抛出 OAuth2AccessTokenErrorResponse。
      */
-    public func generateError(response: Response): Unit
+    public func generateError(response: OAuth4cjResponse): Unit
 }
 ```
 
@@ -1966,7 +1960,7 @@ public class OAuth2AccessTokenExtractor <: TokenExtractor<OAuth2AccessToken> {
      * @返回值 OAuth2AccessToken Token 的子类型
      * @异常 IOException 从响应中检索正文失败时抛出
      */
-    public func extract(response: Response): OAuth2AccessToken
+    public func extract(response: OAuth4cjResponse): OAuth2AccessToken
 }
 ```
 
@@ -1992,7 +1986,7 @@ public class OAuth2AccessTokenJsonExtractor <: AbstractJsonExtractor & TokenExtr
      * @返回值 OAuth2AccessToken Token 的子类型
      * @异常 IOException 从响应中检索正文失败时抛出
      */
-    public func extract(response: Response): OAuth2AccessToken
+    public func extract(response: OAuth4cjResponse): OAuth2AccessToken
 
     /**
      * 从响应主体中获取错误响应的字段信息，封装成一个 OAuth2AccessTokenErrorResponse 异常并抛出。
@@ -2001,15 +1995,14 @@ public class OAuth2AccessTokenJsonExtractor <: AbstractJsonExtractor & TokenExtr
      * @异常 IOException 如果在以字符串形式获取响应主体时发生错误，则会抛出 IOException。
      * @异常 OAuth2AccessTokenErrorResponse 从响应主体中获取错误响应的字段信息，封装并抛出 OAuth2AccessTokenErrorResponse。
      */
-    public func generateError(response: Response): Unit
+    public func generateError(response: OAuth4cjResponse): Unit
 }
 ```
 
 ##### 1.5.2 示例
 
 ```cangjie
-from oauth4cj import extractors.*
-from oauth4cj import model.*
+from oauth4cj import oauth4cj.*
 
 public func createSampleOAuthRequest(): OAuth4cjRequest {
     let request: OAuth4cjRequest = OAuth4cjRequest(Verb.GET, "http://example.com")
@@ -2025,22 +2018,18 @@ public func testBaseStringExtractor_01(): Int32 {
     let expected: String = "GET&http%3A%2F%2Fexample.com&oauth_callback%3Dhttp%253A%252F%252Fexample%252Fcallback" +
             "%26oauth_consumer_key%3DAS%2523%2524%255E%252A%2540%2526%26oauth_signature%3DOAuth-Signature" +
             "%26oauth_timestamp%3D123456"
-    
     let request: OAuth4cjRequest = createSampleOAuthRequest()
     let baseString: String = extractor.extract(request)
-
-    println("baseString.equals(expected) = ${baseString.equals(expected)}")
-    if (!baseString.equals(expected)) {
-        println(1)
+    if (baseString != expected) {
         return 1
     }
+    println("baseString.equals(expected) = ${baseString.equals(expected)}")
     return 0
 }
 
 main() {
     var test_01 = testBaseStringExtractor_01()
     if (test_01 != 0){
-        println(test_01)
         return test_01
     }
     return test_01
@@ -2226,7 +2215,7 @@ public class OAuth2RevokeTokenResponseConverter {
      * 
      * @参数 response 撤销操作响应信息
      */
-    public func convert(response: Response): Unit
+    public func convert(response: OAuth4cjResponse): Unit
 }
 ```
 
@@ -2766,8 +2755,7 @@ public class AuthorizationUrlBuilder {
 
 ```cangjie
 from std import collection.*
-from oauth4cj import builder.*
-
+from oauth4cj import oauth4cj.*
 main() {
     var scopeString: ArrayList<String> = ArrayList<String>()
     scopeString.append("scope_1")
@@ -2776,12 +2764,11 @@ main() {
     var scopeString_add: String = "scope_4"
     var scope: String = ScopeBuilder(scopeString).withScopes(scopeString_add).build()
     var montageString: String = "scope_1 scope_2 scope_3 scope_4"
-    if (montageString.equals(scope)) {
-        println("scope = ${scope}")
-        return 0
-    } else {
-        return -1
+    if (montageString!=scope) {
+        return 1
     }
+    println("Scope=${scope}")
+    return 0
 }
 ```
 
@@ -3127,9 +3114,9 @@ public abstract class OAuthService <: Resource {
      * 同步请求执行
      * 
      * @参数 request OAuth4cjRequest请求对象
-     * @返回值 Response Response格式的响应数据
+     * @返回值 OAuth4cjResponse Response格式的响应数据
      */
-    public func execute(request: OAuth4cjRequest): Response
+    public func execute(request: OAuth4cjRequest): OAuth4cjResponse
 }
 ```
 
@@ -3700,31 +3687,26 @@ public class OAuth20Service <: OAuthService {
 ```cangjie
 from std import collection.*
 from std import time.*
-from oauth4cj import oauth.*
-from oauth4cj import model.*
-from oauth4cj import extractors.*
-from oauth4cj import services.*
+from oauth4cj import oauth4cj.*
 
 main() {
     var apiA: A = A()
     var tokenEAccess: TokenExtractor<OAuth2AccessToken> = apiA.getAccessTokenExtractor()
     let responseBody: String = ##"{"access_token":"oauth2_token"}"##
-    let response: Response = Response(200, "", HashMap<String, String>(), responseBody)
+    let response: OAuth4cjResponse = OAuth4cjResponse(200, "", HashMap<String, String>(), responseBody)
     let oauth2AccessToken: OAuth2AccessToken = tokenEAccess.extract(response)
-    if (!oauth2AccessToken.getAccessToken().equals("oauth2_token")) {
-        println("error! oauth2AccessToken = ${oauth2AccessToken.getAccessToken()}")
+    if (oauth2AccessToken.getAccessToken()!="oauth2_token") {
         return -1
     }
     println("oauth2AccessToken = ${oauth2AccessToken.getAccessToken()}")
+    return 0
 }
 
 class A <: DefaultApi20 {
     public init(){}
-    
     public func getAccessTokenEndpoint(): String {
         return "getAccessTokenEndpoint"
     }
-
     protected func getAuthorizationBaseUrl(): String {
         return "getAuthorizationBaseUrl"
     }
@@ -3826,7 +3808,7 @@ public interface HttpClient <: Closeable {
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - Array<UInt8> 数据类型, 正文内容
      *
-     * @返回值 OAuth4cjResponse - Response 数据类型的别名, 执行后返回响应
+     * @返回值 OAuth4cjResponse - OAuth4cjResponse 数据类型的别名, 执行后返回响应
      */
     func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: Array<UInt8>): OAuth4cjResponse
@@ -3840,7 +3822,7 @@ public interface HttpClient <: Closeable {
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - MultipartPayload 数据类型, 正文内容
      *
-     * @返回值 OAuth4cjResponse - Response 数据类型的别名, 执行后返回响应
+     * @返回值 OAuth4cjResponse - OAuth4cjResponse 数据类型的别名, 执行后返回响应
      */
     func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: MultipartPayload): OAuth4cjResponse
@@ -3854,7 +3836,7 @@ public interface HttpClient <: Closeable {
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - String 数据类型, 正文内容
      *
-     * @返回值 OAuth4cjResponse - Response 数据类型的别名, 执行后返回响应
+     * @返回值 OAuth4cjResponse - OAuth4cjResponse 数据类型的别名, 执行后返回响应
      */
     func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: String): OAuth4cjResponse
@@ -3868,7 +3850,7 @@ public interface HttpClient <: Closeable {
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - File 数据类型, 正文内容
      *
-     * @返回值 OAuth4cjResponse - Response 数据类型的别名, 执行后返回响应
+     * @返回值 OAuth4cjResponse - OAuth4cjResponse 数据类型的别名, 执行后返回响应
      */
     func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: File): OAuth4cjResponse
@@ -4423,7 +4405,7 @@ public class OkHttpHttpClient <: HttpClient {
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - Array<UInt8> 数据类型, 正文内容
      *
-     * @返回值 OAuth4cjResponse - Response 数据类型的别名, 执行后返回响应
+     * @返回值 OAuth4cjResponse - OAuth4cjResponse 数据类型的别名, 执行后返回响应
      */
     func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: Array<UInt8>): OAuth4cjResponse
@@ -4437,7 +4419,7 @@ public class OkHttpHttpClient <: HttpClient {
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - MultipartPayload 数据类型, 正文内容
      *
-     * @返回值 OAuth4cjResponse - Response 数据类型的别名, 执行后返回响应
+     * @返回值 OAuth4cjResponse - OAuth4cjResponse 数据类型的别名, 执行后返回响应
      * @异常 OAuth4cjException 客户端 OkHttp 暂时不支持 MultipartPayload。
      */
     func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
@@ -4452,7 +4434,7 @@ public class OkHttpHttpClient <: HttpClient {
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - String 数据类型, 正文内容
      *
-     * @返回值 OAuth4cjResponse - Response 数据类型的别名, 执行后返回响应
+     * @返回值 OAuth4cjResponse - OAuth4cjResponse 数据类型的别名, 执行后返回响应
      */
     func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: String): OAuth4cjResponse
@@ -4466,7 +4448,7 @@ public class OkHttpHttpClient <: HttpClient {
      * @参数 completeUrl - String 数据类型, 完整的 url
      * @参数 bodyContents - File 数据类型, 正文内容
      *
-     * @返回值 OAuth4cjResponse - Response 数据类型的别名, 执行后返回响应
+     * @返回值 OAuth4cjResponse - OAuth4cjResponse 数据类型的别名, 执行后返回响应
      */
     func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,
             bodyContents: File): OAuth4cjResponse
@@ -4532,55 +4514,42 @@ public class OkHttpProvider <: HttpClientProvider {
 
 ```cangjie
 from std import collection.*
-from oauth4cj import httpclient.multipart.*
-from oauth4cj import httpclient.*
+from oauth4cj import oauth4cj.*
 
 main() {
-    
     let headers: HashMap<String, String> = HashMap<String, String>()
     headers.put("X-Header", "X-Value")
     headers.put("Content-Disposition", "Content-Disposition-Value")
-    
     let mp: MultipartPayload = MultipartPayload("mixed", "simple boundary", headers)
     var str: String = "This is the preamble.  It is to be ignored, though it\n" +
                       "is a handy place for composition agents to include an\n" +
                       "explanatory note to non-MIME conformant readers."
     mp.setPreamble(str)
-
     str = "This is implicitly typed plain US-ASCII text.\n" + "It does NOT end with a linebreak."
     var arr: Array<UInt8> = str.toUtf8Array()
-    
     mp.addBodyPart(ByteArrayBodyPartPayload(arr))
-
-
     str = "This is explicitly typed plain US-ASCII text.\n" + "It DOES end with a linebreak.\n"
     arr = str.toUtf8Array()
-
     let maps: HashMap<String, String> = HashMap<String, String>()
-    maps.put(CONTENT_TYPE, "text/plain; charset=us-ascii")
-
+    maps.put(OAuthConstants.CONTENT_TYPE, "text/plain; charset=us-ascii")
     let bP: ByteArrayBodyPartPayload = ByteArrayBodyPartPayload(arr, maps)
     mp.addBodyPart(bP)
-
     mp.setEpilogue("This is the epilogue.  It is also to be ignored.")
-    
-
     let sb: StringBuilder = StringBuilder()
     let header: HashMap<String, String> = mp.getHeaders()
     for((k, v) in header) {
         sb.append(k).append(": ").append(v).append("\r\n")
     }
-
     str = sb.toString()
     var result: String = "X-Header: X-Value\r\n" +
                          "Content-Disposition: Content-Disposition-Value\r\n" +
                          "Content-Type: multipart/mixed; boundary=\"simple boundary\"\r\n"
-    println(str.equals(result))
-	if (!str.equals(result)) {
-        println(3)
-        return 3
+
+	if (str!=result) {
+        return 1
     }
-    
+    println(str.equals(result))
+
     str = String.fromUtf8(MultipartUtils.getPayload(mp).readToEnd())
     result = "This is the preamble.  It is to be ignored, though it\n" +
              "is a handy place for composition agents to include an\n" +
@@ -4596,11 +4565,10 @@ main() {
              "It DOES end with a linebreak.\n" +
              "\r\n--simple boundary--" +
              "\r\nThis is the epilogue.  It is also to be ignored."
-    println(str.equals(result))
-	if (!str.equals(result)) {
-        println(4)
-        return 4
+	if (str!=result) {
+        return 2
     }
+    println(str.equals(result))
     return 0
 }
 ```
@@ -4677,24 +4645,28 @@ public open class OAuth4cjSignatureException <: OAuth4cjException {
 ##### 1.9.2 示例
 
 ```cangjie
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
 main (){
 
     let ose: OAuth4cjSignatureException = OAuth4cjSignatureException()
     let ose2: OAuth4cjException = OAuth4cjSignatureException("ceshi-1")
-    if (!(ose is OAuth4cjException)) {
-        println(1)
+    if(!ose.message.contains("")){
         return 1
     }
+    if(!ose2.message.contains("Error while signing string: ceshi-1")){
+        return 2
+    }
     println(ose2.message.contains("Error while signing string: ceshi-1"))
-
     let ope: OAuth4cjParametersMissingException = OAuth4cjParametersMissingException()
     let ope2: OAuth4cjException = OAuth4cjParametersMissingException("ceshi-2")
-    println(ope is OAuth4cjException)
-    
+    if(!ope.message.contains("")){
+        return 3
+    }
+    if(!ope2.message.contains("ceshi-2")){
+        return 4
+    }
     println(ope2.message.contains("ceshi-2"))
-
     return 0
 }
 ```
@@ -4847,26 +4819,26 @@ public class PKCEService {
 }
 ```
 
-##### 1.1.2 示例
+##### 2.1.2 示例
 
 ```cangjie
-from oauth4cj import pkce.*
+from oauth4cj import oauth4cj.*
 
 let RANDOM_BYTES: Array<UInt8> = Array<UInt8>([116, 24, 223, 180, 151, 153,
             224, 37, 79, 250, 96, 125, 216, 173, 187, 186, 22, 212, 37, 77,
             105, 214, 191, 240, 91, 88, 5, 88, 83, 132, 141, 121])
-
 main (){
     let pkce: PKCE = PKCEService.defaultInstance().generatePKCE(RANDOM_BYTES)
-
     let str0: String = pkce.getCodeChallengeMethod().toString()
     let str1: String = pkce.getCodeVerifier()
     let str2: String = pkce.getCodeChallenge()
-
-    println(str0)
-    println(str1)
-    println(str2)
-    return 0
+    if(str0=="S256" && str1=="dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk" && str2=="E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM"){
+        println(str0)
+        println(str1)
+        println(str2)
+        return 0
+    }
+    return 1
 }
 ```
 
