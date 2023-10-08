@@ -93,41 +93,54 @@ OAuth 定义了四种角色：
 ## 使用说明
 
 ### 编译构建
+拉取代码和依赖进行编译构建，步骤如下：
 
-进入到oauth4cj目录下, 拉取两个依赖库
+#### 1.拉取 oauth4cj 代码，和两个依赖库 httpclient4cj 和 crypto4cj 的代码
 
 ```shell
-cd oauth4cj                                              
+git clone https://gitee.com/HW-PLLab/oauth4cj.git
+cd oauth4cj   # 进入到oauth4cj目录下, 再拉取两个依赖库                                           
 git clone https://gitee.com/HW-PLLab/httpclient4cj.git  
 git clone https://gitee.com/HW-PLLab/crypto4cj.git      
 ```
-crypto4cj需要libcrypto.so 和 libmycrypto.so (windows系统是libcrypto.dll 和 libmycrypto.dll)
-可自己编译也可直接获取, 详见crypto4cj的说明
 
-编译好两个.so/.dll 文件, 进入到oauth4cj/crypto4cj目录下, 创建lib文件夹并复制.so/.dll 文件
+#### 2.获取 crypto4cj 的两个依赖文件 libcrypto 和 libmycrypto，放到 oauth4cj/crypto4cj/lib 目录下
+crypto4cj 需要依赖 libcrypto.so 和 libmycrypto.so (windows 系统是 libcrypto.dll 和 libmycrypto.dll)    
+
+##### 2.1 获取 crypto4cj 的两个依赖文件 libcrypto 和 libmycrypto
+两种获取方式：1.自己编译；2.直接获取。    
+获取方式和途径详见 https://gitee.com/HW-PLLab/crypto4cj 中，[使用说明]->[编译] 部分的操作或者命令。    
+
+##### 2.2 复制 libcrypto 和 libmycrypto 的两个.so/.dll 文件，到指定目录 oauth4cj/crypto4cj/lib 下
+进入到oauth4cj/crypto4cj目录下, 创建 lib 文件夹，并将获取到的两个.so/.dll 文件, 复制到新创建的 oauth4cj/crypto4cj/lib 目录下
 
 ```shell
 cd crypto4cj 
-mkdir lib
+mkdir lib # 在 oauth4cj/crypto4cj 目录下，创建 lib 目录
+# 将获取的两个.so/.dll 文件，复制到创建好的oauth4cj/crypto4cj/lib 目录下
 cp -r so库存放地址/libcrypto.so ./lib
 cp -r so库存放地址/libmycrypto.so ./lib
 ```
-返回到oauth4cj目录下进行编译
+
+#### 3.返回到 oauth4cj 目录下进行编译
 
 ```shell
-cjpm build
+cjpm build -V
 ```
 
-编译完成后将两个.so/.dll 文件也复制到oauth4cj/build/crypto4cj目录下
+#### 4.编译完成后，将第2步中获得的两个 .so/.dll 文件，再复制到 oauth4cj/build/crypto4cj/ 目录下
 
 ### 执行用例
+编译用例并执行，步骤如下：
 
-示例
-
+#### 1. 进入 oauth4cj/test/ 目录下创建 tmp 文件夹，然后编译测试用例
 ```shell
+cd oauth4cj/test/
+mkdir tmp
 cjc -O2 --import-path xxxxx/oauth4cj/build/oauth4cj/.. -L xxxxx/oauth4cj/build/oauth4cj -l oauth4cj_oauth4cj --import-path xxxxx/oauth4cj/build/httpclient4cj/.. -L xxxxx/oauth4cj/build/httpclient4cj -l httpclient4cj_httpclient4cj --import-path xxxxx/oauth4cj/build/crypto4cj/.. -L xxxxx/oauth4cj/build/crypto4cj -l crypto -l crypto4cj_aescj -l crypto4cj_bignumcj -l crypto4cj_dhcj -l crypto4cj_digestcj -l crypto4cj_dsacj -l crypto4cj_eccj -l crypto4cj_hmaccj -l crypto4cj_md5cj -l crypto4cj_rc2cj -l crypto4cj_rc4cj -l crypto4cj_rsacj -l crypto4cj_sha1cj -l crypto4cj_sha224cj -l crypto4cj_sha256cj -l crypto4cj_sha384cj -l crypto4cj_sha512cj -l crypto4cj_symmetrycj -l crypto4cj_utils -l mycrypto  xxxxx/oauth4cj/test/HLT/utils/test_URLEncoder_01.cj xxxxx/oauth4cj/test/HLT//common.cj -o xxxxx/oauth4cj/test/tmp/test.cj.out --test
 ```
-具体说明
+
+##### 1.1 具体说明
 
 - cjc命令, -O2表示开启优化
 ```shell
@@ -154,7 +167,10 @@ cjc -O2
 xxxxx/oauth4cj/test/HLT/utils/test.cj xxxxx/oauth4cj/test/HLT/common.cj -o xxxxx/oauth4cj/test/tmp/test.cj.out --test
 ```
 
-- 把oauth4cj/build目录、oauth4cj/crypto4cj目录、oauth4cj/httpclient4cj目录中的库文件都复制到.out文件位置(包括之前的两个.so/.dll 文件)
+#### 2. 把编译好的文件复制到 .out 文件下(oauth4cj/test/tmp/) 
+- 把oauth4cj/build/oauth4cj/、oauth4cj/build/crypto4cj/、oauth4cj/build/httpclient4cj/ 目录中的文件都复制到 .out 文件位置(oauth4cj/test/tmp/ 中)
+
+#### 3. 进入到.out文件位置，执行用例
 - 进入到.out文件位置执行用例
 ```shell
 cd xxxxx/oauth4cj/test/tmp/
