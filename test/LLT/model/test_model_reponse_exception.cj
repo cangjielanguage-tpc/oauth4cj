@@ -1,8 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import model.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 from std import collection.HashMap
 from std import collection.ArrayList
 from std import io.*
@@ -13,7 +12,7 @@ public func testException_01():Int32 {
     //var stream:ByteArrayStream = ByteArrayStream()
     headers.put("header1", "value1")
     headers.put("header2", "value2")
-    var response:Response = Response(200, "message", headers, "123456")
+    var response: OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, "123456")
     var exception = OAuthResponseException(response)
     var result = exception.getResponse()
     if (result.getCode() != 200){ 
@@ -41,7 +40,7 @@ public func testException_02():Int32 {
     //var stream:ByteArrayStream = ByteArrayStream()
     headers.put("header1", "value1")
     headers.put("header2", "value2")
-    var response:Response = Response(200, "message", headers, "123456")
+    var response: OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, "123456")
     var exception = OAuthResponseException(response)
     var exception_2 = exception //内存地址相同
     if (!exception.equals(exception_2)) {
@@ -56,7 +55,7 @@ public func testException_03():Int32 {
     //var stream:ByteArrayStream = ByteArrayStream()
     headers.put("header1", "value1")
     headers.put("header2", "value2")
-    var response:Response = Response(200, "message", headers, "123456")
+    var response: OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, "123456")
     var exception = OAuthResponseException(response)
     var exception_2 = OAuthResponseException(response) //内存地址不同
     if (!exception.equals(exception_2)) {

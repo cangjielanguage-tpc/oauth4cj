@@ -13,7 +13,7 @@ public class TestOAuth1AccessTokenExtractorB004{
     func testOAuth1AccessTokenExtractorExtract01(): Unit {
         var oauth1AccessTokenExtractor01=OAuth1AccessTokenExtractor.instance()
         var body=""
-        var response01=oauth4cj.model.Response(Int32(2),"message",HashMap<String,String>(),body)
+        var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),body)
         var flag=0
         try{
             oauth1AccessTokenExtractor01.extract(response01)
@@ -32,7 +32,7 @@ public class TestOAuth1AccessTokenExtractorB004{
     func testOAuth1AccessTokenExtractorExtract02(): Unit {
         var oauth1AccessTokenExtractor01=OAuth1AccessTokenExtractor.instance()
         var body="error=slow_down"
-        var response01=oauth4cj.model.Response(Int32(2),"message",HashMap<String,String>(),body)
+        var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),body)
         var flag=1
         try{
             oauth1AccessTokenExtractor01.extract(response01)
@@ -51,7 +51,7 @@ public class TestOAuth1AccessTokenExtractorB004{
     func testOAuth1AccessTokenExtractorExtract03(): Unit {
         var oauth1AccessTokenExtractor01=OAuth1AccessTokenExtractor.instance()
         var body="oauth_token=abcsd&token_secret=&"
-        var response01=oauth4cj.model.Response(Int32(2),"message",HashMap<String,String>(),body)
+        var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),body)
         var flag=1
         try{
             oauth1AccessTokenExtractor01.extract(response01)
@@ -71,7 +71,7 @@ public class TestOAuth1AccessTokenExtractorB004{
         var oauth1AccessTokenExtractor01=OAuth1AccessTokenExtractor.instance()
 
         var body="oauth_token=oauth_token&oauth_token_secret=oauth_token_secret&abc"
-        var response01=oauth4cj.model.Response(Int32(2),"message",HashMap<String,String>(),body)
+        var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),body)
 
         var oauth1AccessToken01=oauth1AccessTokenExtractor01.extract(response01)
 

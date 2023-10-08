@@ -5,15 +5,7 @@
 from std import collection.*
 from std import io.*
 
-from oauth4cj import httpclient.multipart.*
-from oauth4cj import httpclient.*
-from oauth4cj import oauth.*
-from oauth4cj import builder.*
-from oauth4cj import pkce.*
-from oauth4cj import revoke.*
-from oauth4cj import extractors.*
-from oauth4cj import exceptions.*
-from oauth4cj import util.*
+from oauth4cj import oauth4cj.*
 
 from httpclient4cj import httpclient4cj.*
 

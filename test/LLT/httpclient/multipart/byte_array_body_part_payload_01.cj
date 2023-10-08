@@ -2,8 +2,7 @@
 // EXEC: ./main
 
 from std import collection.*
-from oauth4cj import httpclient.multipart.*
-from oauth4cj import httpclient.*
+from oauth4cj import oauth4cj.*
 
 main() {
 
@@ -60,7 +59,7 @@ public func testByteArrayBodyPartPayload_03(): Int32 {
     let arr: Array<UInt8> = bp.getPayload()
     let off: Int64 = bp.getOff()
     let len: Int64 = bp.getLen()
-    if (headers.size != 1 || !headers.contains(CONTENT_TYPE) || !headers[CONTENT_TYPE].equals("test")) {
+    if (headers.size != 1 || !headers.contains(OAuthConstants.CONTENT_TYPE) || !headers[OAuthConstants.CONTENT_TYPE].equals("test")) {
         println(3)
         return 3
     }

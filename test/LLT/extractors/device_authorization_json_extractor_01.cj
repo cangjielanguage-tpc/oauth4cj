@@ -3,12 +3,10 @@
 
 from std import collection.*
 
-from oauth4cj import extractors.*
-from oauth4cj import model.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
-func ok(body: String): Response {
-    return Response(200, "", HashMap<String, String>(), body)
+func ok(body: String): OAuth4cjResponse {
+    return OAuth4cjResponse (200, "", HashMap<String, String>(), body)
 }
 
 main() {
@@ -50,7 +48,7 @@ func testDeviceAuthorizationJsonExtractor_01(): Int32 {
     let responseBody: String = ##"{"device_code": "","user_code": "user_code_v",
                                     "verification_uri": "Beijing","expires_in": 300}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let da: DeviceAuthorization = extractor.extract(response)
     let str: String = da.toString()
 
@@ -72,7 +70,7 @@ func testDeviceAuthorizationJsonExtractor_02(): Int32 {
     let responseBody: String = ##"{"device_code": "device_code_v","user_code": "user_code_v",
                                     "verification_uri": "Beijing","expires_in": 300}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let da: DeviceAuthorization = extractor.extract(response)
     let str: String = da.toString()
 
@@ -94,7 +92,7 @@ func testDeviceAuthorizationJsonExtractor_03(): Int32 {
     let responseBody: String = ##"{"device_code": "device_code_v","user_code": "user_code_v",
                                     "verification_uri": "Beijing","expires_in": 300,"interval":10}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let da: DeviceAuthorization = extractor.extract(response)
     let str: String = da.toString()
 
@@ -117,7 +115,7 @@ func testDeviceAuthorizationJsonExtractor_04(): Int32 {
     let responseBody: String = ##"{"device_code": ,"user_code": "user_code_v",
                                     "verification_uri": "Beijing","expires_in": 300,"interval":10}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     try {
         let da: DeviceAuthorization = extractor.extract(response)
         println(da.getDeviceCode())
@@ -135,7 +133,7 @@ func testDeviceAuthorizationJsonExtractor_05(): Int32 {
     let responseBody: String = ##"{"device_code": "","user_code": "user_code_v","verification_uri_complete": "123",
                                     "verification_uri": "Beijing","expires_in": 300}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let da: DeviceAuthorization = extractor.extract(response)
     let str: String = da.toString()
 

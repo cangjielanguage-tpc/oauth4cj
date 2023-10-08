@@ -1,7 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import model.*
+from oauth4cj import oauth4cj.*
 
 // OAuth1RequestToken
 

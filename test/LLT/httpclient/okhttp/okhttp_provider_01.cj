@@ -2,12 +2,11 @@
 // EXEC: ./main
 
 from std import collection.*
-from oauth4cj import httpclient.multipart.*
-from oauth4cj import httpclient.*
+from oauth4cj import oauth4cj.*
 
 from httpclient4cj import httpclient4cj.*
 
-type OAuth4cjHttpClient = oauth4cj.httpclient.HttpClient
+type OAuth4cjHttpClient = oauth4cj.HttpClient
 
 main() {
 

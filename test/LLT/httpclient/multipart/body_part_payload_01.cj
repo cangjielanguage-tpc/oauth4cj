@@ -2,8 +2,7 @@
 // EXEC: ./main
 
 from std import collection.*
-from oauth4cj import httpclient.multipart.*
-from oauth4cj import httpclient.*
+from oauth4cj import oauth4cj.*
 
 main() {
 
@@ -48,7 +47,7 @@ public func testBodyPartPayload_02(): Int32 {
 public func testBodyPartPayload_03(): Int32 {
     let bp: BodyPartPayload = BodyPartPayload("test")
     let headers: HashMap<String, String> = bp.getHeaders()
-    if (headers.size != 1 || !headers.contains(CONTENT_TYPE) || !headers[CONTENT_TYPE].equals("test")) {
+    if (headers.size != 1 || !headers.contains(OAuthConstants.CONTENT_TYPE) || !headers[OAuthConstants.CONTENT_TYPE].equals("test")) {
         println(3)
         return 3
     }

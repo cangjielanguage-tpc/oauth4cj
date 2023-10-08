@@ -11,7 +11,7 @@ public class TestOAuth2AccessTokenExtractorB004{
     @TestCase
     func testOAuth2AccessTokenExtractorExtract01(): Unit {
         var oauth2AccessTokenExtractor=OAuth2AccessTokenExtractor.instance()
-        var response01=oauth4cj.model.Response(Int32(2),"message",HashMap<String,String>(),"")
+        var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"")
         var flag=1
         try{
             oauth2AccessTokenExtractor.extract(response01)
@@ -29,7 +29,7 @@ public class TestOAuth2AccessTokenExtractorB004{
     @TestCase
     func testOAuth2AccessTokenExtractorExtract02(): Unit {
         var oauth2AccessTokenExtractor=OAuth2AccessTokenExtractor.instance()
-        var response01=oauth4cj.model.Response(Int32(200),"message",HashMap<String,String>(),"")
+        var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),"")
         var flag=1
         try{
             oauth2AccessTokenExtractor.extract(response01)
@@ -48,7 +48,7 @@ public class TestOAuth2AccessTokenExtractorB004{
     func testOAuth2AccessTokenExtractorExtract03(): Unit {
         var oauth2AccessTokenExtractor=OAuth2AccessTokenExtractor.instance()
         var body="access_token="
-        var response01=oauth4cj.model.Response(Int32(200),"message",HashMap<String,String>(),body)
+        var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
         var flag=1
         try{
             oauth2AccessTokenExtractor.extract(response01)
@@ -67,7 +67,7 @@ public class TestOAuth2AccessTokenExtractorB004{
     func testOAuth2AccessTokenExtractorExtract04(): Unit {
         var oauth2AccessTokenExtractor02=OAuth2AccessTokenExtractor.instance()
         var body="access_token=access_token&token_type=&expires_in=&refresh_token=&scope="
-        var response01=oauth4cj.model.Response(Int32(200),"message",HashMap<String,String>(),body)
+        var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
         var oauth2AccessToken02=oauth2AccessTokenExtractor02.extract(response01)
 
         @Assert(oauth2AccessToken02 is OAuth2AccessToken,true)
@@ -85,7 +85,7 @@ public class TestOAuth2AccessTokenExtractorB004{
     func testOAuth2AccessTokenExtractorExtract05(): Unit {
         var oauth2AccessTokenExtractor02=OAuth2AccessTokenExtractor.instance()
         var body="access_token=access_token&token_type=token_type&expires_in=expires_in&refresh_token=refresh_token&scope=scope"
-        var response01=oauth4cj.model.Response(Int32(200),"message",HashMap<String,String>(),body)
+        var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
         var oauth2AccessToken02=oauth2AccessTokenExtractor02.extract(response01)
 
         @Assert(oauth2AccessToken02 is OAuth2AccessToken,true)
@@ -104,7 +104,7 @@ public class TestOAuth2AccessTokenExtractorB004{
     func testOAuth2AccessTokenExtractorExtract06(): Unit {
         var oauth2AccessTokenExtractor02=OAuth2AccessTokenExtractor.instance()
         var body="access_token=access_token&token_type=token_type&expires_in=215&refresh_token=refresh_token&scope=scope"
-        var response01=oauth4cj.model.Response(Int32(200),"message",HashMap<String,String>(),body)
+        var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
         var oauth2AccessToken02=oauth2AccessTokenExtractor02.extract(response01)
 
         @Assert(oauth2AccessToken02 is OAuth2AccessToken,true)
@@ -124,7 +124,7 @@ public class TestOAuth2AccessTokenExtractorB004{
         var oauth2AccessTokenExtractor02=OAuth2AccessTokenExtractor.instance()
         var int32Max=(Int64(Int32.Max)+1).toString()
         var body="access_token=access_token&token_type=token_type&expires_in=${int32Max}&refresh_token=refresh_token&scope=scope"
-        var response01=oauth4cj.model.Response(Int32(200),"message",HashMap<String,String>(),body)
+        var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
         var oauth2AccessToken02=oauth2AccessTokenExtractor02.extract(response01)
 
         @Assert(oauth2AccessToken02.getExpiresIn(),Int32(0))

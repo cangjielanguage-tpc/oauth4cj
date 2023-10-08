@@ -1,13 +1,7 @@
 
 from std import collection.*
 
-from oauth4cj import commons.*
-from oauth4cj import oauth.*
-from oauth4cj import model.*
-from oauth4cj import httpclient.*
-from oauth4cj import builder.*
-from oauth4cj import extractors.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
 main() {
     //将这些替换为在【授权服务器-腾讯】中生成的 client_id 和 client_secret

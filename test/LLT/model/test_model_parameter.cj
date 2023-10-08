@@ -1,8 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import model.*
-from oauth4cj import commons.*
+from oauth4cj import oauth4cj.*
 
 // public init("", "") public init("key", "value")  public func getKey() public func getValue()
 public func testParameter_01():Int32 {

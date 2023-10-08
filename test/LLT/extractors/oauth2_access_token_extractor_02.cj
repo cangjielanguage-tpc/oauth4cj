@@ -3,15 +3,13 @@
 
 from std import collection.*
 
-from oauth4cj import extractors.*
-from oauth4cj import model.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
-func ok(body: String): Response {
-    return Response(200, "", HashMap<String, String>(), body)
+func ok(body: String): OAuth4cjResponse {
+    return OAuth4cjResponse (200, "", HashMap<String, String>(), body)
 }
-func error(body: String): Response {
-    return Response(400, "", HashMap<String, String>(), body)
+func error(body: String): OAuth4cjResponse {
+    return OAuth4cjResponse (400, "", HashMap<String, String>(), body)
 }
 
 main() {
@@ -38,7 +36,7 @@ func testOAuth2AccessTokenExtractor_01(): Int32 {
     let extractor: OAuth2AccessTokenExtractor = OAuth2AccessTokenExtractor.instance()
     let responseBody: String = ""
     try {
-        let response: Response = error(responseBody)
+        let response: OAuth4cjResponse = error(responseBody)
         let extracted: OAuth2AccessToken = extractor.extract(response)
         println(extracted.getAccessToken())
     } catch (e: OAuth4cjException) {
@@ -53,7 +51,7 @@ func testOAuth2AccessTokenExtractor_02(): Int32 {
     let extractor: OAuth2AccessTokenExtractor = OAuth2AccessTokenExtractor.instance()
     let responseBody: String = "&expires=5108"
     try {
-        let response: Response = ok(responseBody)
+        let response: OAuth4cjResponse = ok(responseBody)
         let extracted: OAuth2AccessToken = extractor.extract(response)
         println(extracted.getAccessToken())
     } catch (e: OAuth4cjException) {
@@ -68,7 +66,7 @@ func testOAuth2AccessTokenExtractor_03(): Int32 {
     let extractor: OAuth2AccessTokenExtractor = OAuth2AccessTokenExtractor.instance()
     let responseBody: String = ""
     try {
-        let response: Response = ok(responseBody)
+        let response: OAuth4cjResponse = ok(responseBody)
         let extracted: OAuth2AccessToken = extractor.extract(response)
         println(extracted.getAccessToken())
     } catch (e: IllegalArgumentException) {

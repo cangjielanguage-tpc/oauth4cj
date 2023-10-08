@@ -3,16 +3,13 @@
 
 from std import collection.*
 from std import time.*
-from oauth4cj import oauth.*
-from oauth4cj import model.*
-from oauth4cj import extractors.*
-from oauth4cj import services.*
+from oauth4cj import oauth4cj.*
 
 func testAPI20_01(): Int32 {
     var apiA: A = A()
     var tokenEAccess: TokenExtractor<OAuth2AccessToken> = apiA.getAccessTokenExtractor()
     let responseBody: String = ##"{"access_token":"oauth2_token"}"##
-    let response: Response = Response(200, "", HashMap<String, String>(), responseBody)
+    let response: OAuth4cjResponse = OAuth4cjResponse(200, "", HashMap<String, String>(), responseBody)
     let oauth2AccessToken: OAuth2AccessToken = tokenEAccess.extract(response)
     if (!oauth2AccessToken.getAccessToken().equals("oauth2_token")) {
         return -1
@@ -94,7 +91,7 @@ func testAPI20_06(): Int32 {
     var apiA: A = A()
     let responseBody: String = 
         ##"{"device_code": "123","user_code": "456", "verification_uri": "Beijing","expires_in": 200}"##
-    let response: Response = Response(200, "", HashMap<String, String>(), responseBody)
+    let response: OAuth4cjResponse = OAuth4cjResponse(200, "", HashMap<String, String>(), responseBody)
     var deviceJsonE: DeviceAuthorizationJsonExtractor = apiA.getDeviceAuthorizationExtractor()
     var device: DeviceAuthorization = deviceJsonE.extract(response)
     if (!device.getDeviceCode().equals("123")) {

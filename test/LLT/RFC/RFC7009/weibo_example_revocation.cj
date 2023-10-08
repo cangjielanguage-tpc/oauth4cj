@@ -4,13 +4,7 @@ from std import random.*
 from std import collection.*
 from encoding import json.*
 
-from oauth4cj import commons.*
-from oauth4cj import oauth.*
-from oauth4cj import model.*
-from oauth4cj import httpclient.*
-from oauth4cj import builder.*
-from oauth4cj import extractors.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
 main() {
 
@@ -66,7 +60,7 @@ main() {
     //4.1 请求签名
     service.signRequest(accessToken, request)
     //4.2 调用同步请求执行
-    let response: Response = service.execute(request)
+    let response: OAuth4cjResponse = service.execute(request)
     println(response.getCode())
     println(response.getBody())
 
@@ -86,7 +80,7 @@ main() {
     //6.1 请求签名
     service.signRequest(accessToken, request2)
     //6.2 调用同步请求执行
-    let response2: Response = service.execute(request2)
+    let response2: OAuth4cjResponse = service.execute(request2)
     println(response2.getCode())
     println(response2.getBody())
 }

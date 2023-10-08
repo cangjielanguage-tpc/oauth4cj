@@ -5,13 +5,7 @@
 from std import collection.*
 from std import sync.*
 from std import time.*
-from oauth4cj import commons.*
-from oauth4cj import oauth.*
-from oauth4cj import model.*
-from oauth4cj import httpclient.*
-from oauth4cj import builder.*
-from oauth4cj import extractors.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
 @Test
 public class TestRFC8628{

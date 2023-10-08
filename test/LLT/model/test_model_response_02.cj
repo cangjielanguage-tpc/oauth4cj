@@ -1,7 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import model.*
+from oauth4cj import oauth4cj.*
 
 from std import collection.HashMap
 from std import collection.ArrayList
@@ -16,7 +16,7 @@ public func testResponse_06():Int32 {
     var closeables:ArrayList<Resource> = ArrayList<Resource>()
     var aClass:A = A()
     closeables.append(aClass)
-    var response_1:Response = Response(200, "message", headers, stream, closeables)
+    var response_1: OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, stream, closeables)
     try {
         response_1.close()
     } catch (ioE:IOException) {
@@ -41,7 +41,7 @@ public func testResponse_07():Int32 {
     closeables.append(aClass)
     var bClass:B = B()
     closeables.append(bClass)
-    var response_2:Response = Response(200, "message", headers, stream, closeables)
+    var response_2: OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, stream, closeables)
     try {
         response_2.close()
     } catch (ioE:IOException) {
@@ -56,7 +56,7 @@ public func testResponse_08():Int32 {
     var headers:HashMap<String, String> = HashMap<String, String>()
     var stream:ByteArrayStream = ByteArrayStream()
     var closeables:ArrayList<Resource> = ArrayList<Resource>()
-    var response_3:Response = Response(200, "message", headers, stream, closeables)
+    var response_3: OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, stream, closeables)
     try {
         response_3.close()
     } catch (ioE:IOException) {

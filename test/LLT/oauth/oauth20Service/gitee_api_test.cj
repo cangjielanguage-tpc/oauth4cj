@@ -1,6 +1,5 @@
 
-from oauth4cj import oauth2.clientauthentication.*
-from oauth4cj import model.*
+from oauth4cj import oauth4cj.*
 
 public class GiteeApiTest <: DefaultApi20 {
 

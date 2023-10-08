@@ -3,17 +3,14 @@
 
 from std import collection.*
 from std import time.*
-from oauth4cj import oauth.*
-from oauth4cj import model.*
-from oauth4cj import extractors.*
-from oauth4cj import services.*
+from oauth4cj import oauth4cj.*
 
 func testAPI10a_01(): Int32 {
     var apiA: A = A()
     var tokenEAccess: TokenExtractor<OAuth1AccessToken> = apiA.getAccessTokenExtractor()
     var tokenERequest: TokenExtractor<OAuth1RequestToken> = apiA.getRequestTokenExtractor()
     let responseBody: String = "oauth_token=access_token&oauth_token_secret=123456"
-    let response: Response = Response(200, "", HashMap<String, String>(), responseBody)
+    let response: OAuth4cjResponse = OAuth4cjResponse(200, "", HashMap<String, String>(), responseBody)
     let oauth1AccessToken: OAuth1Token = tokenEAccess.extract(response)
     let oauth1RequestToken: OAuth1Token = tokenERequest.extract(response)
 
@@ -101,7 +98,7 @@ func testAPI10a_05(): Int32 {
     var apiA: A = A()
     var tokenERequest: TokenExtractor<OAuth1RequestToken> = apiA.getRequestTokenExtractor()
     let responseBody: String = "oauth_token=access_token&oauth_token_secret=123456"
-    let response: Response = Response(200, "", HashMap<String, String>(), responseBody)
+    let response: OAuth4cjResponse = OAuth4cjResponse(200, "", HashMap<String, String>(), responseBody)
     let oauth1RequestToken = tokenERequest.extract(response) as OAuth1RequestToken
     var url = apiA.getAuthorizationUrl(oauth1RequestToken.getOrThrow())
     

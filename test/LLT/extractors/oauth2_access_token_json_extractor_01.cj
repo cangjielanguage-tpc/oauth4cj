@@ -3,12 +3,10 @@
 
 from std import collection.*
 
-from oauth4cj import extractors.*
-from oauth4cj import model.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
-func ok(body: String): Response {
-    return Response(200, "", HashMap<String, String>(), body)
+func ok(body: String): OAuth4cjResponse {
+    return OAuth4cjResponse (200, "", HashMap<String, String>(), body)
 }
 
 main() {
@@ -42,7 +40,7 @@ func testOAuth2AccessTokenJsonExtractor_01(): Int32 {
     let responseBody: String = 
         ##"{"access_token":"I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X", "token_type":"example"}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth2AccessToken = extractor.extract(response)
     let str: String = extracted.getAccessToken()
     let result: String = "I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X"
@@ -64,7 +62,7 @@ func testOAuth2AccessTokenJsonExtractor_02(): Int32 {
     let responseBody: String = 
         ##"{"access_token":"I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T4X","token_type":"example","scope":"s1"}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth2AccessToken = extractor.extract(response)
 
     if (!extracted.getAccessToken().equals("I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T4X")) {
@@ -83,7 +81,7 @@ func testOAuth2AccessTokenJsonExtractor_03(): Int32 {
     let responseBody: String = 
     ##"{"access_token":"I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T5X", "token_type":"example","scope":"s1 s2"}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth2AccessToken = extractor.extract(response)
 
     if (!extracted.getAccessToken().equals("I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T5X")) {
@@ -102,7 +100,7 @@ func testOAuth2AccessTokenJsonExtractor_04(): Int32 {
     let responseBody: String = ##"{"access_token":"I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T6X",
                                 "token_type":"example","scope":"s3 s4", "refresh_token":"refresh_token1"}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth2AccessToken = extractor.extract(response)
 
     if (!extracted.getAccessToken().equals("I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T6X")) {

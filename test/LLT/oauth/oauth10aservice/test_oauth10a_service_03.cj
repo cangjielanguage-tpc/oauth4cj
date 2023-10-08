@@ -5,14 +5,9 @@
 from std import collection.*
 from std import time.*
 from std import io.*
-from oauth4cj import oauth.*
-from oauth4cj import model.*
-from oauth4cj import extractors.*
-from oauth4cj import services.*
-from oauth4cj import httpclient.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
-type OAuth4cjHttpClient = oauth4cj.httpclient.HttpClient
+type OAuth4cjHttpClient = oauth4cj.HttpClient
 
 func testOAuth10aService05(): Int32 {
     var oauth10aApi = OAuth10aApi(false)

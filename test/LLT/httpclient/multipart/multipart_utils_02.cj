@@ -3,8 +3,7 @@
 // EXEC: ./main
 
 from std import collection.*
-from oauth4cj import httpclient.multipart.*
-from oauth4cj import httpclient.*
+from oauth4cj import oauth4cj.*
 
 main() {
 

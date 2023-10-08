@@ -11,7 +11,7 @@ public class TestDeviceAuthorizationJsonExtractorB004{
     @TestCase
     func testDeviceAuthorizationJsonExtractorExtract01(): Unit {
         var deviceAuthorizationJsonExtractor=DeviceAuthorizationJsonExtractor.instance()
-        var response=oauth4cj.model.Response(Int32(2),"message",HashMap<String,String>(),"")
+        var response=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"")
         var flag=0
         try{
             deviceAuthorizationJsonExtractor.extract(response)
@@ -35,7 +35,7 @@ public class TestDeviceAuthorizationJsonExtractorB004{
 "expires_in":5,
 "interval":12,
 "verification_uri_complete":"verification_uri_complete"}"###
-        var response=oauth4cj.model.Response(Int32(200),"message",HashMap<String,String>(),body)
+        var response=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
         var re02=deviceAuthorizationJsonExtractor.extract(response)
 
         @Assert(re02.getDeviceCode(),"device_code")
@@ -60,7 +60,7 @@ public class TestDeviceAuthorizationJsonExtractorB004{
 "expires_in":"expires_in",
 "interval":"interval",
 "verification_uri_complete":"verification_uri_complete"}"###
-        var response01=oauth4cj.model.Response(Int32(200),"message",HashMap<String,String>(),body)
+        var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
         var flag=1
         try{
             deviceAuthorizationJsonExtractor02.extract(response01)
@@ -86,7 +86,7 @@ public class TestDeviceAuthorizationJsonExtractorB004{
 "expires_in":"expires_in",
 "interval":"interval",
 "verification_uri_complete":"verification_uri_complete"}"###
-        var response01=oauth4cj.model.Response(Int32(200),"message",HashMap<String,String>(),body)
+        var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
         var flag=1
         try{
             deviceAuthorizationJsonExtractor02.extract(response01)
@@ -112,7 +112,7 @@ public class TestDeviceAuthorizationJsonExtractorB004{
 "expires_in":"expires_in",
 "interval":"interval",
 "verification_uri_complete":"verification_uri_complete"}"###
-        var response01=oauth4cj.model.Response(Int32(200),"message",HashMap<String,String>(),body)
+        var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
         var flag=1
         try{
             deviceAuthorizationJsonExtractor02.extract(response01)
@@ -138,7 +138,7 @@ public class TestDeviceAuthorizationJsonExtractorB004{
 "verification_uri":"verification_uri",
 "interval":0,
 "verification_uri_complete":"verification_uri_complete"}"###
-        var response01=oauth4cj.model.Response(Int32(200),"message",HashMap<String,String>(),body)
+        var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
         var flag=1
         try{
             deviceAuthorizationJsonExtractor02.extract(response01)
@@ -163,7 +163,7 @@ public class TestDeviceAuthorizationJsonExtractorB004{
  "verification_uri":"verification_uri",
  "expires_in":0,
  "verification_uri_complete":"verification_uri_complete"}"###
-         var response01=oauth4cj.model.Response(Int32(200),"message",HashMap<String,String>(),body)
+         var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
          var re02=deviceAuthorizationJsonExtractor02.extract(response01)
 
          @Assert(re02.getDeviceCode(),"device_code")
@@ -188,7 +188,7 @@ public class TestDeviceAuthorizationJsonExtractorB004{
 "verification_uri":"verification_uri",
 "expires_in":"expires_in",
 "interval":"interval"}"###
-        var response01=oauth4cj.model.Response(Int32(200),"message",HashMap<String,String>(),body)
+        var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
         var re02=deviceAuthorizationJsonExtractor02.extract(response01)
 
         @Assert(re02.getDeviceCode(),"device_code")
@@ -206,7 +206,7 @@ public class TestDeviceAuthorizationJsonExtractorB004{
     @TestCase
     func testDeviceAuthorizationJsonExtractorGenerateError01(): Unit {
         var deviceAuthorizationJsonExtractor02=DeviceAuthorizationJsonExtractor.instance()
-        var response01=oauth4cj.model.Response(Int32(2),"message",HashMap<String,String>(),"")
+        var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"")
         var flag=0
         try{
             deviceAuthorizationJsonExtractor02.generateError(response01)

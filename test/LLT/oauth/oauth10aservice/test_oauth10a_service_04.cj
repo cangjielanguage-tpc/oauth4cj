@@ -5,12 +5,7 @@
 from std import collection.*
 from std import time.*
 from std import io.*
-from oauth4cj import oauth.*
-from oauth4cj import model.*
-from oauth4cj import extractors.*
-from oauth4cj import services.*
-from oauth4cj import httpclient.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
 
 func testOAuth10aService09(service: OAuth10aService): Int32 {

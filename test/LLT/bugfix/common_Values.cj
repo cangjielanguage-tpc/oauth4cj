@@ -3,18 +3,7 @@ from std import time.*
 from std import math.*
 from std import unittest.*
 from std import unittest.testmacro.*
-from oauth4cj import oauth.*
-from oauth4cj import model.*
-from oauth4cj import oauth2.*
-from oauth4cj import commons.*
-from oauth4cj import builder.*
-from oauth4cj import httpclient.multipart.*
-from oauth4cj import httpclient.*
-from oauth4cj import pkce.*
-from oauth4cj import extractors.*
-from oauth4cj import exceptions.*
-from oauth4cj import oauth2.clientauthentication.*
-from oauth4cj import oauth2.bearersignature.*
+from oauth4cj import oauth4cj.*
 from std import io.*
 from std import fs.*
 from std import collection.*
@@ -26,7 +15,7 @@ from net import http.*
 from std import socket.*
 from std import random.*
 
-type OAuth4cjHttpClient = oauth4cj.httpclient.HttpClient
+type OAuth4cjHttpClient = oauth4cj.HttpClient
 
 /*****   字符串等价类
 1. 空字符串--strEmpty
@@ -343,7 +332,7 @@ public class SubOAuthAsyncRequestCallback <:OAuthAsyncRequestCallback{
     public static var flag_onCompleted="fail"
     public static var flag_onThrowable="fail"
     public func onCompleted(response: Any): Unit{
-        println(response is model.Response)
+        println(response is OAuth4cjResponse )
         flag_onCompleted="pass"
     }
     public func onThrowable(e: Exception): Unit{
@@ -607,7 +596,7 @@ public class HuaweiApi <: DefaultApi20 {
     }
 }
 public class SubResponseConverter<: ResponseConverter{
-     public func convert(response: oauth4cj.model.Response): OAuth2AccessToken {
+     public func convert(response: oauth4cj.OAuth4cjResponse): OAuth2AccessToken {
          let accessToken: OAuth2AccessToken = OAuth2AccessToken("123")
          response.close()
          return accessToken

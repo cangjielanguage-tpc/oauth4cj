@@ -3,9 +3,7 @@
 
 from std import fs.*
 
-from oauth4cj import services.*
-from oauth4cj import commons.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
 main() {
     var test_01 = testRSASha1SignatureServiceGetSignature04()

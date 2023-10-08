@@ -1,10 +1,9 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import pkce.*
 
 from encoding import base64.*
-from oauth4cj import commons.*
+from oauth4cj import oauth4cj.*
 
 main () {
     let str: String = "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"

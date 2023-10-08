@@ -2,8 +2,7 @@
 // EXEC: ./main
 
 from std import collection.*
-from oauth4cj import httpclient.multipart.*
-from oauth4cj import httpclient.*
+from oauth4cj import oauth4cj.*
 
 main() {
 
@@ -88,7 +87,7 @@ public func testMultipartPayload_02(): Int32 {
     arr = str.toUtf8Array()
 
     let maps: HashMap<String, String> = HashMap<String, String>()
-    maps.put(CONTENT_TYPE, "text/plain; charset=us-ascii")
+    maps.put(OAuthConstants.CONTENT_TYPE, "text/plain; charset=us-ascii")
 
     let bP: ByteArrayBodyPartPayload = ByteArrayBodyPartPayload(arr, maps)
     mp.addBodyPart(bP)

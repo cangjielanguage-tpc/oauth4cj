@@ -86,7 +86,7 @@ public class TestOAuthServiceB008{
          var callback=Option<OAuthAsyncRequestCallback>.None
          let fut_response=oauth10aService.execute(oauth4cjRequest,callback)
          let response_any=fut_response.get()
-         let response=(response_any as oauth4cj.model.Response).getOrThrow()
+         let response=(response_any as oauth4cj.OAuth4cjResponse).getOrThrow()
          @Assert(response.getCode(),200)
     }
     /***
@@ -175,7 +175,7 @@ public class TestOAuthServiceB008{
          let oauth10aService=OAuthServiceTest.getOAuth10aService()
          var oauth4cjRequest=OAuth4cjRequest(Verb.GET,"https://www.baidu.com/")
          let response_any=oauth10aService.executeAsync(oauth4cjRequest).get()
-         let response= (response_any as oauth4cj.model.Response).getOrThrow()
+         let response= (response_any as oauth4cj.OAuth4cjResponse).getOrThrow()
          @Assert(response.getCode(),200)
     }
     /***
@@ -189,7 +189,7 @@ public class TestOAuthServiceB008{
          let response_any=oauth10aService.executeAsync(oauth4cjRequest).get()
          var reflag=1
          try{
-             (response_any as oauth4cj.model.Response).getOrThrow()
+             (response_any as oauth4cj.OAuth4cjResponse).getOrThrow()
          }catch(e:NoneValueException){
              reflag=0
          }

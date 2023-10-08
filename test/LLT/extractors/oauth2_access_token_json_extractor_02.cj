@@ -4,16 +4,12 @@
 
 from std import collection.*
 
-from oauth4cj import extractors.*
-from oauth4cj import model.*
-from oauth4cj import exceptions.*
-from oauth4cj import oauth2.*
-
-func ok(body: String): Response {
-    return Response(200, "", HashMap<String, String>(), body)
+from oauth4cj import oauth4cj.*
+func ok(body: String): OAuth4cjResponse {
+    return OAuth4cjResponse (200, "", HashMap<String, String>(), body)
 }
-func error(body: String): Response {
-    return Response(400, "", HashMap<String, String>(), body)
+func error(body: String): OAuth4cjResponse {
+    return OAuth4cjResponse (400, "", HashMap<String, String>(), body)
 }
 
 main() {
@@ -48,7 +44,7 @@ func testOAuth2AccessTokenJsonExtractor_01(): Int32 {
         ##"{"error_description":"unknown, invalid, or expired refresh token","error":"invalid_grant"}"##
 
     try {
-        let response: Response = error(responseBody)
+        let response: OAuth4cjResponse = error(responseBody)
         let extracted: OAuth2AccessToken = extractor.extract(response)
         println(extracted.getAccessToken())
     } catch (e: OAuth2AccessTokenErrorResponse) {
@@ -74,7 +70,7 @@ func testOAuth2AccessTokenJsonExtractor_02(): Int32 {
     let extractor: OAuth2AccessTokenJsonExtractor = OAuth2AccessTokenJsonExtractor.instance()
     let responseBody: String = ##"{ "access_token":"I0122HKLEM2/MV3ABKFTDT3T5X","token_type":"example"}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth2AccessToken = extractor.extract(response)
     let str: String = extracted.getAccessToken()
 
@@ -90,7 +86,7 @@ func testOAuth2AccessTokenJsonExtractor_03(): Int32 {
     let responseBody: String = 
     ##"{"access_token":"I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T5X", "token_type":"example","scope":"s1 s2"}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth2AccessToken = extractor.extract(response)
 
     if (!extracted.getAccessToken().equals("I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T5X")) {
@@ -109,7 +105,7 @@ func testOAuth2AccessTokenJsonExtractor_04(): Int32 {
     let responseBody: String = ##"{"access_token":"I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T6X",
                                 "token_type":"example","scope":"s3 s4", "refresh_token":"refresh_token1"}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth2AccessToken = extractor.extract(response)
 
     if (!extracted.getAccessToken().equals("I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T6X")) {

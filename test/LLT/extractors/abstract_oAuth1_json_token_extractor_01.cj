@@ -3,12 +3,10 @@
 
 from std import collection.*
 
-from oauth4cj import extractors.*
-from oauth4cj import model.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
-func ok(body: String): Response {
-    return Response(200, "", HashMap<String, String>(), body)
+func ok(body: String): OAuth4cjResponse {
+    return OAuth4cjResponse (200, "", HashMap<String, String>(), body)
 }
 
 main() {
@@ -34,7 +32,7 @@ main() {
 func testAbstractOAuth1JSONTokenExtractor_01(): Int32 {
     let extractor: OAuth1RequestTokenJSONExtractor = OAuth1RequestTokenJSONExtractor.instance()
     let responseBody: String = ##"{"oauth_token_secret": "hdhd0244k9j7ao03"}"##
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     try {
         let extracted: OAuth1RequestToken = extractor.extract(response)
         println(extracted.getToken())
@@ -50,7 +48,7 @@ func testAbstractOAuth1JSONTokenExtractor_01(): Int32 {
 func testAbstractOAuth1JSONTokenExtractor_02(): Int32 {
     let extractor: OAuth1RequestTokenJSONExtractor = OAuth1RequestTokenJSONExtractor.instance()
     let responseBody: String = ##"{"oauth_token": "hh5s93j4hdidpola"}"##
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     try {
         let extracted: OAuth1RequestToken = extractor.extract(response)
         println(extracted.getToken())
@@ -66,7 +64,7 @@ func testAbstractOAuth1JSONTokenExtractor_03(): Int32 {
     let extractor: OAuth1RequestTokenJSONExtractor = OAuth1RequestTokenJSONExtractor.instance()
     let responseBody: String = ##"{"oauth_token": 8,"oauth_token_secret": -8}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth1RequestToken = extractor.extract(response)
 
     if (!extracted.getToken().equals("8") || !extracted.getTokenSecret().equals("-8")) {

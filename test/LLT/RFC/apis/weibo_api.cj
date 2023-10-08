@@ -1,6 +1,5 @@
 
-from oauth4cj import oauth2.clientauthentication.*
-from oauth4cj import oauth2.bearersignature.*
+from oauth4cj import oauth4cj.*
 
 public class WeiboApi <: DefaultApi20 {
 

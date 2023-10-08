@@ -2,8 +2,7 @@
 // EXEC: ./main
 
 from std import collection.*
-from oauth4cj import httpclient.multipart.*
-from oauth4cj import httpclient.*
+from oauth4cj import oauth4cj.*
 
 main() {
 
@@ -42,7 +41,7 @@ public func testMultipartPayload_01(): Int32 {
         return 1
     }
 
-    if (!header.contains(CONTENT_TYPE) || !header[CONTENT_TYPE].contains(str)) {
+    if (!header.contains(OAuthConstants.CONTENT_TYPE) || !header[OAuthConstants.CONTENT_TYPE].contains(str)) {
         println(2)
         return 2
     }
@@ -68,7 +67,7 @@ public func testMultipartPayload_02(): Int32 {
         println(4)
         return 4
     }
-    if (!header.contains(CONTENT_TYPE) || !header[CONTENT_TYPE].contains(str)) {
+    if (!header.contains(OAuthConstants.CONTENT_TYPE) || !header[OAuthConstants.CONTENT_TYPE].contains(str)) {
         println(5)
         return 5
     }

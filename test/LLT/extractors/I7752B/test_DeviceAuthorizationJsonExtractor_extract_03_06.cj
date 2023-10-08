@@ -3,9 +3,7 @@
 
 from std import collection.*
 
-from oauth4cj import extractors.*
-from oauth4cj import model.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
 main() {
 
@@ -30,7 +28,7 @@ func testDeviceAuthorizationJsonExtractorExtract0306(): Int64 {
 "verification_uri":"verification_uri",
 "expires_in":"expires_in",
 "interval":"interval"}"###
-    var response01=Response(Int32(200),"message",HashMap<String,String>(),body)
+    var response01=OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
     var re02=deviceAuthorizationJsonExtractor02.extract(response01)
 
     if (!re02.getDeviceCode().equals("device_code")) {

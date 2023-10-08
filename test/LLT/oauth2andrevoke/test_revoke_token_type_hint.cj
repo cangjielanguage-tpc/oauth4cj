@@ -1,7 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import revoke.*
+from oauth4cj import oauth4cj.*
 
 func testTokenTypeHint_01(): Int32 {
     if ("access_token".equals(TokenTypeHint.ACCESS_TOKEN_HINT.getValue())) {

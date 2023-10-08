@@ -4,12 +4,10 @@
 
 from std import collection.*
 
-from oauth4cj import extractors.*
-from oauth4cj import model.*
-from oauth4cj import exceptions.*
+from oauth4cj import oauth4cj.*
 
-func ok(body: String): Response {
-    return Response(200, "", HashMap<String, String>(), body)
+func ok(body: String): OAuth4cjResponse {
+    return OAuth4cjResponse (200, "", HashMap<String, String>(), body)
 }
 
 main() {
@@ -88,7 +86,7 @@ func testDeviceAuthorizationJsonExtractor_01(): Int32 {
     let responseBody: String = ##"{"device_code": "device_code_v","user_code": "user_code_v",
                                     "verification_uri": "Beijing","expires_in": "300","interval": "2"}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let da: DeviceAuthorization = extractor.extract(response)
     let str: String = da.toString()
 
@@ -110,7 +108,7 @@ func testDeviceAuthorizationJsonExtractor_02(): Int32 {
     let responseBody: String = ##"{"device_code": "device_code_v","user_code": "user_code_v",
                                     "verification_uri": "Beijing","expires_in": "abc","interval": ""}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let da: DeviceAuthorization = extractor.extract(response)
     let str: String = da.toString()
 
@@ -132,7 +130,7 @@ func testDeviceAuthorizationJsonExtractor_03(): Int32 {
     let responseBody: String = ##"{"device_code": "device_code_v","user_code": "user_code_v",
                                     "verification_uri": "Beijing","expires_in":}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     try {
         let da: DeviceAuthorization = extractor.extract(response)
         println(da.getDeviceCode())
@@ -150,7 +148,7 @@ func testDeviceAuthorizationJsonExtractor_04(): Int32 {
     let responseBody: String = ##"{"device_code": "device_code_v","user_code": "user_code_v",
                                     "verification_uri": "Beijing","expires_in": abc}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     try {
         let da: DeviceAuthorization = extractor.extract(response)
         println(da.getDeviceCode())
@@ -168,7 +166,7 @@ func testDeviceAuthorizationJsonExtractor_05(): Int32 {
     let responseBody: String = ##"{"device_code": "device_code_v","user_code": "user_code_v",
                                     "verification_uri": "Beijing","expires_in": null,"interval": null}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let da: DeviceAuthorization = extractor.extract(response)
     let str: String = da.toString()
 
@@ -190,7 +188,7 @@ func testDeviceAuthorizationJsonExtractor_06(): Int32 {
     let responseBody: String = ##"{"device_code": "device_code_v","user_code": "user_code_v",
                                     "verification_uri": "Beijing","expires_in": 6,"interval": "8"}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let da: DeviceAuthorization = extractor.extract(response)
     let str: String = da.toString()
 
@@ -212,7 +210,7 @@ func testDeviceAuthorizationJsonExtractor_07(): Int32 {
     let responseBody: String = ##"{"device_code": "device_code_v","user_code": "user_code_v",
                                     "verification_uri": "Beijing","expires_in": 6,"interval": "abc"}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let da: DeviceAuthorization = extractor.extract(response)
     let str: String = da.toString()
 
@@ -234,7 +232,7 @@ func testDeviceAuthorizationJsonExtractor_08(): Int32 {
     let responseBody: String = ##"{"device_code": "device_code_v","user_code": "user_code_v",
                                     "verification_uri": "Beijing","expires_in": 6,"interval": "+6"}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let da: DeviceAuthorization = extractor.extract(response)
     let str: String = da.toString()
 
@@ -256,7 +254,7 @@ func testDeviceAuthorizationJsonExtractor_09(): Int32 {
     let responseBody: String = ##"{"device_code": "device_code_v","user_code": "user_code_v",
                                     "verification_uri": "Beijing","expires_in": 6,"interval": "-9"}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let da: DeviceAuthorization = extractor.extract(response)
     let str: String = da.toString()
 
@@ -278,7 +276,7 @@ func testDeviceAuthorizationJsonExtractor_10(): Int32 {
     let responseBody: String = ##"{"device_code": "device_code_v","user_code": "user_code_v",
                                     "verification_uri": "Beijing","expires_in": 6,"interval": -8}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let da: DeviceAuthorization = extractor.extract(response)
     let str: String = da.toString()
 
@@ -300,7 +298,7 @@ func testDeviceAuthorizationJsonExtractor_11(): Int32 {
     let responseBody: String = ##"{"device_code": "device_code_v","user_code": "user_code_v",
                                     "verification_uri": "Beijing","expires_in": 6,"interval": +8}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     try {
         let da: DeviceAuthorization = extractor.extract(response)
         println(da.getDeviceCode())
@@ -318,7 +316,7 @@ func testDeviceAuthorizationJsonExtractor_12(): Int32 {
     let responseBody: String = ##"{"device_code": "device_code_v","user_code": "user_code_v",
                                     "verification_uri": "Beijing","expires_in": "abc","interval": "0xFF"}"##
 
-    let response: Response = ok(responseBody)
+    let response: OAuth4cjResponse = ok(responseBody)
     let da: DeviceAuthorization = extractor.extract(response)
     let str: String = da.toString()
 

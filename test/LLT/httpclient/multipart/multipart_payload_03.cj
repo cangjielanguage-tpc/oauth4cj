@@ -2,8 +2,7 @@
 // EXEC: ./main
 
 from std import collection.*
-from oauth4cj import httpclient.multipart.*
-from oauth4cj import httpclient.*
+from oauth4cj import oauth4cj.*
 
 main() {
 
@@ -38,7 +37,7 @@ main() {
 
 public func testMultipartPayload_01(): Int32 {
     let headers: HashMap<String, String> = HashMap<String, String>()
-    headers.put(CONTENT_TYPE, "")
+    headers.put(OAuthConstants.CONTENT_TYPE, "")
     let mp: MultipartPayload = MultipartPayload(headers)
 
     let header: HashMap<String, String> = mp.getHeaders()
@@ -52,7 +51,7 @@ public func testMultipartPayload_01(): Int32 {
         println(1)
         return 1
     }
-    if (!header.contains(CONTENT_TYPE) || !header[CONTENT_TYPE].contains(str)) {
+    if (!header.contains(OAuthConstants.CONTENT_TYPE) || !header[OAuthConstants.CONTENT_TYPE].contains(str)) {
         println(2)
         return 2
     }
@@ -65,7 +64,7 @@ public func testMultipartPayload_01(): Int32 {
 
 public func testMultipartPayload_02(): Int32 {
     let headers: HashMap<String, String> = HashMap<String, String>()
-    headers.put(CONTENT_TYPE, "")
+    headers.put(OAuthConstants.CONTENT_TYPE, "")
     let mp: MultipartPayload = MultipartPayload(headers)
 
     let header: HashMap<String, String> = mp.getHeaders()
@@ -79,10 +78,10 @@ public func testMultipartPayload_02(): Int32 {
         println(4)
         return 4
     }
-    println(header.contains(CONTENT_TYPE))
-    println(header[CONTENT_TYPE])
-    println(header[CONTENT_TYPE].contains(str))
-    if (!header.contains(CONTENT_TYPE) || !header[CONTENT_TYPE].contains(str)) {
+    println(header.contains(OAuthConstants.CONTENT_TYPE))
+    println(header[OAuthConstants.CONTENT_TYPE])
+    println(header[OAuthConstants.CONTENT_TYPE].contains(str))
+    if (!header.contains(OAuthConstants.CONTENT_TYPE) || !header[OAuthConstants.CONTENT_TYPE].contains(str)) {
         println(5)
         return 5
     }
@@ -95,7 +94,7 @@ public func testMultipartPayload_02(): Int32 {
 
 public func testMultipartPayload_03(): Int32 {
     let headers: HashMap<String, String> = HashMap<String, String>()
-    headers.put(CONTENT_TYPE, "test")
+    headers.put(OAuthConstants.CONTENT_TYPE, "test")
     let mp: MultipartPayload = MultipartPayload(headers)
 
     let header: HashMap<String, String> = mp.getHeaders()
@@ -110,7 +109,7 @@ public func testMultipartPayload_03(): Int32 {
         return 7
     }
 
-    if (!header.contains(CONTENT_TYPE) || !header[CONTENT_TYPE].contains(str)) {
+    if (!header.contains(OAuthConstants.CONTENT_TYPE) || !header[OAuthConstants.CONTENT_TYPE].contains(str)) {
         println(8)
         return 8
     }
