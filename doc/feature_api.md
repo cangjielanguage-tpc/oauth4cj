@@ -4,11 +4,13 @@
 ### 介绍
 OAuth4cj 支持协议 OAuth1.0 和 OAuth2.0，允许第三方程序通过访问令牌访问受保护的资源，而无需暴露用户的凭据。支持授权码模式，简化模式，密码模式，客户端模式四种模式。
 
-### 1 支持授权码模式
+### 1 支持协议 OAuth1.0 和 OAuth2.0，支持授权码模式，简化模式，密码模式，客户端模式四种模式。
 
 前置条件：NA     
 场景：    
-1.通过客户端的后台服务器，与服务提供商的认证服务进行互动;通过授权服务器作为中介来获取，授权认证的过程也是资源所有者直接通过授权服务器进行身份认证。     
+1.是一种授权协议，应用于允许第三方程序通过访问令牌访问受保护的资源，而无需暴露用户的凭据；     
+2.支持协议 OAuth1.0 和 OAuth2.0；     
+3.支持授权码模式，简化模式，密码模式，客户端模式四种模式。   
 约束： 只支持UTF-8字符编码     
 性能： NA    
 可靠性： NA  
@@ -71,9 +73,9 @@ encoded == str: true
 
 #### 1.2 提供 URL 编解码功能和处理Streams的工具
 
-##### 1.2.1 主要接口
+##### 1.2.0 主要接口
 
-###### 1.2.1.1 URL编解码类
+###### 1.2.0.1 URL编解码类
 
 ```cangjie
 public class URLEncoder {
@@ -117,7 +119,7 @@ public class URLEncoder {
 } 
 ```
 
-###### 1.2.1.2 OAuth编解码工具类
+###### 1.2.0.2 OAuth编解码工具类
 
 ```cangjie
 public class OAuthEncoder {
@@ -141,7 +143,7 @@ public class OAuthEncoder {
 }
 ```
 
-###### 1.2.1.3 Stream流工具类
+###### 1.2.0.3 Stream流工具类
 
 ```cangjie
 public class StreamUtils {
@@ -165,7 +167,7 @@ public class StreamUtils {
 }
 ```
 
-###### 1.2.1.4 判空工具
+###### 1.2.0.4 判空工具
 
 ```cangjie
 public class Preconditions {
@@ -4678,20 +4680,11 @@ true
 true
 ```
 
-### 2 支持客户端模式
+#### 2.0 提供用于通过 OAuth4cj 公共客户端实现代码交换的证明密钥。
 
-前置条件：NA     
-场景：    
-1.客户端以自己的名义，而不是以用户的名义，向“服务提供方”进行认证.即在这种模式下，用户并不需要对客户端授权，用户直接向客户端注册，客户端以自己的名义要求“服务提供商”提供服务。   
-约束： 只支持UTF-8字符编码     
-性能： NA    
-可靠性： NA
+##### 2.0.1 主要接口
 
-#### 2.1 提供用于通过 OAuth4cj 公共客户端实现代码交换的证明密钥。
-
-##### 2.1.1 主要接口
-
-###### 2.1.1.1 PKCECodeChallengeMethod 枚举。
+###### 2.0.1.1 PKCECodeChallengeMethod 枚举。
 
 ```cangjie
 public enum PKCECodeChallengeMethod <: ToString {
@@ -4715,7 +4708,7 @@ public enum PKCECodeChallengeMethod <: ToString {
 }
 ```
 
-###### 2.1.1.2 PKCE 类
+###### 2.0.1.2 PKCE 类
 用于保存 code_challenge、code_challenge_method 和 code_verifier。
 
 ```cangjie
@@ -4776,7 +4769,7 @@ public class PKCE {
 }
 ```
 
-###### 2.1.1.3 PKCEService 类
+###### 2.0.1.3 PKCEService 类
 PKCEService，用于实现 OAuth4cj 公共客户端进行代码交换的证明密钥。
 
 ```cangjie
@@ -4819,7 +4812,7 @@ public class PKCEService {
 }
 ```
 
-##### 2.1.2 示例
+##### 2.0.2 示例
 
 ```cangjie
 from oauth4cj import oauth4cj.*
