@@ -4,12 +4,19 @@
 
 public let exp_api=OAuthServiceTest.api_oauth10aService
 public var oauth10aService=OAuthServiceTest.getOAuth10aService()
+
+public var url="http://127.0.0.1:${port}/index"
 @Test
 public class TestOAuth10aServiceB008{
     /***
         public func getApi(): DefaultApi10a
         测试场景：结果与构造器一致
     ***/
+    public override func beforeAll(): Unit{
+        serve10a()
+        sleep(3*Duration.second)
+        url="http://127.0.0.1:${port}/1234"
+    }
     @TestCase
     func testOAuth10aServiceGetApi01(): Unit {
          oauth10aService=OAuthServiceTest.getOAuth10aService()
@@ -25,7 +32,6 @@ public class TestOAuth10aServiceB008{
          oauth10aService=OAuthServiceTest.getOAuth10aService()
          var requestToken=OAuth1RequestToken("token","tokenSecret")
          var re_authorizationUrl=oauth10aService.getAuthorizationUrl(requestToken)
-
         let exp_authorizationUrl=exp_api.getAuthorizationUrl(requestToken)
         @Assert(re_authorizationUrl,exp_authorizationUrl)
     }
@@ -48,7 +54,7 @@ public class TestOAuth10aServiceB008{
     func testOAuth10aServiceSignRequest01(): Unit {
          oauth10aService=OAuthServiceTest.getOAuth10aService()
          let token=OAuth1AccessToken("token","tokenSecret","rawResponse")
-         let request=OAuth4cjRequest(Verb.POST,"http://www.baidu.com")
+         let request=OAuth4cjRequest(Verb.POST,url)
          oauth10aService.signRequest(token,request)
          var re_OAuthParams=request.getOauthParameters()
          var re_Headers=request.getHeaders()
@@ -65,9 +71,6 @@ public class TestOAuth10aServiceB008{
          exp_oauthHeader.put(OAuthConstants.HEADER_AUTHORIZATION, exp_api.getHeaderExtractor().extract(request))
 
          @Assert(re_OAuthParams,exp_OAuthParams)
-         for (key in re_Headers.keys()){
-             println(key)
-         }
          @Assert(re_Headers,exp_oauthHeader)
     }
     /***
@@ -78,8 +81,6 @@ public class TestOAuth10aServiceB008{
 
     @TestCase
     func testOAuth10aServiceUse0101(): Unit {
-        serve10a()
-        sleep(1*Duration.second)
         let appKey: String = "123456789"
         let appSecret: String = "123456789"
 
@@ -110,8 +111,6 @@ public class TestOAuth10aServiceB008{
 
     @TestCase
     func testOAuth10aServiceUse0102(): Unit {
-        serve10a()
-        sleep(1*Duration.second)
         let appKey: String = "123456789"
         let appSecret: String = "123456789"
 
@@ -141,8 +140,6 @@ public class TestOAuth10aServiceB008{
 
     @TestCase
     func testOAuth10aServiceUse02(): Unit {
-        serve10a()
-        sleep(1*Duration.second)
         let appKey: String = "123456789"
         let appSecret: String = "123456789"
 
