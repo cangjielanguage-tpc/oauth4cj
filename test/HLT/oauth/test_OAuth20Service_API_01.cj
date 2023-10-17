@@ -2,13 +2,18 @@
 // 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../common_Values.cj
 
+public var url="http://127.0.0.1:${port}/index"
 @Test
 public class TestOAuth20ServiceB008{
     /***
         public func getAuthorizationUrl(): String
         测试场景:未设置additionalParams,pkce,state,且scope非Option.None
     ***/
-
+    public override func beforeAll(): Unit{
+        serve()
+        sleep(3*Duration.second)
+        url="http://127.0.0.1:${port}/index"
+    }
     @TestCase
     func testOAuth20ServiceGetAuthorizationUrl0101(): Unit {
          var oauth20Service=OAuthServiceTest.getOAuth20Service()
@@ -218,7 +223,7 @@ public class TestOAuth20ServiceB008{
     @TestCase
     func testOAuth20ServiceSignRequest0101(): Unit {
          var oauth20Service=OAuthServiceTest.getOAuth20Service()
-         let request=OAuth4cjRequest(Verb.POST,"http://www.baidu.com")
+         let request=OAuth4cjRequest(Verb.POST,url)
          let accessToken="accessToken"
          oauth20Service.signRequest(accessToken,request)
          let re_Header=request.getHeaders()
@@ -234,7 +239,7 @@ public class TestOAuth20ServiceB008{
     @TestCase
     func testOAuth20ServiceSignRequest0201(): Unit {
          var oauth20Service=OAuthServiceTest.getOAuth20Service()
-         let request=OAuth4cjRequest(Verb.POST,"http://www.baidu.com")
+         let request=OAuth4cjRequest(Verb.POST,url)
          let accessToken=OAuth2AccessToken("accessToken")
          oauth20Service.signRequest(accessToken,request)
          let re_Header=request.getHeaders()
@@ -250,7 +255,7 @@ public class TestOAuth20ServiceB008{
     @TestCase
     func testOAuth20ServiceExtractAuthorization01(): Unit {
          var oauth20Service=OAuthServiceTest.getOAuth20Service()
-         let redirectLocation="http://www.baidu.com?code=codeValue&state=stateValue&password=passwd#&state=stateValue02"
+         let redirectLocation="${url}?code=codeValue&state=stateValue&password=passwd#&state=stateValue02"
          var re_extractAuthorization=oauth20Service.extractAuthorization(redirectLocation)
          @Assert(re_extractAuthorization.getCode(),URLEncoder.decode("codeValue","utf8"))
          @Assert(re_extractAuthorization.getState(),URLEncoder.decode("stateValue","utf8"))
@@ -263,9 +268,9 @@ public class TestOAuth20ServiceB008{
     @TestCase
     func testOAuth20ServiceExtractAuthorization02(): Unit {
          var oauth20Service=OAuthServiceTest.getOAuth20Service()
-         let redirectLocation01="http://www.baidu.com?code=codeValue&password=passwd#&code=codeValue02"
-         let redirectLocation02="http://www.baidu.com?state=stateValue&password=passwd#&code=codeValue"
-         let redirectLocation03="http://www.baidu.com?name=stateValue&password=passwd#&state=stateValue"
+         let redirectLocation01="${url}?code=codeValue&password=passwd#&code=codeValue02"
+         let redirectLocation02="${url}?state=stateValue&password=passwd#&code=codeValue"
+         let redirectLocation03="${url}?name=stateValue&password=passwd#&state=stateValue"
          var re_extractAuthorization01=oauth20Service.extractAuthorization(redirectLocation01)
          var re_extractAuthorization02=oauth20Service.extractAuthorization(redirectLocation02)
          var re_extractAuthorization03=oauth20Service.extractAuthorization(redirectLocation03)
@@ -284,14 +289,13 @@ public class TestOAuth20ServiceB008{
     @TestCase
     func testOAuth20ServiceExtractAuthorization03(): Unit {
          var oauth20Service=OAuthServiceTest.getOAuth20Service()
-         let redirectLocation01="http://www.baidu.com?code=%2&state=stateValue#"
-         let redirectLocation02="http://www.baidu.com?code=codeValue&state=%2#"
-         let redirectLocation03="http://www.baidu.com?code=codeValue&name=%2#"
+         let redirectLocation01="${url}?code=%2&state=stateValue#"
+         let redirectLocation02="${url}?code=codeValue&state=%2#"
+         let redirectLocation03="${url}?code=codeValue&name=%2#"
          var flag01=1
          try{
             oauth20Service.extractAuthorization(redirectLocation01)
          }catch(e:OAuth4cjException){
-             println(e.toString())
              if(e.toString().contains("unsupported decoding.") && e.toString().contains("URLDecoder: Incomplete trailing escape (%) pattern")){
                  flag01=0
              }
@@ -301,7 +305,6 @@ public class TestOAuth20ServiceB008{
         try{
             oauth20Service.extractAuthorization(redirectLocation02)
         }catch(e:OAuth4cjException){
-            println(e.toString())
             if(e.toString().contains("unsupported decoding.") && e.toString().contains("URLDecoder: Incomplete trailing escape (%) pattern")){
                 flag02=0
             }
@@ -311,7 +314,6 @@ public class TestOAuth20ServiceB008{
         try{
             oauth20Service.extractAuthorization(redirectLocation03)
         }catch(e:OAuth4cjException){
-            println(e.toString())
             if(e.toString().contains("unsupported decoding.") && e.toString().contains("URLDecoder: Incomplete trailing escape (%) pattern")){
                 flag03=0
             }
@@ -326,7 +328,7 @@ public class TestOAuth20ServiceB008{
     @TestCase
     func testOAuth20ServiceExtractAuthorization04(): Unit {
          var oauth20Service=OAuthServiceTest.getOAuth20Service()
-         let redirectLocation01="http://www.baidu.com?code=code01=codeValue&state=stateValue&password=passwd#code=code01"
+         let redirectLocation01="${url}?code=code01=codeValue&state=stateValue&password=passwd#code=code01"
          var re_extractAuthorization01=oauth20Service.extractAuthorization(redirectLocation01)
          @Assert(re_extractAuthorization01.getCode(),"")
          @Assert(re_extractAuthorization01.getState(),URLEncoder.decode("stateValue","utf8"))
@@ -340,7 +342,7 @@ public class TestOAuth20ServiceB008{
     @TestCase
     func testOAuth20ServiceExtractAuthorization05(): Unit {
          var oauth20Service=OAuthServiceTest.getOAuth20Service()
-         let redirectLocation01="http://www.baidu.com?code&state=stateValue&password=passwd#&code=code01"
+         let redirectLocation01="${url}?code&state=stateValue&password=passwd#&code=code01"
          var re_extractAuthorization01=oauth20Service.extractAuthorization(redirectLocation01)
          @Assert(re_extractAuthorization01.getCode(),"")
          @Assert(re_extractAuthorization01.getState(),URLEncoder.decode("stateValue","utf8"))
@@ -348,7 +350,7 @@ public class TestOAuth20ServiceB008{
     @TestCase
     func testOAuth20ServiceExtractAuthorization0502(): Unit {
          var oauth20Service=OAuthServiceTest.getOAuth20Service()
-         let redirectLocation01="http://www.baidu.com?code&state=stateValue&state=stateValue02#&&state=stateValue03"
+         let redirectLocation01="${url}?code&state=stateValue&state=stateValue02#&&state=stateValue03"
          var re_extractAuthorization01=oauth20Service.extractAuthorization(redirectLocation01)
          @Assert(re_extractAuthorization01.getCode(),"")
          @Assert(re_extractAuthorization01.getState(),URLEncoder.decode("stateValue02","utf8"))
@@ -361,7 +363,7 @@ public class TestOAuth20ServiceB008{
     @TestCase
     func testOAuth20ServiceExtractAuthorization06(): Unit {
          var oauth20Service=OAuthServiceTest.getOAuth20Service()
-         let redirectLocation01="http://www.baidu.com?code=codeValue#&state=stateValue"
+         let redirectLocation01="${url}?code=codeValue#&state=stateValue"
          var re_extractAuthorization01=oauth20Service.extractAuthorization(redirectLocation01)
          @Assert(re_extractAuthorization01.getCode(),URLEncoder.decode("codeValue","utf8"))
          @Assert(re_extractAuthorization01.getState(),"")
@@ -374,8 +376,8 @@ public class TestOAuth20ServiceB008{
     @TestCase
     func testOAuth20ServiceExtractAuthorization07(): Unit {
          var oauth20Service=OAuthServiceTest.getOAuth20Service()
-         let redirectLocation01="http://www.baidu.com&code=codeValue#&state=stateValue"
-         let redirectLocation02="http://www.baidu.comcode=codeValue#&state=stateValue"
+         let redirectLocation01="${url}&code=codeValue#&state=stateValue"
+         let redirectLocation02="${url}code=codeValue#&state=stateValue"
          var re_extractAuthorization01=oauth20Service.extractAuthorization(redirectLocation01)
          var re_extractAuthorization02=oauth20Service.extractAuthorization(redirectLocation02)
          @Assert(re_extractAuthorization01.getCode(),URLEncoder.decode("codeValue","utf8"))
@@ -391,9 +393,23 @@ public class TestOAuth20ServiceB008{
     @TestCase
     func testOAuth20ServiceExtractAuthorization08(): Unit {
          var oauth20Service=OAuthServiceTest.getOAuth20Service()
-         let redirectLocation01="http://www.baidu.com&code=codeValue&code=codeValue01&code=codeValue02"
+         let redirectLocation01="${url}&code=codeValue&code=codeValue01&code=codeValue02"
          var re_extractAuthorization01=oauth20Service.extractAuthorization(redirectLocation01)
          @Assert(re_extractAuthorization01.getCode(),URLEncoder.decode("codeValue02","utf8"))
          @Assert(re_extractAuthorization01.getState(),"")
     }
+}
+func serve(): Unit {
+    let serverSocket = TcpServerSocket(bindAt: 0)
+    let server = ServerBuilder.new().listener(serverSocket).build()
+    server.distributor.register("/index",
+        {
+        httpContext =>
+        let resp = "Hello from /red".toUtf8Array()
+        httpContext.responseBuilder.body(resp)
+        return
+    })
+    spawn {server.serve()}
+    sleep(Duration.second)
+    port=serverSocket.localAddress.port
 }

@@ -2,6 +2,7 @@
 // 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../common_Values.cj
 
+public var url="http://127.0.0.1:${port}/index"
 @Test
 public class TestOkHttpHttpClientB008{
     /***
@@ -9,6 +10,11 @@ public class TestOkHttpHttpClientB008{
         public func isClosed(): Bool
         测试场景: 默认值/首次关闭
     ***/
+    public override func beforeAll(): Unit{
+        serve()
+        sleep(3*Duration.second)
+        url="http://127.0.0.1:${port}/index"
+    }
     //public init()
     @TestCase
     func testOkHttpHttpClientClose0101(): Unit {
@@ -59,7 +65,7 @@ public class TestOkHttpHttpClientB008{
          let userAgent="userAgent"
          let headers=HashMap<String, String>([("header01","header01c"),("header02","header02c")])
          let httpVerb=Verb.GET
-         let completeUrl="http://www.baidu.com/"
+         let completeUrl=url
          let bodyContents=Array<UInt8>([1,2,3,4,5])
          let re_oauth4cjResponse=okhttpHttpClient.execute(userAgent,headers,httpVerb,completeUrl,bodyContents)
          @Assert(re_oauth4cjResponse.getCode(),200)
@@ -96,7 +102,7 @@ public class TestOkHttpHttpClientB008{
          let userAgent="userAgent"
          let headers=HashMap<String, String>([("header01","header01c"),("header02","header02c")])
          let httpVerb=Verb.GET
-         let completeUrl="http://www.baidu.com"
+         let completeUrl=url
          let bodyContents=MultipartPayload()
          var flag=1
          try{
@@ -140,7 +146,7 @@ public class TestOkHttpHttpClientB008{
          let userAgent="userAgent"
          let headers=HashMap<String, String>([("header01","header01c"),("header02","header02c")])
          let httpVerb=Verb.GET
-         let completeUrl="http://www.baidu.com/"
+         let completeUrl=url
          let bodyContents=File("./test_OkHttpHttpClient_01.cj.out",OpenOption.Open(true,false))
          let re_oauth4cjResponse=okhttpHttpClient.execute(userAgent,headers,httpVerb,completeUrl,bodyContents)
          @Assert(re_oauth4cjResponse.getCode(),200)
@@ -178,7 +184,7 @@ public class TestOkHttpHttpClientB008{
          let userAgent="userAgent"
          let headers=HashMap<String, String>([("header01","header01c"),("header02","header02c")])
          let httpVerb=Verb.GET
-         let completeUrl="http://www.baidu.com"
+         let completeUrl=url
          let bodyContents=Array<UInt8>([1,2,3,4,5])
          let subOAuthAsyncRequestCallback=SubOAuthAsyncRequestCallback()
          let callback=Option<OAuthAsyncRequestCallback>.Some(subOAuthAsyncRequestCallback)
@@ -196,7 +202,7 @@ public class TestOkHttpHttpClientB008{
     /***
         public func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,bodyContents: Array<UInt8>,
         callback: Option<OAuthAsyncRequestCallback>,converter: Option<ResponseConverter>): Future<Any>
-        测试场景:发送错误请求====异步执行,没有结果待验证
+        测试场景:发送错误请求
     ***/
     @TestCase
     func testOkHttpHttpClientExecuteAsync0102(): Unit {
@@ -232,7 +238,7 @@ public class TestOkHttpHttpClientB008{
          let userAgent="userAgent"
          let headers=HashMap<String, String>([("header01","header01c"),("header02","header02c")])
          let httpVerb=Verb.GET
-         let completeUrl="http://www.baidu.com"
+         let completeUrl=url
          let bodyContents=MultipartPayload()
          let subOAuthAsyncRequestCallback=SubOAuthAsyncRequestCallback()
          let callback=Option<OAuthAsyncRequestCallback>.Some(subOAuthAsyncRequestCallback)
@@ -259,20 +265,15 @@ public class TestOkHttpHttpClientB008{
          let userAgent="userAgent"
          let headers=HashMap<String, String>([("header01","header01c"),("header02","header02c")])
          let httpVerb=Verb.GET
-         let completeUrl="http://www.baidu.com"
+         let completeUrl=url
          let bodyContents="bodyContents"
          let subOAuthAsyncRequestCallback=SubOAuthAsyncRequestCallback()
          let callback=Option<OAuthAsyncRequestCallback>.Some(subOAuthAsyncRequestCallback)
          let subResponseConverter=SubResponseConverter()
          let converter=Option<ResponseConverter>.Some(subResponseConverter)
-         try{
-             okhttpHttpClient.executeAsync(userAgent,headers,httpVerb,completeUrl,bodyContents,callback,converter)
-             @Assert(subOAuthAsyncRequestCallback.getFlagOnCompleted(),"pass")
-             @Assert(subOAuthAsyncRequestCallback.getFlagOnThrowable(),"pass")
-         }catch(e:Exception){
-             @Assert(subOAuthAsyncRequestCallback.getFlagOnThrowable(),"pass")
-             @Assert(subOAuthAsyncRequestCallback.getFlagOnCompleted(),"pass")
-         }
+         okhttpHttpClient.executeAsync(userAgent,headers,httpVerb,completeUrl,bodyContents,callback,converter)
+         @Assert(subOAuthAsyncRequestCallback.getFlagOnCompleted(),"pass")
+         @Assert(subOAuthAsyncRequestCallback.getFlagOnThrowable(),"pass")
     }
     /***
         public func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,bodyContents: String,
@@ -314,20 +315,15 @@ public class TestOkHttpHttpClientB008{
          let userAgent="userAgent"
          let headers=HashMap<String, String>([("header01","header01c"),("header02","header02c")])
          let httpVerb=Verb.GET
-         let completeUrl="http://www.baidu.com"
+         let completeUrl=url
          let bodyContents=File("./test_OkHttpHttpClient_01.cj.out",OpenOption.Open(true,false))
          let subOAuthAsyncRequestCallback=SubOAuthAsyncRequestCallback()
          let callback=Option<OAuthAsyncRequestCallback>.Some(subOAuthAsyncRequestCallback)
          let subResponseConverter=SubResponseConverter()
          let converter=Option<ResponseConverter>.Some(subResponseConverter)
-         try{
-             okhttpHttpClient.executeAsync(userAgent,headers,httpVerb,completeUrl,bodyContents,callback,converter)
-             @Assert(subOAuthAsyncRequestCallback.getFlagOnCompleted(),"pass")
-             @Assert(subOAuthAsyncRequestCallback.getFlagOnThrowable(),"pass")
-         }catch(e:Exception){
-             @Assert(subOAuthAsyncRequestCallback.getFlagOnThrowable(),"pass")
-             @Assert(subOAuthAsyncRequestCallback.getFlagOnCompleted(),"fail")
-         }
+         okhttpHttpClient.executeAsync(userAgent,headers,httpVerb,completeUrl,bodyContents,callback,converter)
+         @Assert(subOAuthAsyncRequestCallback.getFlagOnCompleted(),"pass")
+         @Assert(subOAuthAsyncRequestCallback.getFlagOnThrowable(),"pass")
     }
     /***
         public func executeAsync(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,bodyContents: File,
@@ -360,4 +356,18 @@ public class TestOkHttpHttpClientB008{
          @Assert(reflag,0)
 
     }
+}
+func serve(): Unit {
+    let serverSocket = TcpServerSocket(bindAt: 0)
+    let server = ServerBuilder.new().listener(serverSocket).build()
+    server.distributor.register("/index",
+        {
+        httpContext =>
+        let resp = "Hello from /red".toUtf8Array()
+        httpContext.responseBuilder.body(resp)
+        return
+    })
+    spawn {server.serve()}
+    sleep(Duration.second)
+    port=serverSocket.localAddress.port
 }
