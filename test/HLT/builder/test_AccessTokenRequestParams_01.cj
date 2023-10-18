@@ -335,14 +335,15 @@ public class TestAccessTokenRequestParams{
         var flag=0
 		try{
 			accessTokenRequestParams01.setScope(ScopeBuilder())
-		}catch(e:IndexOutOfBoundsException){
+		}catch(e:IllegalArgumentException){
+            println(e.toString())
 		    flag=1
 		}
 		@Assert(flag,1)
 		flag=1
 		try{
 			accessTokenRequestParams02.setScope(ScopeBuilder())
-		}catch(e:IndexOutOfBoundsException){
+		}catch(e:IllegalArgumentException){
 		    flag=1
 		}		
 		@Assert(flag,1)

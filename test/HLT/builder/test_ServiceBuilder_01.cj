@@ -340,7 +340,7 @@ public class TestServiceBuilderB004{
         var flag=1
         try{
             serviceBuilder.setDefaultScope(scopeBuilder)
-        }catch(e:IndexOutOfBoundsException){
+        }catch(e:IllegalArgumentException){
             flag=0
         }
         @Assert(flag,0)

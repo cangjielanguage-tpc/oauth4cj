@@ -58,7 +58,7 @@ public class RSASha1SignatureService <: SignatureService {
 
             return Base64Utils.encode(signArray)
         } catch (e: Exception) {
-            throw OAuth4cjSignatureException(baseString + ": " + e.message)
+            throw OAuth4cjSignatureException(e.message)
         }
     }
 

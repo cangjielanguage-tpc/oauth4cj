@@ -12,15 +12,15 @@ public class TestOAuthResponseExceptionB001{
         inputStream.write("hello world".toUtf8Array())
         var response02=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),inputStream,ArrayList<Resource>([sub01]))
 
-        var oauthResponseException01=OAuthResponseException(response01)
-        var oauthResponseException02=OAuthResponseException(response02)
+        var oauthResponseException01=OAuth4cjResponseException(response01)
+        var oauthResponseException02=OAuth4cjResponseException(response02)
         for (str in strValues) {
             for (int32Value in int32Values){
                 response01=oauth4cj.OAuth4cjResponse(int32Value,str,HashMap<String,String>(),str)
                 inputStream.write("hello world".toUtf8Array())
                 response02=oauth4cj.OAuth4cjResponse(int32Value,str,HashMap<String,String>(),inputStream,ArrayList<Resource>([sub01]))
-                oauthResponseException01=OAuthResponseException(response01)
-                oauthResponseException02=OAuthResponseException(response02)
+                oauthResponseException01=OAuth4cjResponseException(response01)
+                oauthResponseException02=OAuth4cjResponseException(response02)
                 @Assert(oauthResponseException01.equals(oauthResponseException01),true)
                 @Assert(oauthResponseException02.equals(oauthResponseException02),true)
                 if(response01.toString()==response02.toString()){
@@ -42,15 +42,15 @@ public class TestOAuthResponseExceptionB001{
         inputStream.write("hello world".toUtf8Array())
         var response02=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),inputStream,ArrayList<Resource>([sub01]))
 
-        var oauthResponseException01=OAuthResponseException(response01)
-        var oauthResponseException02=OAuthResponseException(response02)
+        var oauthResponseException01=OAuth4cjResponseException(response01)
+        var oauthResponseException02=OAuth4cjResponseException(response02)
         for (str in strValues) {
             for (int32Value in int32Values){
                 response01=oauth4cj.OAuth4cjResponse(int32Value,str,HashMap<String,String>(),str)
                 inputStream.write("hello world".toUtf8Array())
                 response02=oauth4cj.OAuth4cjResponse(int32Value,str,HashMap<String,String>(),inputStream,ArrayList<Resource>([sub01]))
-                oauthResponseException01=OAuthResponseException(response01)
-                oauthResponseException02=OAuthResponseException(response02)
+                oauthResponseException01=OAuth4cjResponseException(response01)
+                oauthResponseException02=OAuth4cjResponseException(response02)
                 @Assert(oauthResponseException01.getResponse().toString(),response01.toString())
                 @Assert(oauthResponseException02.getResponse().toString(),response02.toString())
             }

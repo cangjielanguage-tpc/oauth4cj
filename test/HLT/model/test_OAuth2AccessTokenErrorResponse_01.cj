@@ -14,7 +14,7 @@ public class TestOAuth2AccessTokenErrorResponseB004{
         var error=OAuth2Error.INVALID_REQUEST
         var url=URL.parse("https://www.baidu.com")
         var response=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"body")
-        var oAuth2AccessTokenErrorResponse=OAuth2AccessTokenErrorResponse(error,"errorDescription",url,response)
+        var oAuth2AccessTokenErrorResponse=OAuth2AccessTokenErrorResponseException(error,"errorDescription",url,response)
         var re_error=oAuth2AccessTokenErrorResponse.getError().getOrThrow()
         @Assert(re_error.getErrorString(),error.getErrorString())
     }
@@ -28,9 +28,9 @@ public class TestOAuth2AccessTokenErrorResponseB004{
         var error=OAuth2Error.INVALID_REQUEST
         var url=URL.parse("https://www.baidu.com")
         var response=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"body")
-        var oAuth2AccessTokenErrorResponse=OAuth2AccessTokenErrorResponse(error,"errorDescription",url,response)
+        var oAuth2AccessTokenErrorResponse=OAuth2AccessTokenErrorResponseException(error,"errorDescription",url,response)
         for (str in strValues){
-            oAuth2AccessTokenErrorResponse=OAuth2AccessTokenErrorResponse(error,str,url,response)
+            oAuth2AccessTokenErrorResponse=OAuth2AccessTokenErrorResponseException(error,str,url,response)
             @Assert(oAuth2AccessTokenErrorResponse.getErrorDescription(),str)
         }
     }
@@ -44,7 +44,7 @@ public class TestOAuth2AccessTokenErrorResponseB004{
         var error=OAuth2Error.INVALID_REQUEST
         var url=URL.parse("https://www.baidu.com")
         var response=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"body")
-        var oAuth2AccessTokenErrorResponse=OAuth2AccessTokenErrorResponse(error,"errorDescription",url,response)
+        var oAuth2AccessTokenErrorResponse=OAuth2AccessTokenErrorResponseException(error,"errorDescription",url,response)
         @Assert(oAuth2AccessTokenErrorResponse.getErrorUri().toString(),url.toString())
     }
 }

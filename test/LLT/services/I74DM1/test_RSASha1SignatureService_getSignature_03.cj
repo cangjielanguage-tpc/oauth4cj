@@ -22,10 +22,9 @@ func testRSASha1SignatureServiceGetSignature03(): Int64 {
         rsss.getSignature("baseString","apiSecret","tokenSecret")
     }catch(e:OAuth4cjSignatureException){
         println(e.toString())
-        let err: String = "Error while signing string: baseString: The file does not exist"
+        let err: String = "Error while signing string.The file does not exist"
         println("e.message = ${e.message}")
-        if(e.message.contains(err) && e.toString().contains("baseString") &&
-                e.toString().contains("The file does not exist")){
+        if(e.message.contains(err) &&  e.toString().contains("The file does not exist")){
             flag = 0
         }
     }

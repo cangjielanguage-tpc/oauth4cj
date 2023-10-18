@@ -13,7 +13,7 @@ public func testException_01():Int32 {
     headers.put("header1", "value1")
     headers.put("header2", "value2")
     var response: OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, "123456")
-    var exception = OAuthResponseException(response)
+    var exception = OAuth4cjResponseException(response)
     var result = exception.getResponse()
     if (result.getCode() != 200){ 
         return -1
@@ -34,14 +34,14 @@ public func testException_01():Int32 {
     return 0
 }
 
-// public func equals(obj: OAuthResponseException)
+// public func equals(obj: OAuth4cjResponseException)
 public func testException_02():Int32 {
     var headers:HashMap<String, String> = HashMap<String, String>()
     //var stream:ByteArrayStream = ByteArrayStream()
     headers.put("header1", "value1")
     headers.put("header2", "value2")
     var response: OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, "123456")
-    var exception = OAuthResponseException(response)
+    var exception = OAuth4cjResponseException(response)
     var exception_2 = exception //内存地址相同
     if (!exception.equals(exception_2)) {
         return -1
@@ -49,15 +49,15 @@ public func testException_02():Int32 {
     return 0
 }
 
-// public func equals(obj: OAuthResponseException)
+// public func equals(obj: OAuth4cjResponseException)
 public func testException_03():Int32 {
     var headers:HashMap<String, String> = HashMap<String, String>()
     //var stream:ByteArrayStream = ByteArrayStream()
     headers.put("header1", "value1")
     headers.put("header2", "value2")
     var response: OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, "123456")
-    var exception = OAuthResponseException(response)
-    var exception_2 = OAuthResponseException(response) //内存地址不同
+    var exception = OAuth4cjResponseException(response)
+    var exception_2 = OAuth4cjResponseException(response) //内存地址不同
     if (!exception.equals(exception_2)) {
         return -1
     }

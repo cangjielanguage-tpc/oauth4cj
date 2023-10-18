@@ -30,7 +30,7 @@ public class PlaintextSignatureService <: SignatureService {
         try {
             return OAuthEncoder.encode(apiSecret) + '&' + OAuthEncoder.encode(tokenSecret)
         } catch (e: Exception) {
-            throw OAuth4cjSignatureException(baseString + ": " + e.message)
+            throw OAuth4cjSignatureException(e.message)
         }
     }
 

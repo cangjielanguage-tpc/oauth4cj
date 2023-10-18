@@ -11,10 +11,10 @@ main (){
     if(!ose.message.contains("")){
         return 1
     }
-    if(!ose2.message.contains("Error while signing string: ceshi-1")){
+    if(!ose2.message.contains("Error while signing string.ceshi-1")){
         return 2
     }
-    println(ose2.message.contains("Error while signing string: ceshi-1"))
+    println(ose2.message.contains("Error while signing string.ceshi-1"))
     let ope: OAuth4cjParametersMissingException = OAuth4cjParametersMissingException()
     let ope2: OAuth4cjException = OAuth4cjParametersMissingException("ceshi-2")
     if(!ope.message.contains("")){

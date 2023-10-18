@@ -15,7 +15,7 @@ public class TestDeviceAuthorizationJsonExtractorB004{
         var flag=0
         try{
             deviceAuthorizationJsonExtractor.extract(response)
-        }catch(e:OAuth2AccessTokenErrorResponse){
+        }catch(e:OAuth2AccessTokenErrorResponseException){
             flag=1
         }
         @Assert(flag,1)
@@ -210,7 +210,7 @@ public class TestDeviceAuthorizationJsonExtractorB004{
         var flag=0
         try{
             deviceAuthorizationJsonExtractor02.generateError(response01)
-        }catch(e:OAuth2AccessTokenErrorResponse){
+        }catch(e:OAuth2AccessTokenErrorResponseException){
             flag=1
         }
         @Assert(flag,1)

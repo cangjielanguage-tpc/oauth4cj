@@ -59,7 +59,7 @@ public class URLEncoder {
 
     /**
      * Convert strings to application/x-www-form-urlencoded format using a specific encoding scheme.
-     * only supported UTF-8.
+     * only supported UTF-8 Character Set.
      *
      * @param the string to be encoded.
      * @param the name of the supported character encoding.
@@ -72,7 +72,7 @@ public class URLEncoder {
             throw OAuth4cjException("charsetName can not be empty!")
         }
         if (!(enc.equals("UTF-8") || enc.equals("utf-8") || enc.equals("UTF8") || enc.equals("utf8"))) {
-            throw OAuth4cjException("only UTF-8 is supported!")
+            throw OAuth4cjException("only UTF-8 Character Set is supported!")
         }
 
         try {
@@ -85,7 +85,7 @@ public class URLEncoder {
     /**
      * Convert strings to application/x-wwwww-form-urlencoded format using a specific character set.
      * This method uses the provided character set to obtain the bytes of unsafe characters.
-     * only supported UTF-8.
+     * only supported UTF-8 Character Set.
      *
      * @param the string to be encoded.
      *
@@ -178,7 +178,7 @@ public class URLEncoder {
 
     /**
      * Decode the application/x-www-form-urlencoded string using a specific encoding scheme.
-     * only supported UTF-8.
+     * only supported UTF-8 Character Set.
      *
      * @param the string to be decoded.
      * @param the name of the supported character decoding.
@@ -191,7 +191,7 @@ public class URLEncoder {
             throw OAuth4cjException("URLDecoder: empty string enc parameter.");
         }
         if (!(enc.equals("UTF-8") || enc.equals("utf-8") || enc.equals("UTF8") || enc.equals("utf8"))) {
-            throw OAuth4cjException("only UTF-8 is supported!")
+            throw OAuth4cjException("only UTF-8 Character Set is supported!")
         }
 
         try {
@@ -205,7 +205,7 @@ public class URLEncoder {
      * Decode the application/x-www-form-urlencoded string using a specific character set.
      * The provided character set is used to determine the characters represented by
      * any consecutive sequence of the form "% xy".
-     * only supported UTF-8.
+     * only supported UTF-8 Character Set.
      *
      * @param the string to be decoded.
      *
@@ -239,7 +239,7 @@ public class URLEncoder {
                     } catch (e: IllegalArgumentException) {
                         throw e
                     } catch (e: Exception) {
-                        let err: String = "URLDecoder: Illegal hex characters in escape (%) pattern - " + e.message
+                        let err: String = "Illegal hex characters in escape (%) pattern - " + e.message
                         throw IllegalArgumentException(err)
                     }
                     needToChange = true
@@ -264,7 +264,7 @@ public class URLEncoder {
             let v: Int64 = Int64.parse(strNum)
 
             if (v < 0) {
-                let err: String = "URLDecoder: Illegal hex characters in escape " + "(%) pattern - negative value"
+                let err: String = "Illegal hex characters in escape " + "(%) pattern - negative value."
                 throw IllegalArgumentException(err)
             }
             bytes[pos] = UInt8(v)
@@ -277,7 +277,7 @@ public class URLEncoder {
 
         // Trailing, incomplete byte encoding (such as "%x") will cause an exception to be thrown.
         if (i < numChars && c == '%') {
-            throw IllegalArgumentException("URLDecoder: Incomplete trailing escape (%) pattern")
+            throw IllegalArgumentException("Incomplete trailing escape (%) pattern.")
         }
 
         sb.append(String.fromUtf8(bytes[0..pos]))

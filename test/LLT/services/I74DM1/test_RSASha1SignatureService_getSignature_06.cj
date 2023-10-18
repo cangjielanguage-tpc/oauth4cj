@@ -30,8 +30,7 @@ func testRSASha1SignatureServiceGetSignature06(): Int64 {
         rsss.getSignature("baseString","apiSecret","tokenSecret")
     }catch(e:OAuth4cjSignatureException){
         println(e.toString())
-        if(e.toString().contains("baseString") &&
-                e.toString().contains("Illegal RSA Private key")){
+        if(e.toString().contains("Illegal RSA Private key")){
             flag = 0
         }
     }

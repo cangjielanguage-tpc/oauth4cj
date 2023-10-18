@@ -6,14 +6,14 @@ package oauth4cj
 /**
  * OAuth2 Access Token Error Response 
  */
-public class OAuth2AccessTokenErrorResponse <: OAuthResponseException {
+public class OAuth2AccessTokenErrorResponseException <: OAuth4cjResponseException {
 
     private let error: Option<OAuth2Error>
     private let errorDescription: String
     private let errorUrl: URL
 
     /**
-     * Create a OAuth2AccessTokenErrorResponse instance
+     * Create a OAuth2AccessTokenErrorResponseException instance
      *
      * @param error Option<OAuth2Error> instance
      * @param errorDescription  error descriuption
@@ -56,6 +56,20 @@ public class OAuth2AccessTokenErrorResponse <: OAuthResponseException {
      */
     public func getErrorUri(): URL {
         return errorUrl
+    }
+
+    /**
+     * Override toString function 
+     *
+     * @return String exception message
+     */
+    public open func toString(): String {
+        let className: String = "OAuth2AccessTokenErrorResponseException"
+        let msg: String = this.message
+        if (msg.isEmpty()) {
+            return className
+        }
+        return "${className}: ${msg}"
     }
 }
 

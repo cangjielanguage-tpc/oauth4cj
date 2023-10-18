@@ -453,7 +453,7 @@ public class TestOAuth4cjRequestB001{
             try{
                 oauth4cjRequest.setCharset(charset)
             }catch(e:OAuth4cjException){
-                if(e.toString().contains("only supperd UTF-8")){
+                if(e.toString().contains("only supperd UTF-8 Character Set")){
                     flag=0
                 }
             }

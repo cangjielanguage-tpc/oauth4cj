@@ -47,7 +47,7 @@ func testOAuth2AccessTokenJsonExtractor_01(): Int32 {
         let response: OAuth4cjResponse = error(responseBody)
         let extracted: OAuth2AccessToken = extractor.extract(response)
         println(extracted.getAccessToken())
-    } catch (e: OAuth2AccessTokenErrorResponse) {
+    } catch (e: OAuth2AccessTokenErrorResponseException) {
         //e.printStackTrace()
         if (!OAuth2Error.INVALID_GRANT.getErrorString().equals(e.getError().getOrThrow().getErrorString())) {
             println(1)

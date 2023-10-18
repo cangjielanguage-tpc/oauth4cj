@@ -96,7 +96,7 @@ public class TestURLEncoderB001{
             try{
                 URLEncoder.decode("abcdefghijklmnopqrstuvwxyz",enc_params[index])
             }catch(e:Exception){
-                if(e.toString().contains("only UTF-8 is supported") || e.toString().contains("empty string enc parameter")){
+                if(e.toString().contains("only UTF-8 Character Set is supported") || e.toString().contains("empty string enc parameter")){
                     enc_flag=0
                 }
             }
@@ -166,7 +166,7 @@ public class TestURLEncoderB001{
             try{
                 URLEncoder.encode("abcdefghijklmnopqrstuvwxyz",enc)
             }catch(e:Exception){
-                if(e.toString().contains("only UTF-8 is supported") || e.toString().contains("charsetName can not be empty" ) ){
+                if(e.toString().contains("only UTF-8 Character Set is supported") || e.toString().contains("charsetName can not be empty" ) ){
                     enc_flag=0
                 }
             }
