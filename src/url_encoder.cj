@@ -188,7 +188,7 @@ public class URLEncoder {
      */
     public static func decode(s: String, enc: String): String {
         if (enc.isEmpty()) {
-            throw OAuth4cjException("URLDecoder: empty string enc parameter.");
+            throw OAuth4cjException("empty string enc parameter.");
         }
         if (!(enc.equals("UTF-8") || enc.equals("utf-8") || enc.equals("UTF8") || enc.equals("utf8"))) {
             throw OAuth4cjException("only UTF-8 Character Set is supported!")

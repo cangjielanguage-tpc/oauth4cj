@@ -149,8 +149,20 @@ public class TestTokenB001{
             @Assert(oauth2accesstoken02.getRawResponse(),str)
 
             for (int32Value in int32Values){
-                oauth2accesstoken03=OAuth2AccessToken(str,str,int32Value,str,str,str)
-                @Assert(oauth2accesstoken03.getRawResponse(),str)
+                if (int32Value < 0){
+                    var flag = 0
+                    try {
+                        oauth2accesstoken03=OAuth2AccessToken(str,str,int32Value,str,str,str)
+                    } catch (e: OAuth4cjException) {
+                        if(e.toString().contains("The effective time cannot be negative")){
+                            flag=1
+                        }
+                    }
+                    @Assert(flag,1)
+                } else {
+                    oauth2accesstoken03=OAuth2AccessToken(str,str,int32Value,str,str,str)
+                    @Assert(oauth2accesstoken03.getRawResponse(),str)
+                }
             }
         }
     }

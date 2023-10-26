@@ -26,6 +26,9 @@ public class DeviceAuthorization {
         this.deviceCode = deviceCode
         this.userCode = userCode
         this.verificationUri = verificationUri
+        if (expiresInSeconds < 0) {
+            throw OAuth4cjException("The validity time of the verification code cannot be negative")
+        }
         this.expiresInSeconds = expiresInSeconds
     }
 
@@ -45,6 +48,9 @@ public class DeviceAuthorization {
      * @Param intervalSeconds the minimum amount of time in seconds
      */
     public func setIntervalSeconds(intervalSeconds: Int32): Unit {
+        if (intervalSeconds < 0) {
+            throw OAuth4cjException("The time value cannot be negative")
+        }
         this.intervalSeconds = intervalSeconds
     }
 

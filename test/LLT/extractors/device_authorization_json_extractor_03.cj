@@ -255,19 +255,22 @@ func testDeviceAuthorizationJsonExtractor_09(): Int32 {
                                     "verification_uri": "Beijing","expires_in": 6,"interval": "-9"}"##
 
     let response: OAuth4cjResponse = ok(responseBody)
-    let da: DeviceAuthorization = extractor.extract(response)
-    let str: String = da.toString()
-
     let result: String = "DeviceAuthorization{'deviceCode'='device_code_v','userCode'='user_code_v'," +
         "'verificationUri'='Beijing','verificationUriComplete'='','expiresInSeconds'='6','intervalSeconds'='-9'}"
 
-    println("da.toString() = " + da.toString())
-
-    if (!str.equals(result)) {
-        println(9)
+    try {
+        let da: DeviceAuthorization = extractor.extract(response)
+        let str: String = da.toString()
+        println("da.toString() = " + da.toString())
+        println("testDeviceAuthorizationJsonExtractor_09---9")
         return 9
-    }
-    return 0
+    } catch (e: OAuth4cjException) {
+        if (e.toString().contains("The time value cannot be negative")) {
+            return 0
+        }
+        println("testDeviceAuthorizationJsonExtractor_09---OAuth4cjException---9")
+        return 9
+    }    
 }
 
 func testDeviceAuthorizationJsonExtractor_10(): Int32 {
@@ -277,19 +280,22 @@ func testDeviceAuthorizationJsonExtractor_10(): Int32 {
                                     "verification_uri": "Beijing","expires_in": 6,"interval": -8}"##
 
     let response: OAuth4cjResponse = ok(responseBody)
-    let da: DeviceAuthorization = extractor.extract(response)
-    let str: String = da.toString()
-
     let result: String = "DeviceAuthorization{'deviceCode'='device_code_v','userCode'='user_code_v'," +
         "'verificationUri'='Beijing','verificationUriComplete'='','expiresInSeconds'='6','intervalSeconds'='-8'}"
 
-    println("da.toString() = " + da.toString())
-
-    if (!str.equals(result)) {
-        println(10)
+    try {
+        let da: DeviceAuthorization = extractor.extract(response)
+        let str: String = da.toString()
+        println("da.toString() = " + da.toString())
+        println("testDeviceAuthorizationJsonExtractor_10---10")
         return 10
-    }
-    return 0
+    } catch (e: OAuth4cjException) {
+        if (e.toString().contains("The time value cannot be negative")) {
+            return 0
+        }
+        println("testDeviceAuthorizationJsonExtractor_10---OAuth4cjException---10")
+        return 10
+    }   
 }
 
 func testDeviceAuthorizationJsonExtractor_11(): Int32 {
