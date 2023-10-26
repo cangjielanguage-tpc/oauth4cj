@@ -24,7 +24,7 @@ func testTokenReponseConverter_02(): Int32 {
     try {
         converter.convert(response)
         return -1
-    } catch (e: OAuth2AccessTokenErrorResponse) {
+    } catch (e: OAuth2AccessTokenErrorResponseException) {
         return 0
     }
 }
@@ -40,7 +40,7 @@ func testTokenReponseConverter_03(): Int32 {
     try {
         converter.convert(response)
         return -1
-    } catch (e: OAuth2AccessTokenErrorResponse) {
+    } catch (e: OAuth2AccessTokenErrorResponseException) {
         var error = e.getError()
         match(error) {
             case Some(x) => println(x.getErrorString())
@@ -63,7 +63,7 @@ func testTokenReponseConverter_04(): Int32 {
     try {
         converter.convert(response)
         return -1
-    } catch (e: OAuth2AccessTokenErrorResponse) {
+    } catch (e: OAuth2AccessTokenErrorResponseException) {
         return 0
     }
 }

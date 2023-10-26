@@ -46,15 +46,15 @@ public class OAuth2AccessTokenJsonExtractor <: AbstractJsonExtractor & TokenExtr
 
     /**
      * Retrieve the field information of the error response from the response body,
-     * encapsulate it into an OAuth2AccessTokenErrorResponse exception, and throw it.
+     * encapsulate it into an OAuth2AccessTokenErrorResponseException exception, and throw it.
      *
      * @Param check get error message from the response
      *
      * @throws IOException If an error occurs when obtaining the response body as a string,
      *                     an IOException will be thrown.
-     * @throws OAuth2AccessTokenErrorResponse
+     * @throws OAuth2AccessTokenErrorResponseException
      *                     Obtain the field information of the error response from the response body,
-     *                     encapsulate and throw OAuth2AccessTokenErrorResponse.
+     *                     encapsulate and throw OAuth2AccessTokenErrorResponseException.
      */
     public func generateError(response: OAuth4cjResponse): Unit {
         let responseBody: String = response.getBody()
@@ -63,7 +63,7 @@ public class OAuth2AccessTokenJsonExtractor <: AbstractJsonExtractor & TokenExtr
         try {
             responseBodyJson = JsonValue.fromStr(responseBody).asObject()
         } catch (ex: Exception) {
-            throw OAuth2AccessTokenErrorResponse(None, "", emptyErrorUri, response)
+            throw OAuth2AccessTokenErrorResponseException(None, "", emptyErrorUri, response)
         }
 
         var errorUriInString: String = ""
@@ -91,7 +91,7 @@ public class OAuth2AccessTokenJsonExtractor <: AbstractJsonExtractor & TokenExtr
             errorDescription = asTextOfJsonValue(responseBodyJson.get("error_description").getOrThrow())
         }
 
-        throw OAuth2AccessTokenErrorResponse(errorCode, errorDescription, errorUri, response)
+        throw OAuth2AccessTokenErrorResponseException(errorCode, errorDescription, errorUri, response)
     }
 
     private func createToken(rawResponse: String): OAuth2AccessToken {

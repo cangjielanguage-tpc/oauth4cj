@@ -25,7 +25,7 @@ func testOAuth20ServiceGetAuthorizationUrl02(): Int64 {
        oauth20Service.extractAuthorization(redirectLocation01)
     }catch(e:OAuth4cjException){
         //e.printStackTrace()
-        if(e.toString().contains("unsupported decoding.") && e.toString().contains("URLDecoder: Incomplete trailing escape (%) pattern")){
+        if(e.toString().contains("unsupported decoding.") && e.toString().contains("Incomplete trailing escape (%) pattern")){
             flag=0
         }
     }
@@ -39,7 +39,7 @@ func testOAuth20ServiceGetAuthorizationUrl02(): Int64 {
         oauth20Service.extractAuthorization(redirectLocation02)
     }catch(e:OAuth4cjException){
         println(e.toString())
-        if(e.toString().contains("unsupported decoding.") && e.toString().contains("URLDecoder: Incomplete trailing escape (%) pattern")){
+        if(e.toString().contains("unsupported decoding.") && e.toString().contains("Incomplete trailing escape (%) pattern")){
             flag=0
         }
     }

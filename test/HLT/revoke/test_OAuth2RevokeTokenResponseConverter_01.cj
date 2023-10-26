@@ -16,7 +16,7 @@ public class TestOAuth2RevokeTokenResponseConverterB004{
         oAuth2RevokeTokenResponseConverter01.convert(response01)
         try{
             oAuth2RevokeTokenResponseConverter01.convert(response01)
-        }catch(e:OAuth2AccessTokenErrorResponse){
+        }catch(e:OAuth2AccessTokenErrorResponseException){
             flag=0
         }
         @Assert(flag,1)
@@ -35,7 +35,7 @@ public class TestOAuth2RevokeTokenResponseConverterB004{
         var flag=1
         try{
             oAuth2RevokeTokenResponseConverter02.convert(response02)
-        }catch(e:OAuth2AccessTokenErrorResponse){
+        }catch(e:OAuth2AccessTokenErrorResponseException){
             flag=0
         }
         @Assert(flag,0)

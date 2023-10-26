@@ -75,15 +75,15 @@ public abstract class DefaultApi20 {
 
         match(callback) {
              case Some(x) => parameters.add(OAuthConstants.REDIRECT_URI, x)
-             case _ => println("callback is None")
+             case _ => ()
         }
         match(scope) {
              case Some(x) => parameters.add(OAuthConstants.SCOPE, x)
-             case _ => println("scope is None")
+             case _ => ()
         }
         match(state) {
              case Some(x) => parameters.add(OAuthConstants.STATE, x)
-             case _ => println("state is None")
+             case _ => ()
         }
         return parameters.appendTo(getAuthorizationBaseUrl())
     }
@@ -135,7 +135,7 @@ public abstract class DefaultApi20 {
      */
     public open func getDeviceAuthorizationEndpoint(): String {
         throw IllegalArgumentException(
-            "This API doesn't support Device Authorization Grant or we have no info about this")
+            "This API doesn't support device authorization grant or we have no info about this")
     }
 
     /**

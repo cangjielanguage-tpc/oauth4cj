@@ -466,7 +466,7 @@ public open class OAuth4cjRequest {
 
     /**
      * Set the character set for the request body.
-     * only supported UTF-8.
+     * only supported UTF-8 Character Set.
      *
      * @param charsetName of String
      * @since 0.37.2
@@ -474,7 +474,7 @@ public open class OAuth4cjRequest {
     public func setCharset(charsetName: String): Unit {
         if (!charsetName.equals("UTF-8") && !charsetName.equals("utf-8") &&
                                         !charsetName.equals("utf8") && !charsetName.equals("UTF8")) {
-            throw OAuth4cjException("only supperd UTF-8")
+            throw OAuth4cjException("only supperd UTF-8 Character Set.")
         }
         this.charset = charsetName
     }

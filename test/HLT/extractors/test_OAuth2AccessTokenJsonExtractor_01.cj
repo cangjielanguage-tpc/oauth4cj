@@ -116,7 +116,8 @@ public class TestOAuth2AccessTokenJsonExtractorB004{
         var flag=1
         try{
             oAuth2AccessTokenJsonExtractor02.extract(response01)
-        }catch(e:OAuth2AccessTokenErrorResponse){//这里只验证到抛异常，具体异常信息在generateError逻辑中验证
+        }catch(e:OAuth2AccessTokenErrorResponseException){//这里只验证到抛异常，具体异常信息在generateError逻辑中验证
+            println(e.toString())
             flag=0
         }
         @Assert(flag,0)
@@ -132,7 +133,7 @@ public class TestOAuth2AccessTokenJsonExtractorB004{
         var flag=1
         try{
             oAuth2AccessTokenJsonExtractor02.generateError(response01)
-        }catch(e:OAuth2AccessTokenErrorResponse){
+        }catch(e:OAuth2AccessTokenErrorResponseException){
             flag=0
             var error_re=e.getResponse().toString()
             var error_exp=response01.toString()
@@ -151,7 +152,7 @@ public class TestOAuth2AccessTokenJsonExtractorB004{
         var flag=1
         try{
             oauth2AccessTokenJsonExtractor02.generateError(response01)
-        }catch(e:OAuth2AccessTokenErrorResponse){
+        }catch(e:OAuth2AccessTokenErrorResponseException){
             flag=0
             var error_uri=e.getErrorUri().toString()
             @Assert(error_uri,"")
@@ -169,7 +170,7 @@ public class TestOAuth2AccessTokenJsonExtractorB004{
         var flag=1
         try{
             oauth2AccessTokenJsonExtractor02.generateError(response01)
-        }catch(e:OAuth2AccessTokenErrorResponse){
+        }catch(e:OAuth2AccessTokenErrorResponseException){
             try{
                 e.getError().getOrThrow()
             }catch(e:NoneValueException){
@@ -198,7 +199,7 @@ public class TestOAuth2AccessTokenJsonExtractorB004{
         var flag=1
         try{
             oauth2AccessTokenJsonExtractor02.generateError(response01)
-        }catch(e:OAuth2AccessTokenErrorResponse){
+        }catch(e:OAuth2AccessTokenErrorResponseException){
             try{
                 e.getError().getOrThrow()
             }catch(e:NoneValueException){
@@ -230,7 +231,7 @@ public class TestOAuth2AccessTokenJsonExtractorB004{
         var flag=1
         try{
             oAuth2AccessTokenJsonExtractor02.generateError(response01)
-        }catch(e:OAuth2AccessTokenErrorResponse){
+        }catch(e:OAuth2AccessTokenErrorResponseException){
             flag=0
             var error=e.getError().getOrThrow()
             @Assert(error.getErrorString(),"slow_down")
@@ -260,7 +261,7 @@ public class TestOAuth2AccessTokenJsonExtractorB004{
         var flag=1
         try{
             oauth2AccessTokenJsonExtractor02.generateError(response01)
-        }catch(e:OAuth2AccessTokenErrorResponse){
+        }catch(e:OAuth2AccessTokenErrorResponseException){
             flag=0
             var error_description=e.getErrorDescription()
             @Assert(error_description,"error_description")

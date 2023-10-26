@@ -3,19 +3,19 @@
  */
 
 /**
- * @file The file declars the OAuthResponseException class.
+ * @file The file declars the OAuth4cjResponseException class.
  */
 package oauth4cj
 
 
-public open class OAuthResponseException <: OAuth4cjException {
+public open class OAuth4cjResponseException <: OAuth4cjException {
 
     private let response: OAuth4cjResponse
 
     private let HASH_CODE_DEFAULT: Int64 = 29 * 5
 
     /**
-     * Create a OAuthResponseException instance according to the parameter.
+     * Create a OAuth4cjResponseException instance according to the parameter.
      *
      * @param map of Response
      * @since 0.37.2
@@ -46,17 +46,31 @@ public open class OAuthResponseException <: OAuth4cjException {
     }
 
     /**
-     * Determine whether two OAuthResponseException objects are equal.
+     * Determine whether two OAuth4cjResponseException objects are equal.
      *
-     * @param that of OAuthResponseException
+     * @param that of OAuth4cjResponseException
      *
      * @return Type of Bool
      * @since 0.37.2
      */
-    public func equals(obj: OAuthResponseException): Bool {
+    public func equals(obj: OAuth4cjResponseException): Bool {
         if (refEq(this, obj)) {
             return true
         }
         return this.response.toString().equals(obj.getResponse().toString())
+    }
+
+    /**
+     * Override toString function 
+     *
+     * @return String exception message
+     */
+    public open func toString(): String {
+        let className: String = "OAuth4cjResponseException"
+        let msg: String = this.message
+        if (msg.isEmpty()) {
+            return className
+        }
+        return "${className}: ${msg}"
     }
 }

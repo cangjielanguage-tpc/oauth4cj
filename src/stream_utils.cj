@@ -47,7 +47,7 @@ public class StreamUtils  {
                 }
             }
         } catch (e: Exception) {
-            throw OAuth4cjException("read from ins failed!\n" + e.message)
+            throw OAuth4cjException("Read from InputStream failed." + e.message)
         }
         if (out.length <= 0 && isGzipStream) {
             throw OAuth4cjException("Unable to obtain decompressed string from an empty InputStream.")

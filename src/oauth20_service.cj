@@ -969,7 +969,7 @@ public class OAuth20Service <: OAuthService {
         while (true) {
             try {
                 return getAccessTokenDeviceAuthorizationGrant(deviceAuthorization)
-            } catch (e: OAuth2AccessTokenErrorResponse) {
+            } catch (e: OAuth2AccessTokenErrorResponseException) {
                 var err: String = ""
                 var flag: Bool = false
                 let error: Option<OAuth2Error> = e.getError()

@@ -87,7 +87,9 @@ public class ScopeBuilder {
         for (scope in scopes) {
             scopeBuilder.append(' ').append(scope)
         }
-        return scopeBuilder.toString().substring(1)
+        var scopeString = scopeBuilder.toString()
+        Preconditions.checkEmptyString(scopeString, "Cannot get String from a empty ScopeBuilder.")
+        return scopeString.substring(1)
     }
 }
 

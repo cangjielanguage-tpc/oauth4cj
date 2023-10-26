@@ -15,7 +15,7 @@ public class OAuthEncoder  {
 
     /**
      * Convert strings to application/x-wwwww-form-urlencoded format using a specific character set.
-     * only supported UTF-8.
+     * only supported UTF-8 Character Set.
      *
      * @param the string to be encoded.
      *
@@ -41,7 +41,7 @@ public class OAuthEncoder  {
 
     /**
      * Decode the application/x-www-form-urlencoded string using a specific encoding scheme.
-     * only supported UTF-8.
+     * only supported UTF-8 Character Set.
      *
      * @param the string to be decoded.
      *

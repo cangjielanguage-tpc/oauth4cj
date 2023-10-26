@@ -31,7 +31,7 @@ public class DeviceAuthorizationJsonExtractor <: AbstractJsonExtractor {
      * obtain the field information corresponding to the device authorization response from the response body,
      * encapsulate it into a DeviceAuthorization object, and return it.
      * If the status code of the response is not 200, the generateError function is called,
-     * throwing an exception OAuth2AccessTokenErrorResponse.
+     * throwing an exception OAuth2AccessTokenErrorResponseException.
      *
      * @Param check get messages from the response
      *
@@ -48,15 +48,15 @@ public class DeviceAuthorizationJsonExtractor <: AbstractJsonExtractor {
 
     /**
      * Retrieve the field information of the error response from the response body,
-     * encapsulate it into an OAuth2AccessTokenErrorResponse exception, and throw it.
+     * encapsulate it into an OAuth2AccessTokenErrorResponseException exception, and throw it.
      *
      * @Param check get error message from the response
      *
      * @throws IOException If an error occurs when obtaining the response body as a string,
      *                     an IOException will be thrown.
-     * @throws OAuth2AccessTokenErrorResponse
+     * @throws OAuth2AccessTokenErrorResponseException
      *                     Obtain the field information of the error response from the response body,
-     *                     encapsulate and throw OAuth2AccessTokenErrorResponse.
+     *                     encapsulate and throw OAuth2AccessTokenErrorResponseException.
      */
     public func generateError(response: OAuth4cjResponse): Unit {
         OAuth2AccessTokenJsonExtractor.instance().generateError(response)

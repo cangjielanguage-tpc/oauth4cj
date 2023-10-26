@@ -118,7 +118,7 @@ public class TestDefaultApi20B004{
         try{
             subDefaultApi20.getDeviceAuthorizationEndpoint()
         }catch(e:Exception){
-            if(e.toString().contains("This API doesn't support Device Authorization Grant or we have no info about this")){
+            if(e.toString().contains("This API doesn't support device authorization grant or we have no info about this")){
                 flag=0
             }
         }

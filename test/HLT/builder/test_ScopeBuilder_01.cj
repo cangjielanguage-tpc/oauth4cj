@@ -15,7 +15,7 @@ public class TestScopeBuilderB004{
         var flag=1
         try{
             scopeBuilder01.build()
-        }catch(e:IndexOutOfBoundsException){
+        }catch(e:IllegalArgumentException){
             flag=0
         }
         @Assert(flag,0)
