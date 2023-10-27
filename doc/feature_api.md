@@ -81,17 +81,18 @@ encoded == str: true
 public class URLEncoder {
     /**
      * 使用特定的编码方案将字符串转换为application/x-www-form-urlencoded格式
-     * 当前只支持UTF-8
+     * 当前只支持UTF-8字符集
      *
      * @参数 s 要编码的字符串
-     * @参数 enc 支持的字符编码的名称，当前只支持UTF-8
+     * @参数 enc 支持的字符编码的名称，当前只支持UTF-8字符集
      * @返回值 String 编码后的字符串
+     * @异常 OAuth4cjException 使用不支持的字符集、字符集为空或编码失败时抛出
      */
     public static func encode(s: String, enc: String): String
     
     /**
      * 使用特定的字符集将字符串转换为application/x-www-form-urlencoded格式
-     * 该方法使用提供的字符集来获取不安全字符的字节，当前只支持UTF-8
+     * 该方法使用提供的字符集来获取不安全字符的字节，当前只支持UTF-8字符集
      *
      * @参数 s 要编码的字符串
      * @返回值 String 编码后的字符串
@@ -100,20 +101,22 @@ public class URLEncoder {
     
     /**
      * 使用特定的编码方案解码application/x-www-form-urlencoded字符串
-     * 当前只支持UTF-8
+     * 当前只支持UTF-8字符集
      *
      * @参数 s 要解码的字符串
-     * @参数 enc 支持的字符解码的名称，当前只支持UTF-8
+     * @参数 enc 支持的字符解码的名称，当前只支持UTF-8字符集
      * @返回值 String 解码后的字符串
+     * @异常 OAuth4cjException 使用不支持的字符集、字符集为空或解码失败时抛出
      */
     public static func decode(s: String, enc: String): String
     
     /**
      * 使用特定的字符集解码application/x-www-form-urlencoded字符串
-     * 当前只支持UTF-8
+     * 当前只支持UTF-8字符集
      *
      * @参数 s 要解码的字符串
      * @返回值 String 解码后的字符串
+     * @异常 IllegalArgumentException 解码字符串中有非法字符时抛出
      */
     public static func decode(s: String): String
 } 
@@ -125,19 +128,21 @@ public class URLEncoder {
 public class OAuthEncoder {
     /**
      * 使用特定的字符集将字符串转换为application/x-www-form-urlencoded格式
-     * 当前只支持UTF-8
+     * 当前只支持UTF-8字符集
      *
      * @参数 s 要编码的字符串
      * @返回值 String 编码后的字符串
+     * @异常 OAuth4cjException 编码失败时抛出
      */
     public static func encode(src: String): String
     
     /**
      * 使用特定的编码方案解码application/x-www-form-urlencoded字符串
-     * 当前只支持UTF-8
+     * 当前只支持UTF-8字符集
      *
      * @参数 s 要解码的字符串
      * @返回值 String 解码后的字符串
+     * @异常 OAuth4cjException 解码失败时抛出
      */
     public static func decode(encoded: String): String
 }
@@ -153,6 +158,7 @@ public class StreamUtils {
      * @参数 ins 输入流
      * @参数 isGzipStream 输入流是否为GzipStream，默认为false
      * @返回值 String 返回UTF-8编码的字符串
+     * @异常 OAuth4cjException 输入流长度为0、读取流失败时抛出
      */
     public static func getStreamContents(ins: InputStream, isGzipStream!: Bool = false): String
     
@@ -162,6 +168,7 @@ public class StreamUtils {
      *
      * @参数 ins 输入流
      * @返回值 String 返回gzip流中的字符串内容
+     * @异常 OAuth4cjException 输入流长度为0、读取流失败时抛出
      */
     public static func getGzipStreamContents(ins: InputStream): String
 }
@@ -438,6 +445,8 @@ public class OAuth2AccessToken <: Token {
      * @参数 refreshToken 刷新令牌
      * @参数 scope 访问范围
      * @参数 rawResponse 原始响应信息
+     *
+     * @异常 OAuth4cjException 有效时间参数为负数时抛出
      */
     public init(accessToken:String, tokenType:String, expiresIn:Int32, refreshToken:String, scope:String, rawResponse:String)
     
@@ -499,6 +508,8 @@ public class DeviceAuthorization {
      * @参数 userCode 最终用户验证码
      * @参数 verificationUri 授权服务器上的最终用户验证URI
      * @参数 expiresInSeconds 验证码有效时间
+     *
+     * @异常 OAuth4cjException 时间参数不能为负数
      */
     public init(deviceCode:String, userCode:String, verificationUri:String, expiresInSeconds:Int64)
     
@@ -513,6 +524,8 @@ public class DeviceAuthorization {
      * 设置客户端在向令牌端点发出轮询请求之间应等待的最短时间 
      *
      * @参数 intervalSeconds 时间
+     *
+     * @异常 OAuth4cjException 时间参数不能为负数
      */
     public func setIntervalSeconds(intervalSeconds:Int32): Unit
     
@@ -609,7 +622,7 @@ public class OAuth2Authorization {
 提供 OAuth4cjResponse 表示 Http 响应形式
 
 ```cangjie
-public class OAuth4cjResponse <: Closeable {
+public class OAuth4cjResponse <: Resource {
     /**
      * 构造方法
      *
@@ -629,7 +642,7 @@ public class OAuth4cjResponse <: Closeable {
      * @参数 stream 重要的流数据
      * @参数 closeables 可关闭的数据源集合
      */
-    public init(code:Int32, message:String, headers:HashMap<String, String>, stream:InputStream, closeables:ArrayList<Closeable>)
+    public init(code:Int32, message:String, headers:HashMap<String, String>, stream:InputStream, closeables:ArrayList<Resource>)
     
     /**
      * 是否响应成功
@@ -642,6 +655,7 @@ public class OAuth4cjResponse <: Closeable {
      * 以字符串形式返回响应体
      *
      * @返回值 String 字符串形式的响应体
+     * @异常 OAuth4cjException 使用空的流构造对象时，获取响应体会抛出异常
      */
     public func getBody():String
     
@@ -674,10 +688,11 @@ public class OAuth4cjResponse <: Closeable {
     public func getHeaders():HashMap<String, String>
     
     /**
-     * 获取指定HTTP响应头参数值，如果不存在，抛出异常
+     * 获取指定HTTP响应头参数值
      *
      * @参数 name 响应头参数名
      * @返回值 String 响应头参数值
+     * @异常 NoneValueException 如果参数名不存在，抛出异常
      */
     public func getHeader(name:String):String
     
@@ -700,18 +715,14 @@ public class OAuth4cjResponse <: Closeable {
      *
      * @返回值 Bool 如果已经调用过 close 方法，返回 true，否则返回 false
      */
-    public func isClosed(): Bool {
-        return closed
-    }
+    public func isClosed(): Bool
 }
 ```
 
-###### ~~1.3.1.9 可以关闭的数据源接口~~
-
-###### 1.3.1.10 响应异常类
+###### 1.3.1.9 响应异常类
 
 ```cangjie
-public class OAuthResponseException <: OAuth4cjException {
+public open class OAuth4cjResponseException <: OAuth4cjException {
     /**
      * 构造函数
      *
@@ -734,21 +745,28 @@ public class OAuthResponseException <: OAuth4cjException {
     public func hashCode(): Int64
 
     /**
-     * 确定两个 OAuthResponseException 对象是否相等
+     * 确定两个 OAuth4cjResponseException 对象是否相等
      *
      * @参数 obj 要比较的对象
      * @返回值 Bool 相等返回 true，否则返回 false
      */
-    public func equals(obj: OAuthResponseException): Bool
+    public func equals(obj: OAuth4cjResponseException): Bool
+    
+    /**
+     * 覆写toString方法 
+     *
+     * @return String 异常信息
+     */
+    public open func toString(): String
 }
 ```
 
-###### 1.3.1.11 请求
+###### 1.3.1.10 请求
 
 提供 OAuth4cj Http请求的表示形式，OAuth4cjRequest
 
 ```cangjie
-public class OAuth4cjRequest {
+public open class OAuth4cjRequest {
     /**
      * 构造函数
      *
@@ -760,8 +778,9 @@ public class OAuth4cjRequest {
     /**
      * 添加OAuth参数
      *
-     * @参数 key 参数名
+     * @参数 key 参数名（"oauth_"、"scope"、"realm"）
      * @参数 value 参数值
+     * @异常 OAuth4cjParametersMissingException key值不在识别范围内时抛出
      */
     public func addOAuthParameter(key: String, value: String): Unit
     
@@ -795,7 +814,7 @@ public class OAuth4cjRequest {
     public func getCompleteUrl(): String
     
     /**
-     * 向请求中添加HTTP报头,字符串key转换为大写存入.
+     * 向请求中添加HTTP报头。
      *
      * @参数 key 参数名
      * @参数 value 参数值
@@ -849,6 +868,7 @@ public class OAuth4cjRequest {
      * 初始化MultipartPayload对象
      *
      * @参数 boundary 边界字符串
+     * @异常 IllegalArgumentException boundary为空或者含有非法字符时抛出
      */
     public func initMultipartPayload(boundary: String): Unit 
     
@@ -857,6 +877,7 @@ public class OAuth4cjRequest {
      *
      * @参数 subtype multipart类型(默认是form-data)
      * @参数 boundary 边界字符串
+     * @异常 IllegalArgumentException boundary为空或者含有非法字符时抛出
      */
     public func initMultipartPayload(subtype: String, boundary: String): Unit
     
@@ -872,6 +893,7 @@ public class OAuth4cjRequest {
      *
      * @参数 boundary 边界字符串
      * @参数 headers 头信息
+     * @异常 IllegalArgumentException boundary为空或者含有非法字符时抛出、boundary参数值和headers中的边界值不同时抛出
      */
     public func initMultipartPayload(boundary: String, headers: HashMap<String, String>): Unit
     
@@ -881,6 +903,7 @@ public class OAuth4cjRequest {
      * @参数 subtype multipart类型(默认是form-data)
      * @参数 boundary 边界字符串
      * @参数 headers 头信息
+     * @异常 IllegalArgumentException boundary为空或者含有非法字符时抛出、boundary参数值和headers中的边界值不同时抛出
      */
     public func initMultipartPayload(subtype: String, boundary: String, headers: HashMap<String, String>): Unit
 
@@ -1002,9 +1025,10 @@ public class OAuth4cjRequest {
     
     /**
      * 设置请求体的字符集
-     * 当前仅支持UTF-8
+     * 当前仅支持UTF-8字符集
      *
-     * @参数 charsetName 字符集名称,当前仅支持UTF-8
+     * @参数 charsetName 字符集名称,当前仅支持UTF-8字符集
+     * @异常 OAuth4cjException 使用不支持的字符集时抛出
      */
     public func setCharset(charsetName: String): Unit
 }
@@ -1021,7 +1045,7 @@ public interface ResponseConverter {
 }
 ```
 
-###### 1.3.1.12 参数类
+###### 1.3.1.11 参数类
 
 ```cangjie
 public class Parameter {
@@ -1037,6 +1061,7 @@ public class Parameter {
      * 根据OAuthEncoder对Parameter对象中的信息进行编码，并将其拼接成字符串
      *
      * @返回值 String 编码拼接后的字符串
+     * @异常 OAuth4cjException 创建时使用了不支持的字符集
      */
     public func asUrlEncodedPair(): String
     
@@ -1082,7 +1107,7 @@ public class Parameter {
 }
 ```
 
-###### 1.3.1.13 参数集合类
+###### 1.3.1.12 参数集合类
 
 ```cangjie
 public class ParameterList {
@@ -1173,7 +1198,7 @@ public class ParameterList {
 }
 ```
 
-###### 1.3.1.14 包含最常见HTTP请求类型的枚举
+###### 1.3.1.13 包含最常见HTTP请求类型的枚举
 
 ```cangjie
 public enum Verb <: ToString{
@@ -1211,7 +1236,7 @@ public enum Verb <: ToString{
 }
 ```
 
-###### 1.3.1.15 OAuth常量类
+###### 1.3.1.14 OAuth常量类
 
 ```cangjie
 public class OAuthConstants {
@@ -1379,7 +1404,7 @@ public class OAuthConstants {
     public static let USER_AGENT_HEADER_NAME: String = "User-Agent"
 }
 ```
-###### 1.3.1.16 OAuth异步请求回调
+###### 1.3.1.15 OAuth异步请求回调
 
 ```cangjie
 public interface OAuthAsyncRequestCallback {
@@ -1399,10 +1424,10 @@ public interface OAuthAsyncRequestCallback {
 }
 ```
 
-###### 1.3.1.17 OAuth2访问令牌错误响应
+###### 1.3.1.16 OAuth2访问令牌错误响应
 
 ```cangjie
-public class OAuth2AccessTokenErrorResponse <: OAuthResponseException {
+public class OAuth2AccessTokenErrorResponseException <: OAuth4cjResponseException {
     /**
      * 构造方法
      *
@@ -1433,6 +1458,13 @@ public class OAuth2AccessTokenErrorResponse <: OAuthResponseException {
      * @返回值 URL 错误信息URL实例
      */
     public func getErrorUri(): URL
+    
+    /**
+     * 覆写toString方法 
+     *
+     * @return String 异常信息
+     */
+    public open func toString(): String
 }
 ```
 
@@ -1561,7 +1593,7 @@ public class PlaintextSignatureService <: SignatureService {
 }
 ```
 
-###### 1.4.1.4 RSASha1SignatureServicee 类
+###### 1.4.1.4 RSASha1SignatureService 类
 
 ```cangjie
 /**
@@ -1573,7 +1605,7 @@ public class RSASha1SignatureService <: SignatureService {
     /**
      * 根据参数创建一个 RSASha1SignatureService 实例。
      *
-     * @参数 privateKey 私钥文件路径,文件必须是 .pem 格式
+     * @参数 privateKey 私钥文件路径。
      */
     public init(privateKey: String)
 
@@ -1731,8 +1763,7 @@ public interface TokenExtractor<T> where T <: Token {
 /**
  * 抽象类 AbstractJsonExtractor，用于获取响应中的参数值。
  */
-public abstract class AbstractJsonExtractor {
-}
+public abstract class AbstractJsonExtractor 
 ```
 
 ###### 1.5.1.3 AbstractOAuth1JSONTokenExtractor 类
@@ -1748,6 +1779,8 @@ public abstract class AbstractOAuth1JSONTokenExtractor<T> <: TokenExtractor<T> w
      * @参数 response 从响应中获取令牌
      * @返回值 T 特定类型的 Token
      * @异常 IOException 从响应中检索正文失败时抛出
+     * @异常 IllegalArgumentException 响应体为空时抛出
+     * @异常 OAuth4cjException 响应正文不正确时抛出
      */
     public func extract(response: OAuth4cjResponse): T
 }
@@ -1768,6 +1801,8 @@ public abstract class AbstractOAuth1TokenExtractor<T> <: TokenExtractor<T> where
      * @参数 response 从响应中获取令牌
      * @返回值 T 特定类型的 Token
      * @异常 IOException 从响应中检索正文失败时抛出
+     * @异常 IllegalArgumentException 响应体为空时抛出
+     * @异常 OAuth4cjException 响应正文不正确时抛出
      */
     public func extract(response: OAuth4cjResponse): T
 }
@@ -1802,6 +1837,7 @@ public class BaseStringExtractorImpl <: BaseStringExtractor {
      *
      * @参数 request OAuth4cjRequest 类型
      * @返回值 String url 编码的基本字符串
+     * @异常 OAuth4cjParametersMissingException 从响应主体中无法获取到参数时抛出
      */
     public func extract(request: OAuth4cjRequest): String
 }
@@ -1829,6 +1865,8 @@ public class DeviceAuthorizationJsonExtractor <: AbstractJsonExtractor {
      * @参数 response 从此响应中获取消息
      * @返回值 DeviceAuthorization 返回生成的 DeviceAuthorization 实例。
      * @异常 IOException 如果在以字符串形式获取响应主体时发生错误，则会抛出 IOException。
+     * @异常 IllegalArgumentException 响应体为空时抛出
+     * @异常 OAuth2AccessTokenErrorResponseException 从响应主体中获取错误响应的字段信息，封装并抛出
      */
     public func extract(response: OAuth4cjResponse): DeviceAuthorization
 
@@ -1837,7 +1875,7 @@ public class DeviceAuthorizationJsonExtractor <: AbstractJsonExtractor {
      *
      * @参数 response 从此响应中获取错误消息
      * @异常 IOException 如果在以字符串形式获取响应主体时发生错误，则会抛出 IOException。
-     * @异常 OAuth2AccessTokenErrorResponse 从响应主体中获取错误响应的字段信息，封装并抛出 OAuth2AccessTokenErrorResponse。
+     * @异常 OAuth2AccessTokenErrorResponseException 从响应主体中获取错误响应的字段信息，封装并抛出
      */
     public func generateError(response: OAuth4cjResponse): Unit
 }
@@ -1872,6 +1910,7 @@ public class HeaderExtractorImpl <: HeaderExtractor {
      *
      * @参数 request 检查请求并生成标头
      * @返回值 String Http 标头
+     * @异常 OAuth4cjParametersMissingException 从响应主体中无法获取到参数时抛出
      */
     public func extract(request: OAuth4cjRequest): String
 }
@@ -1961,6 +2000,8 @@ public class OAuth2AccessTokenExtractor <: TokenExtractor<OAuth2AccessToken> {
      * @参数 response 从此响应中获取令牌
      * @返回值 OAuth2AccessToken Token 的子类型
      * @异常 IOException 从响应中检索正文失败时抛出
+     * @异常 IllegalArgumentException 响应体为空时抛出
+     * @异常 OAuth4cjException 获取响应失败、响应正文有误时抛出
      */
     public func extract(response: OAuth4cjResponse): OAuth2AccessToken
 }
@@ -1987,15 +2028,16 @@ public class OAuth2AccessTokenJsonExtractor <: AbstractJsonExtractor & TokenExtr
      * @参数 response 从响应中获取令牌
      * @返回值 OAuth2AccessToken Token 的子类型
      * @异常 IOException 从响应中检索正文失败时抛出
+     * @异常 IllegalArgumentException 响应体为空时抛出
      */
     public func extract(response: OAuth4cjResponse): OAuth2AccessToken
 
     /**
-     * 从响应主体中获取错误响应的字段信息，封装成一个 OAuth2AccessTokenErrorResponse 异常并抛出。
+     * 从响应主体中获取错误响应的字段信息，封装成一个 OAuth2AccessTokenErrorResponseException 异常并抛出。
      *
      * @参数 response 从此响应中获取错误消息
      * @异常 IOException 如果在以字符串形式获取响应主体时发生错误，则会抛出 IOException。
-     * @异常 OAuth2AccessTokenErrorResponse 从响应主体中获取错误响应的字段信息，封装并抛出 OAuth2AccessTokenErrorResponse。
+     * @异常 OAuth2AccessTokenErrorResponseException 从响应主体中获取错误响应的字段信息，封装并抛出 
      */
     public func generateError(response: OAuth4cjResponse): Unit
 }
@@ -2190,6 +2232,7 @@ public enum OAuth2Error {
      * 解析字符串生成OAuth2Error对象
      *
      * @返回值 OAuth2Error OAuth2Error对象
+     * @异常 IllegalArgumentException errorString字符串不在给定范围内时抛出
      */
     public static func parseFrom(errorString: String): OAuth2Error 
 
@@ -2213,7 +2256,7 @@ public class OAuth2RevokeTokenResponseConverter {
     public init()
     
     /**
-     * 检测响应是否成功，如果失败会根据错误信息抛出异常
+     * 检测响应是否成功，如果失败，可以提取响应中的错误信息进行处理
      * 
      * @参数 response 撤销操作响应信息
      */
@@ -2295,6 +2338,7 @@ public class ScopeBuilder {
      * 构造完整的范围字符串
      *
      * @返回值 String 完整的范围字符串
+     * @异常 IllegalArgumentException scope内容为空时抛出
      */
     public func build(): String
 }
@@ -2377,6 +2421,7 @@ public class ServiceBuilderOAuth10a <: ServiceBuilderCommon {
      * 构造函数
      *
      * @参数 apiKey apikey字符串
+     * @异常 IllegalArgumentException 如果字符串为空或者字符串中的字符是Unicode空白字符时抛出
      */
     public init(apiKey: String)
 
@@ -2393,6 +2438,7 @@ public class ServiceBuilderOAuth10a <: ServiceBuilderCommon {
      *
      * @参数 apiKey apikey字符串
      * @返回值 ServiceBuilderOAuth10a ServiceBuilderOAuth10a实例
+     * @异常 IllegalArgumentException 如果字符串为空或者字符串中的字符是Unicode空白字符时抛出
      */
     public func setApiKey(apiKey: String): ServiceBuilderOAuth10a
 
@@ -2401,6 +2447,7 @@ public class ServiceBuilderOAuth10a <: ServiceBuilderCommon {
      *
      * @参数 apiSecret apiSecret字符串
      * @返回值 ServiceBuilderOAuth10a ServiceBuilderOAuth10a实例
+     * @异常 IllegalArgumentException 如果字符串为空或者字符串中的字符是Unicode空白字符时抛出
      */
     public func setApiSecret(apiSecret: String): ServiceBuilderOAuth10a 
 
@@ -2416,6 +2463,7 @@ public class ServiceBuilderOAuth10a <: ServiceBuilderCommon {
      *
      * @参数 scope 范围字符串
      * @返回值 ServiceBuilderOAuth10a ServiceBuilderOAuth10a实例
+     * @异常 IllegalArgumentException 如果字符串为空或者字符串中的字符是Unicode空白字符时抛出
      */
     public func withScope(scope: String): ServiceBuilderOAuth10a 
 
@@ -2424,6 +2472,7 @@ public class ServiceBuilderOAuth10a <: ServiceBuilderCommon {
      *
      * @参数 httpClientConfig Http客户端配置实例
      * @返回值 ServiceBuilderOAuth10a ServiceBuilderOAuth10a实例
+     * @异常 IllegalArgumentException httpClientConfig为空时抛出
      */
     public func setHttpClientConfig(httpClientConfig: Option<HttpClientConfig>): ServiceBuilderOAuth10a 
 
@@ -2478,6 +2527,7 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
      * 构造函数
      *
      * @参数 apiKey apikey字符串
+     * @异常 IllegalArgumentException 如果字符串为空或者字符串中的字符是Unicode空白字符时抛出
      */
     public init(apiKey: String) {
         setApiKey(apiKey)
@@ -2496,6 +2546,7 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
      *
      * @参数 apiKey 应用程序的api密钥
      * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     * @异常 IllegalArgumentException 如果字符串为空或者字符串中的字符是Unicode空白字符时抛出
      */
     public func setApiKey(apiKey: String): ServiceBuilderOAuth20 
 
@@ -2504,6 +2555,7 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
      *
      * @参数 apiSecret 应用程序的api密码
      * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     * @异常 IllegalArgumentException 如果字符串为空或者字符串中的字符是Unicode空白字符时抛出
      */
     public func setApiSecret(apiSecret: String): ServiceBuilderOAuth20 
 
@@ -2519,6 +2571,7 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
      *
      * @参数 defaultScope OAuth作用域，用作默认作用域
      * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     * @异常 IllegalArgumentException 如果字符串为空或者字符串中的字符是Unicode空白字符时抛出
      */
     public func setDefaultScope(defaultScope: String): ServiceBuilderOAuth20
 
@@ -2535,6 +2588,7 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
      *
      * @参数 responseType 响应类型
      * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     * @异常 IllegalArgumentException 如果字符串为空或者字符串中的字符是Unicode空白字符时抛出
      */
     public func setResponseType(responseType: String): ServiceBuilderOAuth20
 
@@ -2543,6 +2597,7 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
      *
      * @参数 httpClientConfig Http客户端配置实例
      * @返回值 ServiceBuilderOAuth20 ServiceBuilderOAuth20实例
+     * @异常 IllegalArgumentException httpClientConfig为空时抛出
      */
     public func setHttpClientConfig(httpClientConfig: Option<HttpClientConfig>): ServiceBuilderOAuth20 
 
@@ -2589,9 +2644,7 @@ public class ServiceBuilderOAuth20 <: ServiceBuilderCommon {
 
 ```
 
-###### ~~1.6.1.10 service构造器~~
-
-###### 1.6.1.11 AccessTokenRequestParams
+###### 1.6.1.10 AccessTokenRequestParams
 ```cangjie
 public class AccessTokenRequestParams {
     /**
@@ -2630,6 +2683,7 @@ public class AccessTokenRequestParams {
      *
      * @参数 scope ScopeBuilder对象
      * @返回值 AccessTokenRequestParams AccessTokenRequestParams对象
+     * @异常 IllegalArgumentException 如果字符串为空或者字符串中的字符是Unicode空白字符时抛出
      */
     public func setScope(scope: ScopeBuilder): AccessTokenRequestParams 
 
@@ -2688,7 +2742,7 @@ public class AccessTokenRequestParams {
 }
 ```
 
-###### 1.6.1.12 授权Url构造器
+###### 1.6.1.11 授权Url构造器
 ```cangjie
 public class AuthorizationUrlBuilder {
     /**
@@ -2955,7 +3009,7 @@ public abstract class DefaultApi20 {
      * 返回OAuth 2.0 令牌撤销端点
      *
      * @返回值 String 令牌撤销端点，允许客户端通知授权服务器不再需要以前获得的刷新或访问令牌
-     * @异常 IllegalArgumentException API不支持撤销令牌时抛出，默认不支持，子类实现时可以覆写该方法
+     * @异常 IllegalArgumentException API不支持撤销令牌或者没有获取到相关信息时抛出，默认不支持，子类实现时可以覆写该方法
      */
     public open func getRevokeTokenEndpoint(): String
 
@@ -3011,7 +3065,7 @@ public abstract class DefaultApi20 {
      * 返回OAuth 2.0设备授权端点
      *
      * @返回值 String 设备授权端点
-     * @异常 IllegalArgumentException API不支持设备授权时抛出，默认不支持，子类实现时可以覆写该方法
+     * @异常 IllegalArgumentException API不支持设备授权或者没有获取到相关信息时抛出，默认不支持，子类实现时可以覆写该方法
      */
     public open func getDeviceAuthorizationEndpoint(): String 
 
@@ -3148,7 +3202,7 @@ public class OAuth10aService <: OAuthService {
      * 获取OAuth1RequestToken对象
      *
      * @返回值 OAuth1RequestToken OAuth1RequestToken 对象
-     * @异常 OAuth4cjException 如果请求过程中发生异常，抛出OAuth4cjException
+     * @异常 OAuth4cjException 如果请求过程中发生异常时抛出
      */
     public func getRequestToken(): OAuth1RequestToken
 
@@ -3156,6 +3210,7 @@ public class OAuth10aService <: OAuthService {
      * 异步获取OAuth1RequestToken实例
      *
      * @返回值 Future<OAuth1RequestToken> Future格式的OAuth1RequestToken实例
+     * @异常 OAuth4cjException 从响应信息中解析OAuth1RequestToken失败时抛出
      */
     public func getRequestTokenAsync(): Future<OAuth1RequestToken>
 
@@ -3164,6 +3219,7 @@ public class OAuth10aService <: OAuthService {
      *
      * @参数 callback OAuthAsyncRequestCallback异步请求回调对象
      * @返回值 Future<OAuth1RequestToken> Future格式的OAuth1RequestToken实例
+     * @异常 OAuth4cjException 从响应信息中解析OAuth1RequestToken失败时抛出
      */
     public func getRequestTokenAsync(callback: Option<OAuthAsyncRequestCallback>): Future<OAuth1RequestToken>
 
@@ -3173,6 +3229,7 @@ public class OAuth10aService <: OAuthService {
      * @参数 requestToken OAuth1RequestToken对象
      * @参数 oauthVerifier Oauth验证器
      * @返回值 OAuth1AccessToken OAuth1AccessToken对象
+     * @异常 OAuth4cjException 如果请求过程中发生异常时抛出
      */
     public func getAccessToken(requestToken: OAuth1RequestToken, oauthVerifier: String): OAuth1AccessToken
 
@@ -3182,6 +3239,7 @@ public class OAuth10aService <: OAuthService {
      * @参数 requestToken OAuth1RequestToken对象
      * @参数 oauthVerifier Oauth验证器
      * @返回值 Future<OAuth1AccessToken> Future格式的OAuth1AccessToken实例
+     * @异常 OAuth4cjException 如果请求过程中发生异常，抛出OAuth4cjException
      */
     public func getAccessTokenAsync(requestToken: OAuth1RequestToken, oauthVerifier: String): 
         Future<OAuth1AccessToken>
@@ -3193,6 +3251,7 @@ public class OAuth10aService <: OAuthService {
      * @参数 oauthVerifier Oauth验证器
      * @参数 callback OAuthAsyncRequestCallback异步请求回调对象
      * @返回值 Future<OAuth1AccessToken> Future格式的OAuth1AccessToken实例
+     * @异常 OAuth4cjException 从响应信息中解析OAuth1AccessToken失败时抛出
      */
     public func getAccessTokenAsync(requestToken: OAuth1RequestToken, oauthVerifier: String,
         callback: Option<OAuthAsyncRequestCallback>): Future<OAuth1AccessToken>
@@ -3202,6 +3261,8 @@ public class OAuth10aService <: OAuthService {
      *
      * @参数 token OAuth1AccessToken对象
      * @参数 request OAuth4cjRequest请求对象
+     * @异常 OAuth4cjParametersMissingException OAuth4cjRequest的请求头信息为空时抛出
+     * @异常 OAuth4cjSignatureException 签名失败时抛出
      */
     public func signRequest(token: OAuth1AccessToken, request: OAuth4cjRequest): Unit
     
@@ -3320,6 +3381,7 @@ public class OAuth20Service <: OAuthService {
      * 
      * @参数 redirectLocation - String 数据类型, 重定向位置。
      * @返回值 OAuth2Authorization - OAuth2 授权。
+     * @异常 OAuth4cjException 解码失败时抛出
      */
     public func extractAuthorization(redirectLocation: String): OAuth2Authorization
     
@@ -3342,6 +3404,7 @@ public class OAuth20Service <: OAuthService {
      * 
      * @参数 code - String 数据类型, 授权码。
      * @返回值 Future<OAuth2AccessToken> - 执行异步获取 OAuth2 访问令牌后的返回值。
+     * @异常 OAuth4cjException 从响应中解析OAuth2AccessToken失败时抛出
      */
     public func getAccessTokenAsync(code: String): Future<OAuth2AccessToken>
     
@@ -3350,6 +3413,7 @@ public class OAuth20Service <: OAuthService {
      * 
      * @参数 params - AccessTokenRequestParams 数据类型, 访问令牌请求参数。
      * @返回值 Future<OAuth2AccessToken> - 执行异步获取 OAuth2 访问令牌后的返回值。
+     * @异常 OAuth4cjException 从响应中解析OAuth2AccessToken失败时抛出
      */
     public func getAccessTokenAsync(params: AccessTokenRequestParams): Future<OAuth2AccessToken>
     
@@ -3358,6 +3422,9 @@ public class OAuth20Service <: OAuthService {
      * 
      * @参数 code - String 数据类型, 授权码。
      * @返回值 OAuth2AccessToken - OAuth2 访问令牌。
+     * @异常 IOException 在获取字符串形式的响应正文时发生错误会抛出
+     * @异常 OAuth2AccessTokenErrorResponseException 从响应体中获取错误响应的字段信息，封装并抛出
+     * @异常 IllegalArgumentException 响应体为空时抛出
      */
     public func getAccessToken(code: String): OAuth2AccessToken
     
@@ -3366,6 +3433,9 @@ public class OAuth20Service <: OAuthService {
      * 
      * @参数 params - AccessTokenRequestParams 数据类型, 访问令牌请求参数。
      * @返回值 OAuth2AccessToken - OAuth2 访问令牌。
+     * @异常 IOException 在获取字符串形式的响应正文时发生错误会抛出
+     * @异常 OAuth2AccessTokenErrorResponseException 从响应体中获取错误响应的字段信息，封装并抛出 
+     * @异常 IllegalArgumentException 响应体为空时抛出
      */
     public func getAccessToken(params: AccessTokenRequestParams): OAuth2AccessToken
     
@@ -3376,6 +3446,7 @@ public class OAuth20Service <: OAuthService {
      * @参数 params - AccessTokenRequestParams 数据类型, 访问令牌请求参数。
      * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
      * @返回值 Future<OAuth2AccessToken> - 执行异步获取 OAuth2 访问令牌后的返回值。
+     * @异常 OAuth4cjException 从响应中解析OAuth2AccessToken失败时抛出
      */
     public func getAccessToken(params: AccessTokenRequestParams, callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken>
     
@@ -3386,6 +3457,7 @@ public class OAuth20Service <: OAuthService {
      * @参数 code - String 数据类型, 授权码。
      * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
      * @返回值 Future<OAuth2AccessToken> - 执行异步获取 OAuth2 访问令牌后的返回值。
+     * @异常 OAuth4cjException 从响应中解析OAuth2AccessToken失败时抛出
      */
     public func getAccessToken(code: String, callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken>
     
@@ -3394,6 +3466,7 @@ public class OAuth20Service <: OAuthService {
      * 
      * @参数 refreshToken - String 数据类型, 刷新令牌。
      * @返回值 Future<OAuth2AccessToken> - 执行异步获取刷新令牌后的返回值。
+     * @异常 OAuth4cjException 从响应中解析OAuth2AccessToken失败时抛出
      */
     public func refreshAccessTokenAsync(refreshToken: String): Future<OAuth2AccessToken>
     
@@ -3403,6 +3476,7 @@ public class OAuth20Service <: OAuthService {
      * @参数 refreshToken - String 数据类型, 刷新令牌。
      * @参数 scope - String 数据类型, 作用域。
      * @返回值 Future<OAuth2AccessToken> - 执行异步获取刷新令牌后的返回值。
+     * @异常 OAuth4cjException 从响应中解析OAuth2AccessToken失败时抛出
      */
     public func refreshAccessTokenAsync(refreshToken: String, scope: String): Future<OAuth2AccessToken>
     
@@ -3411,6 +3485,9 @@ public class OAuth20Service <: OAuthService {
      * 
      * @参数 refreshToken - String 数据类型, 刷新令牌。
      * @返回值 OAuth2AccessToken - 刷新令牌。
+     * @异常 IOException 在获取字符串形式的响应正文时发生错误会抛出
+     * @异常 OAuth2AccessTokenErrorResponseException 从响应体中获取错误响应的字段信息，封装并抛出 
+     * @异常 IllegalArgumentException 响应体为空时抛出
      */
     public func refreshAccessToken(refreshToken: String): OAuth2AccessToken
     
@@ -3420,6 +3497,9 @@ public class OAuth20Service <: OAuthService {
      * @参数 refreshToken - String 数据类型, 刷新令牌。
      * @参数 scope - String 数据类型, 作用域。
      * @返回值 OAuth2AccessToken - 刷新令牌。
+     * @异常 IOException 在获取字符串形式的响应正文时发生错误会抛出
+     * @异常 OAuth2AccessTokenErrorResponseException 从响应体中获取错误响应的字段信息，封装并抛出 
+     * @异常 IllegalArgumentException 响应体为空时抛出
      */
     public func refreshAccessToken(refreshToken: String, scope: String): OAuth2AccessToken
     
@@ -3429,6 +3509,7 @@ public class OAuth20Service <: OAuthService {
      * @参数 refreshToken - String 数据类型, 刷新令牌。
      * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
      * @返回值 Future<OAuth2AccessToken> - 执行异步获取刷新令牌后的返回值。
+     * @异常 OAuth4cjException 从响应中解析OAuth2AccessToken失败时抛出
      */
     public func refreshAccessToken(refreshToken: String, callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken>
     
@@ -3439,6 +3520,7 @@ public class OAuth20Service <: OAuthService {
      * @参数 scope - String 数据类型, 作用域。
      * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
      * @返回值 Future<OAuth2AccessToken> - 执行异步获取刷新令牌后的返回值。
+     * @异常 OAuth4cjException 从响应中解析OAuth2AccessToken失败时抛出
      */
     public func refreshAccessToken(refreshToken: String, scope: String, callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken>
     
@@ -3448,6 +3530,9 @@ public class OAuth20Service <: OAuthService {
      * @参数 username - String 数据类型, 用户名。
      * @参数 password - String 数据类型, 密码。
      * @返回值 OAuth2AccessToken - OAuth2 访问令牌。
+     * @异常 IOException 在获取字符串形式的响应正文时发生错误会抛出
+     * @异常 OAuth2AccessTokenErrorResponseException 从响应体中获取错误响应的字段信息，封装并抛出 
+     * @异常 IllegalArgumentException 响应体为空时抛出
      */
     public func getAccessTokenPasswordGrant(username: String, password: String): OAuth2AccessToken
     
@@ -3458,6 +3543,9 @@ public class OAuth20Service <: OAuthService {
      * @参数 password - String 数据类型, 密码。
      * @参数 scope - String 数据类型, 作用域。
      * @返回值 OAuth2AccessToken - OAuth2 访问令牌。
+     * @异常 IOException 在获取字符串形式的响应正文时发生错误会抛出
+     * @异常 OAuth2AccessTokenErrorResponseException 从响应体中获取错误响应的字段信息，封装并抛出 
+     * @异常 IllegalArgumentException 响应体为空时抛出
      */
     public func getAccessTokenPasswordGrant(username: String, password: String, scope: String): OAuth2AccessToken
     
@@ -3467,6 +3555,7 @@ public class OAuth20Service <: OAuthService {
      * @参数 username - String 数据类型, 用户名。
      * @参数 password - String 数据类型, 密码。
      * @返回值 Future<OAuth2AccessToken> - 执行异步调用密码授权模式获取 OAuth2 访问令牌后的返回值。
+     * @异常 OAuth4cjException 从响应中解析OAuth2AccessToken失败时抛出
      */
     public func getAccessTokenPasswordGrantAsync(username: String, password: String): Future<OAuth2AccessToken>
     
@@ -3477,6 +3566,7 @@ public class OAuth20Service <: OAuthService {
      * @参数 password - String 数据类型, 密码。
      * @参数 scope - String 数据类型, 作用域。
      * @返回值 Future<OAuth2AccessToken> - 执行异步调用密码授权模式获取 OAuth2 访问令牌后的返回值。
+     * @异常 OAuth4cjException 从响应中解析OAuth2AccessToken失败时抛出
      */
     public func getAccessTokenPasswordGrantAsync(username: String, password: String, scope: String): Future<OAuth2AccessToken>
     
@@ -3487,6 +3577,7 @@ public class OAuth20Service <: OAuthService {
      * @参数 password - String 数据类型, 密码。
      * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
      * @返回值 Future<OAuth2AccessToken> - 执行异步调用密码授权模式获取 OAuth2 访问令牌后的返回值。
+     * @异常 OAuth4cjException 从响应中解析OAuth2AccessToken失败时抛出
      */
     public func getAccessTokenPasswordGrantAsync(username: String, password: String, 
         callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken>
@@ -3499,6 +3590,7 @@ public class OAuth20Service <: OAuthService {
      * @参数 scope - String 数据类型, 作用域。
      * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
      * @返回值 Future<OAuth2AccessToken> - 执行异步调用密码授权模式获取 OAuth2 访问令牌后的返回值。
+     * @异常 OAuth4cjException 从响应中解析OAuth2AccessToken失败时抛出
      */
     public func getAccessTokenPasswordGrantAsync(username: String, password: String, scope: String, 
         callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken>
@@ -3507,6 +3599,7 @@ public class OAuth20Service <: OAuthService {
      * 异步调用客户端模式获取 OAuth2 访问令牌。
      * 
      * @返回值 Future<OAuth2AccessToken> - 返回异步调用的结果。
+     * @异常 OAuth4cjException 从响应中解析OAuth2AccessToken失败时抛出
      */
     public func getAccessTokenClientCredentialsGrantAsync(): Future<OAuth2AccessToken>
     
@@ -3515,6 +3608,7 @@ public class OAuth20Service <: OAuthService {
      * 
      * @参数 scope - String 数据类型, 作用域。
      * @返回值 Future<OAuth2AccessToken> - 返回异步调用的结果。
+     * @异常 OAuth4cjException 从响应中解析OAuth2AccessToken失败时抛出
      */
     public func getAccessTokenClientCredentialsGrantAsync(scope: String): Future<OAuth2AccessToken>
     
@@ -3522,6 +3616,9 @@ public class OAuth20Service <: OAuthService {
      * 调用客户端模式获取 OAuth2 访问令牌。
      * 
      * @返回值 OAuth2AccessToken - OAuth2 访问令牌。
+     * @异常 IOException 在获取字符串形式的响应正文时发生错误会抛出
+     * @异常 OAuth2AccessTokenErrorResponseException 从响应体中获取错误响应的字段信息，封装并抛出 
+     * @异常 IllegalArgumentException 响应体为空时抛出
      */
     public func getAccessTokenClientCredentialsGrant(): OAuth2AccessToken
     
@@ -3530,6 +3627,9 @@ public class OAuth20Service <: OAuthService {
      * 
      * @参数 scope - String 数据类型, 作用域。
      * @返回值 OAuth2AccessToken - OAuth2 访问令牌。
+     * @异常 IOException 在获取字符串形式的响应正文时发生错误会抛出
+     * @异常 OAuth2AccessTokenErrorResponseException 从响应体中获取错误响应的字段信息，封装并抛出 
+     * @异常 IllegalArgumentException 响应体为空时抛出
      */
     public func getAccessTokenClientCredentialsGrant(scope: String): OAuth2AccessToken
     
@@ -3539,6 +3639,7 @@ public class OAuth20Service <: OAuthService {
      * 
      * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
      * @返回值 Future<OAuth2AccessToken> - 返回异步调用的结果。
+     * @异常 OAuth4cjException 从响应中解析OAuth2AccessToken失败时抛出
      */
     public func getAccessTokenClientCredentialsGrant(callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken>
     
@@ -3549,6 +3650,7 @@ public class OAuth20Service <: OAuthService {
      * @参数 scope - String 数据类型, 作用域。
      * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
      * @返回值 Future<OAuth2AccessToken> - 返回异步调用的结果。
+     * @异常 OAuth4cjException 从响应中解析OAuth2AccessToken失败时抛出
      */
     public func getAccessTokenClientCredentialsGrant(scope: String, callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken>
     
@@ -3557,6 +3659,7 @@ public class OAuth20Service <: OAuthService {
      * 
      * @参数 tokenToRevoke - String 数据类型, 撤消令牌。
      * @返回值 Future<Unit> - 返回异步调用的结果。
+     * @异常 OAuth4cjException 撤销失败或出现异常时抛出
      */
     public func revokeTokenAsync(tokenToRevoke: String): Future<Unit>
     
@@ -3566,6 +3669,7 @@ public class OAuth20Service <: OAuthService {
      * @参数 tokenToRevoke - String 数据类型, 撤消令牌。
      * @参数 tokenTypeHint - Option<TokenTypeHint> 数据类型, 要撤销的令牌类型。
      * @返回值 Future<Unit> - 返回异步调用的结果。
+     * @异常 OAuth4cjException 撤销失败或出现异常时抛出
      */
     public func revokeTokenAsync(tokenToRevoke: String, tokenTypeHint: Option<TokenTypeHint>): Future<Unit>
     
@@ -3573,6 +3677,7 @@ public class OAuth20Service <: OAuthService {
      * 撤消令牌。
      * 
      * @参数 tokenToRevoke - String 数据类型, 撤消令牌。
+     * @异常 OAuth2AccessTokenErrorResponseException 从响应体中获取错误响应的字段信息，封装并抛出
      */
     public func revokeToken(tokenToRevoke: String): Unit
     
@@ -3581,6 +3686,7 @@ public class OAuth20Service <: OAuthService {
      * 
      * @参数 tokenToRevoke - String 数据类型, 撤消令牌。
      * @参数 tokenTypeHint - Option<TokenTypeHint> 数据类型, 要撤销的令牌类型。
+     * @异常 OAuth2AccessTokenErrorResponseException 从响应体中获取错误响应的字段信息，封装并抛出
      */
     public func revokeToken(tokenToRevoke: String, tokenTypeHint: Option<TokenTypeHint>): Unit
     
@@ -3590,6 +3696,7 @@ public class OAuth20Service <: OAuthService {
      * @参数 tokenToRevoke - String 数据类型, 撤消令牌。
      * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
      * @返回值 Future<Unit> - 返回异步调用的结果。
+     * @异常 OAuth4cjException 撤销失败或出现异常时抛出
      */
     public func revokeToken(tokenToRevoke: String, callback: Option<OAuthAsyncRequestCallback>): Future<Unit>
     
@@ -3600,6 +3707,7 @@ public class OAuth20Service <: OAuthService {
      * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
      * @参数 tokenTypeHint - Option<TokenTypeHint> 数据类型, 要撤销的令牌类型。
      * @返回值 Future<Unit> - 返回异步调用的结果。
+     * @异常 OAuth4cjException 撤销失败或出现异常时抛出
      */
     public func revokeToken(tokenToRevoke: String, callback: Option<OAuthAsyncRequestCallback>, tokenTypeHint: Option<TokenTypeHint>): Future<Unit>
     
@@ -3607,6 +3715,9 @@ public class OAuth20Service <: OAuthService {
      * 获取设备授权响应。
      * 
      * @返回值 DeviceAuthorization - 设备授权响应。
+     * @异常 IOException 在获取字符串形式的响应正文时发生错误会抛出
+     * @异常 OAuth4cjException 获取设备授权失败或出现异常时抛出
+     * @异常 OAuth2AccessTokenErrorResponseException 从响应体中获取错误响应的字段信息，封装并抛出
      */
     public func getDeviceAuthorizationCodes(): DeviceAuthorization
     
@@ -3615,6 +3726,9 @@ public class OAuth20Service <: OAuthService {
      * 
      * @参数 scope - Option<String> 数据类型, 作用域。
      * @返回值 DeviceAuthorization - 设备授权响应。
+     * @异常 IOException 在获取字符串形式的响应正文时发生错误会抛出
+     * @异常 OAuth4cjException 获取设备授权失败或出现异常时抛出
+     * @异常 OAuth2AccessTokenErrorResponseException 从响应体中获取错误响应的字段信息，封装并抛出
      */
     public func getDeviceAuthorizationCodes(scope: Option<String>): DeviceAuthorization
     
@@ -3623,6 +3737,7 @@ public class OAuth20Service <: OAuthService {
      * 
      * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
      * @返回值 Future<DeviceAuthorization> - 返回异步调用的结果。
+     * @异常 OAuth4cjException 获取设备授权失败或出现异常时抛出
      */
     public func getDeviceAuthorizationCodes(callback: Option<OAuthAsyncRequestCallback>): Future<DeviceAuthorization>
     
@@ -3632,6 +3747,7 @@ public class OAuth20Service <: OAuthService {
      * @参数 scope - Option<String> 数据类型, 作用域。
      * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
      * @返回值 Future<DeviceAuthorization> - 返回异步调用的结果。
+     * @异常 OAuth4cjException 获取设备授权失败或出现异常时抛出
      */
     public func getDeviceAuthorizationCodes(scope: Option<String>, callback: Option<OAuthAsyncRequestCallback>): Future<DeviceAuthorization>
     
@@ -3639,6 +3755,7 @@ public class OAuth20Service <: OAuthService {
      * 异步执行获取设备授权响应。
      * 
      * @返回值 Future<DeviceAuthorization> - 返回异步调用的结果。
+     * @异常 OAuth4cjException 获取设备授权失败或出现异常时抛出
      */
     public func getDeviceAuthorizationCodesAsync(): Future<DeviceAuthorization>
     
@@ -3647,6 +3764,7 @@ public class OAuth20Service <: OAuthService {
      * 
      * @参数 scope - Option<String> 数据类型, 作用域。
      * @返回值 Future<DeviceAuthorization> - 返回异步调用的结果。
+     * @异常 OAuth4cjException 获取设备授权失败或出现异常时抛出
      */
     public func getDeviceAuthorizationCodesAsync(scope: Option<String>): Future<DeviceAuthorization>
     
@@ -3655,6 +3773,9 @@ public class OAuth20Service <: OAuthService {
      * 
      * @参数 deviceAuthorization - DeviceAuthorization 数据类型, 设备授权响应。
      * @返回值 OAuth2AccessToken - OAuth2 访问令牌。
+     * @异常 IOException 在获取字符串形式的响应正文时发生错误会抛出
+     * @异常 OAuth4cjException 获取OAuth2访问令牌失败或出现异常时抛出
+     * @异常 OAuth2AccessTokenErrorResponseException 从响应体中获取错误响应的字段信息，封装并抛出
      */
     public func getAccessTokenDeviceAuthorizationGrant(deviceAuthorization: DeviceAuthorization): OAuth2AccessToken
     
@@ -3664,6 +3785,7 @@ public class OAuth20Service <: OAuthService {
      * @参数 deviceAuthorization - DeviceAuthorization 数据类型, 设备授权响应。
      * @参数 callback - Option<OAuthAsyncRequestCallback> 数据类型, OAuth 异步请求回调。
      * @返回值 Future<OAuth2AccessToken> - 返回异步调用的结果。
+     * @异常 OAuth4cjException 获取OAuth2访问令牌失败或出现异常时抛出
      */
     public func getAccessTokenDeviceAuthorizationGrant(deviceAuthorization: DeviceAuthorization, callback: Option<OAuthAsyncRequestCallback>): Future<OAuth2AccessToken>
     
@@ -3672,6 +3794,7 @@ public class OAuth20Service <: OAuthService {
      * 
      * @参数 deviceAuthorization - DeviceAuthorization 数据类型, 设备授权响应。
      * @返回值 Future<OAuth2AccessToken> - 返回异步调用的结果。
+     * @异常 OAuth4cjException 获取OAuth2访问令牌失败或出现异常时抛出
      */
     public func getAccessTokenDeviceAuthorizationGrantAsync(deviceAuthorization: DeviceAuthorization): Future<OAuth2AccessToken>
     
@@ -3680,6 +3803,8 @@ public class OAuth20Service <: OAuthService {
      * 
      * @参数 deviceAuthorization - DeviceAuthorization 数据类型, 设备授权响应。
      * @返回值 OAuth2AccessToken - OAuth2 访问令牌。
+     * @异常 OAuth4cjException 获取OAuth2访问令牌失败或出现异常时抛出
+     * @异常 OAuth2AccessTokenErrorResponseException 从响应体中获取错误响应的字段信息，封装并抛出
      */
     public func pollAccessTokenDeviceAuthorizationGrant(deviceAuthorization: DeviceAuthorization): OAuth2AccessToken
 }
@@ -4157,6 +4282,7 @@ public class MultipartPayload<: BodyPartPayload {
      * 根据参数创建一个 MultipartPayload 实例。
      * 
      * @参数 boundary - String 数据类型，边界字符串，作为分隔符区分multipart类型请求体中的不同部份。
+     * @异常 IllegalArgumentException boundry为空或不符合规范时抛出
      */
     public init (boundary: String)
     
@@ -4165,6 +4291,7 @@ public class MultipartPayload<: BodyPartPayload {
      * 
      * @参数 subtype - String 数据类型
      * @参数 boundary - String 数据类型，边界字符串。
+     * @异常 IllegalArgumentException boundry为空或不符合规范时抛出
      */
     public init (subtype: String, boundary: String)
     
@@ -4180,6 +4307,7 @@ public class MultipartPayload<: BodyPartPayload {
      * 
      * @参数 boundary - String 数据类型，边界字符串。
      * @参数 headers - HashMap<String, String> 数据类型
+     * @异常 IllegalArgumentException boundry为空或不符合规范时抛出
      */
     public init (boundary: String, headers: HashMap<String,String>)
     
@@ -4189,6 +4317,7 @@ public class MultipartPayload<: BodyPartPayload {
      * @参数 subtype - String 数据类型，multipart 类型(默认是 form-data)。
      * @参数 boundary - String 数据类型，边界字符串。
      * @参数 headers - HashMap<String, String> 数据类型，请求头。
+     * @异常 IllegalArgumentException boundry为空或不符合规范时抛出
      */
     public init (subtype: String, boundary: String, headers: HashMap<String,String>)
     
@@ -4203,6 +4332,7 @@ public class MultipartPayload<: BodyPartPayload {
      * 将 multipartPayload 添加到 MultipartPayload 中。
      * 
      * @参数 multipartPayload - MultipartPayload 数据类型
+     * @异常 IllegalArgumentException 入参的boundary值和当前boundary值相同时抛出
      */
     public func addBodyPart(multipartPayload: MultipartPayload): Unit
     
@@ -4261,6 +4391,7 @@ public class MultipartUtils {
      * 检查字符串 boundary 是否具有无效语法。
      *
      * @参数 boundary - String 数据类型，要检查字符串。
+     * @异常 IllegalArgumentException boundry为空或不符合规范时抛出
      */
     public static func checkBoundarySyntax(boundary: String): Unit
     
@@ -4285,6 +4416,7 @@ public class MultipartUtils {
      * 
      * @参数 multipartPayload - MultipartPayload 数据类型，要处理的 MultipartPayload
      * @返回值 ByteArrayStream - ByteArrayStream 数据类型，处理后封装的数据流。
+     * @异常 OAuth4cjException 入参的内容不符合MultipartPayload也不符合ByteArrayBodyPartPayload格式时抛出
      */
     public static func getPayload (multipartPayload: MultipartPayload): ByteArrayStream
 }
@@ -4603,6 +4735,13 @@ public open class OAuth4cjException <: Exception {
      * @参数 string - String 数据类型, 异常提示信息。
      */
     public init(string: String)
+    
+    /**
+     * 覆写toString方法 
+     *
+     * @return String 异常信息
+     */
+    public open func toString(): String 
 }
 ```
 
@@ -4622,6 +4761,13 @@ public open class OAuth4cjParametersMissingException <: OAuth4cjException {
      * @参数 string - String 数据类型, 异常提示信息。
      */
     public init(string: String)
+    
+    /**
+     * 覆写toString方法 
+     *
+     * @return String 异常信息
+     */
+    public open func toString(): String 
 }
 ```
 
@@ -4641,6 +4787,13 @@ public open class OAuth4cjSignatureException <: OAuth4cjException {
      * @参数 string - String 数据类型, 异常提示信息。
      */
     public init(string: String)
+    
+    /**
+     * 覆写toString方法 
+     *
+     * @return String 异常信息
+     */
+    public open func toString(): String
 }
 ```
 
@@ -4656,10 +4809,10 @@ main (){
     if(!ose.message.contains("")){
         return 1
     }
-    if(!ose2.message.contains("Error while signing string: ceshi-1")){
+    if(!ose2.message.contains("Error while signing string.ceshi-1")){
         return 2
     }
-    println(ose2.message.contains("Error while signing string: ceshi-1"))
+    println(ose2.message.contains("Error while signing string.ceshi-1"))
     let ope: OAuth4cjParametersMissingException = OAuth4cjParametersMissingException()
     let ope2: OAuth4cjException = OAuth4cjParametersMissingException("ceshi-2")
     if(!ope.message.contains("")){
@@ -4778,7 +4931,8 @@ public class PKCEService {
     /**
      * 根据参数创建一个 PKCEService 实例。
      *
-     * @参数 numberOFOctets Int32类型数据
+     * @参数 numberOFOctets Int32类型数据 
+     * @异常 OAuth4cjException 入参为负数时抛出
      */
     public init(numberOFOctets: Int32)
 
@@ -4803,9 +4957,7 @@ public class PKCEService {
 
     /**
      * 根据参数生成一个新的 PKCE 实例。
-     * 参数 randomBytes 处理后，将确定并赋值给 code_challenge, code_challenge_method 和 code_verifier。
-     *
-     * @参数 randomBytes 处理后，将确定并赋值给 code_challenge, code_challenge_method 和 code_verifier
+     * @参数 randomBytes 用于生成PKCE实例的随机数组，经处理后赋值给 code_challenge, code_challenge_method 和 code_verifier。
      * @返回值 PKCE 生成的 PKCE 实例。
      */
     public func generatePKCE(randomBytes: Array<UInt8>): PKCE

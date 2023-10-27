@@ -16,7 +16,7 @@ public class TestRFC5849{
             rsss.getSignature("baseString","apiSecret","tokenSecret")
         }catch(e:Exception){
             println(e.message)
-            if(e.toString().contains("Error while signing string: "+"baseString: "+"The file does not exist")){
+            if(e.toString().contains("Error while signing string.The file does not exist")){
                 flag=0
             }
 
@@ -52,7 +52,7 @@ public class TestRFC5849{
         try{
             rsss.getSignature("baseString","apiSecret","tokenSecret")
         }catch(e:Exception){
-            if(e.toString().contains("Error while signing string: "+"baseString: "+"The file does not exist")){
+            if(e.toString().contains("Error while signing string.The file does not exist")){
                 flag=0
             }
 
@@ -71,7 +71,7 @@ public class TestRFC5849{
         try{
             rsss.getSignature("baseString","apiSecret","tokenSecret")
         }catch(e:Exception){
-            if(e.toString().contains("Error while signing string: "+"baseString: "+"Illegal RSA Private key")){
+            if(e.toString().contains("Error while signing string.Illegal RSA Private key")){
                 flag=0
             }
         }
@@ -106,7 +106,7 @@ public class TestRFC5849{
         try{
             rsss.getSignature("baseString","apiSecret","tokenSecret")
         }catch(e:Exception){
-            if(e.toString().contains("Error while signing string: "+"baseString: "+"Illegal RSA Private key")){
+            if(e.toString().contains("Error while signing string.Illegal RSA Private key")){
                 flag=0
             }
         }
