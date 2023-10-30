@@ -188,16 +188,12 @@ public class TestAccessTokenRequestParams{
         var result02 = false
 
         match (accessTokenRequestParams01.getPkceCodeVerifier()) {
-            case Some(x) =>
-                println(x)
-                result01 = false
+            case Some(x) => result01 = false
             case None => result01 = true // 默认为None
         }
 
         match (accessTokenRequestParams02.getPkceCodeVerifier()) {
-            case Some(x) =>
-                println(x)
-                result02 = false
+            case Some(x) => result02 = false
             case None => result02 = true // 默认为None
         }
 
@@ -217,16 +213,12 @@ public class TestAccessTokenRequestParams{
         var result02 = false
 
         match (accessTokenRequestParams01.getScope()) {
-            case Some(x) =>
-                println(x)
-                result01 = false
+            case Some(x) => result01 = false
             case None => result01 = true // 默认为None
         }
 
         match (accessTokenRequestParams02.getScope()) {
-            case Some(x) =>
-                println(x)
-                result02 = false
+            case Some(x) => result02 = false
             case None => result02 = true // 默认为None
         }
 
@@ -336,17 +328,19 @@ public class TestAccessTokenRequestParams{
 		try{
 			accessTokenRequestParams01.setScope(ScopeBuilder())
 		}catch(e:IllegalArgumentException){
-            println(e.toString())
-		    flag=1
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Cannot get String from a empty ScopeBuilder")){
+                 flag=1
+            }
 		}
 		@Assert(flag,1)
-		flag=1
+		flag=0
 		try{
 			accessTokenRequestParams02.setScope(ScopeBuilder())
 		}catch(e:IllegalArgumentException){
-		    flag=1
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Cannot get String from a empty ScopeBuilder")){
+                 flag=1
+            }
 		}		
 		@Assert(flag,1)
-    }	
-	
+    }
 }

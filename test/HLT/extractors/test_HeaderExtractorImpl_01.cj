@@ -17,8 +17,7 @@ public class TestHeaderExtractorImplB004{
         try{
             headerExtractorImpl01.extract(oauth4cjRequest)
         }catch(e:OAuth4cjParametersMissingException){
-            println(e.toString())
-            if(e.toString().contains("Could not find oauth parameters in request.${oauth4cjRequest}. "+ "OAuth parameters must be specified with the addOAuthParameter() method")){
+            if(e.toString().contains("OAuth4cjParametersMissingException: Could not find oauth parameters in request.${oauth4cjRequest}. "+ "OAuth parameters must be specified with the addOAuthParameter() method")){
                 flag=1
             }
         }

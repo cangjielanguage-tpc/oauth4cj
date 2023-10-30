@@ -44,13 +44,12 @@ public class TestPreconditions01{
         var flag=1
         try{
             Preconditions.checkEmptyString(param,errorMsg)
-        }catch(e:Exception){
-            flag=0
+        }catch(e:IllegalArgumentException){
             act_errorMsg=e.toString()
+            @Assert(act_errorMsg.contains("IllegalArgumentException: Received an invalid parameter"),true)
+            flag=0
         }
         @Assert(flag,0)
-        @Assert(act_errorMsg.contains("Received an invalid parameter"),true)
-        
     } 
     //hasText(string)==false && hasText(errorMsg）==false,抛异常，打印异常信息显示默认报错信息
     @TestCase
@@ -61,13 +60,12 @@ public class TestPreconditions01{
         var flag=1
         try{
             Preconditions.checkEmptyString(param,errorMsg)
-        }catch(e:Exception){
-            flag=0
+        }catch(e:IllegalArgumentException){
             act_errorMsg=e.toString()
+            @Assert(act_errorMsg.contains("IllegalArgumentException: ${errorMsg}"),true)
+            flag=0
         }
         @Assert(flag,0)
-        @Assert(act_errorMsg.contains(errorMsg),true)
-        
     }   
  	//str仅包含空白字符：空字符串，空格(中英文)，\n,\r,\t,\f，返回false  \v,"\b","\0","\0\0"
     @TestCase

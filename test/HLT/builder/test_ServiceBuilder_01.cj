@@ -40,7 +40,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder01=ServiceBuilderOAuth10a("")
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Invalid Api key")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Invalid Api key")){
                 flag=0
             }
         }
@@ -49,7 +49,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder01=ServiceBuilderOAuth10a("   ")
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Invalid Api key")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Invalid Api key")){
                 flag=0
             }
         }
@@ -60,7 +60,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder02=ServiceBuilderOAuth20("")
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Invalid Api key")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Invalid Api key")){
                 flag02=0
             }
         }
@@ -69,7 +69,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder02=ServiceBuilderOAuth20("   ")
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Invalid Api key")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Invalid Api key")){
                 flag02=0
             }
         }
@@ -108,7 +108,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder01.setApiKey("")
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Invalid Api key")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Invalid Api key")){
                 flag=0
             }
         }
@@ -117,7 +117,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder01.setApiKey("   ")
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Invalid Api key")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Invalid Api key")){
                 flag=0
             }
         }
@@ -128,7 +128,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder02.setApiKey("")
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Invalid Api key")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Invalid Api key")){
                 flag02=0
             }
         }
@@ -137,7 +137,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder02.setApiKey("   ")
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Invalid Api key")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Invalid Api key")){
                 flag02=0
             }
         }
@@ -172,7 +172,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder01.setApiSecret("")
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Invalid Api secret")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Invalid Api secret")){
                 flag=0
             }
         }
@@ -181,7 +181,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder01.setApiSecret("    ")
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Invalid Api secret")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Invalid Api secret")){
                 flag=0
             }
         }
@@ -192,7 +192,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder02.setApiSecret("")
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Invalid Api secret")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Invalid Api secret")){
                 flag02=0
             }
         }
@@ -201,7 +201,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder02.setApiSecret("   ")
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Invalid Api secret")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Invalid Api secret")){
                 flag02=0
             }
         }
@@ -304,7 +304,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder01.setDefaultScope("")
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Invalid OAuth scope")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Invalid OAuth scope")){
                 flag=0
             }
         }
@@ -313,7 +313,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder01.setDefaultScope(" ")
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Invalid OAuth scope")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Invalid OAuth scope")){
                 flag=0
             }
         }
@@ -341,7 +341,9 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder.setDefaultScope(scopeBuilder)
         }catch(e:IllegalArgumentException){
-            flag=0
+            if(e.toString().contains("IllegalArgumentException: Cannot get String from a empty ScopeBuilder")){
+                flag=0
+            }
         }
         @Assert(flag,0)
     }
@@ -393,7 +395,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder01.setHttpClientConfig(config)
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("httpClientConfig can't be null")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("httpClientConfig can't be null")){
                 flag=0
             }
         }
@@ -404,7 +406,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder02.setHttpClientConfig(config)
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("httpClientConfig can't be null")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("httpClientConfig can't be null")){
                 flag02=0
             }
         }
@@ -446,7 +448,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder01.setResponseType("")
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Invalid OAuth responseType")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Invalid OAuth responseType")){
                 flag=0
             }
         }
@@ -455,7 +457,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder01.setResponseType("   ")
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Invalid OAuth responseType")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Invalid OAuth responseType")){
                 flag=0
             }
         }
@@ -508,7 +510,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder01.withScope("")
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Invalid OAuth scope")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Invalid OAuth scope")){
                 flag=0
             }
         }
@@ -517,7 +519,7 @@ public class TestServiceBuilderB004{
         try{
             serviceBuilder01.withScope("        ")
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Invalid OAuth scope")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Invalid OAuth scope")){
                 flag=0
             }
         }

@@ -134,7 +134,12 @@ public class TestBearerSignatureAuthorizationRequestHeaderFieldB004{
                                         OAuth2Error.INVALID_GRANT,
                                         OAuth2Error.UNSUPPORTED_GRANT_TYPE,
                                         OAuth2Error.INVALID_TOKEN,
-                                        OAuth2Error.INSUFFICIENT_SCOPE])
+                                        OAuth2Error.INSUFFICIENT_SCOPE,
+                                        OAuth2Error.UNSUPPORTED_TOKEN_TYPE,
+                                        OAuth2Error.AUTHORIZATION_PENDING,
+                                        OAuth2Error.SLOW_DOWN,
+                                        OAuth2Error.EXPIRED_TOKEN])
+
 
         var res=""
         for (i in 0..errs.size){
@@ -170,7 +175,7 @@ public class TestBearerSignatureAuthorizationRequestHeaderFieldB004{
             try{
                 OAuth2Error.parseFrom(i)
             }catch(e:IllegalArgumentException){
-                if(e.toString().contains("there is no knowlege about ${i} Error")){
+                if(e.toString().contains("IllegalArgumentException") && e.toString().contains("there is no knowlege about ${i} Error")){
                     flag=0
                 }
             }

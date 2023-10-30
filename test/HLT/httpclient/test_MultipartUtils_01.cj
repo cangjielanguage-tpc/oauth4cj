@@ -17,7 +17,7 @@ public class TestMultipartUtils{
             MultipartUtils.checkBoundarySyntax(str)
         }catch(e:IllegalArgumentException){
             errorMsg=#"{'boundary'='"# + str + #"'} has invalid syntax. Should be '[0-9a-zA-Z'()+_,-./:=? ]{0,69}[0-9a-zA-Z'()+_,-./:=?]"# + #"'."#
-            if(e.toString().contains(errorMsg)){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains(errorMsg)){
                 flag=0
             }
         }
@@ -36,7 +36,7 @@ public class TestMultipartUtils{
             MultipartUtils.checkBoundarySyntax(str)
         }catch(e:IllegalArgumentException){
             errorMsg=#"{'boundary'='"# + str + #"'} has invalid syntax. Should be '[0-9a-zA-Z'()+_,-./:=? ]{0,69}[0-9a-zA-Z'()+_,-./:=?]"# + #"'."#
-            if(e.toString().contains(errorMsg)){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains(errorMsg)){
                 flag=0
             }
         }
@@ -55,7 +55,7 @@ public class TestMultipartUtils{
             MultipartUtils.checkBoundarySyntax(str)
         }catch(e:IllegalArgumentException){
             errorMsg=#"{'boundary'='"# + str + #"'} has invalid syntax. Should be '[0-9a-zA-Z'()+_,-./:=? ]{0,69}[0-9a-zA-Z'()+_,-./:=?]"# + #"'."#
-            if(e.toString().contains(errorMsg)){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains(errorMsg)){
                 flag=0
             }
         }
@@ -74,7 +74,7 @@ public class TestMultipartUtils{
             MultipartUtils.checkBoundarySyntax(str)
         }catch(e:IllegalArgumentException){
             errorMsg=#"{'boundary'='"# + str + #"'} has invalid syntax. Should be '[0-9a-zA-Z'()+_,-./:=? ]{0,69}[0-9a-zA-Z'()+_,-./:=?]"# + #"'."#
-            if(e.toString().contains(errorMsg)){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains(errorMsg)){
                 flag=0
             }
         }
@@ -176,7 +176,7 @@ public class TestMultipartUtils{
         try{
             MultipartUtils.getPayload(multipartPayload)
         }catch(e:OAuth4cjException){
-            if(e.toString().contains("the class type is not MultipartPayload and not ByteArrayBodyPartPayload.")){
+            if(e.toString().contains("OAuth4cjException") && e.toString().contains("the class type is not MultipartPayload and not ByteArrayBodyPartPayload.")){
                  flag=1
             }
         }

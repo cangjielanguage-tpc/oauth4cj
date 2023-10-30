@@ -37,26 +37,26 @@ public class TestResponseB001{
     //有header,header包含key：Content-Encoding,且value为“gzip”
     @TestCase
     func testResponseGetBody02(): Unit {
-        // var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>([("Content-Encoding","gzip")]),"body")
-        // var sub01=SubResource(File("temp.cj",OpenOption.CreateOrTruncate(true)))
-        // var inputStream01=ByteArrayStream()
-        // var inputStream02=ByteArrayStream()
-        // inputStream01.write("hello byte".toUtf8Array())
-        // inputStream02.write("hello byte".toUtf8Array())
-        // var gzipinput=CompressInputStream(inputStream01,wrap:GzipFormat)
-        // var response02=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>([("Content-Encoding","gzip")]),gzipinput,ArrayList<Resource>([sub01]))
-        // var response03=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>([("Content-Encoding","gzip")]),inputStream02,ArrayList<Resource>([sub01]))
-        // var exp_flag=0
-        // try{
-        //    response03.getBody()
-        // }catch(e:Exception){
-        //    if(e.toString().contains(" Decompressing data error")){
-        //         exp_flag=1
-        //    }
-        // }
-        // @Assert(exp_flag,1)
-        // @Assert(response01.getBody(),"body")
-        // @Assert(response02.getBody(),"hello byte")
+         var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>([("Content-Encoding","gzip")]),"body")
+         var sub01=SubResource(File("temp.cj",OpenOption.CreateOrTruncate(true)))
+         var inputStream01=ByteArrayStream()
+         var inputStream02=ByteArrayStream()
+         inputStream01.write("hello byte".toUtf8Array())
+         inputStream02.write("hello byte".toUtf8Array())
+         var gzipinput=CompressInputStream(inputStream01,wrap:GzipFormat)
+         var response02=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>([("Content-Encoding","gzip")]),gzipinput,ArrayList<Resource>([sub01]))
+         var response03=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>([("Content-Encoding","gzip")]),inputStream02,ArrayList<Resource>([sub01]))
+         var exp_flag=0
+         try{
+            response03.getBody()
+         }catch(e:OAuth4cjException){
+            if(e.toString().contains("OAuth4cjException: Read from InputStream failed.ZLIB_DATA_INVAID: Decompressing data error")){
+                 exp_flag=1
+            }
+         }
+         @Assert(exp_flag,1)
+         @Assert(response01.getBody(),"body")
+         @Assert(response02.getBody(),"hello byte")
     }
     //有header,其他
     @TestCase
@@ -83,8 +83,8 @@ public class TestResponseB001{
         var exp_flag=0
         try{
             response03.getBody()
-        }catch(e:Exception){
-            if(e.toString().contains("Cannot get String from a Null InputStream")){
+        }catch(e:OAuth4cjException){
+            if(e.toString().contains("OAuth4cjException: Cannot get String from a Null InputStream")){
                 exp_flag=1
             }
         }
@@ -125,13 +125,13 @@ public class TestResponseB001{
         var flag_response02=0
         try{
             response01.getHeader("11")
-        }catch(e:Exception){
+        }catch(e:NoneValueException){
             flag_response01=1
         }
         @Assert(flag_response01,1)
         try{
             response02.getHeader("11")
-        }catch(e:Exception){
+        }catch(e:NoneValueException){
             flag_response02=1
         }
         @Assert(flag_response02,1)

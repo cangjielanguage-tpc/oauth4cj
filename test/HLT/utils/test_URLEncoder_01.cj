@@ -50,7 +50,9 @@ public class TestURLEncoderB001{
             try{
                 URLEncoder.decode(params[index])
             }catch(e:IllegalArgumentException){
-                dec_flag=0
+                if(e.toString().contains("IllegalArgumentException: Incomplete trailing escape (%) pattern")){
+                    dec_flag=0
+                }
             }
             @Assert(dec_flag,0)
         }
@@ -95,8 +97,9 @@ public class TestURLEncoderB001{
             enc_flag=1
             try{
                 URLEncoder.decode("abcdefghijklmnopqrstuvwxyz",enc_params[index])
-            }catch(e:Exception){
-                if(e.toString().contains("only UTF-8 Character Set is supported") || e.toString().contains("empty string enc parameter")){
+            }catch(e:OAuth4cjException){
+                if(e.toString().contains("OAuth4cjException: only UTF-8 Character Set is supported") ||
+                   e.toString().contains("OAuth4cjException: empty string enc parameter")){
                     enc_flag=0
                 }
             }
@@ -165,8 +168,9 @@ public class TestURLEncoderB001{
             enc_flag=1
             try{
                 URLEncoder.encode("abcdefghijklmnopqrstuvwxyz",enc)
-            }catch(e:Exception){
-                if(e.toString().contains("only UTF-8 Character Set is supported") || e.toString().contains("charsetName can not be empty" ) ){
+            }catch(e:OAuth4cjException){
+                if(e.toString().contains("OAuth4cjException: only UTF-8 Character Set is supported") ||
+                   e.toString().contains("OAuth4cjException: charsetName can not be empty" ) ){
                     enc_flag=0
                 }
             }

@@ -36,7 +36,9 @@ public class TestOAuth2RevokeTokenResponseConverterB004{
         try{
             oAuth2RevokeTokenResponseConverter02.convert(response02)
         }catch(e:OAuth2AccessTokenErrorResponseException){
-            flag=0
+            if(e.toString().contains("OAuth2AccessTokenErrorResponse") && e.toString().contains("hello cangjie")){
+                flag=0
+            }
         }
         @Assert(flag,0)
     }

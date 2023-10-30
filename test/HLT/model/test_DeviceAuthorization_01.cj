@@ -16,9 +16,10 @@ public class TestDeviceAuthorizationB001{
     @TestCase
     func testGetExpiresInSeconds01(): Unit {
         var device01=DeviceAuthorization("deviceCode","userCode","verificationUri",123)
+        var flag = 0
         for (j in int64Values){
             if (j < 0){
-                var flag = 0
+                flag = 0
                 try {
                     device01=DeviceAuthorization("deviceCode","userCode","verificationUri",j)
                 } catch (e: OAuth4cjException) {
@@ -66,13 +67,14 @@ public class TestDeviceAuthorizationB001{
     func testSetIntervalSeconds01(): Unit {
         var intervalSecondsValues=Array<Int32>([Int32.Max,Int32.Min,0,Int32.Max-1,Int32.Min+1])
         var device01=DeviceAuthorization("deviceCode","userCode","verificationUri",123)
+        var flag = 0
         for (j in intervalSecondsValues){
             if (j < 0){
-                var flag = 0
+                flag = 0
                 try {
                     device01.setIntervalSeconds(j)
                 } catch (e: OAuth4cjException) {
-                    if(e.toString().contains("The time value cannot be negative")){
+                    if(e.toString().contains("OAuth4cjException: The time value cannot be negative")){
                         flag=1
                     }
                 }

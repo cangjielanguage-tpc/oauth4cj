@@ -23,6 +23,18 @@ public class TestPKCEServiceB002{
         @Assert(pkce02 is PKCE,true)
         @Assert(pkce03 is PKCE,true)
     }
+    @TestCase
+    func testPKCEServicegeneratePKCE02(): Unit {
+        var flag=0
+        try{
+            PKCEService(-1)
+        }catch(e:OAuth4cjException){
+            if(e.toString().contains("OAuth4cjException: The number of octets cannot be negative")){
+                flag=1
+            }
+        }
+        @Assert(flag,1)
+    }
     /***
         入参数组为空
     ***/

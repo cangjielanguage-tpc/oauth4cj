@@ -76,8 +76,10 @@ public class TestOAuth4cjRequestB001{
             flag=1
             try{
                 oauth4cjRequest.addOAuthParameter(parameter[0],parameter[1])
-            }catch(e:Exception){
-                flag=0
+            }catch(e:OAuth4cjParametersMissingException){
+                if(e.toString().contains("OAuth4cjParametersMissingException: Could not find oauth parameters in request.OAuth parameters must either be scope, realm or start with oauth_. OAuth parameters must be specified with the addOAuthParameter() method.")){
+                    flag=0
+                }
             }
             @Assert(flag,0)
         }
@@ -178,8 +180,7 @@ public class TestOAuth4cjRequestB001{
         var muti: MultipartPayload
         try {
             muti=oauth4cjRequest01.getMultipartPayload().getOrThrow()
-        } catch (e: Exception) {
-            println(e)
+        } catch (e: NoneValueException) {
             oauth4cjRequest01.initMultipartPayload()
             muti=oauth4cjRequest01.getMultipartPayload().getOrThrow()
         }
@@ -213,9 +214,8 @@ public class TestOAuth4cjRequestB001{
         try{
             var oauth4cjRequest=OAuth4cjRequest(Verb.GET,url)
             @Assert(oauth4cjRequest.getQueryStringParams().asFormUrlEncodedString(),"")
-        }catch(e:Exception){
-		    println(e.toString())
-            if(e.toString().contains("Malformed URL")){
+        }catch(e:OAuth4cjException){
+            if(e.toString().contains("OAuth4cjException: Malformed URL")){
                  exp_flag=1
             }
         }
@@ -406,8 +406,7 @@ public class TestOAuth4cjRequestB001{
         var mult: MultipartPayload
         try {
             mult=oauth4cjRequest01.getMultipartPayload().getOrThrow()
-        } catch (e: Exception) {
-            println(e)
+        } catch (e: NoneValueException) {
             oauth4cjRequest01.initMultipartPayload()
             mult=oauth4cjRequest01.getMultipartPayload().getOrThrow()
         }
@@ -453,7 +452,7 @@ public class TestOAuth4cjRequestB001{
             try{
                 oauth4cjRequest.setCharset(charset)
             }catch(e:OAuth4cjException){
-                if(e.toString().contains("only supperd UTF-8 Character Set")){
+                if(e.toString().contains("OAuth4cjException: only supperd UTF-8 Character Set")){
                     flag=0
                 }
             }

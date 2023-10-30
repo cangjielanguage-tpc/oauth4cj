@@ -16,7 +16,7 @@ public class TestOAuth1AccessTokenJSONExtractorB004{
         try{
             oauth1AccessTokenJSONExtractor.extract(response01)
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Response body is incorrect. Can't extract a token from an empty string")){
+            if(e.toString().contains("IllegalArgumentException: Response body is incorrect. Can't extract a token from an empty string")){
                 flag=0
             }
         }
@@ -35,7 +35,7 @@ public class TestOAuth1AccessTokenJSONExtractorB004{
         try{
             oauth1AccessTokenJsonExtractor02.extract(response01)
         }catch(e:OAuth4cjException){
-            if(e.toString().contains("Response body is incorrect. Can't extract token and secret from this: '"+body+"\'")){
+            if(e.toString().contains("OAuth4cjException: Response body is incorrect. Can't extract token and secret from this: '"+body+"\'")){
                 flag=0
             }
         }
@@ -53,8 +53,8 @@ public class TestOAuth1AccessTokenJSONExtractorB004{
         var flag=1
         try{
             oauth1AccessTokenJsonExtractor02.extract(response01)
-        }catch(e:Exception){
-            if(e.toString().contains("Exception: Response body is incorrect. Can't extract token and secret from this: '"+body+"'")){
+        }catch(e:OAuth4cjException){
+            if(e.toString().contains("OAuth4cjException: Response body is incorrect. Can't extract token and secret from this: '"+body+"'")){
                 flag=0
             }
         }

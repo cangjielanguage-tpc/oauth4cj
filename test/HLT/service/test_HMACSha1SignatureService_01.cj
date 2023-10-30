@@ -15,8 +15,8 @@ public class TestHMACSha1SignatureServiceB004{
         var flag=1
         try{
             hsss.getSignature(" ","not empty","not empty")
-        }catch(e:Exception){
-            if(e.toString().contains("Base string can't be null or empty string")){
+        }catch(e:OAuth4cjSignatureException){
+            if(e.toString().contains("OAuth4cjSignatureException: Error while signing string.Base string can't be null or empty string")){
                 flag=0
             }
         }

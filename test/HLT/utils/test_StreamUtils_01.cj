@@ -18,7 +18,7 @@ public class TestStreamUtilsB001{
         try{
             re=StreamUtils.getGzipStreamContents(gzipinput)
         }catch(e:OAuth4cjException){
-            if(e.toString().contains("Unable to obtain decompressed string from an empty InputStream")){
+            if(e.toString().contains("OAuth4cjException: Unable to obtain decompressed string from an empty InputStream")){
                 exp_flag=1
             }
         }
@@ -43,7 +43,7 @@ public class TestStreamUtilsB001{
         try{
             re=StreamUtils.getStreamContents(input)
         }catch(e:OAuth4cjException){
-            if(e.toString().contains("Cannot get String from a Null InputStream")){
+            if(e.toString().contains("OAuth4cjException: Cannot get String from a Null InputStream")){
                 exp_flag=1
             }
         }
@@ -54,7 +54,7 @@ public class TestStreamUtilsB001{
         try{
              re=StreamUtils.getStreamContents(input)
         }catch(e:OAuth4cjException){
-            if(e.toString().contains("Cannot get String from a Null InputStream")){
+            if(e.toString().contains("OAuth4cjException: Cannot get String from a Null InputStream")){
                 exp_flag=1
             }
         }
@@ -68,7 +68,7 @@ public class TestStreamUtilsB001{
         try{
             re=StreamUtils.getStreamContents(input,isGzipStream:false)
         }catch(e:OAuth4cjException){
-            if(e.toString().contains("Cannot get String from a Null InputStream")){
+            if(e.toString().contains("OAuth4cjException: Cannot get String from a Null InputStream")){
                 exp_flag=1
             }
         }
@@ -79,7 +79,7 @@ public class TestStreamUtilsB001{
         try{
              re=StreamUtils.getStreamContents(input,isGzipStream:false)
         }catch(e:OAuth4cjException){
-            if(e.toString().contains("Cannot get String from a Null InputStream")){
+            if(e.toString().contains("OAuth4cjException: Cannot get String from a Null InputStream")){
                 exp_flag=1
             }
         }
@@ -94,8 +94,7 @@ public class TestStreamUtilsB001{
         try{
             re=StreamUtils.getStreamContents(input,isGzipStream:true)
         }catch(e:OAuth4cjException){
-
-            if(e.toString().contains("Unable to obtain decompressed string from an empty InputStream")){
+            if(e.toString().contains("OAuth4cjException: Unable to obtain decompressed string from an empty InputStream")){
                 exp_flag_01=1
             }
         }
@@ -106,7 +105,7 @@ public class TestStreamUtilsB001{
         try{
              re=StreamUtils.getStreamContents(input,isGzipStream:true)
         }catch(e:OAuth4cjException){
-            if(e.toString().contains("Unable to obtain decompressed string from an empty InputStream")){
+            if(e.toString().contains("OAuth4cjException: Unable to obtain decompressed string from an empty InputStream")){
                 exp_flag_02=1
             }
         }

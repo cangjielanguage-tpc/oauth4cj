@@ -16,7 +16,9 @@ public class TestScopeBuilderB004{
         try{
             scopeBuilder01.build()
         }catch(e:IllegalArgumentException){
-            flag=0
+            if(e.toString().contains("IllegalArgumentException: Cannot get String from a empty ScopeBuilder")){
+                flag=0
+            }
         }
         @Assert(flag,0)
     }

@@ -347,7 +347,7 @@ public class SubOAuthAsyncRequestCallback <:OAuthAsyncRequestCallback{
     }
     public func onThrowable(e: Exception): Unit{
         flag_onThrowable="pass"
-        print(e.toString())
+        e.toString()
     }
     public func getFlagOnCompleted():String{
         return  (flag_onCompleted  as String).getOrThrow()
