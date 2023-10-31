@@ -16,7 +16,9 @@ public class TestDeviceAuthorizationJsonExtractorB004{
         try{
             deviceAuthorizationJsonExtractor.extract(response)
         }catch(e:OAuth2AccessTokenErrorResponseException){
-            flag=1
+            if(e.toString().contains("OAuth2AccessTokenErrorResponseException")){
+                flag=1
+            }
         }
         @Assert(flag,1)
     }
@@ -65,12 +67,11 @@ public class TestDeviceAuthorizationJsonExtractorB004{
         try{
             deviceAuthorizationJsonExtractor02.extract(response01)
         }catch(e:OAuth4cjException){
-            if(e.toString().contains("Response body is incorrect. Can't extract")){
+            if(e.toString().contains("OAuth4cjException: Response body is incorrect. Can't extract")){
                 flag=0
             }
-
         }
-
+        @Assert(flag,0)
     }
     /***
         public func extract(response: Response): DeviceAuthorization
@@ -91,12 +92,11 @@ public class TestDeviceAuthorizationJsonExtractorB004{
         try{
             deviceAuthorizationJsonExtractor02.extract(response01)
         }catch(e:OAuth4cjException){
-            if(e.toString().contains("Response body is incorrect. Can't extract")){
+            if(e.toString().contains("OAuth4cjException: Response body is incorrect. Can't extract")){
                 flag=0
             }
-
         }
-
+        @Assert(flag,0)
     }
     /***
         public func extract(response: Response): DeviceAuthorization
@@ -117,12 +117,11 @@ public class TestDeviceAuthorizationJsonExtractorB004{
         try{
             deviceAuthorizationJsonExtractor02.extract(response01)
         }catch(e:OAuth4cjException){
-            if(e.toString().contains("Response body is incorrect. Can't extract")){
+            if(e.toString().contains("OAuth4cjException: Response body is incorrect. Can't extract")){
                 flag=0
             }
-
         }
-
+        @Assert(flag,0)
     }
     /***
         public func extract(response: Response): DeviceAuthorization
@@ -143,11 +142,11 @@ public class TestDeviceAuthorizationJsonExtractorB004{
         try{
             deviceAuthorizationJsonExtractor02.extract(response01)
         }catch(e:OAuth4cjException){
-            if(e.toString().contains("Response body is incorrect. Can't extract")){
+            if(e.toString().contains("OAuth4cjException: Response body is incorrect. Can't extract")){
                 flag=0
             }
-
         }
+        @Assert(flag,0)
     }
      /***
          public func extract(response: Response): DeviceAuthorization
@@ -197,7 +196,6 @@ public class TestDeviceAuthorizationJsonExtractorB004{
         @Assert(re02.getVerificationUriComplete(),"")
         @Assert(re02.getExpiresInSeconds(),0)
         @Assert(re02.getIntervalSeconds(),5)
-
     }
     /***
         public func generateError(response: Response): Unit
@@ -211,7 +209,9 @@ public class TestDeviceAuthorizationJsonExtractorB004{
         try{
             deviceAuthorizationJsonExtractor02.generateError(response01)
         }catch(e:OAuth2AccessTokenErrorResponseException){
-            flag=1
+            if(e.toString().contains("OAuth2AccessTokenErrorResponseException")){
+                flag=1
+            }
         }
         @Assert(flag,1)
     }

@@ -85,8 +85,8 @@ public class TestOkHttpHttpClientB008{
          var re_flag=1
          try{
              okhttpHttpClient.execute(userAgent,headers,httpVerb,completeUrl,bodyContents)
-         }catch(e:Exception){
-             if(e.toString().contains("parse domain = www.123.com fail")){
+         }catch(e:httpclient4cj.HttpException){
+             if(e.toString().contains("HttpException: parse domain = www.123.com fail")){
                   re_flag=0
              }
          }
@@ -107,8 +107,8 @@ public class TestOkHttpHttpClientB008{
          var flag=1
          try{
              okhttpHttpClient.execute(userAgent,headers,httpVerb,completeUrl,bodyContents)
-         }catch(e:Exception){
-             if(e.toString().contains("OKHttpClient does not support Multipart payload for the moment")){
+         }catch(e:OAuth4cjException){
+             if(e.toString().contains("OAuth4cjException") && e.toString().contains("OKHttpClient does not support Multipart payload for the moment")){
                  flag=0
              }
          }
@@ -129,8 +129,8 @@ public class TestOkHttpHttpClientB008{
          var re_flag=1
          try{
              okhttpHttpClient.execute(userAgent,headers,httpVerb,completeUrl,bodyContents)
-         }catch(e:Exception){
-             if(e.toString().contains("parse domain = www.123.com fail")){
+         }catch(e:httpclient4cj.HttpException){
+             if(e.toString().contains("HttpException: parse domain = www.123.com fail")){
                   re_flag=0
              }
          }
@@ -166,8 +166,8 @@ public class TestOkHttpHttpClientB008{
          var re_flag=1
          try{
              okhttpHttpClient.execute(userAgent,headers,httpVerb,completeUrl,bodyContents)
-         }catch(e:Exception){
-             if(e.toString().contains("parse domain = www.123.com fail")){
+         }catch(e:httpclient4cj.HttpException){
+             if(e.toString().contains("HttpException: parse domain = www.123.com fail")){
                   re_flag=0
              }
          }
@@ -247,8 +247,8 @@ public class TestOkHttpHttpClientB008{
          var flag=1
          try{
              okhttpHttpClient.executeAsync(userAgent,headers,httpVerb,completeUrl,bodyContents,callback,converter)
-         }catch(e:Exception){
-             if(e.toString().contains("OKHttpClient does not support Multipart payload for the moment")){
+         }catch(e:OAuth4cjException){
+             if(e.toString().contains("OAuth4cjException: OKHttpClient does not support Multipart payload for the moment")){
                  flag=0
              }
          }

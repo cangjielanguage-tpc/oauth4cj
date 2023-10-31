@@ -296,7 +296,8 @@ public class TestOAuth20ServiceB008{
          try{
             oauth20Service.extractAuthorization(redirectLocation01)
          }catch(e:OAuth4cjException){
-             if(e.toString().contains("unsupported decoding.") && e.toString().contains("Incomplete trailing escape (%) pattern")){
+             println(e.toString())
+             if(e.toString().contains("OAuth4cjException") && e.toString().contains("unsupported decoding.") && e.toString().contains("Incomplete trailing escape (%) pattern")){
                  flag01=0
              }
          }
@@ -305,7 +306,8 @@ public class TestOAuth20ServiceB008{
         try{
             oauth20Service.extractAuthorization(redirectLocation02)
         }catch(e:OAuth4cjException){
-            if(e.toString().contains("unsupported decoding.") && e.toString().contains("Incomplete trailing escape (%) pattern")){
+            println(e.toString())
+            if(e.toString().contains("OAuth4cjException") && e.toString().contains("unsupported decoding.") && e.toString().contains("Incomplete trailing escape (%) pattern")){
                 flag02=0
             }
         }
@@ -314,7 +316,8 @@ public class TestOAuth20ServiceB008{
         try{
             oauth20Service.extractAuthorization(redirectLocation03)
         }catch(e:OAuth4cjException){
-            if(e.toString().contains("unsupported decoding.") && e.toString().contains("Incomplete trailing escape (%) pattern")){
+            println(e.toString())
+            if(e.toString().contains("OAuth4cjException") && e.toString().contains("unsupported decoding.") && e.toString().contains("Incomplete trailing escape (%) pattern")){
                 flag03=0
             }
         }

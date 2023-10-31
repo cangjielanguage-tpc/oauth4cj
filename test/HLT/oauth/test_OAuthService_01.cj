@@ -24,6 +24,7 @@ public class TestOAuthServiceB008{
              re_isClosed=oauth10aService.isClosed()
              @Assert(re_isClosed,true)
          }catch(e:Exception){
+             println(e.toString())
              @Assert(re_isClosed,false)
          }
     }
@@ -36,6 +37,7 @@ public class TestOAuthServiceB008{
              re_isClosed=oauth20Service.isClosed()
              @Assert(re_isClosed,true)
          }catch(e:Exception){
+             println(e.toString())
              @Assert(re_isClosed,false)
          }
     }
@@ -49,6 +51,7 @@ public class TestOAuthServiceB008{
              re_isClosed=oauth20Service.isClosed()
              @Assert(re_isClosed,true)
          }catch(e:Exception){
+             println(e.toString())
              @Assert(re_isClosed,false)
          }
     }
@@ -76,6 +79,7 @@ public class TestOAuthServiceB008{
              let response=oauth10aService.execute(oauth4cjRequest)
              @Assert(response.getCode(),200)
          }catch(e:Exception){
+             println(e.toString())
              if(e.toString().contains("parse domain = www.123.com fail")){
                 re_flag=0
              }

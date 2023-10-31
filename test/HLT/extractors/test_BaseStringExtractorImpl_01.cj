@@ -17,8 +17,8 @@ public class TestBaseStringExtractorImplB004{
         try{
             baseStringExtractorImpl01.extract(oauth4cjRequest)
         }catch(e:OAuth4cjParametersMissingException){
-            if(e.toString().contains(oauth4cjRequest.toString())){
-                 flag=1
+            if(e.toString().contains("OAuth4cjParametersMissingException: Could not find oauth parameters in request.${oauth4cjRequest}. "+ "OAuth parameters must be specified with the addOAuthParameter() method")){
+                flag=1
             }
         }
         @Assert(flag,1)

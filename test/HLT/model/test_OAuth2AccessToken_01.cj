@@ -106,14 +106,14 @@ public class TestOAuth2AccessTokenB001{
                 try {
                     oauth2accesstoken03=OAuth2AccessToken("str","str",int32Value,"str","str","str")
                 } catch (e: OAuth4cjException) {
-                    if(e.toString().contains("The effective time cannot be negative")){
+                     if(e.toString().contains("OAuth4cjException: The effective time cannot be negative")){
                         flag=1
                     }
+                    @Assert(flag,1)
                 }
-                @Assert(flag,1)
-            } else {
+            }else{
                 oauth2accesstoken03=OAuth2AccessToken("str","str",int32Value,"str","str","str")
-            @Assert(oauth2accesstoken03.getExpiresIn(),int32Value)
+                @Assert(oauth2accesstoken03.getExpiresIn(),int32Value)
             }
         }
     }

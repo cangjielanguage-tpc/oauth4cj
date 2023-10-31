@@ -61,8 +61,7 @@ public class TestMultipartPayload{
         try{
             multipartPayload01.addBodyPart(multipartPayload01)
         }catch(e:IllegalArgumentException){
-
-            if(e.toString().contains("----OAuth4cj----")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("----OAuth4cj----")){
                 flag=0
             }
         }
@@ -72,7 +71,7 @@ public class TestMultipartPayload{
         try{
             multipartPayload02.addBodyPart(multipartPayload02)
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("{\'boundary\'}={\'${boundary_value}\'} is the same for parent MultipartPayload and child")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("{\'boundary\'}={\'${boundary_value}\'} is the same for parent MultipartPayload and child")){
                 flag=0
             }
         }
@@ -285,11 +284,9 @@ public class TestMultipartPayload{
         var map01=HashMap<String,String>([("key01","value01"),("Content-Type","; boundary=\"?(1adsaffecz)\"")])
         var flag=0
         try{
-            var multipartPayload04=MultipartPayload("boundary",map01)
-            println(multipartPayload04.getEpilogue())
+            MultipartPayload("boundary",map01)
         }catch(e:IllegalArgumentException){
-
-            if(e.toString().contains("Different boundaries was passed in constructors. One as argument, second as header")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Different boundaries was passed in constructors. One as argument, second as header")){
                 flag=1
             }
         }

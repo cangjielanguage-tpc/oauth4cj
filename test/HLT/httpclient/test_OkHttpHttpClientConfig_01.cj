@@ -19,9 +19,7 @@ public class TestOkHttpHttpClientConfigB008{
         var re_tlsClientConfig=re_okhttpClient.getTlsConfig().getOrThrow()
         var flag = false
         try {
-            let (re_caFile, re_priKey)=re_tlsClientConfig.clientCertificate.getOrThrow()
-            println("re_priKey = ${re_priKey.toString()}")
-            println("re_caFile = ${re_caFile.get(0).hashCode()}")
+            re_tlsClientConfig.clientCertificate.getOrThrow()
         } catch (e: NoneValueException) {
             flag = true
         }
@@ -33,9 +31,7 @@ public class TestOkHttpHttpClientConfigB008{
         var exp_tlsClientConfig=exp_okhttpClient.getTlsConfig().getOrThrow()
         flag = false
         try {
-            let (exp_caFile, exp_priKey)=exp_tlsClientConfig.clientCertificate.getOrThrow()
-            println("exp_priKey = ${exp_priKey.toString()}")
-            println("exp_caFile = ${exp_caFile.get(0).hashCode()}")
+            exp_tlsClientConfig.clientCertificate.getOrThrow()
         } catch (e: NoneValueException) {
             flag = true
         }
@@ -57,9 +53,7 @@ public class TestOkHttpHttpClientConfigB008{
         var re_tlsClientConfig=re_okhttpClient.getTlsConfig().getOrThrow()
         var flag = false
         try {
-            let (re_caFile, re_priKey)=re_tlsClientConfig.clientCertificate.getOrThrow()
-            println("re_priKey = ${re_priKey.toString()}")
-            println("re_caFile = ${re_caFile.get(0).hashCode()}")
+            re_tlsClientConfig.clientCertificate.getOrThrow()
         } catch (e: NoneValueException) {
             flag = true
         }
@@ -71,16 +65,12 @@ public class TestOkHttpHttpClientConfigB008{
         var exp_tlsClientConfig=exp_okhttpClient.getTlsConfig().getOrThrow()
         flag = false
         try {
-            let (exp_caFile, exp_priKey)=exp_tlsClientConfig.clientCertificate.getOrThrow()
-            println("exp_priKey = ${exp_priKey.toString()}")
-            println("exp_caFile = ${exp_caFile.get(0).hashCode()}")
+            exp_tlsClientConfig.clientCertificate.getOrThrow()
         } catch (e: NoneValueException) {
             flag = true
         }
         @Assert(flag)
         let exp_verifyMode=exp_tlsClientConfig.verifyMode
-
-        //  @Assert(re_caFile,exp_caFile)
         @Assert(assertTlsClientVerifyMode(re_verifyMode,exp_verifyMode),true)
     }
     /***
@@ -102,9 +92,7 @@ public class TestOkHttpHttpClientConfigB008{
 
         var flag = false
         try {
-            let (re_caFile, re_priKey)=re_tlsClientConfig.clientCertificate.getOrThrow()
-            println("re_priKey = ${re_priKey.toString()}")
-            println("re_caFile = ${re_caFile.get(0).hashCode()}")
+            re_tlsClientConfig.clientCertificate.getOrThrow()
         } catch (e: NoneValueException) {
             flag = true
         }
@@ -112,9 +100,7 @@ public class TestOkHttpHttpClientConfigB008{
 
         flag = false
         try {
-            let (exp_caFile, exp_priKey)=exp_tlsClientConfig.clientCertificate.getOrThrow()
-            println("exp_priKey = ${exp_priKey.toString()}")
-            println("exp_caFile = ${exp_caFile.get(0).hashCode()}")
+            exp_tlsClientConfig.clientCertificate.getOrThrow()
         } catch (e: NoneValueException) {
             flag = true
         }

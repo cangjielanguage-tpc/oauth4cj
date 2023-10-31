@@ -117,8 +117,8 @@ public class TestDefaultApi20B004{
         var flag=1
         try{
             subDefaultApi20.getDeviceAuthorizationEndpoint()
-        }catch(e:Exception){
-            if(e.toString().contains("This API doesn't support device authorization grant or we have no info about this")){
+        }catch(e:IllegalArgumentException){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("This API doesn't support device authorization grant or we have no info about this")){
                 flag=0
             }
         }
@@ -154,7 +154,7 @@ public class TestDefaultApi20B004{
         try{
             subDefaultApi20.getRevokeTokenEndpoint()
         }catch(e:IllegalArgumentException ){
-            if(e.toString().contains("This API doesn't support revoking tokens or we have no info about this")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("This API doesn't support revoking tokens or we have no info about this")){
                 flag=0
             }
         }

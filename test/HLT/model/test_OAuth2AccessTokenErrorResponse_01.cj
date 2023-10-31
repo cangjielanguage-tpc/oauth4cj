@@ -3,7 +3,7 @@
 // dependence: ../common_Values.cj
 
 @Test
-public class TestOAuth2AccessTokenErrorResponseB004{
+public class TestOAuth2AccessTokenErrorResponseExceptionB004{
     /***
         public init(error: OAuth2Error, errorDescription: String, errorUrl: URL, rawResponse: Response)
         public func getError(): OAuth2Error

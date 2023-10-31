@@ -247,7 +247,7 @@ public class TestParameterListB001{
         var exp_flag_04=0
         try{
             pl04.addQuerystring(queryString04)
-        }catch(w:Exception){
+        }catch(e:IndexOutOfBoundsException){
             exp_flag_04=1
         }
         @Assert(exp_flag_04,1)
@@ -265,7 +265,7 @@ public class TestParameterListB001{
         var exp_flag_06=0
         try{
             pl06.addQuerystring(queryString06)
-        }catch(w:Exception){
+        }catch(e:IndexOutOfBoundsException){
             exp_flag_06=1
         }
         @Assert(exp_flag_06,1)

@@ -16,7 +16,7 @@ public class TestOAuth2AccessTokenExtractorB004{
         try{
             oauth2AccessTokenExtractor.extract(response01)
         }catch(e:OAuth4cjException){
-            if(e.toString().contains("Response code is not 200 but")){
+            if(e.toString().contains("OAuth4cjException") && e.toString().contains("Response code is not 200")){
                 flag=0
             }
         }
@@ -34,7 +34,7 @@ public class TestOAuth2AccessTokenExtractorB004{
         try{
             oauth2AccessTokenExtractor.extract(response01)
         }catch(e:IllegalArgumentException){
-            if(e.toString().contains("Response body is incorrect. Can't extract a token from an empty string")){
+            if(e.toString().contains("IllegalArgumentException") && e.toString().contains("Response body is incorrect. Can't extract a token from an empty string")){
                 flag=0
             }
         }
@@ -53,7 +53,7 @@ public class TestOAuth2AccessTokenExtractorB004{
         try{
             oauth2AccessTokenExtractor.extract(response01)
         }catch(e:OAuth4cjException){
-            if(e.toString().contains("Response body is incorrect. Can't extract a '"+"access_token=([^&]+)'"+" from this: '")){
+            if(e.toString().contains("OAuth4cjException") && e.toString().contains("Response body is incorrect. Can't extract a '"+"access_token=([^&]+)'"+" from this: '")){
                 flag=0
             }
         }
