@@ -67,7 +67,7 @@ func testAbstractOAuth1JSONTokenExtractor_03(): Int32 {
     let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth1RequestToken = extractor.extract(response)
 
-    if (!extracted.getToken().equals("8") || !extracted.getTokenSecret().equals("-8")) {
+    if (extracted.getToken() != "8" || extracted.getTokenSecret() != "-8") {
         println(3)
         return 3
     }

@@ -8,7 +8,7 @@ public func testPlaintextSignatureService_01(): Int32 {
     let str: String = ps.getSignatureMethod()
     let result: String = "PLAINTEXT"
 
-    if (!str.equals(result)) {
+    if (str != result) {
         println(1)
         return 1
     }
@@ -23,9 +23,9 @@ public func testPlaintextSignatureService_02(): Int32 {
 
     let str: String = ps.getSignature("ceshi20230504", apiSecret, tokenSecret)
 
-    let result: String = OAuthEncoder.encode(apiSecret) + '&' + OAuthEncoder.encode(tokenSecret)
+    let result: String = OAuthEncoder.encode(apiSecret) + "&" + OAuthEncoder.encode(tokenSecret)
 
-    if (!str.equals(result)) {
+    if (str != result) {
         println(2)
         return 2
     }

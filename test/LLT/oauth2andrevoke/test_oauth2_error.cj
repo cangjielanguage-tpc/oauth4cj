@@ -10,35 +10,35 @@ func testOAuth2Error_01(): Int32 {
     var string_4 = OAuth2Error.UNSUPPORTED_RESPONSE_TYPE.getErrorString()
     var string_5 = OAuth2Error.INVALID_SCOPE.getErrorString()
 
-    if (!string_1.equals("invalid_request")) {
+    if (string_1 != "invalid_request") {
         return -1
     }
-    if (!string_2.equals("unauthorized_client")) {
+    if (string_2 != "unauthorized_client") {
         return -1
     }
-    if (!string_3.equals("access_denied")) {
+    if (string_3 != "access_denied") {
         return -1
     }
-    if (!string_4.equals("unsupported_response_type")) {
+    if (string_4 != "unsupported_response_type") {
         return -1
     }
-    if (!string_5.equals("invalid_scope")) {
+    if (string_5 != "invalid_scope") {
         return -1
     }
 
-    if (!string_1.equals(OAuth2Error.parseFrom("invalid_request").getErrorString())) {
+    if (string_1 != OAuth2Error.parseFrom("invalid_request").getErrorString()) {
         return -1
     }
-    if (!string_2.equals(OAuth2Error.parseFrom("unauthorized_client").getErrorString())) {
+    if (string_2 != OAuth2Error.parseFrom("unauthorized_client").getErrorString()) {
         return -1
     }
-    if (!string_3.equals(OAuth2Error.parseFrom("access_denied").getErrorString())) {
+    if (string_3 != OAuth2Error.parseFrom("access_denied").getErrorString()) {
         return -1
     }
-    if (!string_4.equals(OAuth2Error.parseFrom("unsupported_response_type").getErrorString())) {
+    if (string_4 != OAuth2Error.parseFrom("unsupported_response_type").getErrorString()) {
         return -1
     }
-    if (!string_5.equals(OAuth2Error.parseFrom("invalid_scope").getErrorString())) {
+    if (string_5 != OAuth2Error.parseFrom("invalid_scope").getErrorString()) {
         return -1
     }
     
@@ -52,35 +52,35 @@ func testOAuth2Error_02(): Int32 {
     var string_9 = OAuth2Error.INVALID_GRANT.getErrorString()
     var string_10 = OAuth2Error.UNSUPPORTED_GRANT_TYPE.getErrorString()
     
-    if (!string_6.equals("server_error")) {
+    if (string_6 != "server_error") {
         return -1
     }
-    if (!string_7.equals("temporarily_unavailable")) {
+    if (string_7 != "temporarily_unavailable") {
         return -1
     }
-    if (!string_8.equals("invalid_client")) {
+    if (string_8 != "invalid_client") {
         return -1
     }
-    if (!string_9.equals("invalid_grant")) {
+    if (string_9 != "invalid_grant") {
         return -1
     }
-    if (!string_10.equals("unsupported_grant_type")) {
+    if (string_10 != "unsupported_grant_type") {
         return -1
     }
 
-    if (!string_6.equals(OAuth2Error.parseFrom("server_error").getErrorString())) {
+    if (string_6 != OAuth2Error.parseFrom("server_error").getErrorString()) {
         return -1
     }
-    if (!string_7.equals(OAuth2Error.parseFrom("temporarily_unavailable").getErrorString())) {
+    if (string_7 != OAuth2Error.parseFrom("temporarily_unavailable").getErrorString()) {
         return -1
     }
-    if (!string_8.equals(OAuth2Error.parseFrom("invalid_client").getErrorString())) {
+    if (string_8 != OAuth2Error.parseFrom("invalid_client").getErrorString()) {
         return -1
     }
-    if (!string_9.equals(OAuth2Error.parseFrom("invalid_grant").getErrorString())) {
+    if (string_9 != OAuth2Error.parseFrom("invalid_grant").getErrorString()) {
         return -1
     }
-    if (!string_10.equals(OAuth2Error.parseFrom("unsupported_grant_type").getErrorString())) {
+    if (string_10 != OAuth2Error.parseFrom("unsupported_grant_type").getErrorString()) {
         return -1
     }
 
@@ -95,43 +95,43 @@ func testOAuth2Error_03(): Int32 {
     var string_15 = OAuth2Error.SLOW_DOWN.getErrorString()
     var string_16 = OAuth2Error.EXPIRED_TOKEN.getErrorString()
 
-    if (!string_11.equals("invalid_token")) {
+    if (string_11 != "invalid_token") {
         return -1
     }
-    if (!string_12.equals("insufficient_scope")) {
+    if (string_12 != "insufficient_scope") {
         return -1
     }
-    if (!string_13.equals("unsupported_token_type")) {
+    if (string_13 != "unsupported_token_type") {
         return -1
     }
-    if (!string_14.equals("authorization_pending")) {
+    if (string_14 != "authorization_pending") {
         return -1
     }
-    if (!string_15.equals("slow_down")) {
+    if (string_15 != "slow_down") {
         return -1
     }
-    if (!string_16.equals("expired_token")) {
-        return -1
-    }
-
-
-    if (!string_11.equals(OAuth2Error.parseFrom("invalid_token").getErrorString())) {
-        return -1
-    }
-    if (!string_12.equals(OAuth2Error.parseFrom("insufficient_scope").getErrorString())) {
-        return -1
-    }
-    if (!string_13.equals(OAuth2Error.parseFrom("unsupported_token_type").getErrorString())) {
-        return -1
-    }
-    if (!string_14.equals(OAuth2Error.parseFrom("authorization_pending").getErrorString())) {
-        return -1
-    }
-    if (!string_15.equals(OAuth2Error.parseFrom("slow_down").getErrorString())) {
+    if (string_16 != "expired_token") {
         return -1
     }
 
-    if (!string_16.equals(OAuth2Error.parseFrom("expired_token").getErrorString())) {
+
+    if (string_11 != OAuth2Error.parseFrom("invalid_token").getErrorString()) {
+        return -1
+    }
+    if (string_12 != OAuth2Error.parseFrom("insufficient_scope").getErrorString()) {
+        return -1
+    }
+    if (string_13 != OAuth2Error.parseFrom("unsupported_token_type").getErrorString()) {
+        return -1
+    }
+    if (string_14 != OAuth2Error.parseFrom("authorization_pending").getErrorString()) {
+        return -1
+    }
+    if (string_15 != OAuth2Error.parseFrom("slow_down").getErrorString()) {
+        return -1
+    }
+
+    if (string_16 != OAuth2Error.parseFrom("expired_token").getErrorString()) {
         return -1
     }
 

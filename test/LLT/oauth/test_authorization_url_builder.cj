@@ -21,7 +21,7 @@ func testAuthorizationURL_01(): Int32 {
     var getP = urlBuilder.getPkce()
     var map = getP.getOrThrow().getAuthorizationUrlParams()
     var value = map[PKCE.PKCE_CODE_CHALLENGE_PARAM]
-    if (!codeChallenge.equals(value)) {
+    if (codeChallenge != value) {
         println(value)
         return -1
     }
@@ -30,7 +30,7 @@ func testAuthorizationURL_01(): Int32 {
     var getP_2 = urlBuilder.getPkce()
     var map_2 = getP_2.getOrThrow().getAuthorizationUrlParams()
     var value_2 = map_2[PKCE.PKCE_CODE_CHALLENGE_PARAM]
-    if (codeChallenge.equals(value_2)) {
+    if (codeChallenge == value_2) {
         println(value)
         return -1
     }
@@ -56,7 +56,7 @@ func testAuthorizationURL_02(): Int32 {
 
     var expectString = "getAuthorizationBaseUrl?code_challenge=123456%21%40%23%25%25%24%23&code_challenge_method=PLAIN" + 
                         "&response_type=responseType&client_id=apiKey&redirect_uri=callback&scope=scope&state=state"
-    if (!urlString.equals(expectString)) {
+    if (urlString != expectString) {
         return -1
     }
     return 0
@@ -73,7 +73,7 @@ func testAuthorizationURL_03(): Int32 {
                         .setPkce(Option<PKCE>.None)
                         .build()
     var expectString = "getAuthorizationBaseUrl?name1=value1&name2=value2&response_type=responseType&client_id=apiKey&redirect_uri=callback&scope=scope&state=state"
-    if (!urlString.equals(expectString)) {
+    if (urlString != expectString) {
         return -1
     }
     return 0
@@ -90,7 +90,7 @@ func testAuthorizationURL_04(): Int32 {
                         .setPkce(Option<PKCE>.None)
                         .build()
     var expectString = "getAuthorizationBaseUrl?name1=value1&name2=value2&response_type=responseType&client_id=apiKey&redirect_uri=callback"
-    if (!urlString.equals(expectString)) {
+    if (urlString != expectString) {
         println(urlString)
         return -1
     }
@@ -119,7 +119,7 @@ func testAuthorizationURL_05(): Int32 {
                         .setPkce(Option<PKCE>.None)
                         .build()
     var expectString = "getAuthorizationBaseUrl?name1=value1&name2=value2&response_type=responseType&client_id=apiKey&redirect_uri=callback&scope=DefaultScope"
-    if (!urlString.equals(expectString)) {
+    if (urlString != expectString) {
         return -1
     }
     return 0

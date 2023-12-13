@@ -9,7 +9,7 @@ public func testHMACSha1SignatureService_01(): Int32 {
     let str: String = hmac.getSignatureMethod()
     let result: String = "HMAC-SHA1"
 
-    if (!str.equals(result)) {
+    if (str != result) {
         println(1)
         return 1
     }
@@ -28,7 +28,7 @@ public func testHMACSha1SignatureService_02(): Int32 {
     let str: String = hmac.getSignature(baseString, apiSecret, tokenSecret)
     println("str = ${str}")
     
-    if (!str.equals(signature)) {
+    if (str != signature) {
         println(2)
         return 2
     }
@@ -47,7 +47,7 @@ public func testHMACSha1SignatureService_03(): Int32 {
     let str: String = hmac.getSignature(baseString, apiSecret, tokenSecret)
     println("str = ${str}")
 
-    if (!str.equals(signature)) {
+    if (str != signature) {
         println(3)
         return 3
     }
@@ -66,7 +66,7 @@ public func testHMACSha1SignatureService_04(): Int32 {
     let str: String = hmac.getSignature(baseString, apiSecret, tokenSecret)
     println("str = ${str}")
 
-    if (!str.equals(signature)) {
+    if (str != signature) {
         println(4)
         return 4
     }
@@ -85,7 +85,7 @@ public func testHMACSha1SignatureService_05(): Int32 {
     let str: String = hmac.getSignature(baseString, apiSecret, tokenSecret)
     println("str = ${str}")
 
-    if (!str.equals(signature)) {
+    if (str != signature) {
         println(5)
         return 5
     }
@@ -104,7 +104,7 @@ public func testHMACSha1SignatureService_06(): Int32 {
     let str: String = hmac.getSignature(baseString, apiSecret, tokenSecret)
     println("str = ${str}")
 
-    if (!str.equals(signature)) {
+    if (str != signature) {
         println(6)
         return 6
     }

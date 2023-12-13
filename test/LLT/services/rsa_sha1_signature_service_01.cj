@@ -10,7 +10,7 @@ public func testPlaintextSignatureService_01(rsa: RSASha1SignatureService): Int3
     let str: String = rsa.getSignatureMethod()
     let result: String = "RSA-SHA1"
 
-    if (!str.equals(result)) {
+    if (str != result) {
         println(1)
         return 1
     }
@@ -40,7 +40,7 @@ public func testPlaintextSignatureService_02(rsa: RSASha1SignatureService): Int3
     let str: String = rsa.getSignature(baseString, apiSecret, tokenSecret)
     println("str = ${str}")
 
-    if (!str.equals(signature)) {
+    if (str != signature) {
         println(2)
         return 2
     }

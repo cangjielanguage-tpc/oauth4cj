@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../common_Values.cj
 
 
@@ -25,7 +25,7 @@ public class TestBearerSignatureAuthorizationRequestHeaderFieldB004{
     }
     /***
         public func signRequest(accessToken: String, request: OAuth4cjRequest): Unit
-        测试场景:添加URI Query Parameter,正常添加即可
+        测试场景:添加URI Query OAuth4cjParameter,正常添加即可
     ***/
     @TestCase
     func testBearerSignatureURIQueryParameterSignRequest01(): Unit {
@@ -58,7 +58,7 @@ public class TestBearerSignatureAuthorizationRequestHeaderFieldB004{
         var str_encoding_after=""
         for (str in strValues){
             str_encoding_before=str+":"+str
-            str_encoding_after=Base64Utils.encode(str_encoding_before.toUtf8Array())
+            str_encoding_after=Base64Utils.encode(str_encoding_before.toArray())
             exp_headers.put("Authorization","Basic "+str_encoding_after)
 
             httpBasicAuthenticationScheme.addClientAuthentication(oauth4cjRequest,str,str)

@@ -26,7 +26,7 @@ main (){
 public func testGetGzipStreamContents_01(): String {
     var input = ByteArrayStream()
     var str = "hello cangjie"
-    var arr = str.toUtf8Array()
+    var arr = str.toArray()
     input.write(arr)
     var gzipinput = CompressInputStream(input, wrap:GzipFormat)
     var outbuf = Array<UInt8>(100,item:0)
@@ -51,7 +51,7 @@ public func testGetGzipStreamContents_01(): String {
 public func testGetGzipStreamContents_02(): String {
     var input = ByteArrayStream()
     var str = "hello cangjie"
-    var arr = str.toUtf8Array()
+    var arr = str.toArray()
     input.write(arr)
     var gzipinput = CompressInputStream(input, wrap:GzipFormat)
     var re = StreamUtils.getGzipStreamContents(gzipinput)
@@ -64,7 +64,7 @@ public func testGetGzipStreamContents_02(): String {
 public func testGetGzipStreamContents_03(): String {
     var input = ByteArrayStream()
     var str = "hello cangjie"
-    var arr = str.toUtf8Array()
+    var arr = str.toArray()
     input.write(arr)
     var gzipinput = CompressInputStream(input, wrap:GzipFormat)
     var outbuf = Array<UInt8>(100,item:0)

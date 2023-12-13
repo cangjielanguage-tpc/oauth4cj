@@ -63,7 +63,7 @@ func testHeaderExtractor_01(): Int32 {
     var str: String = header.replace(oauth, "").replace(callback, "").replace(signature, "")
     str = str.replace(key, "").replace(timestamp, "")
     println("str = [${str}]")
-    if (!str.equals(", , , ")) {
+    if (str != ", , , ") {
         println(6)
         return 6
     }
@@ -130,7 +130,7 @@ func testHeaderExtractor_03(): Int32 {
     var str: String = header.replace(oauth, "").replace(callback, "").replace(signature, "")
     str = str.replace(key, "").replace(timestamp, "").replace(realm, "")
     println("str = [${str}]")
-    if (!str.equals(", , , , ")) {
+    if (str != ", , , , ") {
         println(13)
         return 13
     }

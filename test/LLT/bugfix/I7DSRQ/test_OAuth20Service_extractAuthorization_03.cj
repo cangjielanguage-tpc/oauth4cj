@@ -50,7 +50,7 @@ func testOAuth20ServiceGetAuthorizationUrl02(): Int64 {
     println("flag = ${flag}")
 
     let authorization: OAuth2Authorization = oauth20Service.extractAuthorization(redirectLocation03)
-    if (!authorization.getCode().equals("codeValue")){
+    if (authorization.getCode() != "codeValue"){
         return 3
     }
     return 0

@@ -34,11 +34,11 @@ public func testFileByteArrayBodyPartPayload_01(): Int32 {
     let off: Int64 = bp.getOff()
     let len: Int64 = bp.getLen()
     let str: String = "form-data; name=\"name_test\""
-    if (headers.size != 2 || !headers.contains("Content-Disposition") || !headers["Content-Disposition"].equals(str)) {
+    if (headers.size != 2 || !headers.contains("Content-Disposition") || headers["Content-Disposition"] != str) {
         println(1)
         return 1
     }
-    if (!headers.contains(OAuthConstants.CONTENT_TYPE) || !headers[OAuthConstants.CONTENT_TYPE].equals("contentType_test")) {
+    if (!headers.contains(OAuthConstants.CONTENT_TYPE) || headers[OAuthConstants.CONTENT_TYPE] != "contentType_test") {
         println(11)
         return 11
     }
@@ -59,11 +59,11 @@ public func testFileByteArrayBodyPartPayload_02(): Int32 {
     let len: Int64 = bp.getLen()
     let str: String = "form-data; name=\"name_test\"; filename=\"filename_test\""
     if (headers.size != 2 || !headers.contains("Content-Disposition") ||
-            !headers["Content-Disposition"].equals(str)) {
+            headers["Content-Disposition"] != str) {
         println(3)
         return 3
     }
-    if (!headers.contains(OAuthConstants.CONTENT_TYPE) || !headers[OAuthConstants.CONTENT_TYPE].equals("contentType_test")) {
+    if (!headers.contains(OAuthConstants.CONTENT_TYPE) || headers[OAuthConstants.CONTENT_TYPE] != "contentType_test") {
         println(4)
         return 4
     }
@@ -83,11 +83,11 @@ public func testFileByteArrayBodyPartPayload_03(): Int32 {
     let off: Int64 = bp.getOff()
     let len: Int64 = bp.getLen()
     let str: String = "form-data; name=\"name_test\"; filename=\"filename_test\""
-    if (headers.size != 2 || !headers.contains("Content-Disposition") || !headers["Content-Disposition"].equals(str)) {
+    if (headers.size != 2 || !headers.contains("Content-Disposition") || headers["Content-Disposition"] != str) {
         println(6)
         return 6
     }
-    if (!headers.contains(OAuthConstants.CONTENT_TYPE) || !headers[OAuthConstants.CONTENT_TYPE].equals("contentType_test")) {
+    if (!headers.contains(OAuthConstants.CONTENT_TYPE) || headers[OAuthConstants.CONTENT_TYPE] != "contentType_test") {
         println(7)
         return 7
     }

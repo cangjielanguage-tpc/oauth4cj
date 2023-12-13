@@ -59,7 +59,7 @@ public func testByteArrayBodyPartPayload_03(): Int32 {
     let arr: Array<UInt8> = bp.getPayload()
     let off: Int64 = bp.getOff()
     let len: Int64 = bp.getLen()
-    if (headers.size != 1 || !headers.contains(OAuthConstants.CONTENT_TYPE) || !headers[OAuthConstants.CONTENT_TYPE].equals("test")) {
+    if (headers.size != 1 || !headers.contains(OAuthConstants.CONTENT_TYPE) || headers[OAuthConstants.CONTENT_TYPE] != "test") {
         println(3)
         return 3
     }

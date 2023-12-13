@@ -72,7 +72,7 @@ class CharArrayStream {
      */
     func toCharArray(): Array<Char> {
         synchronized (this.mu) {
-            return this.myData.slice(this.start, this.length_)
+            return this.myData[this.start..(this.start + this.length_)]
         }
     }
 

@@ -20,15 +20,15 @@ main () {
     println("str01 = " + str01)
     println("str02 = " + str02)
 
-    if (!str00.equals(str10)) {
+    if (str00 != str10) {
         println(1)
         return 1
     }
-    if (!str01.equals(str11)) {
+    if (str01 != str11) {
         println(2)
         return 2
     }
-    if (!str02.equals(str12)) {
+    if (str02 != str12) {
         println(3)
         return 3
     }

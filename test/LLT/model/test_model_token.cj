@@ -9,7 +9,7 @@ var flag:Bool = false
 public func testToken_01():Int32 {
     var token:Token = Token()
     var rawResponse:String = token.getRawResponse()
-    if (rawResponse.equals("")) {
+    if (rawResponse == "") {
         return 0
     } 
     return -1
@@ -19,7 +19,7 @@ public func testToken_01():Int32 {
 public func testToken_02():Int32 {
     var token:Token = Token("")
     var parameter:String = token.getParameter("")
-    if (parameter.equals("")) {
+    if (parameter == "") {
         return 0
     } 
     return -1
@@ -29,7 +29,7 @@ public func testToken_02():Int32 {
 public func testToken_03():Int32 {
     var token:Token = Token("abcdefg")
     var rawResponse:String = token.getRawResponse()
-    if (rawResponse.equals("abcdefg")) {
+    if (rawResponse == "abcdefg") {
         return 0
     } 
     return -1
@@ -39,7 +39,7 @@ public func testToken_03():Int32 {
 public func testToken_04():Int32 {
     var token:Token = Token("abcdefg")
     var parameter:String = token.getParameter("abcdefg")
-    if (parameter.equals("")) {
+    if (parameter == "") {
         return 0
     } 
     return -1
@@ -49,7 +49,7 @@ public func testToken_04():Int32 {
 public func testToken_05():Int32 {
     var token:Token = Token("a=1")
     var parameter:String = token.getParameter("a")
-    if (parameter.equals("1")) {
+    if (parameter == "1") {
         return 0
     } 
     return -1
@@ -59,7 +59,7 @@ public func testToken_05():Int32 {
 public func testToken_06():Int32 {
     var token:Token = Token("a=1&b=2&c=3")
     var rawResponse:String = token.getRawResponse()
-    if (rawResponse.equals("a=1&b=2&c=3")) {
+    if (rawResponse == "a=1&b=2&c=3") {
         return 0
     } 
     return -1
@@ -69,7 +69,7 @@ public func testToken_06():Int32 {
 public func testToken_07():Int32 {
     var token:Token = Token("a=1&b=2&c=3")
     var parameter:String = token.getParameter("b")
-    if (parameter.equals("2")) {
+    if (parameter == "2") {
         return 0
     } 
     return -1
@@ -79,7 +79,7 @@ public func testToken_07():Int32 {
 public func testToken_08():Int32 {
     var token:Token = Token("a=1&b=2&c=")
     var parameter:String = token.getParameter("c")
-    if (parameter.equals("")) {
+    if (parameter == "") {
         return 0
     } 
     return -1

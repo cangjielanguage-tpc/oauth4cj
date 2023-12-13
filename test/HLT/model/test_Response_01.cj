@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../common_Values.cj
 
 
@@ -23,11 +23,11 @@ public class TestResponseB001{
         var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"body")
         var sub01=SubResource(File("temp.cj",OpenOption.CreateOrTruncate(true)))
         var inputStream01=ByteArrayStream()
-        inputStream01.write("hello byte".toUtf8Array())
+        inputStream01.write("hello byte".toArray())
         var response02=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),inputStream01,ArrayList<Resource>([sub01]))
         for (str in strValues) {
             inputStream01=ByteArrayStream()
-            inputStream01.write("hello byte".toUtf8Array())
+            inputStream01.write("hello byte".toArray())
             response01=oauth4cj.OAuth4cjResponse(Int32(32),str,HashMap<String,String>(),str)
             response02=oauth4cj.OAuth4cjResponse(Int32(32),str,HashMap<String,String>(),inputStream01,ArrayList<Resource>([sub01]))
             @Assert(response01.getBody(),str)
@@ -41,8 +41,8 @@ public class TestResponseB001{
          var sub01=SubResource(File("temp.cj",OpenOption.CreateOrTruncate(true)))
          var inputStream01=ByteArrayStream()
          var inputStream02=ByteArrayStream()
-         inputStream01.write("hello byte".toUtf8Array())
-         inputStream02.write("hello byte".toUtf8Array())
+         inputStream01.write("hello byte".toArray())
+         inputStream02.write("hello byte".toArray())
          var gzipinput=CompressInputStream(inputStream01,wrap:GzipFormat)
          var response02=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>([("Content-Encoding","gzip")]),gzipinput,ArrayList<Resource>([sub01]))
          var response03=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>([("Content-Encoding","gzip")]),inputStream02,ArrayList<Resource>([sub01]))
@@ -65,14 +65,14 @@ public class TestResponseB001{
         var sub01=SubResource(File("temp.cj",OpenOption.CreateOrTruncate(true)))
         var inputStream01=ByteArrayStream()
         var inputStream02=ByteArrayStream()
-        inputStream01.write("hello byte".toUtf8Array())
+        inputStream01.write("hello byte".toArray())
         var response02=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>([("Content-Encoding","gzip")]),inputStream01,ArrayList<Resource>([sub01]))
         var response03=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>([("Content-Encoding","gzip")]),inputStream02,ArrayList<Resource>([sub01]))
 
         var encodingContent=Array<String>(["GZIP","Gzip","abgzip","gzip01","other"])
         for (encodeingValue in encodingContent){
             inputStream01=ByteArrayStream()
-            inputStream01.write("hello byte".toUtf8Array())
+            inputStream01.write("hello byte".toArray())
             response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>([("Content-Encoding",encodeingValue)]),"body")
             response02=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>([("Content-Encoding",encodeingValue)]),inputStream01,ArrayList<Resource>([sub01]))
             response03=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>([("Content-Encoding",encodeingValue)]),inputStream02,ArrayList<Resource>([sub01]))
@@ -96,7 +96,7 @@ public class TestResponseB001{
         var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"body")
         var sub01=SubResource(File("temp.cj",OpenOption.CreateOrTruncate(true)))
         var inputStream=ByteArrayStream()
-        inputStream.write("hello byte".toUtf8Array())
+        inputStream.write("hello byte".toArray())
         var response02=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),inputStream,ArrayList<Resource>([sub01]))
         var response03=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),ByteArrayStream(),ArrayList<Resource>([sub01]))
         var str="not emnpty"
@@ -169,7 +169,7 @@ public class TestResponseB001{
         var sub01=SubResource(File("temp.cj",OpenOption.CreateOrTruncate(true)))
         var inputStream01=ByteArrayStream()
         var inputStream02=ByteArrayStream()
-        inputStream01.write("hello byte".toUtf8Array())
+        inputStream01.write("hello byte".toArray())
         var response02=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),inputStream01,ArrayList<Resource>([sub01]))
         var response03=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),inputStream02,ArrayList<Resource>([sub01]))
 
@@ -188,12 +188,12 @@ public class TestResponseB001{
         var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"body")
         var sub01=SubResource(File("temp.cj",OpenOption.CreateOrTruncate(true)))
         var inputStream=ByteArrayStream()
-        inputStream.write("hello byte".toUtf8Array())
+        inputStream.write("hello byte".toArray())
         var response02=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),inputStream,ArrayList<Resource>([sub01]))
         var response03=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),ByteArrayStream(),ArrayList<Resource>([sub01]))
         for (str in strValues) {
             inputStream=ByteArrayStream()
-            inputStream.write("hello byte".toUtf8Array())
+            inputStream.write("hello byte".toArray())
             response01=oauth4cj.OAuth4cjResponse(Int32(32),str,HashMap<String,String>(),str)
             response02=oauth4cj.OAuth4cjResponse(Int32(32),str,HashMap<String,String>(),inputStream,ArrayList<Resource>([sub01]))
             response03=oauth4cj.OAuth4cjResponse(Int32(32),str,HashMap<String,String>(),ByteArrayStream(),ArrayList<Resource>([sub01]))
@@ -233,15 +233,15 @@ public class TestResponseB001{
         var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"body")
         var sub01=SubResource(File("temp.cj",OpenOption.CreateOrTruncate(true)))
         var inputStream01=ByteArrayStream()
-        inputStream01.write("hello world".toUtf8Array())
+        inputStream01.write("hello world".toArray())
         var response02=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),inputStream01,ArrayList<Resource>([sub01]))
 
         for (str in strValues) {
             response01=oauth4cj.OAuth4cjResponse(Int32(32),str,HashMap<String,String>(),str)
-            inputStream01.write("hello world".toUtf8Array())
+            inputStream01.write("hello world".toArray())
             response02=oauth4cj.OAuth4cjResponse(Int32(32),str,HashMap<String,String>(),inputStream01,ArrayList<Resource>([sub01]))
-            var tostring_response01="Response{"+ "code=" + response01.getCode().toString()+ ", message='" + response01.getMessage() + '\'' + ", body='" + response01.getBody() + '\''+ ", headers=" + response01.getHeaders().toString() + "}"
-            var tostring_response02="Response{"+ "code=" + response02.getCode().toString()+ ", message='" + response02.getMessage() + '\'' + ", body='" + response02.getBody() + '\''+ ", headers=" + response02.getHeaders().toString() + "}"
+            var tostring_response01="Response{"+ "code=" + response01.getCode().toString()+ ", message='" + response01.getMessage() + "\'" + ", body='" + response01.getBody() + "\'"+ ", headers=" + response01.getHeaders().toString() + "}"
+            var tostring_response02="Response{"+ "code=" + response02.getCode().toString()+ ", message='" + response02.getMessage() + "\'" + ", body='" + response02.getBody() + "\'"+ ", headers=" + response02.getHeaders().toString() + "}"
             @Assert(response01.toString(),tostring_response01)
             @Assert(response02.toString(),tostring_response02)
         }

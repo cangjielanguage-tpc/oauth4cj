@@ -14,16 +14,16 @@ func testAPI10a_01(): Int32 {
     let oauth1AccessToken: OAuth1Token = tokenEAccess.extract(response)
     let oauth1RequestToken: OAuth1Token = tokenERequest.extract(response)
 
-    if (!oauth1AccessToken.getToken().equals("access_token")) {
+    if (oauth1AccessToken.getToken() != "access_token") {
         return -1
     }
-    if (!oauth1AccessToken.getTokenSecret().equals("123456")) {
+    if (oauth1AccessToken.getTokenSecret() != "123456") {
         return -1
     }
-    if (!oauth1RequestToken.getToken().equals("access_token")) {
+    if (oauth1RequestToken.getToken() != "access_token") {
         return -1
     }
-    if (!oauth1RequestToken.getTokenSecret().equals("123456")) {
+    if (oauth1RequestToken.getTokenSecret() != "123456") {
         return -1
     }
     return 0
@@ -37,7 +37,7 @@ func testAPI10a_02(): Int32 {
             "%26oauth_timestamp%3D123456"
     let requestBaseString: OAuth4cjRequest = createSampleOAuthRequest()
     let baseString: String = baseStringE.extract(requestBaseString)
-    if (!baseString.equals(expected)) {
+    if (baseString != expected) {
         return -1
     }
 
@@ -53,22 +53,22 @@ func testAPI10a_02(): Int32 {
 func testAPI10a_03(): Int32 {
     var apiA: A = A()
     var sign: SignatureService = apiA.getSignatureService()
-    if (!sign.getSignatureMethod().equals("HMAC-SHA1")) {
+    if (sign.getSignatureMethod() != "HMAC-SHA1") {
         return -1
     }
 
     var oauth1Sign: OAuth1SignatureType = apiA.getSignatureType()
-    if (!oauth1Sign.toString().equals("HEADER")) {
+    if (oauth1Sign.toString() != "HEADER") {
         return -1
     }
 
-    if (oauth1Sign.toString().equals(OAuth1SignatureType.QUERY_STRING_SIGNATURE.toString())) {
+    if (oauth1Sign.toString() == OAuth1SignatureType.QUERY_STRING_SIGNATURE.toString()) {
         return -1
     }
 
     var timeS: TimestampService = apiA.getTimestampService()
     let timeResult: String = (getCurrentTimeMillis() / 1000).toString()
-    if (!timeS.getTimestampInSeconds().equals(timeResult)) {
+    if (timeS.getTimestampInSeconds() != timeResult) {
         return -1
     }
 
@@ -78,12 +78,12 @@ func testAPI10a_03(): Int32 {
 func testAPI10a_04(): Int32 {
     var apiA: A = A()
     var verbAccess: Verb = apiA.getAccessTokenVerb()
-    if (!verbAccess.toString().equals("POST")) {
+    if (verbAccess.toString() != "POST") {
         return -1
     }
 
     var verbRequest: Verb = apiA.getRequestTokenVerb()
-    if (!verbRequest.toString().equals("POST")) {
+    if (verbRequest.toString() != "POST") {
         return -1
     }
 
@@ -103,7 +103,7 @@ func testAPI10a_05(): Int32 {
     var url = apiA.getAuthorizationUrl(oauth1RequestToken.getOrThrow())
     
     let requestUrl = "getAuthorizationBaseUrl?oauth_token=access_token"
-    if (!url.equals(requestUrl)) {
+    if (url != requestUrl) {
         println(url)
         return -1
     }

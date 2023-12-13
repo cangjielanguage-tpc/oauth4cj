@@ -55,7 +55,7 @@ public func testMultipartPayload_01(): Int32 {
         println(2)
         return 2
     }
-    if (!boundary.contains("----OAuth4cj----") || !preamble.equals("") || !epilogue.equals("")) {
+    if (!boundary.contains("----OAuth4cj----") || preamble != "" || epilogue != "") {
         println(3)
         return 3
     }
@@ -85,7 +85,7 @@ public func testMultipartPayload_02(): Int32 {
         println(5)
         return 5
     }
-    if (!boundary.contains("----OAuth4cj----") || !preamble.equals("") || !epilogue.equals("")) {
+    if (!boundary.contains("----OAuth4cj----") || preamble != "" || epilogue != "") {
         println(6)
         return 6
     }
@@ -113,7 +113,7 @@ public func testMultipartPayload_03(): Int32 {
         println(8)
         return 8
     }
-    if (!boundary.contains("----OAuth4cj----") || !preamble.equals("") || !epilogue.equals("")) {
+    if (!boundary.contains("----OAuth4cj----") || preamble != "" || epilogue != "") {
         println(9)
         return 9
     }

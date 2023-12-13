@@ -57,7 +57,7 @@ func testTokenReponseConverter_03(): Int32 {
 func testTokenReponseConverter_04(): Int32 {
     var converter=OAuth2RevokeTokenResponseConverter()
     var inputStream=ByteArrayStream()
-    inputStream.write("hello cangjie".toUtf8Array())
+    inputStream.write("hello cangjie".toArray())
     println(inputStream.isEmpty())
     var response=OAuth4cjResponse(Int32(400),"message",HashMap<String,String>(),inputStream,ArrayList<Resource>())
     try {

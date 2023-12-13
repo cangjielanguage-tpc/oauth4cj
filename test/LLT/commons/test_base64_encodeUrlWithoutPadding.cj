@@ -10,7 +10,7 @@ main (){
     let encoded: String = "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjQ"
     let str: String = Base64Utils.encodeUrlWithoutPadding(bytes)
     println("encoded == str: ${encoded == str}")
-    if (!str.equals(encoded)) {
+    if (str != encoded) {
         println(1)
         return 1
     }

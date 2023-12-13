@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../common_Values.cj
 
 @Test
@@ -19,8 +19,7 @@ public class TestOAuth1AccessTokenB001{
 
         oauth1accesstoken02=OAuth1AccessToken("str","str","str")
         @Assert(oauth1accesstoken02.equals(oauth1token01),false)
-    }
-    /***
+    }     /***
        测试项：(obj as OAuth1AccessToken)  是  Option<OAuth1AccessToken>.None
        测试场景： object是不相关类的实例对象
     ***/

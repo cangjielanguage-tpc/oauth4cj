@@ -44,21 +44,21 @@ public func testMultipartPayload_01(): Int32 {
     let header: HashMap<String, String> = mp.getHeaders()
     for((k, v) in header) {
         sb.append(k)
-                      .append(": ")
-                      .append(v)
-                      .append("\r\n")
+        sb.append(": ")
+        sb.append(v)
+        sb.append("\r\n")
     }
 
     var str: String = sb.toString()
     let result: String = "Content-Type: multipart/form-data; boundary=\"" + mp.getBoundary() + "\"\r\n"
 
-    if (!str.equals(result)) {
+    if (str != result) {
         println(1)
         return 1
     }
     
     str = String.fromUtf8(MultipartUtils.getPayload(mp).readToEnd())
-    if (!str.equals("")) {
+    if (str != "") {
         println(2)
         return 2
     }
@@ -78,13 +78,13 @@ public func testMultipartPayload_02(): Int32 {
     mp.setPreamble(str)
 
     str = "This is implicitly typed plain US-ASCII text.\n" + "It does NOT end with a linebreak."
-    var arr: Array<UInt8> = str.toUtf8Array()
+    var arr: Array<UInt8> = str.toArray()
     
     mp.addBodyPart(ByteArrayBodyPartPayload(arr))
 
 
     str = "This is explicitly typed plain US-ASCII text.\n" + "It DOES end with a linebreak.\n"
-    arr = str.toUtf8Array()
+    arr = str.toArray()
 
     let maps: HashMap<String, String> = HashMap<String, String>()
     maps.put(OAuthConstants.CONTENT_TYPE, "text/plain; charset=us-ascii")
@@ -99,16 +99,16 @@ public func testMultipartPayload_02(): Int32 {
     let header: HashMap<String, String> = mp.getHeaders()
     for((k, v) in header) {
         sb.append(k)
-                      .append(": ")
-                      .append(v)
-                      .append("\r\n")
+        sb.append(": ")
+        sb.append(v)
+        sb.append("\r\n")
     }
 
     str = sb.toString()
     var result: String = "X-Header: X-Value\r\n" +
                          "Content-Disposition: Content-Disposition-Value\r\n" +
                          "Content-Type: multipart/mixed; boundary=\"simple boundary\"\r\n"
-    if (!str.equals(result)) {
+    if (str != result) {
         println(3)
         return 3
     }
@@ -128,7 +128,7 @@ public func testMultipartPayload_02(): Int32 {
              "It DOES end with a linebreak.\n" +
              "\r\n--simple boundary--" +
              "\r\nThis is the epilogue.  It is also to be ignored."
-    if (!str.equals(result)) {
+    if (str != result) {
         println(4)
         return 4
     }
@@ -137,24 +137,24 @@ public func testMultipartPayload_02(): Int32 {
 
 public func testMultipartPayload_03(): Int32 {
     let mp: MultipartPayload = MultipartPayload("simple-boundary")
-    mp.addBodyPart(ByteArrayBodyPartPayload("It does NOT end with a linebreak.".toUtf8Array()))
-    mp.addBodyPart(ByteArrayBodyPartPayload("It does end with a \\r linebreak.\r".toUtf8Array()))
-    mp.addBodyPart(ByteArrayBodyPartPayload("It does end with a \\n linebreak.\n".toUtf8Array()))
-    mp.addBodyPart(ByteArrayBodyPartPayload("It does end with a \\r\\n linebreak.\r\n".toUtf8Array()))
-    mp.addBodyPart(ByteArrayBodyPartPayload("the last one".toUtf8Array()))
+    mp.addBodyPart(ByteArrayBodyPartPayload("It does NOT end with a linebreak.".toArray()))
+    mp.addBodyPart(ByteArrayBodyPartPayload("It does end with a \\r linebreak.\r".toArray()))
+    mp.addBodyPart(ByteArrayBodyPartPayload("It does end with a \\n linebreak.\n".toArray()))
+    mp.addBodyPart(ByteArrayBodyPartPayload("It does end with a \\r\\n linebreak.\r\n".toArray()))
+    mp.addBodyPart(ByteArrayBodyPartPayload("the last one".toArray()))
 
     let sb: StringBuilder = StringBuilder()
     let header: HashMap<String, String> = mp.getHeaders()
     for((k, v) in header) {
         sb.append(k)
-                      .append(": ")
-                      .append(v)
-                      .append("\r\n")
+        sb.append(": ")
+        sb.append(v)
+        sb.append("\r\n")
     }
 
     var str: String = sb.toString()
     var result: String = "Content-Type: multipart/form-data; boundary=\"simple-boundary\"\r\n"
-    if (!str.equals(result)) {
+    if (str != result) {
         println(5)
         return 5
     }
@@ -176,7 +176,7 @@ public func testMultipartPayload_03(): Int32 {
              "\r\n" +
              "the last one" +
              "\r\n--simple-boundary--"
-    if (!str.equals(result)) {
+    if (str != result) {
         println(6)
         return 6
     }
@@ -185,22 +185,22 @@ public func testMultipartPayload_03(): Int32 {
 
 public func testMultipartPayload_04(): Int32 {
     let mp: MultipartPayload = MultipartPayload("testFileByteArrayBodyPartPayloadMultipartPayload boundary")
-    mp.addBodyPart(FileByteArrayBodyPartPayload("fileContent".toUtf8Array(), "name", "filename.ext"))
+    mp.addBodyPart(FileByteArrayBodyPartPayload("fileContent".toArray(), "name", "filename.ext"))
 
 
     let sb: StringBuilder = StringBuilder()
     let header: HashMap<String, String> = mp.getHeaders()
     for((k, v) in header) {
         sb.append(k)
-          .append(": ")
-          .append(v)
-          .append("\r\n")
+        sb.append(": ")
+        sb.append(v)
+        sb.append("\r\n")
     }
 
     var str: String = sb.toString()
     var result: String = "Content-Type: multipart/form-data; " +
                          "boundary=\"testFileByteArrayBodyPartPayloadMultipartPayload boundary\"\r\n"
-    if (!str.equals(result)) {
+    if (str != result) {
         println(7)
         return 7
     }
@@ -212,7 +212,7 @@ public func testMultipartPayload_04(): Int32 {
              "fileContent" +
              "\r\n--testFileByteArrayBodyPartPayloadMultipartPayload boundary--"
 
-    if (!str.equals(result)) {
+    if (str != result) {
         println(8)
         return 8
     }
@@ -231,11 +231,11 @@ public func testMultipartPayload_05(): Int32 {
                       "how to properly display multipart messages.\n"
 
     mp.setPreamble(str)
-    mp.addBodyPart(ByteArrayBodyPartPayload("... Some text appears here ...".toUtf8Array()))
+    mp.addBodyPart(ByteArrayBodyPartPayload("... Some text appears here ...".toArray()))
 
     str = "This could have been part of the previous part, but\n" +
           "illustrates explicit versus implicit typing of body\n" + "parts.\n"
-    mp.addBodyPart(ByteArrayBodyPartPayload(str.toUtf8Array(), "text/plain; charset=US-ASCII"))
+    mp.addBodyPart(ByteArrayBodyPartPayload(str.toArray(), "text/plain; charset=US-ASCII"))
 
     let innerMP: MultipartPayload = MultipartPayload("parallel", "unique-boundary-2")
     mp.addBodyPart(innerMP)
@@ -245,20 +245,20 @@ public func testMultipartPayload_05(): Int32 {
     audioHeaders.put("Content-Transfer-Encoding", "base64")
 
     innerMP.addBodyPart(ByteArrayBodyPartPayload(("... base64-encoded 8000 Hz single-channel\n" +
-                    "    mu-law-format audio data goes here ...").toUtf8Array(), audioHeaders))
+                    "    mu-law-format audio data goes here ...").toArray(), audioHeaders))
 
     let imageHeaders: HashMap<String, String> = HashMap<String, String>()
     imageHeaders.put("Content-Type", "image/jpeg")
     imageHeaders.put("Content-Transfer-Encoding", "base64")
     innerMP.addBodyPart(
-        ByteArrayBodyPartPayload("... base64-encoded image data goes here ...".toUtf8Array(), imageHeaders))
+        ByteArrayBodyPartPayload("... base64-encoded image data goes here ...".toArray(), imageHeaders))
 
     str = "This is <bold><italic>enriched.</italic></bold>\n" +
           "<smaller>as defined in RFC 1896</smaller>\n" +
           "\n" +
           "Isn't it\n" +
           "<bigger><bigger>cool?</bigger></bigger>\n"
-    mp.addBodyPart(ByteArrayBodyPartPayload(str.toUtf8Array(), "text/enriched"))
+    mp.addBodyPart(ByteArrayBodyPartPayload(str.toArray(), "text/enriched"))
 
     str = "From: (mailbox in US-ASCII)\n" +
           "To: (address in US-ASCII)\n" +
@@ -267,20 +267,20 @@ public func testMultipartPayload_05(): Int32 {
           "Content-Transfer-Encoding: Quoted-printable\n" +
           "\n" +
           "... Additional text in ISO-8859-1 goes here ...\n"
-    mp.addBodyPart(ByteArrayBodyPartPayload(str.toUtf8Array(), "message/rfc822"))
+    mp.addBodyPart(ByteArrayBodyPartPayload(str.toArray(), "message/rfc822"))
 
     let sb: StringBuilder = StringBuilder()
     let header: HashMap<String, String> = mp.getHeaders()
     for((k, v) in header) {
         sb.append(k)
-                      .append(": ")
-                      .append(v)
-                      .append("\r\n")
+        sb.append(": ")
+        sb.append(v)
+        sb.append("\r\n")
     }
 
     str = sb.toString()
     var result: String = "Content-Type: multipart/mixed; boundary=\"unique-boundary-1\"\r\n"
-    if (!str.equals(result)) {
+    if (str != result) {
         println(9)
         return 9
     }
@@ -339,7 +339,7 @@ public func testMultipartPayload_05(): Int32 {
     //println("str = ${str}")
     //println("result = ${result}")
 
-    if (!str.equals(result)) {
+    if (str != result) {
         println(10)
         return 10
     }

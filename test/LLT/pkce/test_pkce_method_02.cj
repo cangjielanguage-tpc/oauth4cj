@@ -10,11 +10,11 @@ main () {
     let res: String = PKCECodeChallengeMethod.PLAIN.transform2CodeChallenge(str)
 
     println("res = ${res}")
-    if (!res.equals(str)) {
+    if (res != str) {
         return -1
     }
 
-    if (!PKCECodeChallengeMethod.PLAIN.toString().equals("PLAIN")) {
+    if (PKCECodeChallengeMethod.PLAIN.toString() != "PLAIN") {
         return -1
     }
 

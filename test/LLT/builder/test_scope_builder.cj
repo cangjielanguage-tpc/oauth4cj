@@ -8,7 +8,7 @@ func testScopeBuilder_01(): Int32 {
     var scopeString: String = "scope_1"
     var scope: String = ScopeBuilder().withScope(scopeString).build()
     var montageString: String = "scope_1"
-    if (montageString.equals(scope)) {
+    if (montageString == scope) {
         return 0
     } else {
         return -1
@@ -22,7 +22,7 @@ func testScopeBuilder_02(): Int32 {
     scopeString[2] = "scope_3"
     var scope: String = ScopeBuilder().withScopes(scopeString).build()
     var montageString: String = "scope_1 scope_2 scope_3"
-    if (montageString.equals(scope)) {
+    if (montageString == scope) {
         return 0
     } else {
         return -1
@@ -36,7 +36,7 @@ func testScopeBuilder_03(): Int32 {
     scopeString.put("scope_3")
     var scope: String = ScopeBuilder().withScopes(scopeString).build()
     var montageString: String = "scope_1 scope_2 scope_3"
-    if (montageString.equals(scope)) {
+    if (montageString == scope) {
         return 0
     } else {
         return -1
@@ -50,7 +50,7 @@ func testScopeBuilder_04(): Int32 {
     scopeString.append("scope_3")
     var scope: String = ScopeBuilder().withScopes(scopeString).build()
     var montageString: String = "scope_1 scope_2 scope_3"
-    if (montageString.equals(scope)) {
+    if (montageString == scope) {
         return 0
     } else {
         return -1
@@ -68,7 +68,7 @@ func testScopeBuilder_05(): Int32 {
     scopeString_add.append("scope_6")
     var scope: String = ScopeBuilder(scopeString).withScopes(scopeString_add).build()
     var montageString: String = "scope_1 scope_2 scope_3 scope_4 scope_5 scope_6"
-    if (montageString.equals(scope)) {
+    if (montageString == scope) {
         return 0
     } else {
         return -1
@@ -83,7 +83,7 @@ func testScopeBuilder_06(): Int32 {
     var scopeString_add: String = "scope_4"
     var scope: String = ScopeBuilder(scopeString).withScopes(scopeString_add).build()
     var montageString: String = "scope_1 scope_2 scope_3 scope_4"
-    if (montageString.equals(scope)) {
+    if (montageString == scope) {
         return 0
     } else {
         return -1
@@ -95,7 +95,7 @@ func testScopeBuilder_07(): Int32 {
     var scopeString_add: String = "scope_2"
     var scope: String = ScopeBuilder(scopeString).withScope(scopeString_add).build()
     var montageString: String = "scope_1 scope_2"
-    if (montageString.equals(scope)) {
+    if (montageString == scope) {
         return 0
     } else {
         return -1

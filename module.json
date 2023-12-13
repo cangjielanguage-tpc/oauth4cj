@@ -1,15 +1,10 @@
 {
-  "cjc_version": "0.39.8",
+  "cjc_version": "0.46.2",
   "organization": "cangjie",
   "name": "oauth4cj",
   "description": "nothing here",
   "version": "0.0.2",
   "requires": {
-    "crypto4cj": {
-      "organization": "cangjie",
-      "version": "0.0.7",
-      "path": "./crypto4cj"
-    },
     "httpclient4cj": {
       "organization": "cangjie",
       "version": "0.0.6",

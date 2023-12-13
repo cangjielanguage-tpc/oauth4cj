@@ -46,11 +46,11 @@ func testOAuth2AccessTokenJsonExtractor_01(): Int32 {
     let result: String = "I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X"
                        //"I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X"
     println(str)
-    println(str.toUtf8Array())
-    println(str.equals(result))
-    println(result.toUtf8Array())
+    println(str.toArray())
+    println(str == result)
+    println(result.toArray())
 
-    if (!str.equals(result)) {
+    if (str != result) {
         println(1)
         return 1
     }
@@ -65,11 +65,11 @@ func testOAuth2AccessTokenJsonExtractor_02(): Int32 {
     let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth2AccessToken = extractor.extract(response)
 
-    if (!extracted.getAccessToken().equals("I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T4X")) {
+    if (extracted.getAccessToken() != "I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T4X") {
         println(2)
         return 2
     }
-    if (!extracted.getScope().equals("s1")) {
+    if (extracted.getScope() != "s1") {
         println(3)
         return 3
     }
@@ -84,11 +84,11 @@ func testOAuth2AccessTokenJsonExtractor_03(): Int32 {
     let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth2AccessToken = extractor.extract(response)
 
-    if (!extracted.getAccessToken().equals("I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T5X")) {
+    if (extracted.getAccessToken() != "I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T5X") {
         println(4)
         return 4
     }
-    if (!extracted.getScope().equals("s1 s2")) {
+    if (extracted.getScope() != "s1 s2") {
         println(5)
         return 5
     }
@@ -103,15 +103,15 @@ func testOAuth2AccessTokenJsonExtractor_04(): Int32 {
     let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth2AccessToken = extractor.extract(response)
 
-    if (!extracted.getAccessToken().equals("I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T6X")) {
+    if (extracted.getAccessToken() != "I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T6X") {
         println(6)
         return 6
     }
-    if (!extracted.getScope().equals("s3 s4")) {
+    if (extracted.getScope() != "s3 s4") {
         println(7)
         return 7
     }
-    if (!extracted.getRefreshToken().equals("refresh_token1")) {
+    if (extracted.getRefreshToken() != "refresh_token1") {
         println(8)
         return 8
     }

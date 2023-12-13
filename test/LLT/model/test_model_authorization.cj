@@ -9,18 +9,18 @@ public func testAuthorization_01():Int32 {
     var oauth2Authorization:OAuth2Authorization = OAuth2Authorization()
     oauth2Authorization.setCode("")
     oauth2Authorization.setState("")
-    if (!"".equals(oauth2Authorization.getCode())) {
+    if ("" != oauth2Authorization.getCode()) {
         return -1
     } 
-    if (!"".equals(oauth2Authorization.getState())) {
+    if ("" != oauth2Authorization.getState()) {
         return -1
     } 
     oauth2Authorization.setCode("code")
     oauth2Authorization.setState("state")
-    if (!"code".equals(oauth2Authorization.getCode())) {
+    if ("code" != oauth2Authorization.getCode()) {
         return -1
     } 
-    if (!"state".equals(oauth2Authorization.getState())) {
+    if ("state" != oauth2Authorization.getState()) {
         return -1
     } 
     return 0
@@ -29,13 +29,13 @@ public func testAuthorization_01():Int32 {
 // public init("deviceCode", "userCode", "verificationUri", 50) getDeviceCode() getUserCode() getVerificationUri() getExpiresInSeconds()
 public func testAuthorization_02():Int32 {
     var deviceAuthorization:DeviceAuthorization = DeviceAuthorization("deviceCode", "userCode", "verificationUri", 50)
-    if (!"deviceCode".equals(deviceAuthorization.getDeviceCode())) {
+    if ("deviceCode" != deviceAuthorization.getDeviceCode()) {
         return -1
     } 
-    if (!"userCode".equals(deviceAuthorization.getUserCode())) {
+    if ("userCode" != deviceAuthorization.getUserCode()) {
         return -1
     } 
-    if (!"verificationUri".equals(deviceAuthorization.getVerificationUri())) {
+    if ("verificationUri" != deviceAuthorization.getVerificationUri()) {
         return -1
     } 
     if (deviceAuthorization.getExpiresInSeconds() != 50) {
@@ -47,7 +47,7 @@ public func testAuthorization_02():Int32 {
 // getVerificationUriComplete() getIntervalSeconds() setVerificationUriComplete("VerificationUriComplete") setIntervalSeconds(20)
 public func testAuthorization_03():Int32 {
     var deviceAuthorization:DeviceAuthorization = DeviceAuthorization("deviceCode", "userCode", "verificationUri", 50)
-    if (!"".equals(deviceAuthorization.getVerificationUriComplete())) {
+    if ("" != deviceAuthorization.getVerificationUriComplete()) {
         return -1
     } 
     if (deviceAuthorization.getIntervalSeconds() != 5) {
@@ -55,7 +55,7 @@ public func testAuthorization_03():Int32 {
     } 
     deviceAuthorization.setVerificationUriComplete("VerificationUriComplete")
     deviceAuthorization.setIntervalSeconds(20)
-    if (!"VerificationUriComplete".equals(deviceAuthorization.getVerificationUriComplete())) {
+    if ("VerificationUriComplete" != deviceAuthorization.getVerificationUriComplete()) {
         return -1
     } 
     if (deviceAuthorization.getIntervalSeconds() != 20) {
@@ -68,7 +68,7 @@ public func testAuthorization_03():Int32 {
 public func testAuthorization_04():Int32 {
     var deviceAuthorization:DeviceAuthorization = DeviceAuthorization("deviceCode", "userCode", "verificationUri", 50)
     var str:String = deviceAuthorization.toString()
-    if (!"DeviceAuthorization{'deviceCode'='deviceCode','userCode'='userCode','verificationUri'='verificationUri','verificationUriComplete'='','expiresInSeconds'='50','intervalSeconds'='5'}".equals(str)) {
+    if ("DeviceAuthorization{'deviceCode'='deviceCode','userCode'='userCode','verificationUri'='verificationUri','verificationUriComplete'='','expiresInSeconds'='50','intervalSeconds'='5'}" != str) {
         println(str)
         return -1
     } 

@@ -3,18 +3,18 @@
  */
 
 /**
- * @file The file declars the Parameter class.
+ * @file The file declars the OAuth4cjParameter class.
  */
 package oauth4cj
 
 
-public class Parameter {
+public class OAuth4cjParameter {
 
     private let key: String
     private let value: String
 
     /**
-     * Create a Parameter instance according to the parameter.
+     * Create a OAuth4cjParameter instance according to the parameter.
      *
      * @param key of String
      * @param value of String
@@ -26,13 +26,13 @@ public class Parameter {
     }
 
     /**
-     * Encode the information in this Parameter object according to OAuthEncoder and splice it into a string.
+     * Encode the information in this OAuth4cjParameter object according to OAuthEncoder and splice it into a string.
      *
      * @return Type of String, return the spliced String.
      * @since 0.37.2
      */
     public func asUrlEncodedPair(): String {
-        return OAuthEncoder.encode(key).concat("=").concat(OAuthEncoder.encode(value))
+        return OAuthEncoder.encode(key) + "=" + OAuthEncoder.encode(value)
     }
 
     /**
@@ -66,31 +66,31 @@ public class Parameter {
     }
 
     /**
-     * Overload the operator '==' to return the comparison results of two Parameter instances.
+     * Overload the operator '==' to return the comparison results of two OAuth4cjParameter instances.
      *
-     * @param that of Parameter
+     * @param that of OAuth4cjParameter
      *
      * @return Type of Bool
      * @since 0.37.2
      */
-    public operator func ==(that: Parameter): Bool {
+    public operator func ==(that: OAuth4cjParameter): Bool {
         if (refEq(this, that)) {
             return true
         }
-        return that.getKey().equals(this.key) && that.getValue().equals(this.value)
+        return (that.getKey() == this.key) && (that.getValue() == this.value)
     }
 
     /**
-     * Determine the relationship between a Parameter instance and another Parameter instance.
+     * Determine the relationship between a OAuth4cjParameter instance and another OAuth4cjParameter instance.
      *
-     * @param parameter of Parameter, another Parameter instance for comparison.
+     * @param parameter of OAuth4cjParameter, another OAuth4cjParameter instance for comparison.
      *
      * @return Type of Ordering, If greater than, Ordering.GT is returned;
      *                           If equal, Ordering.EQ is returned;
      *                           If less than, Ordering.LT is returned.
      * @since 0.37.2
      */
-    public func compareTo(parameter: Parameter): Ordering {
+    public func compareTo(parameter: OAuth4cjParameter): Ordering {
         let keyDiff: Ordering = this.key.compare(parameter.getKey())
         if (keyDiff != Ordering.EQ) {
             return keyDiff

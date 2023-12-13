@@ -47,7 +47,7 @@ public func testBodyPartPayload_02(): Int32 {
 public func testBodyPartPayload_03(): Int32 {
     let bp: BodyPartPayload = BodyPartPayload("test")
     let headers: HashMap<String, String> = bp.getHeaders()
-    if (headers.size != 1 || !headers.contains(OAuthConstants.CONTENT_TYPE) || !headers[OAuthConstants.CONTENT_TYPE].equals("test")) {
+    if (headers.size != 1 || !headers.contains(OAuthConstants.CONTENT_TYPE) || headers[OAuthConstants.CONTENT_TYPE] != "test") {
         println(3)
         return 3
     }

@@ -34,17 +34,17 @@ public class HeaderExtractorImpl <: HeaderExtractor {
                 header.append(PARAM_SEPARATOR)
             }
             header.append(k)
-                    .append("=\"")
-                    .append(OAuthEncoder.encode(v))
-                    .append('"')
+            header.append("=\"")
+            header.append(OAuthEncoder.encode(v))
+            header.append('"')
         }
 
         if (!request.getRealm().isEmpty()) {
             header.append(PARAM_SEPARATOR)
-                    .append(OAuthConstants.REALM)
-                    .append("=\"")
-                    .append(request.getRealm())
-                    .append('"')
+            header.append(OAuthConstants.REALM)
+            header.append("=\"")
+            header.append(request.getRealm())
+            header.append('"')
         }
         return header.toString()
     }

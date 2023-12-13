@@ -8,8 +8,6 @@
  */
 package oauth4cj
 
-from crypto4cj import sha256cj.*
-
 
 public enum PKCECodeChallengeMethod <: ToString {
     | S256
@@ -26,9 +24,8 @@ public enum PKCECodeChallengeMethod <: ToString {
     public func transform2CodeChallenge(codeVerifier: String): String {
         match(this) {
             case S256 =>
-                let md: Array<UInt8> = Array<UInt8>(SHA256_DIGEST_LENGTH, item: 0)
-                let arr: Array<UInt8> = codeVerifier.toUtf8Array()
-                sha256(arr, md)
+                let SHA256Instance: SHA256 = SHA256()
+                let md: Array<Byte> = digest(SHA256Instance, codeVerifier)
                 return Base64Utils.encodeUrlWithoutPadding(md)
             case PLAIN => return codeVerifier
         }

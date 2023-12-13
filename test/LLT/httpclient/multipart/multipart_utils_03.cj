@@ -41,7 +41,7 @@ main() {
 public func testMultipartUtils_01(): Int32 {
     let str: String = MultipartUtils.parseBoundaryFromHeader("multipart/subtype; boundary=0aA'()+_,; -./:=? ")
     let result: String = "0aA'()+_,"
-    if (!str.equals(result)) {
+    if (str != result) {
         println(1)
         return 1
     }
@@ -51,7 +51,7 @@ public func testMultipartUtils_01(): Int32 {
 public func testMultipartUtils_02(): Int32 {
     let str: String = MultipartUtils.parseBoundaryFromHeader("multipart/subtype; boundary=\"0aA'()+_, -./:=?")
     let result: String = "0aA'()+_, -./:=?"
-    if (!str.equals(result)) {
+    if (str != result) {
         println(2)
         return 2
     }
@@ -61,7 +61,7 @@ public func testMultipartUtils_02(): Int32 {
 public func testMultipartUtils_03(): Int32 {
     let str: String = MultipartUtils.parseBoundaryFromHeader("multipart/subtype; boundary=0aA'()+_, -./:=?\"")
     let result: String = "0aA'()+_, -./:=?"
-    if (!str.equals(result)) {
+    if (str != result) {
         println(3)
         return 3
     }
@@ -73,7 +73,7 @@ public func testMultipartUtils_04(): Int32 {
                       "boundary=1234567890123456789012345678901234567890123456789012345678901234567890")
     let result: String = "1234567890123456789012345678901234567890123456789012345678901234567890"
 
-    if (!str.equals(result)) {
+    if (str != result) {
         println(4)
         return 4
     }
@@ -85,7 +85,7 @@ public func testMultipartUtils_05(): Int32 {
                       "boundary=12345678901234567890123456789012345678901234567890123456789012345678901")
     let result: String = "1234567890123456789012345678901234567890123456789012345678901234567890"
 
-    if (!str.equals(result)) {
+    if (str != result) {
         println(5)
         return 5
     }

@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../common_Values.cj
 
 @Test
@@ -71,7 +71,7 @@ public class TestRFC5849{
         try{
             rsss.getSignature("baseString","apiSecret","tokenSecret")
         }catch(e:Exception){
-            if(e.toString().contains("Error while signing string.Illegal RSA Private key")){
+            if(e.toString().contains("Error while signing string.X509 parse pem failed: Pem is empty")){
                 flag=0
             }
         }
@@ -98,7 +98,7 @@ public class TestRFC5849{
     @TestCase
     func testRSASha1SignatureServiceGetSignature06(): Unit {
         var file01=File("priKey.pem",OpenOption.CreateOrTruncate(true))
-        file01.write("hello cangjie".toUtf8Array())
+        file01.write("hello cangjie".toArray())
         file01.close()
         file01=File("priKey.pem",OpenOption.CreateOrTruncate(true))
         let rsss=RSASha1SignatureService("priKey.pem")
@@ -106,7 +106,7 @@ public class TestRFC5849{
         try{
             rsss.getSignature("baseString","apiSecret","tokenSecret")
         }catch(e:Exception){
-            if(e.toString().contains("Error while signing string.Illegal RSA Private key")){
+            if(e.toString().contains("Error while signing string.X509 parse pem failed: Pem is empty")){
                 flag=0
             }
         }
@@ -136,7 +136,7 @@ public func getPrivatePem():String{
 
 public func getExpResult(prikey:String,baseString:String):String{
 
-    let data: Array<UInt8> = baseString.toUtf8Array()
+    let data: Array<UInt8> = baseString.toArray()
     var digest: Array<UInt8> = Digest.digest(DigestType.sha1, data)
     let rsa: RSAPrivateKey = RSA.readPriKeyfromFile(prikey)
     let signArray: Array<UInt8> = RSA.sign(DigestType.sha1, digest, rsa)

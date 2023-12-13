@@ -9,21 +9,21 @@ from oauth4cj import oauth4cj.*
 public func testOAuth2_01():Int32 {
     var oauth2AccessToken_0:OAuth2AccessToken = OAuth2AccessToken("token","a=1&b=2&c=3")
     var rawResponse:String = oauth2AccessToken_0.getRawResponse()
-    if (!rawResponse.equals("a=1&b=2&c=3")) {
+    if (rawResponse != "a=1&b=2&c=3") {
         return -1
     } 
     var parameter:String = oauth2AccessToken_0.getParameter("c")
-    if (!parameter.equals("3")) {
+    if (parameter != "3") {
         return -1
     } 
 
     var oauth2AccessToken:OAuth2AccessToken = OAuth2AccessToken("token", "tokenType", 100, "refreshToken","scope","a=1&b=2&c=3")
     var token:String = oauth2AccessToken.getAccessToken()
-    if (!token.equals("token")) {
+    if (token != "token") {
         return -1
     } 
     var tokenType:String = oauth2AccessToken.getTokenType()
-    if (!tokenType.equals("tokenType")) {
+    if (tokenType != "tokenType") {
         return -1
     } 
     var expiresIn:Int32 = oauth2AccessToken.getExpiresIn()
@@ -31,11 +31,11 @@ public func testOAuth2_01():Int32 {
         return -1
     } 
     var refreshToken:String = oauth2AccessToken.getRefreshToken()
-    if (!refreshToken.equals("refreshToken")) {
+    if (refreshToken != "refreshToken") {
         return -1
     } 
     var scope:String = oauth2AccessToken.getScope()
-    if (!scope.equals("scope")) {
+    if (scope != "scope") {
         return -1
     } 
     return 0

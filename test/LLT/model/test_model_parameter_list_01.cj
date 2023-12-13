@@ -24,7 +24,7 @@ public func testParameterList_01():Int32 {
     return 0
 }
 
-// public init(map: HashMap<String, String>)  public func contains(param: Parameter) public func getParams()
+// public init(map: HashMap<String, String>)  public func contains(param: OAuth4cjParameter) public func getParams()
 public func testParameterList_02():Int32 {
     var map = HashMap<String, String>()
     map.put("key1", "value1")
@@ -32,11 +32,11 @@ public func testParameterList_02():Int32 {
     map.put("key3", "value3")
     var list = ParameterList(map)
 
-    var para = Parameter("key2", "value2")
+    var para = OAuth4cjParameter("key2", "value2")
     if (!list.contains(para)) {
         return -1
     }
-    var para_2 = Parameter("key4", "value4")
+    var para_2 = OAuth4cjParameter("key4", "value4")
     if (list.contains(para_2)) {
         return -1
     }
@@ -78,7 +78,8 @@ public func testParameterList_04():Int32 {
     var url = "http://test/"
     var result = list.appendTo(url)
     var expectString = "http://test/?key1=value1&key2=value2"
-    if (!expectString.equals(result)) {
+    println("result = ${result}")
+    if (expectString != result) {
         println(result)
         return -1
     }
@@ -86,7 +87,8 @@ public func testParameterList_04():Int32 {
     var url_2 = "http://test/test_02?a=b"
     var result_2 = list.appendTo(url_2)
     var expectString_2 = "http://test/test_02?a=b&key1=value1&key2=value2"
-    if (!expectString_2.equals(result_2)) {
+    println("result_2 = ${result_2}")
+    if (expectString_2 != result_2) {
         println(result_2)
         return -1
     }
@@ -94,7 +96,8 @@ public func testParameterList_04():Int32 {
     var list_2 = ParameterList()
     var url_3 = "http://test/test_03"
     var result_3 = list_2.appendTo(url_3)
-    if (!url_3.equals(result_3)) {
+    println("result_3 = ${result_3}")
+    if (url_3 != result_3) {
         println(result_3)
         return -1
     }

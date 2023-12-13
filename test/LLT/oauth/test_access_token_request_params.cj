@@ -10,15 +10,15 @@ func testTokenRequestParams_01(): Int32 {
         AccessTokenRequestParams.create(code)
                                 .setPKCECodeVerifier("abcd")
                                 .setScope("scope")
-    if (!params.getCode().equals(code)) {
+    if (params.getCode() != code) {
         return -1
     }
 
-    if (!params.getPkceCodeVerifier().getOrThrow().equals("abcd")) {
+    if (params.getPkceCodeVerifier().getOrThrow() != "abcd") {
         return -1
     }
 
-    if (!params.getScope().getOrThrow().equals("scope")) {
+    if (params.getScope().getOrThrow() != "scope") {
         return -1
     }
 
@@ -73,7 +73,7 @@ func testTokenRequestParams_04(): Int32 {
     scope.withScope("scope")
     var scopeString = "a b c scope"
     params.setScope(scope)
-    if (!params.getScope().getOrThrow().equals(scopeString)) {
+    if (params.getScope().getOrThrow() != scopeString) {
         return -1
     }
     return 0

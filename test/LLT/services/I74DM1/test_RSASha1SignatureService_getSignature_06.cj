@@ -21,7 +21,7 @@ main() {
 ***/
 func testRSASha1SignatureServiceGetSignature06(): Int64 {
     var file01 = File("priKey.pem",OpenOption.CreateOrTruncate(true))
-    file01.write("hello cangjie".toUtf8Array())
+    file01.write("hello cangjie".toArray())
     file01.close()
     file01 = File("priKey.pem",OpenOption.CreateOrTruncate(true))
     let rsss=RSASha1SignatureService("priKey.pem")
@@ -30,7 +30,7 @@ func testRSASha1SignatureServiceGetSignature06(): Int64 {
         rsss.getSignature("baseString","apiSecret","tokenSecret")
     }catch(e:OAuth4cjSignatureException){
         println(e.toString())
-        if(e.toString().contains("Illegal RSA Private key")){
+        if(e.toString().contains("X509 parse pem failed: Pem is empty")){
             flag = 0
         }
     }

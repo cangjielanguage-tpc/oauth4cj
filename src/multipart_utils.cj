@@ -90,12 +90,12 @@ public class MultipartUtils {
 
         let preamble: String = multipartPayload.getPreamble()
         if (!preamble.isEmpty()) {
-            os.write((preamble + "\r\n").toUtf8Array())
+            os.write((preamble + "\r\n").toArray())
         }
         let bodyParts: ArrayList<BodyPartPayload> = multipartPayload.getBodyParts()
         if (!bodyParts.isEmpty()) {
             let boundary: String = multipartPayload.getBoundary()
-            let startBoundary: Array<UInt8> = ("--" + boundary + "\r\n").toUtf8Array()
+            let startBoundary: Array<UInt8> = ("--" + boundary + "\r\n").toArray()
 
             for (bodyPart in bodyParts) {
                 os.write(startBoundary)
@@ -103,11 +103,11 @@ public class MultipartUtils {
                 let bodyPartHeaders: HashMap<String, String> = bodyPart.getHeaders()
                 if (!bodyPartHeaders.isEmpty()) {
                     for ((k, v) in bodyPartHeaders) {
-                        os.write((k + ": " + v + "\r\n").toUtf8Array())
+                        os.write((k + ": " + v + "\r\n").toArray())
                     }
                 }
 
-                os.write("\r\n".toUtf8Array())
+                os.write("\r\n".toArray())
                 if (bodyPart is MultipartPayload) {
                     getPayload((bodyPart as MultipartPayload).getOrThrow()).copyTo(os)
                 } else if (bodyPart is ByteArrayBodyPartPayload) {
@@ -119,13 +119,13 @@ public class MultipartUtils {
                 } else {
                     throw OAuth4cjException("the class type is not MultipartPayload and not ByteArrayBodyPartPayload.")
                 }
-                os.write("\r\n".toUtf8Array()) // CRLF for the next (starting or closing) boundary.
+                os.write("\r\n".toArray()) // CRLF for the next (starting or closing) boundary.
             }
 
-            os.write(("--" + boundary + "--").toUtf8Array())
+            os.write(("--" + boundary + "--").toArray())
             let epilogue: String = multipartPayload.getEpilogue()
             if (!epilogue.isEmpty()) {
-                os.write(("\r\n" + epilogue).toUtf8Array())
+                os.write(("\r\n" + epilogue).toArray())
             }
         }
         return os

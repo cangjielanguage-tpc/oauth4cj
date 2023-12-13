@@ -54,7 +54,7 @@ public open class Base64Utils {
 ```cangjie
 from oauth4cj import oauth4cj.*
 main(): Int64 {
-    let bytes: Array<UInt8> = "Hello World".toUtf8Array()
+    let bytes: Array<UInt8> = "Hello World".toArray()
     let encoded: String = "SGVsbG8gV29ybGQ="
     let str: String = Base64Utils.encode(bytes)
     if(encoded == str){
@@ -204,7 +204,7 @@ from oauth4cj import oauth4cj.*
 from std import io.*
 main (){
     let str: String = "Hello World"
-    let bytes: Array<UInt8> = str.toUtf8Array()
+    let bytes: Array<UInt8> = str.toArray()
     let bas: ByteArrayStream = ByteArrayStream(526)
     bas.write(bytes)
     let decoded: String = StreamUtils.getStreamContents(bas)
@@ -1048,7 +1048,7 @@ public interface ResponseConverter {
 ###### 1.3.1.11 参数类
 
 ```cangjie
-public class Parameter {
+public class OAuth4cjParameter {
     /**
      * 构造函数
      *
@@ -1093,7 +1093,7 @@ public class Parameter {
      * @参数 that 要比较的Parameter最新
      * @返回值 Bool 如果两个对象的内存一致或者key和value的值都一致时返回true，否则返回false
      */
-    public operator func ==(that: Parameter): Bool
+    public operator func ==(that: OAuth4cjParameter): Bool
     
     /**
      * 两个Parameter比较大小
@@ -1103,7 +1103,7 @@ public class Parameter {
      *               如果相等，返回Ordering.EQ
      *               如果小于，返回Ordering.LT
      */
-    public func compareTo(parameter: Parameter): Ordering
+    public func compareTo(parameter: OAuth4cjParameter): Ordering
 }
 ```
 
@@ -1173,7 +1173,7 @@ public class ParameterList {
      * @参数 param 要确定的参数对象
      * @返回值 Bool 包含要确定的参数对象时返回true，否则返回false
      */
-    public func contains(param: Parameter): Bool
+    public func contains(param: OAuth4cjParameter): Bool
     
     /**
      * 获取当前ParameterList对象的长度
@@ -1185,9 +1185,9 @@ public class ParameterList {
     /**
      * 获取Parameter对象集合
      *
-     * @返回值 ArrayList<Parameter> Parameter对象集合
+     * @返回值 ArrayList<OAuth4cjParameter> Parameter对象集合
      */
-    public func getParams(): ArrayList<Parameter>
+    public func getParams(): ArrayList<OAuth4cjParameter>
     
     /**
      * 返回排序后的新ParameterList对象
@@ -1480,7 +1480,7 @@ main (){
     var headers:HashMap<String, String> = HashMap<String, String>()
     var stream:ByteArrayStream = ByteArrayStream()
     var closeables:ArrayList<Resource> = ArrayList<Resource>()
-    stream.write("abcdefg".toUtf8Array()) // 向流中写入测试数据
+    stream.write("abcdefg".toArray()) // 向流中写入测试数据
     var response:OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, stream, closeables)
     var responseStream = response.getStream()
     var buffer:Array<Byte> = Array<Byte>(7, item:0)
@@ -2067,7 +2067,7 @@ public func testBaseStringExtractor_01(): Int32 {
     if (baseString != expected) {
         return 1
     }
-    println("baseString.equals(expected) = ${baseString.equals(expected)}")
+    println("baseString == expected: ${baseString == expected}")
     return 0
 }
 
@@ -2083,7 +2083,7 @@ main() {
 执行结果如下：
 
 ```shell
-baseString.equals(expected) = true
+baseString == expected: true
 ```
 
 #### 1.6 Builder模式的实现，具有创建OAuthService的流畅接口，OAuth协议1.0a/2.0版的默认实现
@@ -4660,10 +4660,10 @@ main() {
                       "explanatory note to non-MIME conformant readers."
     mp.setPreamble(str)
     str = "This is implicitly typed plain US-ASCII text.\n" + "It does NOT end with a linebreak."
-    var arr: Array<UInt8> = str.toUtf8Array()
+    var arr: Array<UInt8> = str.toArray()
     mp.addBodyPart(ByteArrayBodyPartPayload(arr))
     str = "This is explicitly typed plain US-ASCII text.\n" + "It DOES end with a linebreak.\n"
-    arr = str.toUtf8Array()
+    arr = str.toArray()
     let maps: HashMap<String, String> = HashMap<String, String>()
     maps.put(OAuthConstants.CONTENT_TYPE, "text/plain; charset=us-ascii")
     let bP: ByteArrayBodyPartPayload = ByteArrayBodyPartPayload(arr, maps)
@@ -4672,7 +4672,10 @@ main() {
     let sb: StringBuilder = StringBuilder()
     let header: HashMap<String, String> = mp.getHeaders()
     for((k, v) in header) {
-        sb.append(k).append(": ").append(v).append("\r\n")
+        sb.append(k)
+        sb.append(": ")
+        sb.append(v)
+        sb.append("\r\n")
     }
     str = sb.toString()
     var result: String = "X-Header: X-Value\r\n" +
@@ -4682,7 +4685,7 @@ main() {
 	if (str!=result) {
         return 1
     }
-    println(str.equals(result))
+    println(str == result)
 
     str = String.fromUtf8(MultipartUtils.getPayload(mp).readToEnd())
     result = "This is the preamble.  It is to be ignored, though it\n" +
@@ -4702,7 +4705,7 @@ main() {
 	if (str!=result) {
         return 2
     }
-    println(str.equals(result))
+    println(str == result)
     return 0
 }
 ```

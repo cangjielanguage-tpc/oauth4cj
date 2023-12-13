@@ -9,7 +9,7 @@ main (){
 
     let str2: String = OAuthEncoder.decode(encoded)
     println("str2 == plain: ${str2 == plain}")
-    if (!str2.equals(plain)) {
+    if (str2 != plain) {
         return 1
     }
     return 0

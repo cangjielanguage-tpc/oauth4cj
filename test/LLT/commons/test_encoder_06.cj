@@ -5,12 +5,12 @@ from oauth4cj import oauth4cj.*
 main () {
     var flag = false
     var encoded_1 = OAuthEncoder.encode("")
-    if (!"".equals(encoded_1)) {
+    if ("" != encoded_1) {
         return -1
     }
 
     var decode_1 = OAuthEncoder.decode("")
-    if (!"".equals(decode_1)) {
+    if ("" != decode_1) {
         return -1
     }
 

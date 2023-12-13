@@ -51,7 +51,7 @@ public func testParameterList_06():Int32 {
     for (i in 0..paraList.size) {
         var key = paraList[i].getKey()
         var sizeString = (i+1).toString()
-        if (!sizeString.equals(key)) {
+        if (sizeString != key) {
             println(key)
             println(sizeString)
             flag = true
@@ -69,7 +69,8 @@ public func testParameterList_07():Int32 {
     map.put("key1", "value1")
     var list = ParameterList(map)
     var paraString = list.asOauthBaseString()
-    if (!"key1=value1".equals(OAuthEncoder.decode(paraString))) {
+    println("OAuthEncoder.decode(paraString) = ${OAuthEncoder.decode(paraString)}")
+    if ("key1=value1" != OAuthEncoder.decode(paraString)) {
         return -1
     }
     return 0

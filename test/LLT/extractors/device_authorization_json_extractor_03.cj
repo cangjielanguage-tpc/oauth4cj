@@ -95,7 +95,7 @@ func testDeviceAuthorizationJsonExtractor_01(): Int32 {
 
     println("da.toString() = " + da.toString())
 
-    if (!str.equals(result)) {
+    if (str != result) {
         println(1)
         return 1
     }
@@ -117,7 +117,7 @@ func testDeviceAuthorizationJsonExtractor_02(): Int32 {
 
     println("da.toString() = " + da.toString())
 
-    if (!str.equals(result)) {
+    if (str != result) {
         println(2)
         return 2
     }
@@ -175,7 +175,7 @@ func testDeviceAuthorizationJsonExtractor_05(): Int32 {
 
     println("da.toString() = " + da.toString())
 
-    if (!str.equals(result)) {
+    if (str != result) {
         println(5)
         return 5
     }
@@ -197,7 +197,7 @@ func testDeviceAuthorizationJsonExtractor_06(): Int32 {
 
     println("da.toString() = " + da.toString())
 
-    if (!str.equals(result)) {
+    if (str != result) {
         println(6)
         return 6
     }
@@ -219,7 +219,7 @@ func testDeviceAuthorizationJsonExtractor_07(): Int32 {
 
     println("da.toString() = " + da.toString())
 
-    if (!str.equals(result)) {
+    if (str != result) {
         println(7)
         return 7
     }
@@ -241,7 +241,7 @@ func testDeviceAuthorizationJsonExtractor_08(): Int32 {
 
     println("da.toString() = " + da.toString())
 
-    if (!str.equals(result)) {
+    if (str != result) {
         println(8)
         return 8
     }
@@ -331,7 +331,7 @@ func testDeviceAuthorizationJsonExtractor_12(): Int32 {
 
     println("da.toString() = " + da.toString())
 
-    if (!str.equals(result)) {
+    if (str != result) {
         println(12)
         return 12
     }

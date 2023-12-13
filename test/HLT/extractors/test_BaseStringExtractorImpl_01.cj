@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../common_Values.cj
 
 
@@ -17,7 +17,7 @@ public class TestBaseStringExtractorImplB004{
         try{
             baseStringExtractorImpl01.extract(oauth4cjRequest)
         }catch(e:OAuth4cjParametersMissingException){
-            if(e.toString().contains("OAuth4cjParametersMissingException: Could not find oauth parameters in request.${oauth4cjRequest}. "+ "OAuth parameters must be specified with the addOAuthParameter() method")){
+            if(e.toString().contains("OAuth4cjParametersMissingException: Could not find oauth parameters in request.${oauth4cjRequest.toString()}. "+ "OAuth parameters must be specified with the addOAuthParameter() method")){
                 flag=1
             }
         }

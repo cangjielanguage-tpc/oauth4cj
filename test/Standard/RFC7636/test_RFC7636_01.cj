@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../common_Values.cj
 
 from std import collection.*
@@ -25,7 +25,7 @@ public class TestRFC7636{
                 setCallback("http://www.example.com/oauth_callback/").
                 build(HuaweiApi.instance())
         let strPkce: String = "ceshi20230612"
-        let byte: Array<UInt8> = strPkce.toUtf8Array()
+        let byte: Array<UInt8> = strPkce.toArray()
         let pkce: PKCE = PKCEService.defaultInstance().generatePKCE(byte)
         let codeVerifier: String = pkce.getCodeVerifier()
         println("codeVerifier = " + codeVerifier)

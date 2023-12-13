@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../common_Values.cj
 
 
@@ -154,22 +154,22 @@ public class TestParameterListB001{
         var queryString01="&abc"
         pl01.addQuerystring(queryString01)
         @Assert(pl01.size(),map02.size+2)
-        @Assert(pl01.contains(Parameter("abc","")),true)
-        @Assert(pl01.contains(Parameter("","")),true)
+        @Assert(pl01.contains(OAuth4cjParameter("abc","")),true)
+        @Assert(pl01.contains(OAuth4cjParameter("","")),true)
         //含&--中间
         var pl02=ParameterList(map02)//非空表
         var queryString02="a&bc"
         pl02.addQuerystring(queryString02)
         @Assert(pl02.size(),map02.size+2)
-        @Assert(pl02.contains(Parameter("a","")),true)
-        @Assert(pl02.contains(Parameter("bc","")),true)
+        @Assert(pl02.contains(OAuth4cjParameter("a","")),true)
+        @Assert(pl02.contains(OAuth4cjParameter("bc","")),true)
         //含&--尾部
         var pl03=ParameterList(map02)//非空表
         var queryString03="abc&"
         pl03.addQuerystring(queryString03)
         @Assert(pl03.size(),map02.size+1)
-        @Assert(pl03.contains(Parameter("abc","")),true)
-        @Assert(pl03.contains(Parameter("","")),false)
+        @Assert(pl03.contains(OAuth4cjParameter("abc","")),true)
+        @Assert(pl03.contains(OAuth4cjParameter("","")),false)
     }
     //queryString非空，含&,含=(=前后是否有值)
     @TestCase
@@ -180,22 +180,22 @@ public class TestParameterListB001{
         var queryString01="=a&bc"
         pl01.addQuerystring(queryString01)
         @Assert(pl01.size(),map02.size+2)
-        @Assert(pl01.contains(Parameter("","a")),true)
-        @Assert(pl01.contains(Parameter("bc","")),true)
+        @Assert(pl01.contains(OAuth4cjParameter("","a")),true)
+        @Assert(pl01.contains(OAuth4cjParameter("bc","")),true)
         //=左右侧均有值
         var pl02=ParameterList(map02)//非空表
         var queryString02="a&b=c"
 
         pl02.addQuerystring(queryString02)
         @Assert(pl02.size(),map02.size+2)
-        @Assert(pl02.contains(Parameter("b","c")),true)
+        @Assert(pl02.contains(OAuth4cjParameter("b","c")),true)
         //=右侧无值
         var pl03=ParameterList(map02)//非空表
         var queryString03="a&bc="
 
         pl03.addQuerystring(queryString03)
         @Assert(pl03.size(),map02.size+2)
-        @Assert(pl03.contains(Parameter("bc","")),true)
+        @Assert(pl03.contains(OAuth4cjParameter("bc","")),true)
         //=右侧均无值
         var pl04=ParameterList(map02)//非空表
         var queryString04="&=&"
@@ -216,7 +216,7 @@ public class TestParameterListB001{
         var queryString01="abc"
         pl01.addQuerystring(queryString01)
         @Assert(pl01.size(),map02.size+1)
-        @Assert(pl01.contains(Parameter("abc","")),true)
+        @Assert(pl01.contains(OAuth4cjParameter("abc","")),true)
     }
     //queryString非空，不含&,含=(=前后是否有值，多个等号)
     @TestCase
@@ -227,20 +227,20 @@ public class TestParameterListB001{
         var queryString01="=abc"
         pl01.addQuerystring(queryString01)
         @Assert(pl01.size(),map02.size+1)
-        @Assert(pl01.contains(Parameter("","abc")),true)
+        @Assert(pl01.contains(OAuth4cjParameter("","abc")),true)
 
         //=左右侧均有值
         var pl02=ParameterList(map02)//非空表
         var queryString02="ab=c"
         pl02.addQuerystring(queryString02)
         @Assert(pl02.size(),map02.size+1)
-        @Assert(pl02.contains(Parameter("ab","c")),true)
+        @Assert(pl02.contains(OAuth4cjParameter("ab","c")),true)
         //=右侧无值
         var pl03=ParameterList(map02)//非空表
         var queryString03="abc="
         pl03.addQuerystring(queryString03)
         @Assert(pl03.size(),map02.size+1)
-        @Assert(pl03.contains(Parameter("abc","")),true)
+        @Assert(pl03.contains(OAuth4cjParameter("abc","")),true)
         //=右侧均无值
         var pl04=ParameterList(map02)//非空表
         var queryString04="="
@@ -257,7 +257,7 @@ public class TestParameterListB001{
         var queryString05="abc=bcd=cdv"
         pl05.addQuerystring(queryString05)
         @Assert(pl05.size(),map02.size+1)
-        @Assert(pl05.contains(Parameter("abc","bcd")),true)//忽略了第二个等号之后的值
+        @Assert(pl05.contains(OAuth4cjParameter("abc","bcd")),true)//忽略了第二个等号之后的值
 
         //存在连续=
         var pl06=ParameterList(map02)//非空表
@@ -283,12 +283,12 @@ public class TestParameterListB001{
         pl01.addQuerystring(queryString02)
         pl01.addQuerystring(queryString03)
         @Assert(pl01.size(),map02.size+3+2+1)
-        @Assert(pl01.contains(Parameter("","a")),true)
-        @Assert(pl01.contains(Parameter("bc","")),true)
-        @Assert(pl01.contains(Parameter("c","1")),true)
-        @Assert(pl01.contains(Parameter("a","")),true)
-        @Assert(pl01.contains(Parameter("bd","c")),true)
-        @Assert(pl01.contains(Parameter("b","c")),true)
+        @Assert(pl01.contains(OAuth4cjParameter("","a")),true)
+        @Assert(pl01.contains(OAuth4cjParameter("bc","")),true)
+        @Assert(pl01.contains(OAuth4cjParameter("c","1")),true)
+        @Assert(pl01.contains(OAuth4cjParameter("a","")),true)
+        @Assert(pl01.contains(OAuth4cjParameter("bd","c")),true)
+        @Assert(pl01.contains(OAuth4cjParameter("b","c")),true)
     }
     //asFormUrlEncodedString()结果为空，url不包含'?'和 '&'返回入参url
     @TestCase
@@ -346,9 +346,9 @@ public class TestParameterListB001{
         var pl03=ParameterList(map02)//非空表
         var re_exp=""
         for (i in map02){
-            re_exp=re_exp+"&"+OAuthEncoder.encode(i[0]).concat("=").concat(OAuthEncoder.encode(i[1]))
+            re_exp=re_exp+"&"+OAuthEncoder.encode(i[0]) + "=" + OAuthEncoder.encode(i[1])
         }
-        re_exp=re_exp.substring(1)
+        re_exp=re_exp[1..re_exp.size]
         @Assert(pl03.asFormUrlEncodedString(),re_exp)
     }
     //非空parameterList，返回各个Parameter调用asUrlEncodedPair()之后的值，并将其用&链接起来:1000个
@@ -364,14 +364,14 @@ public class TestParameterListB001{
         @Assert(pl03.size(),1002)
         var re_exp=""
         for (i in map02){
-            re_exp=re_exp+"&"+OAuthEncoder.encode(i[0]).concat("=").concat(OAuthEncoder.encode(i[1]))
+            re_exp=re_exp+"&"+OAuthEncoder.encode(i[0]) + "=" + OAuthEncoder.encode(i[1])
         }
         i=0
 		while(i<1000){
-            re_exp=re_exp+"&"+OAuthEncoder.encode("key-1000").concat("=").concat(OAuthEncoder.encode("value-1000"))
+            re_exp=re_exp+"&"+OAuthEncoder.encode("key-1000") + "=" + OAuthEncoder.encode("value-1000")
 			i++
         }
-        re_exp=re_exp.substring(1)
+        re_exp=re_exp[1..re_exp.size]
         @Assert(pl03.asFormUrlEncodedString(),re_exp)
     }
     //空的parameterList,返回空字符串
@@ -390,9 +390,9 @@ public class TestParameterListB001{
         var pl03=ParameterList(map02)//非空表
         var re_exp=""
 		for (i in map02){
-		    re_exp=re_exp+"&"+OAuthEncoder.encode(i[0]).concat("=").concat(OAuthEncoder.encode(i[1]))
+		    re_exp=re_exp+"&"+OAuthEncoder.encode(i[0]) + "=" + OAuthEncoder.encode(i[1])
 		}
-        re_exp=re_exp.substring(1)
+        re_exp=re_exp[1..re_exp.size]
         @Assert(pl03.asOauthBaseString(),OAuthEncoder.encode(re_exp))
     }
     //非空parameterList，返回各个Parameter调用asUrlEncodedPair()之后的值，并将其用&链接起来:1000个
@@ -408,14 +408,14 @@ public class TestParameterListB001{
         @Assert(pl03.size(),1002)
         var re_exp=""
         for (i in map02){
-            re_exp=re_exp+"&"+OAuthEncoder.encode(i[0]).concat("=").concat(OAuthEncoder.encode(i[1]))
+            re_exp=re_exp+"&"+OAuthEncoder.encode(i[0]) + "=" + OAuthEncoder.encode(i[1])
         }
 		i=0
 		while(i<1000){
-			re_exp=re_exp+"&"+OAuthEncoder.encode("key-1000").concat("=").concat(OAuthEncoder.encode("value-1000"))
+			re_exp=re_exp+"&"+OAuthEncoder.encode("key-1000") + "=" + OAuthEncoder.encode("value-1000")
 			i++
 		}
-        re_exp=re_exp.substring(1)
+        re_exp=re_exp[1..re_exp.size]
         @Assert(pl03.asOauthBaseString(),OAuthEncoder.encode(re_exp))
     }
     //包含，返回true
@@ -427,20 +427,20 @@ public class TestParameterListB001{
         pl01.add("key03","")
         pl01.add("","value03")
         @Assert(pl01.size(),map02.size+2)
-        @Assert(pl01.contains(Parameter("key01","value01")),false)
-        @Assert(pl01.contains(Parameter("key01","value03")),true)
-        @Assert(pl01.contains(Parameter("key03","")),true)
-        @Assert(pl01.contains(Parameter("","value03")),true)
+        @Assert(pl01.contains(OAuth4cjParameter("key01","value01")),false)
+        @Assert(pl01.contains(OAuth4cjParameter("key01","value03")),true)
+        @Assert(pl01.contains(OAuth4cjParameter("key03","")),true)
+        @Assert(pl01.contains(OAuth4cjParameter("","value03")),true)
     }
     //不包含,  返回false
     @TestCase
     func testContains02(): Unit {
         var map02=HashMap<String,String>([("key01","value01"),("key02","value02")])
         var pl01=ParameterList(map02)//非空表
-        @Assert(pl01.contains(Parameter("","")),false)
-        @Assert(pl01.contains(Parameter("key04","")),false)
-        @Assert(pl01.contains(Parameter("key01","value01")),true)
-        @Assert(pl01.contains(Parameter("key02","value01")),false)
+        @Assert(pl01.contains(OAuth4cjParameter("","")),false)
+        @Assert(pl01.contains(OAuth4cjParameter("key04","")),false)
+        @Assert(pl01.contains(OAuth4cjParameter("key01","value01")),true)
+        @Assert(pl01.contains(OAuth4cjParameter("key02","value01")),false)
     }
     //空列表，经过改变后，也随之变化
     @TestCase
@@ -487,7 +487,7 @@ public class TestParameterListB001{
         pl02.add("key04","value03")
         pl01.add("key03","value03")
         pl02.add("key03","value03")
-        var exp=ArrayList<Parameter>([Parameter("key03","value03"),Parameter("key03","value03"),Parameter("key03","value04"),Parameter("key04","value03")])
+        var exp=ArrayList<OAuth4cjParameter>([OAuth4cjParameter("key03","value03"),OAuth4cjParameter("key03","value03"),OAuth4cjParameter("key03","value04"),OAuth4cjParameter("key04","value03")])
         var s03_pl01=pl01.sort().getParams()
         var s03_pl02=pl02.sort().getParams()
         var flag=1
@@ -509,7 +509,7 @@ public class TestParameterListB001{
         pl01.add("","value03")
         pl01.add("key03","")
         pl01.add("key04","")
-        var exp=ArrayList<Parameter>([Parameter("","value03"),Parameter("key01","value01"),Parameter("key02","value02"),Parameter("key03",""),Parameter("key03","value03"),Parameter("key04","")])
+        var exp=ArrayList<OAuth4cjParameter>([OAuth4cjParameter("","value03"),OAuth4cjParameter("key01","value01"),OAuth4cjParameter("key02","value02"),OAuth4cjParameter("key03",""),OAuth4cjParameter("key03","value03"),OAuth4cjParameter("key04","")])
         var s_pl01=pl01.sort().getParams()
         var flag=1
         for (index in 0..s_pl01.size){

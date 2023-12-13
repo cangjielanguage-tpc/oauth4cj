@@ -11,7 +11,7 @@ main (){
     var headers:HashMap<String, String> = HashMap<String, String>()
     var stream:ByteArrayStream = ByteArrayStream()
     var closeables:ArrayList<Resource> = ArrayList<Resource>()
-    stream.write("abcdefg".toUtf8Array()) // 向流中写入测试数据
+    stream.write("abcdefg".toArray()) // 向流中写入测试数据
     var response:OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, stream, closeables)
     var responseStream = response.getStream()
     var buffer:Array<Byte> = Array<Byte>(7, item:0)

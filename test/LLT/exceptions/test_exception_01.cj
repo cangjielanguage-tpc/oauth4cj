@@ -26,7 +26,7 @@ main (){
         return 3
     }
     println("ope2.message = ${ope2.message}")
-    println("ope2.message.equals(ceshi-2) = ${ope2.message.equals("ceshi-2")}")
+    println("ope2.message == ceshi-2: ${ope2.message == "ceshi-2"}")
     if (!ope2.message.contains("ceshi-2")) {
         println(4)
         return 4

@@ -9,19 +9,19 @@ from oauth4cj import oauth4cj.*
 public func testOAuth1_05():Int32 {
     var oauth1RequestToken:OAuth1RequestToken = OAuth1RequestToken("token", "tokenSecret", true, "a=1&b=2&c=3")
     var rawResponse:String = oauth1RequestToken.getRawResponse()
-    if (!rawResponse.equals("a=1&b=2&c=3")) {
+    if (rawResponse != "a=1&b=2&c=3") {
         return -1
     } 
     var parameter:String = oauth1RequestToken.getParameter("a")
-    if (!parameter.equals("1")) {
+    if (parameter != "1") {
         return -1
     } 
     var token:String = oauth1RequestToken.getToken()
-    if (!token.equals("token")) {
+    if (token != "token") {
         return -1
     } 
     var tokenSecret:String = oauth1RequestToken.getTokenSecret()
-    if (!tokenSecret.equals("tokenSecret")) {
+    if (tokenSecret != "tokenSecret") {
         return -1
     } 
     var oauthCallbackConfirmed:Bool = oauth1RequestToken.isOauthCallbackConfirmed()

@@ -8,10 +8,10 @@ from oauth4cj import oauth4cj.*
 public func testRequest_01():Int32 {
     var url = "http://test/test"
     var request = OAuth4cjRequest(Verb.GET, url)
-    if (!url.equals(request.getUrl())) {
+    if (url != request.getUrl()) {
         return -1
     }
-    if (!Verb.GET.toString().equals(request.getVerb().toString())) {
+    if (Verb.GET.toString() != request.getVerb().toString()) {
         return -1
     }
 
@@ -30,13 +30,13 @@ public func testRequest_01():Int32 {
     request.addOAuthParameter("realm", "value4")
     
     var result = request.getOauthParameters()
-    if (!result["oauth_key2"].equals("value2")) {
+    if (result["oauth_key2"] != "value2") {
         return -1
     }
-    if (!result["scope"].equals("value3")) {
+    if (result["scope"] != "value3") {
         return -1
     }
-    if (!result["realm"].equals("value4")) {
+    if (result["realm"] != "value4") {
         return -1
     }
     return 0
@@ -48,22 +48,22 @@ public func testRequest_02():Int32 {
     var request = OAuth4cjRequest(Verb.GET, url)
     var charset_1 = "UTF8"
     request.setCharset(charset_1)
-    if (!charset_1.equals(request.getCharset())) {
+    if (charset_1 != request.getCharset()) {
         return -1
     }
     var charset_2 = "utf8"
     request.setCharset(charset_2)
-    if (!charset_2.equals(request.getCharset())) {
+    if (charset_2 != request.getCharset()) {
         return -1
     }
     var charset_3 = "utf-8"
     request.setCharset(charset_3)
-    if (!charset_3.equals(request.getCharset())) {
+    if (charset_3 != request.getCharset()) {
         return -1
     }
     var charset_4 = "UTF-8"
     request.setCharset(charset_4)
-    if (!charset_4.equals(request.getCharset())) {
+    if (charset_4 != request.getCharset()) {
         return -1
     }
 
@@ -91,13 +91,13 @@ public func testRequest_03():Int32 {
     var result = request.getHeaders()
 
     // 为啥要转成大写？？
-    if (!result["key1"].equals("value1")) {
+    if (result["key1"] != "value1") {
         return -1
     }
-    if (!result["key2"].equals("value2")) {
+    if (result["key2"] != "value2") {
         return -1
     }
-    if (!result["key3"].equals("value3")) {
+    if (result["key3"] != "value3") {
         return -1
     }
     return 0
@@ -107,11 +107,11 @@ public func testRequest_03():Int32 {
 public func testRequest_04():Int32 {
     var url = "http://test/test"
     var request = OAuth4cjRequest(Verb.GET, url)
-    if (!"".equals(request.getRealm())) {
+    if ("" != request.getRealm()) {
         return -1
     }
     request.setRealm("realm")
-    if (!"realm".equals(request.getRealm())) {
+    if ("realm" != request.getRealm()) {
         return -1
     }
     return 0
@@ -121,13 +121,15 @@ public func testRequest_04():Int32 {
 public func testRequest_05():Int32 {
     var url = "http://test/test"
     var request = OAuth4cjRequest(Verb.GET, url)
-    if (!url.equals(request.getCompleteUrl())) {
+    println("request.getCompleteUrl() = ${request.getCompleteUrl()}")
+    if (url != request.getCompleteUrl()) {
         return -1
     }
     request.addQuerystringParameter("key1", "value1")
     request.addQuerystringParameter("key2", "value2")
     var newUrl = "http://test/test?key1=value1&key2=value2"
-    if (!newUrl.equals(request.getCompleteUrl())) {
+    println("request.getCompleteUrl() = ${request.getCompleteUrl()}")
+    if (newUrl != request.getCompleteUrl()) {
         println(request.getCompleteUrl())
         return -1
     }

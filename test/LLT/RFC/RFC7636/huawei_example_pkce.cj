@@ -35,7 +35,7 @@ main() {
 
     //1.1 准备PKCE
     let strPkce: String = "ceshi20230612"
-    let byte: Array<UInt8> = strPkce.toUtf8Array()
+    let byte: Array<UInt8> = strPkce.toArray()
     let pkce: PKCE = PKCEService.defaultInstance().generatePKCE(RANDOM_BYTES)
 
     let codeVerifier: String = pkce.getCodeVerifier()

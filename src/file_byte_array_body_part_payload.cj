@@ -172,10 +172,10 @@ public class FileByteArrayBodyPartPayload <: ByteArrayBodyPartPayload {
 
         var contentDispositionHeader: String = "form-data"
         if (!nameNull) {
-            contentDispositionHeader += "; name=\"" + name + '"'
+            contentDispositionHeader += "; name=\"${name}\""
         }
         if (!filenameNull) {
-            contentDispositionHeader += "; filename=\"" + filename + '"'
+            contentDispositionHeader += "; filename=\"${filename}\""
         }
         let headers: HashMap<String, String> = HashMap<String, String>()
 

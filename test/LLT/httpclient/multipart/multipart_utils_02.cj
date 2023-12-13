@@ -53,7 +53,7 @@ main() {
 public func testMultipartUtils_01(): Int32 {
     let str: String = MultipartUtils.parseBoundaryFromHeader("multipart/subtype; boundary=0aA'()+_, -./:=? ")
     let result: String = "0aA'()+_, -./:=?"
-    if (!str.equals(result)) {
+    if (str != result) {
         println(1)
         return 1
     }
@@ -63,7 +63,7 @@ public func testMultipartUtils_01(): Int32 {
 public func testMultipartUtils_02(): Int32 {
     let str: String = MultipartUtils.parseBoundaryFromHeader("multipart/subtype; boundary= 0aA'()+_, -./:=?")
     let result: String = " 0aA'()+_, -./:=?"
-    if (!str.equals(result)) {
+    if (str != result) {
         println(2)
         return 2
     }

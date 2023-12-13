@@ -49,13 +49,13 @@ func testOAuth2AccessTokenJsonExtractor_01(): Int32 {
         println(extracted.getAccessToken())
     } catch (e: OAuth2AccessTokenErrorResponseException) {
         //e.printStackTrace()
-        if (!OAuth2Error.INVALID_GRANT.getErrorString().equals(e.getError().getOrThrow().getErrorString())) {
+        if (OAuth2Error.INVALID_GRANT.getErrorString() != e.getError().getOrThrow().getErrorString()) {
             println(1)
             return 1
         }
 
         println("e.getErrorDescription() = " + e.getErrorDescription())
-        if (!e.getErrorDescription().equals("unknown, invalid, or expired refresh token")) {
+        if (e.getErrorDescription() != "unknown, invalid, or expired refresh token") {
             println(2)
             return 2
         }
@@ -74,7 +74,7 @@ func testOAuth2AccessTokenJsonExtractor_02(): Int32 {
     let extracted: OAuth2AccessToken = extractor.extract(response)
     let str: String = extracted.getAccessToken()
 
-    if (!str.equals("I0122HKLEM2/MV3ABKFTDT3T5X")) {
+    if (str != "I0122HKLEM2/MV3ABKFTDT3T5X") {
         println(3)
         return 3
     }
@@ -89,11 +89,11 @@ func testOAuth2AccessTokenJsonExtractor_03(): Int32 {
     let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth2AccessToken = extractor.extract(response)
 
-    if (!extracted.getAccessToken().equals("I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T5X")) {
+    if (extracted.getAccessToken() != "I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T5X") {
         println(4)
         return 4
     }
-    if (!extracted.getScope().equals("s1 s2")) {
+    if (extracted.getScope() != "s1 s2") {
         println(5)
         return 5
     }
@@ -108,15 +108,15 @@ func testOAuth2AccessTokenJsonExtractor_04(): Int32 {
     let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth2AccessToken = extractor.extract(response)
 
-    if (!extracted.getAccessToken().equals("I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T6X")) {
+    if (extracted.getAccessToken() != "I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T6X") {
         println(6)
         return 6
     }
-    if (!extracted.getScope().equals("s3 s4")) {
+    if (extracted.getScope() != "s3 s4") {
         println(7)
         return 7
     }
-    if (!extracted.getRefreshToken().equals("refresh_token1")) {
+    if (extracted.getRefreshToken() != "refresh_token1") {
         println(8)
         return 8
     }

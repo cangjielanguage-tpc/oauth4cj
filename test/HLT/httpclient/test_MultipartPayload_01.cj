@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../common_Values.cj
 
 @Test
@@ -188,8 +188,9 @@ public class TestMultipartPayload{
     func testMultipartPayloadGetHeaders01(): Unit {
         var multipartPayload01=MultipartPayload()
         var re=multipartPayload01.getHeaders()
-        var header_value="multipart/" + "form-data"+"; boundary=\"" + multipartPayload01.getBoundary() + '"';
-        var header_map=HashMap<String,String>([("Content-Type",header_value)])
+        var header_value="multipart/" + "form-data"+"; boundary=\"" + multipartPayload01.getBoundary() + "\"";
+        var header_map=HashMap<String,String>()
+        header_map.put("Content-Type",header_value)
         @Assert(re,header_map)
     }
     /***
@@ -201,8 +202,9 @@ public class TestMultipartPayload{
     func testMultipartPayloadGetHeaders02(): Unit {
         var multipartPayload02=MultipartPayload("boundary")
         var re=multipartPayload02.getHeaders()
-        var header_value="multipart/" + "form-data"+"; boundary=\"" + multipartPayload02.getBoundary() + '"';
-        var header_map=HashMap<String,String>([("Content-Type",header_value)])
+        var header_value="multipart/" + "form-data"+"; boundary=\"" + multipartPayload02.getBoundary() + "\"";
+        var header_map=HashMap<String,String>()
+        header_map.put("Content-Type",header_value)
         @Assert(re,header_map)
     }
     /***
@@ -214,8 +216,9 @@ public class TestMultipartPayload{
     func testMultipartPayloadGetHeaders03(): Unit {
         var multipartPayload03=MultipartPayload("subtype","boundary")
         var re=multipartPayload03.getHeaders()
-        var header_value="multipart/" + "subtype" +"; boundary=\"" + multipartPayload03.getBoundary() + '"';
-        var header_map=HashMap<String,String>([("Content-Type",header_value)])
+        var header_value="multipart/" + "subtype" +"; boundary=\"" + multipartPayload03.getBoundary() + "\"";
+        var header_map=HashMap<String,String>()
+        header_map.put("Content-Type",header_value)
         @Assert(re,header_map)
     }
     /***
@@ -227,8 +230,9 @@ public class TestMultipartPayload{
     func testMultipartPayloadGetHeaders04(): Unit {
         var multipartPayload04=MultipartPayload(HashMap<String,String>())
         var re=multipartPayload04.getHeaders()
-        var header_value="multipart/" + "form-data"+"; boundary=\"" + multipartPayload04.getBoundary() + '"';
-        var header_map=HashMap<String,String>([("Content-Type",header_value)])
+        var header_value="multipart/" + "form-data"+"; boundary=\"" + multipartPayload04.getBoundary() + "\"";
+        var header_map=HashMap<String,String>()
+        header_map.put("Content-Type",header_value)
         @Assert(re,header_map)
     }
     /***
@@ -241,7 +245,7 @@ public class TestMultipartPayload{
         var map01=HashMap<String,String>([("key01","value01"),("key02","value02")])
         var multipartPayload04=MultipartPayload(map01)
         var re=multipartPayload04.getHeaders()
-        var header_value="multipart/" + "form-data"+"; boundary=\"" + multipartPayload04.getBoundary() + '"';
+        var header_value="multipart/" + "form-data"+"; boundary=\"" + multipartPayload04.getBoundary() + "\"";
         var header_map=map01
         header_map.put("Content-Type",header_value)
         @Assert(re,header_map)
@@ -256,7 +260,7 @@ public class TestMultipartPayload{
         var map01=HashMap<String,String>([("key01","value01"),("Content-Type","Content-Type")])
         var multipartPayload04=MultipartPayload(map01)
         var re=multipartPayload04.getHeaders()
-        var header_value="Content-Type"+"; boundary=\"" + multipartPayload04.getBoundary() + '"'
+        var header_value="Content-Type"+"; boundary=\"" + multipartPayload04.getBoundary() + "\""
         var header_map=map01
         header_map.put("Content-Type",header_value)
         @Assert(re,header_map)
@@ -270,8 +274,9 @@ public class TestMultipartPayload{
     func testMultipartPayloadGetHeaders05(): Unit {
         var multipartPayload05=MultipartPayload("boundary",HashMap<String,String>())
         var re=multipartPayload05.getHeaders()
-        var header_value="multipart/" + "form-data"+"; boundary=\"" + multipartPayload05.getBoundary() + '"';
-        var header_map=HashMap<String,String>([("Content-Type",header_value)])
+        var header_value="multipart/" + "form-data"+"; boundary=\"" + multipartPayload05.getBoundary() + "\"";
+        var header_map=HashMap<String,String>()
+        header_map.put("Content-Type",header_value)
         @Assert(re,header_map)
     }
     /***
@@ -301,8 +306,9 @@ public class TestMultipartPayload{
     func testMultipartPayloadGetHeaders06(): Unit {
         var multipartPayload06=MultipartPayload("subtype","boundary",HashMap<String,String>())
         var re=multipartPayload06.getHeaders()
-        var header_value="multipart/" + "subtype"+"; boundary=\"" + multipartPayload06.getBoundary() + '"';
-        var header_map=HashMap<String,String>([("Content-Type",header_value)])
+        var header_value="multipart/" + "subtype"+"; boundary=\"" + multipartPayload06.getBoundary() + "\"";
+        var header_map=HashMap<String,String>()
+        header_map.put("Content-Type",header_value)
         @Assert(re,header_map)
     }
     /***

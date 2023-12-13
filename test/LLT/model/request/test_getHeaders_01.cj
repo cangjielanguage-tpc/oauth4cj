@@ -20,7 +20,7 @@ public func testAddHeader_01():Int32 {
     }
 
     let value: String = map["header-name"]
-    if (!value.equals("first")) {
+    if (value != "first") {
         println(2)
         return 2
     }
@@ -42,7 +42,7 @@ public func testAddHeader_02():Int32 {
     }
 
     let value: String = map["HEADER-NAME"]
-    if (!value.equals("last")) {
+    if (value != "last") {
         println(4)
         return 4
     }
