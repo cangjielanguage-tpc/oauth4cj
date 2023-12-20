@@ -64,7 +64,7 @@ public open class OAuth4cjRequest {
     }
 
     private func checkKey(key: String): String {
-        if (key.startsWith(OAUTH_PREFIX) || key.equals(OAuthConstants.SCOPE) || key.equals(OAuthConstants.REALM)) {
+        if (key.startsWith(OAUTH_PREFIX) || (key == OAuthConstants.SCOPE) || (key == OAuthConstants.REALM)) {
             return key
         } else {
             let err: String = "OAuth parameters must either be " + OAuthConstants.SCOPE + ", " +
@@ -133,7 +133,7 @@ public open class OAuth4cjRequest {
     }
     
     /**
-     * Add a body Parameter (for POST/ PUT Requests).
+     * Add a body OAuth4cjParameter (for POST/ PUT Requests).
      *
      * @param key of String, key the parameter name
      * @param value of String, value the parameter value
@@ -411,7 +411,7 @@ public open class OAuth4cjRequest {
             return byteArrayPayload
         }
         let body: String = bodyParams.asFormUrlEncodedString()
-        return body.toUtf8Array()
+        return body.toArray()
     }
 
     /**
@@ -472,8 +472,8 @@ public open class OAuth4cjRequest {
      * @since 0.37.2
      */
     public func setCharset(charsetName: String): Unit {
-        if (!charsetName.equals("UTF-8") && !charsetName.equals("utf-8") &&
-                                        !charsetName.equals("utf8") && !charsetName.equals("UTF8")) {
+        if (charsetName != "UTF-8" && charsetName != "utf-8" &&
+            charsetName != "utf8" && charsetName != "UTF8") {
             throw OAuth4cjException("only supperd UTF-8 Character Set.")
         }
         this.charset = charsetName

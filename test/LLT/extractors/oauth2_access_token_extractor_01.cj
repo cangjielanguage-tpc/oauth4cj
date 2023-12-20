@@ -45,7 +45,7 @@ func testOAuth2AccessTokenExtractor_01(): Int32 {
 
     let str:String = "166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE"
 
-    if (!extracted.getAccessToken().equals(str)) {
+    if (extracted.getAccessToken() != str) {
         println(1)
         return 1
     }
@@ -63,7 +63,7 @@ func testOAuth2AccessTokenExtractor_02(): Int32 {
 
     let str:String = "166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE"
 
-    if (!extracted.getAccessToken().equals(str)) {
+    if (extracted.getAccessToken() != str) {
         println(2)
         return 2
     }
@@ -86,7 +86,7 @@ func testOAuth2AccessTokenExtractor_03(): Int32 {
 
     let str:String = "166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE"
 
-    if (!extracted.getAccessToken().equals(str)) {
+    if (extracted.getAccessToken() != str) {
         println(4)
         return 4
     }
@@ -94,11 +94,11 @@ func testOAuth2AccessTokenExtractor_03(): Int32 {
         println(5)
         return 5
     }
-    if (!extracted.getTokenType().equals("bearer")) {
+    if (extracted.getTokenType() != "bearer") {
         println(6)
         return 6
     }
-    if (!extracted.getRefreshToken().equals("166942940015970")) {
+    if (extracted.getRefreshToken() != "166942940015970") {
         println(7)
         return 7
     }
@@ -112,7 +112,7 @@ func testOAuth2AccessTokenExtractor_04(): Int32 {
     let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth2AccessToken = extractor.extract(response)
 
-    if (!extracted.getAccessToken().equals("foo1234")) {
+    if (extracted.getAccessToken() != "foo1234") {
         println(8)
         return 8
     }

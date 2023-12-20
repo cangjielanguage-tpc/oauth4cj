@@ -8,13 +8,13 @@ from oauth4cj import oauth4cj.*
 // public init()  public func setCodeChallenge(codeChallenge: String) public func getCodeChallenge()
 public func testPKCE_01():Int32 {
     var pk_1 = PKCE()
-    if (!"".equals(pk_1.getCodeChallenge())){ 
+    if ("" != pk_1.getCodeChallenge()){
         return -1
     }
 
     var codeChallenge:String = "a+b-c*d/e……f(g"
     pk_1.setCodeChallenge(codeChallenge)
-    if (!codeChallenge.equals(pk_1.getCodeChallenge())){ 
+    if (codeChallenge != pk_1.getCodeChallenge()){
         return -1
     }
     return 0
@@ -23,12 +23,12 @@ public func testPKCE_01():Int32 {
 // getCodeChallengeMethod()  setCodeChallengeMethod(codeChallengeMethod: PKCECodeChallengeMethod)
 public func testPKCE_02():Int32 {
     var pk_1 = PKCE()
-    if (!"S256".equals(pk_1.getCodeChallengeMethod().toString())){ 
+    if ("S256" != pk_1.getCodeChallengeMethod().toString()){
         return -1
     }
 
     pk_1.setCodeChallengeMethod(PKCECodeChallengeMethod.PLAIN)
-    if (!"PLAIN".equals(pk_1.getCodeChallengeMethod().toString())){ 
+    if ("PLAIN" != pk_1.getCodeChallengeMethod().toString()){
         return -1
     }
     return 0
@@ -37,13 +37,13 @@ public func testPKCE_02():Int32 {
 // getCodeVerifier()  setCodeVerifier(codeVerifier: String)
 public func testPKCE_03():Int32 {
     var pk_1 = PKCE()
-    if (!"".equals(pk_1.getCodeVerifier())){ 
+    if ("" != pk_1.getCodeVerifier()){
         return -1
     }
 
     var codeVerifier:String = "a+b-c*d/e……f(g"
     pk_1.setCodeVerifier(codeVerifier)
-    if (!codeVerifier.equals(pk_1.getCodeVerifier())){ 
+    if (codeVerifier != pk_1.getCodeVerifier()){
         return -1
     }
     return 0
@@ -58,10 +58,10 @@ public func testPKCE_04():Int32 {
     }
     var value_1 = map[PKCE.PKCE_CODE_CHALLENGE_PARAM]
     var value_2 = map[PKCE.PKCE_CODE_CHALLENGE_METHOD_PARAM]
-    if (!"".equals(value_1)) {
+    if ("" != value_1) {
         return -1
     }
-    if (!"S256".equals(value_2)) {
+    if ("S256" != value_2) {
         return -1
     }
 
@@ -81,10 +81,10 @@ public func testPKCE_05():Int32 {
     }
     var value_1 = map[PKCE.PKCE_CODE_CHALLENGE_PARAM]
     var value_2 = map[PKCE.PKCE_CODE_CHALLENGE_METHOD_PARAM]
-    if (!codeChallenge.equals(value_1)) {
+    if (codeChallenge != value_1) {
         return -1
     }
-    if (!"PLAIN".equals(value_2)) {
+    if ("PLAIN" != value_2) {
         return -1
     }
 

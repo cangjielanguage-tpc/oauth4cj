@@ -47,7 +47,7 @@ public func testFileByteArrayBodyPartPayload_01(): Int32 {
     let off: Int64 = bp.getOff()
     let len: Int64 = bp.getLen()
     let str: String = "form-data; name=\"\"; filename=\"\""
-    if (headers.size != 1 || !headers.contains("Content-Disposition") || !headers["Content-Disposition"].equals(str)) {
+    if (headers.size != 1 || !headers.contains("Content-Disposition") || headers["Content-Disposition"] != str) {
         println(1)
         return 1
     }
@@ -66,7 +66,7 @@ public func testFileByteArrayBodyPartPayload_02(): Int32 {
     let off: Int64 = bp.getOff()
     let len: Int64 = bp.getLen()
     let str: String = "form-data; name=\"name_test\"; filename=\"filename_test\""
-    if (headers.size != 1 || !headers.contains("Content-Disposition") || !headers["Content-Disposition"].equals(str)) {
+    if (headers.size != 1 || !headers.contains("Content-Disposition") || headers["Content-Disposition"] != str) {
         println(3)
         return 3
     }
@@ -85,11 +85,11 @@ public func testFileByteArrayBodyPartPayload_03(): Int32 {
     let off: Int64 = bp.getOff()
     let len: Int64 = bp.getLen()
     let str: String = "form-data"
-    if (headers.size != 2 || !headers.contains("Content-Disposition") || !headers["Content-Disposition"].equals(str)) {
+    if (headers.size != 2 || !headers.contains("Content-Disposition") || headers["Content-Disposition"] != str) {
         println(5)
         return 5
     }
-    if (!headers.contains(OAuthConstants.CONTENT_TYPE) || !headers[OAuthConstants.CONTENT_TYPE].equals("contentType_test")) {
+    if (!headers.contains(OAuthConstants.CONTENT_TYPE) || headers[OAuthConstants.CONTENT_TYPE] != "contentType_test") {
         println(51)
         return 51
     }
@@ -108,7 +108,7 @@ public func testFileByteArrayBodyPartPayload_04(): Int32 {
     let off: Int64 = bp.getOff()
     let len: Int64 = bp.getLen()
     let str: String = "form-data"
-    if (headers.size != 2 || !headers.contains("Content-Disposition") || !headers["Content-Disposition"].equals(str)) {
+    if (headers.size != 2 || !headers.contains("Content-Disposition") || headers["Content-Disposition"] != str) {
         println(7)
         return 7
     }
@@ -131,11 +131,11 @@ public func testFileByteArrayBodyPartPayload_05(): Int32 {
     let off: Int64 = bp.getOff()
     let len: Int64 = bp.getLen()
     let str: String = "form-data"
-    if (headers.size != 2 || !headers.contains("Content-Disposition") || !headers["Content-Disposition"].equals(str)) {
+    if (headers.size != 2 || !headers.contains("Content-Disposition") || headers["Content-Disposition"] != str) {
         println(9)
         return 9
     }
-    if (!headers.contains(OAuthConstants.CONTENT_TYPE) || !headers[OAuthConstants.CONTENT_TYPE].equals("contentType_test")) {
+    if (!headers.contains(OAuthConstants.CONTENT_TYPE) || headers[OAuthConstants.CONTENT_TYPE] != "contentType_test") {
         println(91)
         return 91
     }
@@ -154,7 +154,7 @@ public func testFileByteArrayBodyPartPayload_06(): Int32 {
     let off: Int64 = bp.getOff()
     let len: Int64 = bp.getLen()
     let str: String = "form-data; name=\"\""
-    if (headers.size != 2 || !headers.contains("Content-Disposition") || !headers["Content-Disposition"].equals(str)) {
+    if (headers.size != 2 || !headers.contains("Content-Disposition") || headers["Content-Disposition"] != str) {
         println(11)
         return 11
     }

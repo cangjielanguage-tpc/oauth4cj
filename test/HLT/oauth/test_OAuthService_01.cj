@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../common_Values.cj
 
 public var url="http://127.0.0.1:${port}/index"
@@ -131,11 +131,11 @@ public class TestOAuthServiceB008{
 }
 func serve(): Unit {
     let serverSocket = TcpServerSocket(bindAt: 0)
-    let server = ServerBuilder.new().listener(serverSocket).build()
+    let server = ServerBuilder().listener(serverSocket).build()
     server.distributor.register("/index",
         {
         httpContext =>
-        let resp = "Hello from /red".toUtf8Array()
+        let resp = "Hello from /red".toArray()
         httpContext.responseBuilder.body(resp)
         return
     })

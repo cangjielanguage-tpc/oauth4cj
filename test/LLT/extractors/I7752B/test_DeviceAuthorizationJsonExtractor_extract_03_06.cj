@@ -31,19 +31,19 @@ func testDeviceAuthorizationJsonExtractorExtract0306(): Int64 {
     var response01=OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
     var re02=deviceAuthorizationJsonExtractor02.extract(response01)
 
-    if (!re02.getDeviceCode().equals("device_code")) {
+    if (re02.getDeviceCode() != "device_code") {
         println(1)
         return 1
     }
-    if (!re02.getUserCode().equals("user_code")) {
+    if (re02.getUserCode() != "user_code") {
         println(2)
         return 2
     }
-    if (!re02.getVerificationUri().equals("verification_uri")) {
+    if (re02.getVerificationUri() != "verification_uri") {
         println(3)
         return 3
     }
-    if (!re02.getVerificationUriComplete().equals("")) {
+    if (re02.getVerificationUriComplete() != "") {
         println(4)
         return 4
     }

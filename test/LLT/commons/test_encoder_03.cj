@@ -12,11 +12,11 @@ main (){
     let str3: String = OAuthEncoder.decode(encoded)
     println("str2 == encoded: ${str2 == encoded}")
     println("str3 == plain: ${str3 == plain}")
-    if (!str2.equals(encoded)) {
+    if (str2 != encoded) {
         println(1)
         return 1
     }
-    if (!str3.equals(plain)) {
+    if (str3 != plain) {
         println(2)
         return 2
     }

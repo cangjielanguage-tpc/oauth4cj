@@ -17,7 +17,7 @@ public func testParameterList_01(): Int32 {
         println(1)
         return 1
     }
-    if (!pars.contains(Parameter("","abc"))){
+    if (!pars.contains(OAuth4cjParameter("","abc"))){
         println(2)
         return 2
     }
@@ -33,7 +33,7 @@ public func testParameterList_02(): Int32 {
         println(4)
         return 4
     }
-    if (!pars.contains(Parameter("ab","c"))){
+    if (!pars.contains(OAuth4cjParameter("ab","c"))){
         println(5)
         return 5
     }
@@ -49,7 +49,7 @@ public func testParameterList_03(): Int32 {
         println(6)
         return 6
     }
-    if (!pars.contains(Parameter("abc",""))){
+    if (!pars.contains(OAuth4cjParameter("abc",""))){
         println(7)
         return 7
     }
@@ -94,7 +94,7 @@ public func testParameterList_06(): Int32 {
         println(10)
         return 10
     }
-    if (!pars.contains(Parameter("abc",""))){
+    if (!pars.contains(OAuth4cjParameter("abc",""))){
         println(11)
         return 11
     }
@@ -110,7 +110,7 @@ public func testParameterList_07(): Int32 {
         println(12)
         return 12
     }
-    if (!pars.contains(Parameter("bc",""))){
+    if (!pars.contains(OAuth4cjParameter("bc",""))){
         println(13)
         return 13
     }
@@ -126,7 +126,7 @@ public func testParameterList_08(): Int32 {
         println(12)
         return 12
     }
-    if (!pars.contains(Parameter("",""))){
+    if (!pars.contains(OAuth4cjParameter("",""))){
         println(13)
         return 13
     }
@@ -142,7 +142,7 @@ public func testParameterList_09(): Int32 {
         println(14)
         return 14
     }
-    if (!pars.contains(Parameter("bc",""))){
+    if (!pars.contains(OAuth4cjParameter("bc",""))){
         println(15)
         return 15
     }

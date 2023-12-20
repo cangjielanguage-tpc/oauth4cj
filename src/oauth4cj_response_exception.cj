@@ -57,7 +57,7 @@ public open class OAuth4cjResponseException <: OAuth4cjException {
         if (refEq(this, obj)) {
             return true
         }
-        return this.response.toString().equals(obj.getResponse().toString())
+        return this.response.toString() == obj.getResponse().toString()
     }
 
     /**

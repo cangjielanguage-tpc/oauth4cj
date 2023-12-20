@@ -131,20 +131,20 @@ public class OAuth20Service <: OAuthService {
      */
     public func extractAuthorization(redirectLocation: String): OAuth2Authorization {
         let authorization: OAuth2Authorization = OAuth2Authorization()
-        var end: Int64 = redirectLocation.indexOf('#') ?? -1
+        var end: Int64 = redirectLocation.indexOf("#") ?? -1
         if (end == -1) {
             end = redirectLocation.size
         }
-        let start: Int64 = (redirectLocation.indexOf('?') ?? -1) + 1
-        let subStr: String = redirectLocation.substring(start, end - start)
+        let start: Int64 = (redirectLocation.indexOf("?") ?? -1) + 1
+        let subStr: String = redirectLocation[start..end]
         let params: Array<String> = subStr.split("&")
         for (param in params) {
             let keyValue: Array<String> = param.split("=")
             if (keyValue.size == 2) {
                 try {
-                    if (keyValue[0].equals("code")) {
+                    if (keyValue[0] == "code") {
                         authorization.setCode(URLEncoder.decode(keyValue[1], "UTF-8"))
-                    } else if (keyValue[0].equals("state")) {
+                    } else if (keyValue[0] == "state") {
                         authorization.setState(URLEncoder.decode(keyValue[1], "UTF-8"))
                     }
                 } catch (ueE: Exception) {
@@ -782,7 +782,7 @@ public class OAuth20Service <: OAuthService {
         }
 
         //Github's device authorization code mode can only parse JSON structures
-        if (api.getAccessTokenEndpoint().contains("github") && !responseType.equals("code")) {
+        if (api.getAccessTokenEndpoint().contains("github") && !(responseType == "code")) {
             request.addHeader("Accept", responseType)
         }
 

@@ -4,7 +4,7 @@
 from oauth4cj import oauth4cj.*
 
 func testTokenTypeHint_01(): Int32 {
-    if ("access_token".equals(TokenTypeHint.ACCESS_TOKEN_HINT.getValue())) {
+    if ("access_token" == TokenTypeHint.ACCESS_TOKEN_HINT.getValue()) {
         return 0
     } else {
         return -1
@@ -12,7 +12,7 @@ func testTokenTypeHint_01(): Int32 {
 }
 
 func testTokenTypeHint_02(): Int32 {
-    if ("refresh_token".equals(TokenTypeHint.REFRESH_TOKEN_HINT.getValue())) {
+    if ("refresh_token" == TokenTypeHint.REFRESH_TOKEN_HINT.getValue()) {
         return 0
     } else {
         return -1

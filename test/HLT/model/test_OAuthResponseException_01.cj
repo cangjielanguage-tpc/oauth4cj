@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../common_Values.cj
 
 @Test
@@ -9,7 +9,7 @@ public class TestOAuthResponseExceptionB001{
         var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"body")
         var sub01=SubResource(File("temp.cj",OpenOption.CreateOrTruncate(true)))
         var inputStream=ByteArrayStream()
-        inputStream.write("hello world".toUtf8Array())
+        inputStream.write("hello world".toArray())
         var response02=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),inputStream,ArrayList<Resource>([sub01]))
 
         var oauthResponseException01=OAuth4cjResponseException(response01)
@@ -17,7 +17,7 @@ public class TestOAuthResponseExceptionB001{
         for (str in strValues) {
             for (int32Value in int32Values){
                 response01=oauth4cj.OAuth4cjResponse(int32Value,str,HashMap<String,String>(),str)
-                inputStream.write("hello world".toUtf8Array())
+                inputStream.write("hello world".toArray())
                 response02=oauth4cj.OAuth4cjResponse(int32Value,str,HashMap<String,String>(),inputStream,ArrayList<Resource>([sub01]))
                 oauthResponseException01=OAuth4cjResponseException(response01)
                 oauthResponseException02=OAuth4cjResponseException(response02)
@@ -39,7 +39,7 @@ public class TestOAuthResponseExceptionB001{
         var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"body")
         var sub01=SubResource(File("temp.cj",OpenOption.CreateOrTruncate(true)))
         var inputStream=ByteArrayStream()
-        inputStream.write("hello world".toUtf8Array())
+        inputStream.write("hello world".toArray())
         var response02=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),inputStream,ArrayList<Resource>([sub01]))
 
         var oauthResponseException01=OAuth4cjResponseException(response01)
@@ -47,7 +47,7 @@ public class TestOAuthResponseExceptionB001{
         for (str in strValues) {
             for (int32Value in int32Values){
                 response01=oauth4cj.OAuth4cjResponse(int32Value,str,HashMap<String,String>(),str)
-                inputStream.write("hello world".toUtf8Array())
+                inputStream.write("hello world".toArray())
                 response02=oauth4cj.OAuth4cjResponse(int32Value,str,HashMap<String,String>(),inputStream,ArrayList<Resource>([sub01]))
                 oauthResponseException01=OAuth4cjResponseException(response01)
                 oauthResponseException02=OAuth4cjResponseException(response02)

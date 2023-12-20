@@ -71,7 +71,7 @@ public class URLEncoder {
         if (enc.isEmpty()) {
             throw OAuth4cjException("charsetName can not be empty!")
         }
-        if (!(enc.equals("UTF-8") || enc.equals("utf-8") || enc.equals("UTF8") || enc.equals("utf8"))) {
+        if (!((enc == "UTF-8") || (enc == "utf-8") || (enc == "UTF8") || (enc == "utf8"))) {
             throw OAuth4cjException("only UTF-8 Character Set is supported!")
         }
 
@@ -97,8 +97,8 @@ public class URLEncoder {
         let out: StringBuilder = StringBuilder()
         let cas: CharArrayStream = CharArrayStream(512)
 
-        let len: Int64 = s.size
-        let charBuf: Array<Char> = s.toCharArray()
+        let charBuf: Array<Char> = s.toRuneArray()
+        let len: Int64 = charBuf.size
         var i: Int64 = 0
         while (i < len) {
             var ch: Char = charBuf[i]
@@ -153,7 +153,7 @@ public class URLEncoder {
 
     private static func handleCharArrayStream(out: StringBuilder, cas: CharArrayStream): Unit {
         let str: String = String(cas.toCharArray())
-        let ba: Array<UInt8> = str.toUtf8Array()
+        let ba: Array<UInt8> = str.toArray()
 
         for (j in 0 .. ba.size) {
             out.append('%')
@@ -190,7 +190,7 @@ public class URLEncoder {
         if (enc.isEmpty()) {
             throw OAuth4cjException("empty string enc parameter.");
         }
-        if (!(enc.equals("UTF-8") || enc.equals("utf-8") || enc.equals("UTF8") || enc.equals("utf8"))) {
+        if (!((enc == "UTF-8") || (enc == "utf-8") || (enc == "UTF8") || (enc == "utf8"))) {
             throw OAuth4cjException("only UTF-8 Character Set is supported!")
         }
 
@@ -221,7 +221,7 @@ public class URLEncoder {
         var c: Char = ' '
         var bytes: Array<UInt8> = Array<UInt8>()
 
-        let charBuf: Array<Char> = s.toCharArray()
+        let charBuf: Array<Char> = s.toRuneArray()
         while (i < numChars) {
             c = charBuf[i]
             match (c) {
@@ -260,7 +260,7 @@ public class URLEncoder {
         var i: Int64 = index
         var c: Char = char
         while ( ((i + 2) < numChars) && (c == '%')) {
-            let strNum: String = "0X" + s.slice(i + 1, 2)
+            let strNum: String = "0X" + s[(i+1)..(i+3)]
             let v: Int64 = Int64.parse(strNum)
 
             if (v < 0) {

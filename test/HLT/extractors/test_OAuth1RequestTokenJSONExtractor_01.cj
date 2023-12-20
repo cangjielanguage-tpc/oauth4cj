@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../common_Values.cj
 
 @Test
@@ -35,7 +35,7 @@ public class TestOAuth1RequestTokenJSONExtractorB004{
         try{
             oauth1RequestTokenJSONExtractor02.extract(response01)
         }catch(e:OAuth4cjException){
-            if(e.toString().contains("OAuth4cjException") && e.toString().contains("Response body is incorrect. Can't extract token and secret from this: '" + body + '\'')){
+            if(e.toString().contains("OAuth4cjException") && e.toString().contains("Response body is incorrect. Can't extract token and secret from this: '" + body + "\'")){
                 flag=0
             }
         }
@@ -54,7 +54,7 @@ public class TestOAuth1RequestTokenJSONExtractorB004{
         try{
             oauth1RequestTokenJSONExtractor02.extract(response01)
         }catch(e:OAuth4cjException){
-            if(e.toString().contains("OAuth4cjException") && e.toString().contains("Response body is incorrect. Can't extract token and secret from this: '" + body + '\'')){
+            if(e.toString().contains("OAuth4cjException") && e.toString().contains("Response body is incorrect. Can't extract token and secret from this: '" + body + "\'")){
                 flag=0
             }
         }

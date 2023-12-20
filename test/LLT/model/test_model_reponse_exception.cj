@@ -18,17 +18,17 @@ public func testException_01():Int32 {
     if (result.getCode() != 200){ 
         return -1
     }
-    if (!"message".equals(result.getMessage())){ 
+    if ("message" != result.getMessage()){
         return -1
     }
     var map = result.getHeaders()
-    if (!"value1".equals(map["header1"])){ 
+    if ("value1" != map["header1"]){
         return -1
     }
-    if (!"value2".equals(result.getHeader("header2"))){ 
+    if ("value2" != result.getHeader("header2")){
         return -1
     }
-    if (!"123456".equals(result.getBody())){ 
+    if ("123456" != result.getBody()){
         return -1
     }
     return 0

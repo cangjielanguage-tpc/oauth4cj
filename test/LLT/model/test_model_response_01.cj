@@ -19,17 +19,17 @@ public func testResponse_01():Int32 {
     if (response.getCode() != 200){ 
         return -1
     }
-    if (!"message".equals(response.getMessage())){ 
+    if ("message" != response.getMessage()){
         return -1
     }
     var map = response.getHeaders()
-    if (!"value1".equals(map["header1"])){ 
+    if ("value1" != map["header1"]){
         return -1
     }
-    if (!"value2".equals(response.getHeader("header2"))){ 
+    if ("value2" != response.getHeader("header2")){
         return -1
     }
-    if (!"123456".equals(response.getBody())){ 
+    if ("123456" != response.getBody()){
         return -1
     }
     return 0
@@ -67,20 +67,20 @@ public func testResponse_03():Int32 {
     var headers:HashMap<String, String> = HashMap<String, String>()
     var stream:ByteArrayStream = ByteArrayStream()
     var closeables:ArrayList<Resource> = ArrayList<Resource>()
-    stream.write("abcdefg".toUtf8Array()) // 向流中写入测试数据
+    stream.write("abcdefg".toArray()) // 向流中写入测试数据
     var response: OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, stream, closeables)
     var responseStream = response.getStream()
     var buffer:Array<Byte> = Array<Byte>(7, item:0)
     responseStream.read(buffer) 
     var str_1 = String.fromUtf8(buffer)
     println(str_1)
-    if (!"abcdefg".equals(str_1)){ 
+    if ("abcdefg" != str_1){
         println(str_1)
         return -1
     }
     var str_2:String = response.toString()
     println(str_2)
-    if (!"Response{code=200, message='message', body='', headers=[]}" .equals(str_2)){ 
+    if ("Response{code=200, message='message', body='', headers=[]}" != str_2){
         println(str_2)
         return -1
     }
@@ -92,7 +92,7 @@ public func testResponse_04():Int32 {
     headers.put("Content-Encoding", "zlib") 
 
     var str = "abcdefg"
-    var bytes: Array<UInt8> = str.toUtf8Array()
+    var bytes: Array<UInt8> = str.toArray()
     var stream:ByteArrayStream = ByteArrayStream(64)
     stream.write(bytes)
 
@@ -100,7 +100,7 @@ public func testResponse_04():Int32 {
     var response: OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, stream, closeables)
     var body:String = response.getBody()
     
-    if (!str.equals(body)) {
+    if (str != body) {
         return -1
     }
     return 0

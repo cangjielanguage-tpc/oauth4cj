@@ -8,8 +8,6 @@
  */
 package oauth4cj
 
-from crypto4cj import hmaccj.*
-
 
 /**
  * HMAC-SHA1 implementation of the SignatureService interface
@@ -33,7 +31,7 @@ public class HMACSha1SignatureService <: SignatureService {
     public func getSignature(baseString: String, apiSecret: String, tokenSecret: String): String {
         try {
             Preconditions.checkEmptyString(baseString, "Base string can't be null or empty string")
-            return doSign(baseString, OAuthEncoder.encode(apiSecret) + '&' + OAuthEncoder.encode(tokenSecret))
+            return doSign(baseString, OAuthEncoder.encode(apiSecret) + "&" + OAuthEncoder.encode(tokenSecret))
         } catch (e: Exception) {
             throw OAuth4cjSignatureException(e.message)
         }
@@ -41,8 +39,8 @@ public class HMACSha1SignatureService <: SignatureService {
 
     private func doSign(toSign: String, keyString: String): String {
         let algorithm: AlgorithmType = AlgorithmType.Sha1
-        let key: Array<UInt8> = keyString.toUtf8Array()
-        let data: Array<UInt8> = toSign.toUtf8Array()
+        let key: Array<UInt8> = keyString.toArray()
+        let data: Array<UInt8> = toSign.toArray()
         let md: Array<UInt8> = Array<UInt8>(Int64(AlgorithmType.Sha1.getBits()), item: 0)
 
         hmac(algorithm, key, data, md)

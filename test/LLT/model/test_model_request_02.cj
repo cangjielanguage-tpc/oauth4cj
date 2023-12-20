@@ -21,11 +21,11 @@ public func testRequest_05():Int32 {
     request.addParameter("key3", "value3")
     var result_2 = request.getBodyParams().getParams()
     if (result_2.size != 2){
-        return -1
+        return -11
     }
     var newUrl = "http://test/test?key3=value3"
-    if (!newUrl.equals(request.getCompleteUrl())) {
-        return -1
+    if (newUrl != request.getCompleteUrl()) {
+        return -111
     }
 
     return 0
@@ -46,7 +46,7 @@ public func testRequest_06():Int32 {
     }
 
     var str = request.toString()
-    if (!"@Request(DELETE http://test/test)".equals(str)) {
+    if ("@Request(DELETE http://test/test)" != str) {
         println(str)
         return -1
     }

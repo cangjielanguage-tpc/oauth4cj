@@ -23,7 +23,7 @@ public func testBaseStringExtractor_01(): Int32 {
     if (baseString != expected) {
         return 1
     }
-    println("baseString.equals(expected) = ${baseString.equals(expected)}")
+    println("baseString == expected: ${baseString == expected}")
     return 0
 }
 

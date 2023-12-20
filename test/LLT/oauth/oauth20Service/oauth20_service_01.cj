@@ -211,7 +211,7 @@ main() {
 
 func testOAuth20Service_01(service: OAuth20Service): Int32 {
     let version: String = service.getVersion()
-    if (!version.equals("2.0")) {
+    if (version != "2.0") {
         println(1)
         return 1
     }
@@ -232,7 +232,7 @@ func testOAuth20Service_01(service: OAuth20Service): Int32 {
     }
 
     let url5: String = service.getApi().getAccessTokenEndpoint()
-    if (!url5.equals("http://127.0.0.1/token")) {
+    if (url5 != "http://127.0.0.1/token") {
         println(-3)
         return -3
     }
@@ -241,14 +241,14 @@ func testOAuth20Service_01(service: OAuth20Service): Int32 {
     let o2a: OAuth2Authorization = service.extractAuthorization(redirectLocation)
     let code: String = o2a.getCode()
     let state: String = o2a.getState()
-    if (!code.equals("code") || !state.equals("secret184497")) {
+    if (code != "code" || state != "secret184497") {
         println(-4)
         return -4
     }
 
     let responseType: String = service.getResponseType()
     let defaultScope: String = service.getDefaultScope() ?? ""
-    if (!responseType.equals("code") || !defaultScope.equals(SCOP)) {
+    if (responseType != "code" || defaultScope != SCOP) {
         println(-5)
         return -5
     }

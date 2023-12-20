@@ -11,17 +11,17 @@ func testAPI20_01(): Int32 {
     let responseBody: String = ##"{"access_token":"oauth2_token"}"##
     let response: OAuth4cjResponse = OAuth4cjResponse(200, "", HashMap<String, String>(), responseBody)
     let oauth2AccessToken: OAuth2AccessToken = tokenEAccess.extract(response)
-    if (!oauth2AccessToken.getAccessToken().equals("oauth2_token")) {
+    if (oauth2AccessToken.getAccessToken() != "oauth2_token") {
         return -1
     }
 
     var verbAccess: Verb = apiA.getAccessTokenVerb()
-    if (!verbAccess.toString().equals("POST")) {
+    if (verbAccess.toString() != "POST") {
         return -1
     }
 
     var refreshTEndpoint = apiA.getRefreshTokenEndpoint()
-    if (!refreshTEndpoint.equals("getAccessTokenEndpoint")) {
+    if (refreshTEndpoint != "getAccessTokenEndpoint") {
         return -1
     }
 
@@ -67,7 +67,7 @@ func testAPI20_04(): Int32 {
                                                 Some("state"), params)
     let baseUrl = "getAuthorizationBaseUrl?a=0&b=1&response_type=responseType&client_id=apiKey&redirect_uri=callback&" +
                     "scope=scope&state=state"
-    if (!url.equals(baseUrl)) {
+    if (url != baseUrl) {
         println(url)
         return -1
     }
@@ -80,7 +80,7 @@ func testAPI20_05(): Int32 {
     let url:String = apiA.getAuthorizationUrl("responseType", "apiKey", Option<String>.None, Option<String>.None,
                                                 Option<String>.None, params)
     let baseUrl = "getAuthorizationBaseUrl?a=0&b=1&response_type=responseType&client_id=apiKey"
-    if (!url.equals(baseUrl)) {
+    if (url != baseUrl) {
         println(url)
         return -1
     }
@@ -94,13 +94,13 @@ func testAPI20_06(): Int32 {
     let response: OAuth4cjResponse = OAuth4cjResponse(200, "", HashMap<String, String>(), responseBody)
     var deviceJsonE: DeviceAuthorizationJsonExtractor = apiA.getDeviceAuthorizationExtractor()
     var device: DeviceAuthorization = deviceJsonE.extract(response)
-    if (!device.getDeviceCode().equals("123")) {
+    if (device.getDeviceCode() != "123") {
         return -1
     }
-    if (!device.getUserCode().equals("456")) {
+    if (device.getUserCode() != "456") {
         return -1
     }
-    if (!device.getVerificationUri().equals("Beijing")) {
+    if (device.getVerificationUri() != "Beijing") {
         return -1
     }
     if (device.getExpiresInSeconds() != 200) {

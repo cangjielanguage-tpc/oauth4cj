@@ -11,13 +11,13 @@ main (){
     let result: String = "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM"
     println("res = ${res}")
 
-    println("result.equals(res) = ${result.equals(res)}")
-    if (!result.equals(res)) {
+    println("result == res: ${result == res}")
+    if (result != res) {
         println(1)
         return 1
     }
 
-    if (!PKCECodeChallengeMethod.S256.toString().equals("S256")) {
+    if (PKCECodeChallengeMethod.S256.toString() != "S256") {
         return -1
     }
     

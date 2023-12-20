@@ -39,7 +39,7 @@ public func testFileByteArrayBodyPartPayload_01(): Int32 {
     let bp: FileByteArrayBodyPartPayload = FileByteArrayBodyPartPayload(payload)
     let headers: HashMap<String, String> = bp.getHeaders()
     if (headers.size != 1 || !headers.contains("Content-Disposition") ||
-            !headers["Content-Disposition"].equals("form-data")) {
+            headers["Content-Disposition"] != "form-data") {
         println(1)
         return 1
     }
@@ -61,7 +61,7 @@ public func testFileByteArrayBodyPartPayload_02(): Int32 {
     let off: Int64 = bp.getOff()
     let len: Int64 = bp.getLen()
     if (headers.size != 1 || !headers.contains("Content-Disposition") ||
-            !headers["Content-Disposition"].equals("form-data")) {
+            headers["Content-Disposition"] != "form-data") {
         println(3)
         return 3
     }
@@ -80,7 +80,7 @@ public func testFileByteArrayBodyPartPayload_03(): Int32 {
     let off: Int64 = bp.getOff()
     let len: Int64 = bp.getLen()
     if (headers.size != 1 || !headers.contains("Content-Disposition") ||
-            !headers["Content-Disposition"].equals("form-data")) {
+            headers["Content-Disposition"] != "form-data") {
         println(5)
         return 5
     }
@@ -99,7 +99,7 @@ public func testFileByteArrayBodyPartPayload_04(): Int32 {
     let off: Int64 = bp.getOff()
     let len: Int64 = bp.getLen()
     let str: String = "form-data; name=\"test\""
-    if (headers.size != 1 || !headers.contains("Content-Disposition") || !headers["Content-Disposition"].equals(str)) {
+    if (headers.size != 1 || !headers.contains("Content-Disposition") || headers["Content-Disposition"] != str) {
         println(7)
         return 7
     }
@@ -118,7 +118,7 @@ public func testFileByteArrayBodyPartPayload_05(): Int32 {
     let off: Int64 = bp.getOff()
     let len: Int64 = bp.getLen()
     let str: String = "form-data; name=\"\""
-    if (headers.size != 1 || !headers.contains("Content-Disposition") || !headers["Content-Disposition"].equals(str)) {
+    if (headers.size != 1 || !headers.contains("Content-Disposition") || headers["Content-Disposition"] != str) {
         println(9)
         return 9
     }

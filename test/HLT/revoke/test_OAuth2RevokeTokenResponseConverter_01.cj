@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../common_Values.cj
 
 @Test
@@ -30,7 +30,7 @@ public class TestOAuth2RevokeTokenResponseConverterB004{
         var oAuth2RevokeTokenResponseConverter02=OAuth2RevokeTokenResponseConverter()
         var sub01=SubResource(File("temp.cj",OpenOption.CreateOrTruncate(true)))
         var inputStream=ByteArrayStream()
-        inputStream.write("hello cangjie".toUtf8Array())
+        inputStream.write("hello cangjie".toArray())
         var response02=oauth4cj.OAuth4cjResponse(Int32(400),"message",HashMap<String,String>(),inputStream,ArrayList<Resource>([sub01]))
         var flag=1
         try{

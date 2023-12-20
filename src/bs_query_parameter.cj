@@ -5,7 +5,7 @@
 package oauth4cj
 
 /**
- * URI Query Parameter, RFC 6750 2.3.
+ * URI Query OAuth4cjParameter, RFC 6750 2.3.
  */
 public class BearerSignatureURIQueryParameter {
     private static let INSTANCE = BearerSignatureURIQueryParameter()

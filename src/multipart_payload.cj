@@ -91,7 +91,7 @@ public class MultipartPayload <: BodyPartPayload {
         }
 
         if (!flagContentType) {
-            contentTypeHeader = "multipart/" + subtype + "; boundary=\"" + boundary + '"'
+            contentTypeHeader = "multipart/" + subtype + "; boundary=\"${boundary}\""
             if (!headersIn.isEmpty()) {
                 headersOut = headersIn
             }
@@ -100,8 +100,8 @@ public class MultipartPayload <: BodyPartPayload {
             headersOut = headersIn
             let parsedBoundary: String = MultipartUtils.parseBoundaryFromHeader(contentTypeHeader)
             if (parsedBoundary.isEmpty()) {
-                headersOut.put(OAuthConstants.CONTENT_TYPE, contentTypeHeader + "; boundary=\"" + boundary + '"')
-            } else if (!parsedBoundary.equals(boundary)) {
+                headersOut.put(OAuthConstants.CONTENT_TYPE, contentTypeHeader + "; boundary=\"${boundary}\"")
+            } else if (!(parsedBoundary == boundary)) {
                 let err: String = "Different boundaries was passed in constructors. One as argument, second as header"
                 throw IllegalArgumentException(err)
             }
@@ -134,7 +134,7 @@ public class MultipartPayload <: BodyPartPayload {
      * @since 0.37.2
      */
     public func addBodyPart(multipartPayload: MultipartPayload): Unit {
-        if (multipartPayload.getBoundary().equals(boundary)) {
+        if (multipartPayload.getBoundary() == boundary) {
             let err: String = "{'boundary'}={'" + boundary + "'} is the same for parent MultipartPayload and child."
             throw IllegalArgumentException(err)
         }

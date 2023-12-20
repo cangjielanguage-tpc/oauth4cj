@@ -18,18 +18,18 @@ public func testParameterList_01(): Int32 {
         println(1)
         return 1
     }
-    if (!pars.contains(Parameter("abc",""))){
+    if (!pars.contains(OAuth4cjParameter("abc",""))){
         println(2)
         return 2
     }
-    if (!pars.contains(Parameter("",""))){
+    if (!pars.contains(OAuth4cjParameter("",""))){
         println(3)
         return 3
     }
     return 0
 }
 
-// public init(map: HashMap<String, String>)  public func contains(param: Parameter) public func getParams()
+// public init(map: HashMap<String, String>)  public func contains(param: OAuth4cjParameter) public func getParams()
 public func testParameterList_02(): Int32 {
     let pars = ParameterList(map02)
     let queryString02: String = "a&bc"
@@ -39,11 +39,11 @@ public func testParameterList_02(): Int32 {
         println(4)
         return 4
     }
-    if (!pars.contains(Parameter("a",""))){
+    if (!pars.contains(OAuth4cjParameter("a",""))){
         println(5)
         return 5
     }
-    if (!pars.contains(Parameter("bc",""))){
+    if (!pars.contains(OAuth4cjParameter("bc",""))){
         println(6)
         return 6
     }
@@ -60,7 +60,7 @@ public func testParameterList_03(): Int32 {
         println(7)
         return 7
     }
-    if (!pars.contains(Parameter("abc",""))){
+    if (!pars.contains(OAuth4cjParameter("abc",""))){
         println(8)
         return 8
     }
@@ -80,27 +80,27 @@ public func testParameterList_04(): Int32 {
         println(9)
         return 9
     }
-    if (!pars.contains(Parameter("","a"))){
+    if (!pars.contains(OAuth4cjParameter("","a"))){
         println(10)
         return 10
     }
-    if (!pars.contains(Parameter("bc",""))){
+    if (!pars.contains(OAuth4cjParameter("bc",""))){
         println(11)
         return 11
     }
-    if (!pars.contains(Parameter("c","1"))){
+    if (!pars.contains(OAuth4cjParameter("c","1"))){
         println(12)
         return 12
     }
-    if (!pars.contains(Parameter("a",""))){
+    if (!pars.contains(OAuth4cjParameter("a",""))){
         println(13)
         return 13
     }
-    if (!pars.contains(Parameter("bd","c"))){
+    if (!pars.contains(OAuth4cjParameter("bd","c"))){
         println(14)
         return 14
     }
-    if (!pars.contains(Parameter("b","c"))){
+    if (!pars.contains(OAuth4cjParameter("b","c"))){
         println(15)
         return 15
     }
@@ -156,7 +156,7 @@ public func testParameterList_08(): Int32 {
         println(19)
         return 19
     }
-    if (!pars.contains(Parameter("abc","bcd"))){
+    if (!pars.contains(OAuth4cjParameter("abc","bcd"))){
         println(20)
         return 20
     }

@@ -65,28 +65,28 @@ public func testVerb_02():Int32 {
 
 // toString()
 public func testVerb_03():Int32 {
-    if (!"GET".equals(Verb.GET.toString())) {
+    if ("GET" != Verb.GET.toString()) {
         return -1
     }
-    if (!"POST".equals(Verb.POST.toString())) {
+    if ("POST" != Verb.POST.toString()) {
         return -1
     }
-    if (!"PUT".equals(Verb.PUT.toString())) {
+    if ("PUT" != Verb.PUT.toString()) {
         return -1
     }
-    if (!"DELETE".equals(Verb.DELETE.toString())) {
+    if ("DELETE" != Verb.DELETE.toString()) {
         return -1
     }
-    if (!"HEAD".equals(Verb.HEAD.toString())) {
+    if ("HEAD" != Verb.HEAD.toString()) {
         return -1
     }
-    if (!"OPTIONS".equals(Verb.OPTIONS.toString())) {
+    if ("OPTIONS" != Verb.OPTIONS.toString()) {
         return -1
     }
-    if (!"TRACE".equals(Verb.TRACE.toString())) {
+    if ("TRACE" != Verb.TRACE.toString()) {
         return -1
     }
-    if (!"PATCH".equals(Verb.PATCH.toString())) {
+    if ("PATCH" != Verb.PATCH.toString()) {
         return -1
     }
     return 0

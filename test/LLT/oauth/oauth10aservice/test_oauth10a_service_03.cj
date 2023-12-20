@@ -80,7 +80,7 @@ func testOAuth10aService08(): Int32 {
         httpClientConfig, Some(httpClient), httpClientProvider)
     var requestToken = OAuth1RequestToken("token", "tokenSecret")
     var url = service.getAuthorizationUrl(requestToken)
-    if (!url.equals("http://localhost:8080/authorize?oauth_token=token")) {
+    if (url != "http://localhost:8080/authorize?oauth_token=token") {
         return  -1
     }
     var api = service.getApi()

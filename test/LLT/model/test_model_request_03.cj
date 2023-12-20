@@ -20,7 +20,7 @@ public func testRequest_09():Int32 {
     var payload = MultipartPayload()
     request.setMultipartPayload(payload)
     var result_2 = request.getMultipartPayload().getOrThrow()
-    if (!result_2.getBoundary().equals(payload.getBoundary())) {
+    if (result_2.getBoundary() != payload.getBoundary()) {
         println(result_2.getBoundary())
         return -1
     }
@@ -34,7 +34,7 @@ public func testRequest_10():Int32 {
     // 设置范围"---test1---"
     request.initMultipartPayload("---test1---") 
     var result_1 = request.getMultipartPayload().getOrThrow()
-    if (!"---test1---".equals(result_1.getBoundary())) {
+    if ("---test1---" != result_1.getBoundary()) {
         println(result_1.getBoundary())
         return -1
     }
@@ -42,7 +42,7 @@ public func testRequest_10():Int32 {
     // 设置范围"---test2---"
     request.initMultipartPayload("form-abc", "---test2---")
     var result_2 = request.getMultipartPayload().getOrThrow()
-    if (!"---test2---".equals(result_2.getBoundary())) {
+    if ("---test2---" != result_2.getBoundary()) {
         println(result_2.getBoundary())
         return -1
     }
@@ -72,11 +72,11 @@ public func testRequest_11():Int32 {
     request.initMultipartPayload("---test1---", map)
     var result_1 = request.getMultipartPayload().getOrThrow().getHeaders()
     var header_1 = result_1["Content-Type"]
-    if (!"test; boundary=\"---test1---\"".equals(header_1)) {
+    if ("test; boundary=\"---test1---\"" != header_1) {
         println(header_1)
         return -1
     }
-    if (!"value1".equals(result_1["key1"])) {
+    if ("value1" != result_1["key1"]) {
         return -1
     }
 
@@ -85,11 +85,11 @@ public func testRequest_11():Int32 {
     request.initMultipartPayload("abc-abc", "---test2---", map_2)
     var result_2 = request.getMultipartPayload().getOrThrow().getHeaders()
     var header_2 = result_2["Content-Type"]
-    if (!"multipart/abc-abc; boundary=\"---test2---\"".equals(header_2)) {
+    if ("multipart/abc-abc; boundary=\"---test2---\"" != header_2) {
         println(header_2)
         return -1
     }
-    if (!"value2".equals(result_2["key2"])) {
+    if ("value2" != result_2["key2"]) {
         return -1
     }
 
@@ -113,7 +113,7 @@ public func testRequest_12():Int32 {
     }
     var bodyPart_1 = result_1[0].getHeaders()
     var header_1 = bodyPart_1["Content-Type"]
-    if (!"multipart/form-data; boundary=\"test1\"".equals(header_1)) {
+    if ("multipart/form-data; boundary=\"test1\"" != header_1) {
         println(header_1)
         println("-----------------------1")
         return -1
@@ -130,7 +130,7 @@ public func testRequest_12():Int32 {
     }
     var bodyPart_2 = result_2[0].getHeaders()
     var header_2 = bodyPart_2["Content-Type"]
-    if (!"multipart/form-data; boundary=\"==test2==\"".equals(header_2)) {
+    if ("multipart/form-data; boundary=\"==test2==\"" != header_2) {
         println(header_2)
         println("-----------------------3")
         return -1

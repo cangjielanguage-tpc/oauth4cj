@@ -34,11 +34,11 @@ func testOAuth1AccessTokenJSONExtractor_01(): Int32 {
 
     println("extracted.getToken() = ${extracted.getToken()}")
     println("extracted.getTokenSecret() = ${extracted.getTokenSecret()}")
-    if (!extracted.getToken().equals("")) {
+    if (extracted.getToken() != "") {
         println(1)
         return 1
     }
-    if (!extracted.getTokenSecret().equals("hdhd0244k9j7ao03")) {
+    if (extracted.getTokenSecret() != "hdhd0244k9j7ao03") {
         println(2)
         return 2
     }
@@ -52,11 +52,11 @@ func testOAuth1AccessTokenJSONExtractor_02(): Int32 {
     let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth1AccessToken = extractor.extract(response)
 
-    if (!extracted.getToken().equals("hdhd0244k9j7ao03")) {
+    if (extracted.getToken() != "hdhd0244k9j7ao03") {
         println(3)
         return 3
     }
-    if (!extracted.getTokenSecret().equals("")) {
+    if (extracted.getTokenSecret() != "") {
         println(4)
         return 4
     }

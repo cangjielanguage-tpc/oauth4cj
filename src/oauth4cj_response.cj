@@ -63,7 +63,7 @@ public class OAuth4cjResponse <: Resource {
 
     private func parseBodyContents(): String {
         try {
-            if ("gzip".equals(getHeader("Content-Encoding"))) {
+            if ("gzip" == getHeader("Content-Encoding")) {
                 body = StreamUtils.getGzipStreamContents(stream)
             } else {
                 body = StreamUtils.getStreamContents(stream)

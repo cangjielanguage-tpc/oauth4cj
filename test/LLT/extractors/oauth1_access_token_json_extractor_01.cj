@@ -42,11 +42,11 @@ func testOAuth1AccessTokenJSONExtractor_01(): Int32 {
     let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth1AccessToken = extractor.extract(response)
 
-    if (!extracted.getToken().equals("hh5s93j4hdidpola")) {
+    if (extracted.getToken() != "hh5s93j4hdidpola") {
         println(1)
         return 1
     }
-    if (!extracted.getTokenSecret().equals("hdhd0244k9j7ao03")) {
+    if (extracted.getTokenSecret() != "hdhd0244k9j7ao03") {
         println(2)
         return 2
     }
@@ -60,11 +60,11 @@ func testOAuth1AccessTokenJSONExtractor_02(): Int32 {
     let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth1AccessToken = extractor.extract(response)
 
-    if (!extracted.getToken().equals("hdhd0244k9j7ao03")) {
+    if (extracted.getToken() != "hdhd0244k9j7ao03") {
         println(3)
         return 3
     }
-    if (!extracted.getTokenSecret().equals("hh5s93j4hdidpola")) {
+    if (extracted.getTokenSecret() != "hh5s93j4hdidpola") {
         println(4)
         return 4
     }
@@ -78,11 +78,11 @@ func testOAuth1AccessTokenJSONExtractor_03(): Int32 {
     let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth1AccessToken = extractor.extract(response)
 
-    if (!extracted.getToken().equals("hh5s93j4hdidpola")) {
+    if (extracted.getToken() != "hh5s93j4hdidpola") {
         println(5)
         return 5
     }
-    if (!extracted.getTokenSecret().equals("hdhd0244k9j7ao03")) {
+    if (extracted.getTokenSecret() != "hdhd0244k9j7ao03") {
         println(6)
         return 6
     }
@@ -96,11 +96,11 @@ func testOAuth1AccessTokenJSONExtractor_04(): Int32 {
     let response: OAuth4cjResponse = ok(responseBody)
     let extracted: OAuth1AccessToken = extractor.extract(response)
 
-    if (!extracted.getToken().equals("hh5s93j4hdidpola")) {
+    if (extracted.getToken() != "hh5s93j4hdidpola") {
         println(7)
         return 7
     }
-    if (!extracted.getTokenSecret().equals("")) {
+    if (extracted.getTokenSecret() != "") {
         println(8)
         return 8
     }

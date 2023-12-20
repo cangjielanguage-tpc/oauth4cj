@@ -20,10 +20,10 @@ public abstract class AbstractJsonExtractor {
         var value: JsonValue = errorNode
         var flag: Bool = errorNode.containsKey(parameterNames)
 
-        if (!flag && parameterNames.equals("expires_in")) {//for huawei
+        if (!flag && (parameterNames == "expires_in")) {//for huawei
             parameterNames = "expire_in"
             flag = errorNode.containsKey(parameterNames)
-        } else if (!flag && parameterNames.equals("verification_uri")) {//for huawei
+        } else if (!flag && (parameterNames == "verification_uri")) {//for huawei
             parameterNames = "verification_url"
             flag = errorNode.containsKey(parameterNames)
         }

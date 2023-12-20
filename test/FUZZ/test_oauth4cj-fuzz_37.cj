@@ -1,4 +1,4 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
 
 from fuzz import fuzz.*
 from oauth4cj import oauth4cj.*

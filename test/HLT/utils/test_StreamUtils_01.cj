@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../common_Values.cj
 
 
@@ -29,7 +29,7 @@ public class TestStreamUtilsB001{
     func testGetGzipStreamContents02(): Unit {
         input=ByteArrayStream()
         var str="hello cangjie"
-        var arr=str.toUtf8Array()
+        var arr=str.toArray()
         input.write(arr)
         gzipinput=CompressInputStream(input,wrap:GzipFormat)
         re=StreamUtils.getGzipStreamContents(gzipinput)
@@ -116,7 +116,7 @@ public class TestStreamUtilsB001{
     func testGetStreamContents02(): Unit {
         input=ByteArrayStream()
         var str="hello cangjie"
-        var arr=str.toUtf8Array()
+        var arr=str.toArray()
         input.write(arr)
         re=StreamUtils.getStreamContents(input)
         @Assert(re,str)
@@ -126,7 +126,7 @@ public class TestStreamUtilsB001{
     func testGetStreamContents03(): Unit {
         input=ByteArrayStream()
         var str="hello cangjie"
-        var arr=str.toUtf8Array()
+        var arr=str.toArray()
         input.write(arr)
         re=StreamUtils.getStreamContents(input,isGzipStream:false)
         @Assert(re,str)
@@ -136,7 +136,7 @@ public class TestStreamUtilsB001{
     func testGetStreamContents04(): Unit {
         input=ByteArrayStream()
         var str="hello cangjie"
-        var arr=str.toUtf8Array()
+        var arr=str.toArray()
         input.write(arr)
         re=StreamUtils.getStreamContents(input,isGzipStream:true)
         @Assert(re,str)

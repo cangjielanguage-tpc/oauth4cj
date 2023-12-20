@@ -108,21 +108,21 @@ public func getExpByteArrayStream(multipartPayload:MultipartPayload):ByteArraySt
     var byteArrayStream=ByteArrayStream()
     let preamble = multipartPayload.getPreamble()
     if(!preamble.isEmpty()){
-        byteArrayStream.write((preamble + "\r\n").toUtf8Array())
+        byteArrayStream.write((preamble + "\r\n").toArray())
     }
     let bodyParts=multipartPayload.getBodyParts()
     if(bodyParts.size!=0){
         let boundary = multipartPayload.getBoundary()
-        let startBoundary = ("--" + boundary + "\r\n").toUtf8Array()
+        let startBoundary = ("--" + boundary + "\r\n").toArray()
         for (bodyPart in bodyParts){
             byteArrayStream.write(startBoundary)
             let bodyPartHeaders = bodyPart.getHeaders()
             var target=""
             for (header in bodyPartHeaders){
                 target=header[0].toString()+": "+header[1].toString()+"\r\n"
-                byteArrayStream.write(target.toUtf8Array())
+                byteArrayStream.write(target.toArray())
             }
-            byteArrayStream.write("\r\n".toUtf8Array());
+            byteArrayStream.write("\r\n".toArray());
             if(bodyPart is MultipartPayload){
                 byteArrayStream.write(getExpByteArrayStream((bodyPart as MultipartPayload).getOrThrow()).readToEnd())
             }else if(bodyPart is ByteArrayBodyPartPayload){
@@ -133,12 +133,12 @@ public func getExpByteArrayStream(multipartPayload:MultipartPayload):ByteArraySt
             }else{
                 throw OAuth4cjException("the class type is not MultipartPayload and not ByteArrayBodyPartPayload.")
             }
-            byteArrayStream.write("\r\n".toUtf8Array())
+            byteArrayStream.write("\r\n".toArray())
         }
-        byteArrayStream.write(("--" + boundary + "--").toUtf8Array())
+        byteArrayStream.write(("--" + boundary + "--").toArray())
         let epilogue = multipartPayload.getEpilogue()
         if(!epilogue.isEmpty()){
-            byteArrayStream.write(("\r\n" + epilogue).toUtf8Array())
+            byteArrayStream.write(("\r\n" + epilogue).toArray())
         }
 
     }
@@ -349,12 +349,16 @@ public class SubOAuthAsyncRequestCallback <:OAuthAsyncRequestCallback{
 public var port:UInt16=0
 public func serve10a(){
     let serverSocket = TcpServerSocket(bindAt: 0)
-    let server = ServerBuilder.new().listener(serverSocket).build()
+    let server = ServerBuilder().listener(serverSocket).build()
     server.distributor.register("/1234", { httpContext =>
         sleep(1000*1000*1000 * Duration.nanosecond)
         var returnJson: String = "error"
         let header = httpContext.request.headers
-        let authorizationSub = header.get("Authorization").getOrThrow()[0].substring(6)
+        //let authorizationSub = header.get("Authorization").getOrThrow()[0].substring(6)
+
+        var str: String = header.get("Authorization").toArray()[0]
+        let authorizationSub = str[6..str.size]
+
         let splitArray: Array<String> = authorizationSub.split(",")
         let splitMap: HashMap<String, String> = HashMap<String, String>()
         for (item in splitArray) {
@@ -376,11 +380,11 @@ public func serve10a(){
         }
         if (isGetAccressToken) {
             let token: String = splitMap.get("oauth_token").getOrThrow()
-            if (token.equals("\"access_token\"")) {
+            if (token == "\"access_token\"") {
                 returnJson = ##"{"key1":"value1","key2":"value2"}"##
             }
         }
-        let resp = returnJson.toUtf8Array()
+        let resp = returnJson.toArray()
         httpContext.responseBuilder.body(resp)
         return
     })
@@ -393,12 +397,16 @@ public func serve10a(){
 
 public func serve20(){
     let serverSocket = TcpServerSocket(bindAt: 0)
-    let server = ServerBuilder.new().listener(serverSocket).build()
+    let server = ServerBuilder().listener(serverSocket).build()
     server.distributor.register("/1234", { httpContext =>
         sleep(1000*1000*1000 * Duration.nanosecond)
         var returnJson: String = "error"
         let header = httpContext.request.headers
-        let authorizationSub = header.get("Authorization").getOrThrow()[0].substring(6)
+        //let authorizationSub = header.get("Authorization").getOrThrow()[0].substring(6)
+
+        var str: String = header.get("Authorization").toArray()[0]
+        let authorizationSub = str[6..str.size]
+
         let splitArray: Array<String> = authorizationSub.split(",")
         let splitMap: HashMap<String, String> = HashMap<String, String>()
         for (item in splitArray) {
@@ -421,11 +429,11 @@ public func serve20(){
         }
         if (isGetAccressToken) {
             let token: String = splitMap.get("oauth_token").getOrThrow()
-            if (token.equals("\"access_token\"")) {
+            if (token == "\"access_token\"") {
                 returnJson = ##"{"key1":"value1","key2":"value2"}"##
             }
         }
-        let resp = returnJson.toUtf8Array()
+        let resp = returnJson.toArray()
         httpContext.responseBuilder.body(resp)
         return
     })

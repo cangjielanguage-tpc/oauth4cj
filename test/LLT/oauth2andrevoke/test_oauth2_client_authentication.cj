@@ -8,7 +8,7 @@ func testClientAuthentication_01(): Int32 {
     var request = OAuth4cjRequest(Verb.POST, url)
     var apiKey = "apiKey"
     var apiSecret = "apiSecret"
-    var encodeString = Base64Utils.encode("${apiKey}:${apiSecret}".toUtf8Array())
+    var encodeString = Base64Utils.encode("${apiKey}:${apiSecret}".toArray())
 
     var client = HttpBasicAuthenticationScheme.instance()
     client.addClientAuthentication(request, apiKey, apiSecret)
@@ -16,7 +16,7 @@ func testClientAuthentication_01(): Int32 {
     var headers = request.getHeaders()
     var header = headers.get(OAuthConstants.HEADER_AUTHORIZATION)
 
-    if (!header.getOrThrow().equals("${OAuthConstants.BASIC} ${encodeString}")) {
+    if (header.getOrThrow() != "${OAuthConstants.BASIC} ${encodeString}") {
         return -1
     }
 
@@ -34,20 +34,20 @@ func testClientAuthentication_02(): Int32 {
     var query = request.getQueryStringParams()
     var paramList = query.getParams()
     var param = paramList[0]
-    if (!param.getKey().equals(OAuthConstants.CLIENT_ID)) {
+    if (param.getKey() != OAuthConstants.CLIENT_ID) {
         return -1
     }
 
-    if (!param.getValue().equals(apiKey)) {
+    if (param.getValue() != apiKey) {
         return -1
     }
 
     var param2 = paramList[1]
-    if (!param2.getKey().equals(OAuthConstants.CLIENT_SECRET)) {
+    if (param2.getKey() != OAuthConstants.CLIENT_SECRET) {
         return -1
     }
 
-    if (!param2.getValue().equals(apiSecret)) {
+    if (param2.getValue() != apiSecret) {
         return -1
     }
 

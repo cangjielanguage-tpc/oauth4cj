@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 
 from std import collection.*
 from httpclient4cj import httpclient4cj.*
@@ -47,7 +47,7 @@ public class TestRFC5849{
 
 func serve(){
     let serverSocket = TcpServerSocket(bindAt: 0)
-    let server = ServerBuilder.new().listener(serverSocket).build()
+    let server = ServerBuilder().listener(serverSocket).build()
 
     // 模拟接收'printer.example.com'向'photos.example.net'请求未授权的临时requestToken
     server.distributor.register("/initiate", { httpContext =>
@@ -59,7 +59,9 @@ func serve(){
         let header = httpContext.request.headers
         // 请求头信息的Authorization相关信息，从第5位置开始截取
         // Authorization信息是"OAuth "开头，后面是键值对信息
-        let authorizationSub = header.get("Authorization").getOrThrow()[0].substring(6)
+        //let authorizationSub = header.get("Authorization").getOrThrow()[0].substring(6)
+        var str: String = header.getFirst("Authorization") ?? ""
+        let authorizationSub = str[6..str.size]
         // [OAuth oauth_callback="oob", oauth_timestamp="1692197160", oauth_nonce="546459459", oauth_consumer_key="dpf43f3p2l4k3l03",
         // oauth_signature_method="HMAC-SHA1", oauth_version="1.0", oauth_signature="6c2NvCIbb5bYkRlG%2Bx3MUJo%2FBPs%3D"]
 
@@ -80,7 +82,7 @@ func serve(){
         // oauth_consumer_key值和'photos.example.net'分配给'printer.example.com'的Client Identifier一致, 返回token
         match(oauthConsumerKey) {
             case Some(key) =>
-                if (key.equals("\"dpf43f3p2l4k3l03\"")) {
+                if (key == "\"dpf43f3p2l4k3l03\"") {
                     returnJson = ##"{"oauth_token":"hh5s93j4hdidpola","oauth_token_secret":"hdhd0244k9j7ao03", "oauth_callback_confirmed":"true"}"##
                 } else {
                     returnJson = ##"{"error":"clientId verification failed"}"##
@@ -89,7 +91,7 @@ func serve(){
                 returnJson = ##"{"error":"clientId verification failed"}"##
         }
 
-        let resp = returnJson.toUtf8Array()
+        let resp = returnJson.toArray()
         httpContext.responseBuilder.body(resp)
         return
     })
@@ -104,7 +106,9 @@ func serve(){
         let header = httpContext.request.headers
         // 请求头信息的Authorization相关信息，从第5位置开始截取
         // Authorization信息是"OAuth "开头，后面是键值对信息
-        let authorizationSub = header.get("Authorization").getOrThrow()[0].substring(6)
+        //let authorizationSub = header.get("Authorization").getOrThrow()[0].substring(6)
+        var str: String = header.getFirst("Authorization") ?? ""
+        let authorizationSub = str[6..str.size]
 
         // 使用“,”进行分割
         let splitArray: Array<String> = authorizationSub.split(",")
@@ -126,7 +130,7 @@ func serve(){
         // oauth_consumer_key值和'photos.example.net'分配给'printer.example.com'的Client Identifier一致
         match(oauthConsumerKey) {
             case Some(key) =>
-                if (key.equals("\"dpf43f3p2l4k3l03\"")) {
+                if (key == "\"dpf43f3p2l4k3l03\"") {
                     oauthConsumerKeyRight = true
                 } else {
                     oauthConsumerKeyRight = false
@@ -139,7 +143,7 @@ func serve(){
         // oauth_token值和未授权的临时requestToken一致
         match(oauthToken) {
             case Some(token) =>
-                if (token.equals("\"hh5s93j4hdidpola\"")) {
+                if (token == "\"hh5s93j4hdidpola\"") {
                     oauthTokenRight = true
                 } else {
                     oauthTokenRight = false
@@ -155,7 +159,7 @@ func serve(){
             returnJson = ##"{"error":"clientId or requestToken verification failed"}"##
         }
 
-        let resp = returnJson.toUtf8Array()
+        let resp = returnJson.toArray()
         httpContext.responseBuilder.body(resp)
         return
     })
@@ -170,7 +174,8 @@ func serve(){
         let header = httpContext.request.headers
         // 请求头信息的Authorization相关信息，从第5位置开始截取
         // Authorization信息是"OAuth "开头，后面是键值对信息
-        let authorizationSub = header.get("Authorization").getOrThrow()[0].substring(6)
+        var str: String = header.getFirst("Authorization") ?? ""
+        let authorizationSub = str[6..str.size]
 
         // 使用“,”进行分割
         let splitArray: Array<String> = authorizationSub.split(",")
@@ -192,7 +197,7 @@ func serve(){
         // oauth_consumer_key值和'photos.example.net'分配给'printer.example.com'的Client Identifier一致
         match(oauthConsumerKey) {
             case Some(key) =>
-                if (key.equals("\"dpf43f3p2l4k3l03\"")) {
+                if (key == "\"dpf43f3p2l4k3l03\"") {
                     oauthConsumerKeyRight = true
                 } else {
                     oauthConsumerKeyRight = false
@@ -205,7 +210,7 @@ func serve(){
         // oauth_token值和正式的accessToken一致
         match(oauthToken) {
             case Some(token) =>
-                if (token.equals("\"nnch734d00sl2jdk\"")) {
+                if (token == "\"nnch734d00sl2jdk\"") {
                     oauthTokenRight = true
                 } else {
                     oauthTokenRight = false
@@ -221,7 +226,7 @@ func serve(){
             returnJson = ##"{"error":"clientId or accessToken verification failed"}"##
         }
 
-        let resp = returnJson.toUtf8Array()
+        let resp = returnJson.toArray()
         httpContext.responseBuilder.body(resp)
         return
     })

@@ -164,7 +164,7 @@ public abstract class OAuthService <: Resource {
                 request.getCompleteUrl(), filePayload.getOrThrow().readToEnd(), callback, converter)
         } else if (!stringPayload.isEmpty()) {
             return httpClient.getOrThrow().executeAsync(userAgent, request.getHeaders(), request.getVerb(),
-                request.getCompleteUrl(), stringPayload.toUtf8Array(), callback, converter)
+                request.getCompleteUrl(), stringPayload.toArray(), callback, converter)
         } else {
             return httpClient.getOrThrow().executeAsync(userAgent, request.getHeaders(), request.getVerb(),
                 request.getCompleteUrl(), request.getByteArrayPayload(), callback, converter)
@@ -199,7 +199,7 @@ public abstract class OAuthService <: Resource {
                 request.getCompleteUrl(), filePayload.getOrThrow().readToEnd())
         } else if (!stringPayload.isEmpty()) {
             return httpClient.getOrThrow().execute(userAgent, request.getHeaders(), request.getVerb(),
-                request.getCompleteUrl(), stringPayload.toUtf8Array())
+                request.getCompleteUrl(), stringPayload.toArray())
         } else if (hasMultipart) {
             return httpClient.getOrThrow().execute(userAgent, request.getHeaders(), request.getVerb(),
                 request.getCompleteUrl(), multipartPayload.getOrThrow())

@@ -80,7 +80,7 @@ public class AccessTokenRequestParams {
     }
 
     /**
-     * Add Extra Parameter.
+     * Add Extra OAuth4cjParameter.
      *
      * @param name parameter name
      * @param value parameter value

@@ -1,6 +1,35 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
-// dependence: ../common_Values.cj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
+
+from crypto import keys.*
+from crypto import digest.*
+from std import crypto.digest.*
+
+from oauth4cj import oauth4cj.*
+
+
+public var strEmpty=""
+public  var strBlank=" "
+public  var strMulti="""
+    Hello,
+    Oauth4cj"""
+
+public  var strOriginMulti=###"
+    Hello,
+    Oauth4cj"###
+public var strCommon="hello Cangjie"
+/*****    返回固定长度字符串 ****/
+public func getStringByLength(length:Int64):String{
+    var str02=""
+    var i=0
+    while(i<length){
+        str02+=i.toString()
+        i=str02.size
+    }
+    return str02
+}
+
+public var strValues=Array<String>([strEmpty,getStringByLength(1000),strMulti,strOriginMulti,strBlank,strCommon])
 
 
 @Test
@@ -18,12 +47,17 @@ public class TestPKCECodeChallengeMethodB002{
         var codeChallengeMethod_S256=PKCECodeChallengeMethod.S256
         var re=""
         var exp_re=""
-        var temp= Array<UInt8>(32,item:0)
+        //var temp= Array<UInt8>(32,item:0)
         strValues=Array<String>([strEmpty,getStringByLength(1000),strBlank,strCommon])
         for (str in strValues){
             re=codeChallengeMethod_S256.transform2CodeChallenge(str)
-            sha256(str.toUtf8Array(),temp)
-            exp_re=Base64Utils.encodeUrlWithoutPadding(temp)
+            //sha256(str.toArray(),temp)
+            //exp_re=Base64Utils.encodeUrlWithoutPadding(temp)
+
+            let SHA256Instance: SHA256 = SHA256()
+            let md: Array<Byte> = digest(SHA256Instance, str)
+            exp_re=Base64Utils.encodeUrlWithoutPadding(md)
+
             @Assert(re,exp_re)
         }
     }

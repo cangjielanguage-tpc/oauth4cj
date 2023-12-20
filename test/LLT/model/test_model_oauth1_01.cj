@@ -9,19 +9,19 @@ from oauth4cj import oauth4cj.*
 public func testOAuth1_01():Int32 {
     var oauth1Token:OAuth1Token = OAuth1Token("token", "tokenSecret", "a=1&b=2&c=3")
     var rawResponse:String = oauth1Token.getRawResponse()
-    if (!rawResponse.equals("a=1&b=2&c=3")) {
+    if (rawResponse != "a=1&b=2&c=3") {
         return -1
     } 
     var parameter:String = oauth1Token.getParameter("c")
-    if (!parameter.equals("3")) {
+    if (parameter != "3") {
         return -1
     } 
     var token:String = oauth1Token.getToken()
-    if (!token.equals("token")) {
+    if (token != "token") {
         return -1
     } 
     var tokenSecret:String = oauth1Token.getTokenSecret()
-    if (!tokenSecret.equals("tokenSecret")) {
+    if (tokenSecret != "tokenSecret") {
         return -1
     } 
     return 0
@@ -61,19 +61,19 @@ public func testOAuth1_02():Int32 {
 public func testOAuth1_03():Int32 {
     var oauth1AccessToken:OAuth1AccessToken = OAuth1AccessToken("token", "tokenSecret", "a=1&b=2&c=3")
     var rawResponse:String = oauth1AccessToken.getRawResponse()
-    if (!rawResponse.equals("a=1&b=2&c=3")) {
+    if (rawResponse != "a=1&b=2&c=3") {
         return -1
     } 
     var parameter:String = oauth1AccessToken.getParameter("b")
-    if (!parameter.equals("2")) {
+    if (parameter != "2") {
         return -1
     } 
     var token:String = oauth1AccessToken.getToken()
-    if (!token.equals("token")) {
+    if (token != "token") {
         return -1
     } 
     var tokenSecret:String = oauth1AccessToken.getTokenSecret()
-    if (!tokenSecret.equals("tokenSecret")) {
+    if (tokenSecret != "tokenSecret") {
         return -1
     } 
     return 0

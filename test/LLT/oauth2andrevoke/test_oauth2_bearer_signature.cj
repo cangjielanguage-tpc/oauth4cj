@@ -13,7 +13,7 @@ func testBearerSignature_01(): Int32 {
     var headers = request.getHeaders()
     var header = headers.get(OAuthConstants.HEADER_AUTHORIZATION)
 
-    if (!header.getOrThrow().equals("Bearer ${accessToken}")) {
+    if (header.getOrThrow() != "Bearer ${accessToken}") {
         return -1
     }
 
@@ -30,11 +30,11 @@ func testBearerSignature_02(): Int32 {
     var query = request.getQueryStringParams()
     var paramList = query.getParams()
     var param = paramList[0]
-    if (!param.getKey().equals(OAuthConstants.ACCESS_TOKEN)) {
+    if (param.getKey() != OAuthConstants.ACCESS_TOKEN) {
         return -1
     }
 
-    if (!param.getValue().equals(accessToken)) {
+    if (param.getValue() != accessToken) {
         return -1
     }
 

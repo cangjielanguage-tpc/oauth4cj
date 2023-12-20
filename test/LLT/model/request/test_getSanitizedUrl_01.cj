@@ -73,7 +73,7 @@ func testGetSanitizedUrl_01(): Int32 {
 
     let res: String = "http://127.0.0.1:80"
     println("res == str: ${res == str}")
-    if (!str.equals(res)) {
+    if (str != res) {
         return 1
     }
     return 0
@@ -85,7 +85,7 @@ func testGetSanitizedUrl_02(): Int32 {
 
     let res: String = "http://127.0.0.1:80\\"
     println("res == str: ${res == str}")
-    if (!str.equals(res)) {
+    if (str != res) {
         return 1
     }
     return 0
@@ -97,7 +97,7 @@ func testGetSanitizedUrl_03(): Int32 {
 
     let res: String = ""
     println("res == str: ${res == str}")
-    if (!str.equals(res)) {
+    if (str != res) {
         return 1
     }
     return 0
@@ -109,7 +109,7 @@ func testGetSanitizedUrl_04(): Int32 {
 
     let res: String = "http://127.0.0.1:80"
     println("res == str: ${res == str}")
-    if (!str.equals(res)) {
+    if (str != res) {
         return 1
     }
     return 0
@@ -121,7 +121,7 @@ func testGetSanitizedUrl_05(): Int32 {
 
     let res: String = "http://127.0.0.1:443/"
     println("res == str: ${res == str}")
-    if (!str.equals(res)) {
+    if (str != res) {
         return 1
     }
     return 0
@@ -133,7 +133,7 @@ func testGetSanitizedUrl_06(): Int32 {
 
     let res: String = "abc\\"
     println("res == str: ${res == str}")
-    if (!str.equals(res)) {
+    if (str != res) {
         return 1
     }
     return 0
@@ -145,7 +145,7 @@ func testGetSanitizedUrl_07(): Int32 {
 
     let res: String = "\\"
     println("res == str: ${res == str}")
-    if (!str.equals(res)) {
+    if (str != res) {
         return 1
     }
     return 0
@@ -157,7 +157,7 @@ func testGetSanitizedUrl_08(): Int32 {
 
     let res: String = "abc\\123\\"
     println("res == str: ${res == str}")
-    if (!str.equals(res)) {
+    if (str != res) {
         return 1
     }
     return 0
@@ -169,7 +169,7 @@ func testGetSanitizedUrl_09(): Int32 {
 
     let res: String = ":443http://127.0.0.1:80:80:443"
     println("res == str: ${res == str}")
-    if (!str.equals(res)) {
+    if (str != res) {
         return 1
     }
     return 0
@@ -181,7 +181,7 @@ func testGetSanitizedUrl_10(): Int32 {
 
     let res: String = "http://127.0.0.1:80:80:443"
     println("res == str: ${res == str}")
-    if (!str.equals(res)) {
+    if (str != res) {
         return 1
     }
     return 0
@@ -193,7 +193,7 @@ func testGetSanitizedUrl_11(): Int32 {
 
     let res: String = "http://127.0.0.1/"
     println("res == str: ${res == str}")
-    if (!str.equals(res)) {
+    if (str != res) {
         return 1
     }
     return 0
@@ -205,7 +205,7 @@ func testGetSanitizedUrl_12(): Int32 {
 
     let res: String = "http://127.0.0.1/abc123\\"
     println("res == str: ${res == str}")
-    if (!str.equals(res)) {
+    if (str != res) {
         return 1
     }
     return 0
@@ -217,7 +217,7 @@ func testGetSanitizedUrl_13(): Int32 {
 
     let res: String = "http://127.0.0.1/abc123"
     println("res == str: ${res == str}")
-    if (!str.equals(res)) {
+    if (str != res) {
         return 1
     }
     return 0
@@ -229,7 +229,7 @@ func testGetSanitizedUrl_14(): Int32 {
 
     let res: String = "https://127.0.0.1/"
     println("res == str: ${res == str}")
-    if (!str.equals(res)) {
+    if (str != res) {
         return 1
     }
     return 0

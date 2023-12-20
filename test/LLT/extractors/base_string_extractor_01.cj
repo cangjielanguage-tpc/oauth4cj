@@ -62,9 +62,9 @@ func testBaseStringExtractor_01(): Int32 {
     let request: OAuth4cjRequest = createSampleOAuthRequest()
     let baseString: String = extractor.extract(request)
 
-    println("baseString.equals(expected) = ${baseString.equals(expected)}")
+    println("baseString == expected: ${baseString == expected}")
 
-    if (!baseString.equals(expected)) {
+    if (baseString != expected) {
         println(1)
         return 1
     }
@@ -81,8 +81,8 @@ func testBaseStringExtractor_02(): Int32 {
     let requestPort80: OAuth4cjRequest = createSampleOAuthRequestPort80()
     let baseString: String = extractor.extract(requestPort80)
 
-    println("baseString.equals(expected) = ${baseString.equals(expected)}")
-    if (!baseString.equals(expected)) {
+    println("baseString == expected: ${baseString == expected}")
+    if (baseString != expected) {
         println(2)
         return 2
     }
@@ -97,8 +97,8 @@ func testBaseStringExtractor_03(): Int32 {
 
     let requestPort80v2: OAuth4cjRequest = createSampleOAuthRequestPort80v2()
     let baseString: String = extractor.extract(requestPort80v2)
-    println("baseString.equals(expected) = ${baseString.equals(expected)}")
-    if (!baseString.equals(expected)) {
+    println("baseString == expected: ${baseString == expected}")
+    if (baseString != expected) {
         println(3)
         return 3
     }
@@ -114,8 +114,8 @@ func testBaseStringExtractor_04(): Int32 {
 
     let requestPort8080: OAuth4cjRequest = createSampleOAuthRequestPort8080()
     let baseString: String = extractor.extract(requestPort8080)
-    println("baseString.equals(expected) = ${baseString.equals(expected)}")
-    if (!baseString.equals(expected)) {
+    println("baseString == expected: ${baseString == expected}")
+    if (baseString != expected) {
         println(4)
         return 4
     }
@@ -130,8 +130,8 @@ func testBaseStringExtractor_05(): Int32 {
 
     let requestPort443: OAuth4cjRequest = createSampleOAuthRequestPort443()
     let baseString: String = extractor.extract(requestPort443)
-    println("baseString.equals(expected) = ${baseString.equals(expected)}")
-    if (!baseString.equals(expected)) {
+    println("baseString == expected: ${baseString == expected}")
+    if (baseString != expected) {
         println(1)
         return 1
     }
@@ -148,9 +148,9 @@ func testBaseStringExtractor_06(): Int32 {
     let requestPort443v2: OAuth4cjRequest = createSampleOAuthRequestPort443v2()
     let baseString: String = extractor.extract(requestPort443v2)
 
-    println("baseString.equals(expected) = ${baseString.equals(expected)}")
+    println("baseString == expected: ${baseString == expected}")
 
-    if (!baseString.equals(expected)) {
+    if (baseString != expected) {
         println(6)
         return 6
     }
@@ -170,9 +170,9 @@ func testBaseStringExtractor_07(): Int32 {
 
     let baseString: String = extractor.extract(request)
 
-    println("baseString.equals(expected) = ${baseString.equals(expected)}")
+    println("baseString == expected: ${baseString == expected}")
 
-    if (!baseString.equals(expected)) {
+    if (baseString != expected) {
         println(7)
         return 7
     }

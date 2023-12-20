@@ -45,7 +45,8 @@ public class Preconditions {
         if (str.isEmpty()) {
             return false
         }
-        for (c in str) {
+        let array = str.toRuneArray()
+        for (c in array) {
             if (!c.isWhiteSpace()) {
                 return true
             }

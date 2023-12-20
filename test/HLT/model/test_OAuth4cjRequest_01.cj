@@ -1,5 +1,5 @@
-// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/crypto4cj:oauth4cj/build/httpclient4cj
-// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/crypto4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
+// 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
+// 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../common_Values.cj
 
 
@@ -49,8 +49,8 @@ public class TestOAuth4cjRequestB001{
     /***
         添加成功
         1.key,startsWith("oauth_")
-        2.key.equals("scope")
-        3.key.equals("realm")
+        2.key == "scope"
+        3.key == "realm"
     ***/
     @TestCase
     func testOAuth4cjRequestaddOAuthParameter01(): Unit {
@@ -64,8 +64,8 @@ public class TestOAuth4cjRequestB001{
     /***
         添加异常，不满足以下条件
         1.key,startsWith("oauth_")
-        2.key.equals("scope")
-        3.key.equals("realm")
+        2.key == "scope"
+        3.key == "realm"
     ***/
     @TestCase
     func testOAuth4cjRequestaddOAuthParameter02(): Unit {
@@ -308,8 +308,10 @@ public class TestOAuth4cjRequestB001{
         var boundary=multi.getBoundary()
         @Assert(boundary.contains("----OAuth4cj----"),true)
         var re=multi.getHeaders()
-        var header_value="multipart/" + "form-data"+"; boundary=\"" + multi.getBoundary() + '"';
-        var header_map=HashMap<String,String>([("Content-Type",header_value)])
+        var header_value="multipart/" + "form-data"+"; boundary=\"" + multi.getBoundary() + "\"";
+        //var header_map=HashMap<String,String>([("Content-Type",header_value)])
+        var header_map=HashMap<String,String>()
+        header_map.put("Content-Type",header_value)
         @Assert(re,header_map)
     }
     /***
@@ -324,8 +326,10 @@ public class TestOAuth4cjRequestB001{
         var boundary=multi.getBoundary()
         @Assert(boundary,str)
         var re=multi.getHeaders()
-        var header_value="multipart/" + "form-data"+"; boundary=\"" + multi.getBoundary() + '"';
-        var header_map=HashMap<String,String>([("Content-Type",header_value)])
+        var header_value="multipart/" + "form-data"+"; boundary=\"" + multi.getBoundary() + "\"";
+        //var header_map=HashMap<String,String>([("Content-Type",header_value)])
+        var header_map=HashMap<String,String>()
+        header_map.put("Content-Type",header_value)
         @Assert(re,header_map)
     }
     /***
@@ -340,8 +344,10 @@ public class TestOAuth4cjRequestB001{
         var boundary=multi.getBoundary()
         @Assert(boundary,str)
         var re=multi.getHeaders()
-        var header_value="multipart/" + str+"; boundary=\"" + multi.getBoundary() + '"';
-        var header_map=HashMap<String,String>([("Content-Type",header_value)])
+        var header_value="multipart/" + str+"; boundary=\"" + multi.getBoundary() + "\"";
+        //var header_map=HashMap<String,String>([("Content-Type",header_value)])
+        var header_map=HashMap<String,String>()
+        header_map.put("Content-Type",header_value)
         @Assert(re,header_map)
     }
     /***
@@ -356,8 +362,10 @@ public class TestOAuth4cjRequestB001{
         var boundary=multi.getBoundary()
         @Assert(boundary.contains("----OAuth4cj----"),true)
         var re=multi.getHeaders()
-        var header_value="multipart/" + "form-data"+"; boundary=\"" + multi.getBoundary() + '"';
-        var header_map=HashMap<String,String>([("Content-Type",header_value)])
+        var header_value="multipart/" + "form-data"+"; boundary=\"" + multi.getBoundary() + "\"";
+        //var header_map=HashMap<String,String>([("Content-Type",header_value)])
+        var header_map=HashMap<String,String>()
+        header_map.put("Content-Type",header_value)
         @Assert(re,header_map)
     }
     /***
@@ -373,7 +381,7 @@ public class TestOAuth4cjRequestB001{
         oauth4cjRequest01.initMultipartPayload(str,hashmap02)
         var multi=oauth4cjRequest01.getMultipartPayload().getOrThrow()
         var re=multi.getHeaders()
-        var header_value="multipart/" + "form-data"+"; boundary=\"" + multi.getBoundary() + '"';
+        var header_value="multipart/" + "form-data"+"; boundary=\"" + multi.getBoundary() + "\"";
         var header_map=hashmap02
         header_map.put("Content-Type",header_value)
         @Assert(re,header_map)
@@ -391,7 +399,7 @@ public class TestOAuth4cjRequestB001{
         oauth4cjRequest.initMultipartPayload(str,str,hashmap02)
         var multi=oauth4cjRequest.getMultipartPayload().getOrThrow()
         var re=multi.getHeaders()
-        var header_value="multipart/" + str+"; boundary=\"" + multi.getBoundary() + '"';
+        var header_value="multipart/" + str+"; boundary=\"" + multi.getBoundary() + "\"";
         var header_map=hashmap02
         header_map.put("Content-Type",header_value)
         @Assert(re,header_map)
@@ -501,12 +509,12 @@ public class TestOAuth4cjRequestB001{
     @TestCase
     func testOAuth4cjRequestsetPayload0301(): Unit {
         var file02=File("file02.txt",OpenOption.CreateOrTruncate(true))
-        file02.write("hello world".toUtf8Array())
+        file02.write("hello world".toArray())
         file02.close()
         var file03=File("file02.txt",OpenOption.Open(true,false))
         var oauth4cjRequest=OAuth4cjRequest(Verb.GET,"https://www.baidu.com")
         oauth4cjRequest.setPayload(file03)
-        @Assert(oauth4cjRequest.getFilePayload().getOrThrow().readToEnd(),"hello world".toUtf8Array())
+        @Assert(oauth4cjRequest.getFilePayload().getOrThrow().readToEnd(),"hello world".toArray())
         var file01=File("file01.txt",OpenOption.CreateOrTruncate(true))
         oauth4cjRequest.setPayload(file01)
         @Assert(oauth4cjRequest.getFilePayload().getOrThrow().readToEnd(),Array<UInt8>())
