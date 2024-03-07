@@ -169,7 +169,7 @@ public func getExpResult(privateKey:String,baseString:String):String{
     let rsaPri: RSAPrivateKey = RSAPrivateKey.decodeFromPem(pemPri)
     let sha1Instance: SHA1 = SHA1()
     let md: Array<Byte> = digest(sha1Instance, baseString)
-    let signArray: Array<Byte> = rsaPri.sign(sha1Instance, md)
+    let signArray: Array<Byte> = rsaPri.sign(sha1Instance, md, padType: PKCS1)
     if (signArray.size == 0) {
         throw OAuth4cjSignatureException("RSA-SHA1 algorithm signature failed.")
     }
