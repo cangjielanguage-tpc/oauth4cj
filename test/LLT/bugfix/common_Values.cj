@@ -609,5 +609,4 @@ public class SubResponseConverter<: ResponseConverter{
          response.close()
          return accessToken
      }
-
 }

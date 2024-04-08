@@ -208,7 +208,7 @@ public class ParameterList {
      */
     public func sort(): ParameterList {
         let sorted: ParameterList = ParameterList(this.params)
-        sorted.params.sortBy(this.compareTo)
+        sorted.params.sortBy(stable: true, comparator: this.compareTo)
         return sorted
     }
 
