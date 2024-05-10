@@ -89,6 +89,7 @@ public class TestParameterB001{
     }
     //字符串角度
     @TestCase
+    @OverflowWrapping
     func testHashCode01(): Unit {
         var p01=OAuth4cjParameter("key01","value01")
         for (i in strValues){
