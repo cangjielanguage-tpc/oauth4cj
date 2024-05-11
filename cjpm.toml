@@ -1,5 +1,5 @@
 [dependencies]
-  httpclient4cj = {branch = "v0.0.7.B008", git = "https://gitee.com/HW-PLLab/httpclient4cj.git", version = "0.0.6"}
+  httpclient4cj = {branch = "v0.0.7.B009", git = "https://gitee.com/HW-PLLab/httpclient4cj.git", version = "0.0.6"}
 
 [ffi]
   [ffi.c]
@@ -7,7 +7,7 @@
       path = "./lib/"
 
 [package]
-  cjc-version = "0.50.3"
+  cjc-version = "0.51.4"
   compile-option = "-O2 --fno-chir-function-inlining"
   description = "nothing here"
   link-option = ""

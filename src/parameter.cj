@@ -61,6 +61,7 @@ public class OAuth4cjParameter {
      * @return Type of Int64
      * @since 0.37.2
      */
+    @OverflowWrapping
     public func hashCode(): Int64 {
         return key.hashCode() + value.hashCode()
     }
