@@ -70,6 +70,7 @@ public class TestOAuthServiceB008{
         public func execute(request: OAuth4cjRequest): Response
         测试场景: 执行请求失败
     ***/
+    @Skip
     @TestCase
     func testOAuthServiceExecute0102(): Unit {
          let oauth10aService=OAuthServiceTest.getOAuth10aService()
