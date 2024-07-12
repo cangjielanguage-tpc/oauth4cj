@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights resvered.
+ */
 package oauth4cj
 
 public class OAuthConstants {

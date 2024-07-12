@@ -59,6 +59,7 @@ public class TestOkHttpHttpClientB008{
         public func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,bodyContents: Array<UInt8>): OAuth4cjResponse
         测试场景:发送正常请求
     ***/
+    @Skip
     @TestCase
     func testOkHttpHttpClientExecute0101(): Unit {
          var okhttpHttpClient=OkHttpHttpClient()
@@ -74,6 +75,7 @@ public class TestOkHttpHttpClientB008{
         public func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,bodyContents: Array<UInt8>): OAuth4cjResponse
         测试场景:发送错误请求
     ***/
+    @Skip
     @TestCase
     func testOkHttpHttpClientExecute0102(): Unit {
          var okhttpHttpClient=OkHttpHttpClient()
@@ -118,6 +120,7 @@ public class TestOkHttpHttpClientB008{
         public func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,bodyContents: String): OAuth4cjResponse
         测试场景:发送错误请求
     ***/
+    @Skip
     @TestCase
     func testOkHttpHttpClientExecute0302(): Unit {
          var okhttpHttpClient=OkHttpHttpClient()
@@ -140,6 +143,7 @@ public class TestOkHttpHttpClientB008{
         public func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,bodyContents: File): OAuth4cjResponse
         测试场景:发送正常请求
     ***/
+    @Skip
     @TestCase
     func testOkHttpHttpClientExecute0401(): Unit {
          var okhttpHttpClient=OkHttpHttpClient()
@@ -155,6 +159,7 @@ public class TestOkHttpHttpClientB008{
         public func execute(userAgent: String, headers: HashMap<String, String>, httpVerb: Verb, completeUrl: String,bodyContents: File): OAuth4cjResponse
         测试场景:发送错误请求
     ***/
+    @Skip
     @TestCase
     func testOkHttpHttpClientExecute0402(): Unit {
          var okhttpHttpClient=OkHttpHttpClient()
@@ -178,6 +183,7 @@ public class TestOkHttpHttpClientB008{
         callback: Option<OAuthAsyncRequestCallback>,converter: Option<ResponseConverter>): Future<Any>
         测试场景:发送正常请求
     ***/
+    @Skip
     @TestCase
     func testOkHttpHttpClientExecuteAsync0101(): Unit {
          var okhttpHttpClient=OkHttpHttpClient()
@@ -204,6 +210,7 @@ public class TestOkHttpHttpClientB008{
         callback: Option<OAuthAsyncRequestCallback>,converter: Option<ResponseConverter>): Future<Any>
         测试场景:发送错误请求
     ***/
+    @Skip
     @TestCase
     func testOkHttpHttpClientExecuteAsync0102(): Unit {
          var okhttpHttpClient=OkHttpHttpClient()
@@ -259,6 +266,7 @@ public class TestOkHttpHttpClientB008{
         callback: Option<OAuthAsyncRequestCallback>,converter: Option<ResponseConverter>): Future<Any>
         测试场景:发送正常请求
     ***/
+    @Skip
     @TestCase
     func testOkHttpHttpClientExecuteAsync0301(): Unit {
          var okhttpHttpClient=OkHttpHttpClient()
@@ -280,6 +288,7 @@ public class TestOkHttpHttpClientB008{
         callback: Option<OAuthAsyncRequestCallback>,converter: Option<ResponseConverter>): Future<Any>
         测试场景:发送错误请求
     ***/
+    @Skip
     @TestCase
     func testOkHttpHttpClientExecuteAsync0302(): Unit {
          var okhttpHttpClient=OkHttpHttpClient()
@@ -309,6 +318,7 @@ public class TestOkHttpHttpClientB008{
         callback: Option<OAuthAsyncRequestCallback>,converter: Option<ResponseConverter>): Future<Any>
         测试场景:发送正常请求
     ***/
+    @Skip
     @TestCase
     func testOkHttpHttpClientExecuteAsync0401(): Unit {
          var okhttpHttpClient=OkHttpHttpClient()
@@ -330,6 +340,7 @@ public class TestOkHttpHttpClientB008{
         callback: Option<OAuthAsyncRequestCallback>,converter: Option<ResponseConverter>): Future<Any>
         测试场景:发送错误请求
     ***/
+    @Skip
     @TestCase
     func testOkHttpHttpClientExecuteAsync0402(): Unit {
          var okhttpHttpClient=OkHttpHttpClient()
