@@ -1,4 +1,4 @@
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 public class HuaweiApi <: DefaultApi20 {
 

@@ -7,9 +7,6 @@
  */
 package oauth4cj
 
-from std import regex.*
-from std import fs.*
-from encoding import url.*
 
 public open class OAuth4cjRequest {
 

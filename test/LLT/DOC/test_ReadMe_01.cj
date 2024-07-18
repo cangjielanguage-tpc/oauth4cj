@@ -1,9 +1,9 @@
 // EXEC: cjc %import-path %L %l %f
 
 //授权码模式授权
-from std import random.*
-from std import collection.*
-from oauth4cj import oauth4cj.*
+import std.random.*
+import std.collection.*
+public import oauth4cj.*
 
 main() {
     //将这些替换为在【授权服务器-gitee】中生成的 client_id 和 client_secret

@@ -12,7 +12,7 @@ public class TestOAuth2AccessTokenJsonExtractorB004{
     func testOAuth2AccessTokenJsonExtractorExtract01(): Unit {
 
         var oAuth2AccessTokenJsonExtractor02=OAuth2AccessTokenJsonExtractor.instance()
-        var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"")
+        var response01=OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"")
         var flag=1
         try{
             oAuth2AccessTokenJsonExtractor02.extract(response01)
@@ -39,7 +39,7 @@ public class TestOAuth2AccessTokenJsonExtractorB004{
 "refresh_token":"refresh_token",
 "scope":"scope",
 "access_token":"access_token"}"###
-        var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
+        var response01=OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
         var re02=oAuth2AccessTokenJsonExtractor02.extract(response01)
         @Assert(re02.getAccessToken(),"access_token")
         @Assert(re02.getTokenType(),"token_type")
@@ -59,7 +59,7 @@ public class TestOAuth2AccessTokenJsonExtractorB004{
 "error":"slow_down",
 "error_description":"error_description",
 "access_token":"access_token"}"###
-        var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
+        var response01=OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
         var re02=oAuth2AccessTokenJsonExtractor02.extract(response01)
 
         @Assert(re02 is OAuth2AccessToken,true)
@@ -84,7 +84,7 @@ public class TestOAuth2AccessTokenJsonExtractorB004{
 "token_type":"token_type",
 "refresh_token":"refresh_token",
 "scope":"scope"}"###
-        var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
+        var response01=OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),body)
 
         var flag=1
         try{
@@ -112,7 +112,7 @@ public class TestOAuth2AccessTokenJsonExtractorB004{
 "refresh_token":"refresh_token",
 "scope":"scope",
 "access_token":"access_token"}"###
-        var response01=oauth4cj.OAuth4cjResponse(Int32(201),"message",HashMap<String,String>(),body)
+        var response01=OAuth4cjResponse(Int32(201),"message",HashMap<String,String>(),body)
         var flag=1
         try{
             oAuth2AccessTokenJsonExtractor02.extract(response01)
@@ -128,7 +128,7 @@ public class TestOAuth2AccessTokenJsonExtractorB004{
     @TestCase
     func testOAuth2AccessTokenJsonExtractorGenerateError01(): Unit {
         var oAuth2AccessTokenJsonExtractor02=OAuth2AccessTokenJsonExtractor.instance()
-        var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"value")
+        var response01=OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"value")
         var flag=1
         try{
             oAuth2AccessTokenJsonExtractor02.generateError(response01)
@@ -147,7 +147,7 @@ public class TestOAuth2AccessTokenJsonExtractorB004{
     @TestCase
     func testOAuth2AccessTokenJsonExtractorGenerateError02(): Unit {
         var oauth2AccessTokenJsonExtractor02=OAuth2AccessTokenJsonExtractor.instance()
-        var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"true")
+        var response01=OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"true")
         var flag=1
         try{
             oauth2AccessTokenJsonExtractor02.generateError(response01)
@@ -165,7 +165,7 @@ public class TestOAuth2AccessTokenJsonExtractorB004{
     @TestCase
     func testOAuth2AccessTokenJsonExtractorGenerateError0301(): Unit {
         var oauth2AccessTokenJsonExtractor02=OAuth2AccessTokenJsonExtractor.instance()
-        var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"error_uri:http://www.baidu.com")
+        var response01=OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),"error_uri:http://www.baidu.com")
         var flag=1
         try{
             oauth2AccessTokenJsonExtractor02.generateError(response01)
@@ -194,7 +194,7 @@ public class TestOAuth2AccessTokenJsonExtractorB004{
 "refresh_token":"refresh_token",
 "scope":"scope",
 "access_token":"access_token"}"###
-        var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),body)
+        var response01=OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),body)
         var flag=1
         try{
             oauth2AccessTokenJsonExtractor02.generateError(response01)
@@ -226,7 +226,7 @@ public class TestOAuth2AccessTokenJsonExtractorB004{
 "refresh_token":"refresh_token",
 "scope":"scope",
 "access_token":"access_token"}"###
-        var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),body)
+        var response01=OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),body)
         var flag=1
         try{
             oAuth2AccessTokenJsonExtractor02.generateError(response01)
@@ -256,7 +256,7 @@ public class TestOAuth2AccessTokenJsonExtractorB004{
 "refresh_token":"refresh_token",
 "scope":"scope",
 "access_token":"access_token"}"###
-        var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),body)
+        var response01=OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),body)
         var flag=1
         try{
             oauth2AccessTokenJsonExtractor02.generateError(response01)

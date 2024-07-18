@@ -1,9 +1,9 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
-from std import io.*
+import std.io.*
 
 main (){
     try {

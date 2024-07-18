@@ -1,7 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 func testOAuth2Error_01(): Int32 {
     var string_1 = OAuth2Error.INVALID_REQUEST.getErrorString()

@@ -1,9 +1,9 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import oauth4cj.*
-from std import collection.HashMap
-from std import collection.ArrayList
+public import oauth4cj.*
+import std.collection.HashMap
+import std.collection.ArrayList
 
 // public init()   public func size()  public func getParams()
 public func testParameterList_01():Int32 {

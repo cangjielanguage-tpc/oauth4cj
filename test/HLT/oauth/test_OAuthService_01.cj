@@ -98,7 +98,7 @@ public class TestOAuthServiceB008{
          var callback=Option<OAuthAsyncRequestCallback>.None
          let fut_response=oauth10aService.execute(oauth4cjRequest,callback)
          let response_any=fut_response.get()
-         let response=(response_any as oauth4cj.OAuth4cjResponse ).getOrThrow()
+         let response=(response_any as OAuth4cjResponse ).getOrThrow()
          @Assert(response.getCode(),200)
     }
     /***

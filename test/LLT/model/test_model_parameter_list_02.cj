@@ -1,9 +1,9 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import oauth4cj.*
-from std import collection.HashMap
-from std import collection.ArrayList
+public import oauth4cj.*
+import std.collection.HashMap
+import std.collection.ArrayList
 
 
 // public func addQuerystring(queryString: String)

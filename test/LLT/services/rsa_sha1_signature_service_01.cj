@@ -2,8 +2,8 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from encoding import base64.*
-from oauth4cj import oauth4cj.*
+import encoding.base64.*
+public import oauth4cj.*
 
 public func testPlaintextSignatureService_01(rsa: RSASha1SignatureService): Int32 {
 

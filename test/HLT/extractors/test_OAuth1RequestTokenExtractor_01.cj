@@ -12,7 +12,7 @@ public class TestOAuth1RequestTokenExtractorB004{
     func testOAuth1RequestTokenExtractorExtract01(): Unit {
         var oauth1RequestTokenExtractor01=OAuth1RequestTokenExtractor.instance()
         var body=""
-        var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),body)
+        var response01=OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),body)
         var flag=0
         try{
             oauth1RequestTokenExtractor01.extract(response01)
@@ -31,7 +31,7 @@ public class TestOAuth1RequestTokenExtractorB004{
     func testOAuth1RequestTokenExtractorExtract02(): Unit {
         var oauth1RequestTokenExtractor01=OAuth1RequestTokenExtractor.instance()
         var body="error=slow_down"
-        var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),body)
+        var response01=OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),body)
         var flag=1
         try{
             oauth1RequestTokenExtractor01.extract(response01)
@@ -50,7 +50,7 @@ public class TestOAuth1RequestTokenExtractorB004{
     func testOAuth1RequestTokenExtractorExtract03(): Unit {
         var oauth1RequestTokenExtractor01=OAuth1RequestTokenExtractor.instance()
         var body="oauth_token=abcsd&token_secret=&"
-        var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),body)
+        var response01=OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),body)
         var flag=1
         try{
             oauth1RequestTokenExtractor01.extract(response01)
@@ -69,7 +69,7 @@ public class TestOAuth1RequestTokenExtractorB004{
     func testOAuth1RequestTokenExtractorExtract04(): Unit {
         var oauth1RequestTokenExtractor01=OAuth1RequestTokenExtractor.instance()
         var body="oauth_token=oauth_token&oauth_token_secret=oauth_token_secret&abc"
-        var response01=oauth4cj.OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),body)
+        var response01=OAuth4cjResponse(Int32(2),"message",HashMap<String,String>(),body)
         var oauth1AccessToken02=oauth1RequestTokenExtractor01.extract(response01)
         @Assert(oauth1AccessToken02 is OAuth1RequestToken,true)
         @Assert(oauth1AccessToken02.getToken(),"oauth_token")

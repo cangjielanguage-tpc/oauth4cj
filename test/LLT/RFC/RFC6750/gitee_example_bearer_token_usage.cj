@@ -1,7 +1,7 @@
 
-from std import collection.*
+import std.collection.*
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 main() {
 

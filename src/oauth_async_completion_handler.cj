@@ -7,9 +7,6 @@
  */
 package oauth4cj
 
-from std import sync.*
-from std import io.*
-
 /**
  * Provide HttpClient based on HttpClient configuration.
  */
@@ -47,7 +44,7 @@ class OAuthAsyncCompletionHandler <: Callback {
         }
     }
 
-    public func onResponse(call: Call, okHttpResponse: httpclient4cj.Response): Unit {
+    public func onResponse(call: Call, okHttpResponse: Response): Unit {
         synchronized(m) {
             let response: OAuth4cjResponse = OkHttpHttpClient.convertResponse(okHttpResponse)
 

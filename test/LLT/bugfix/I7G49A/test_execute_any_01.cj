@@ -24,7 +24,7 @@ func testExecuteAny(): Int32 {
 
     let act_response = fut_response.get()
 
-    let response = (act_response as oauth4cj.OAuth4cjResponse).getOrThrow()
+    let response = (act_response as OAuth4cjResponse).getOrThrow()
     let code: Int32 = response.getCode()
     println(code)
     println(response.getBody())

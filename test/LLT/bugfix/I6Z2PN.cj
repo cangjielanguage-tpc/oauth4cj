@@ -1,12 +1,12 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from std import unittest.*
-from std import unittest.testmacro.*
-from encoding import base64.*
-from std import collection.*
-from oauth4cj import oauth4cj.*
-from std import io.*
+import std.unittest.*
+import std.unittest.testmacro.*
+import encoding.base64.*
+import std.collection.*
+public import oauth4cj.*
+import std.io.*
 
 main (){
 

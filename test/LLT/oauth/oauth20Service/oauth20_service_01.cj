@@ -2,12 +2,12 @@
 // EXEC: cjc %import-path %L %l %f ./gitee_api_test.cj
 // EXEC: ./main
 
-from std import collection.*
-from std import io.*
+import std.collection.*
+import std.io.*
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
-from httpclient4cj import httpclient4cj.*
+import httpclient4cj.*
 
 //将这些替换为您的客户端id和机密
 let clientId: String = "your client id"

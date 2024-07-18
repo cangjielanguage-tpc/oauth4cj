@@ -7,8 +7,8 @@
  */
 package oauth4cj
 
-from std import random.*
-from std import time.*
+import std.random.*
+
 
 /**
  * The class TimestampServiceImpl implementation of the TimestampService interface.

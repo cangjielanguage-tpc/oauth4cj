@@ -7,7 +7,6 @@
  */
 package oauth4cj
 
-from std import convert.*
 
 /**
  * The class DeviceAuthorizationJsonExtractor implementation of the AbstractJsonExtractor interface.

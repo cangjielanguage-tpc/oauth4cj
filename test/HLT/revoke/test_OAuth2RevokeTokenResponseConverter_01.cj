@@ -11,7 +11,7 @@ public class TestOAuth2RevokeTokenResponseConverterB004{
     @TestCase
     func testOAuth2RevokeTokenResponseConverterConvert01(): Unit {
         var oAuth2RevokeTokenResponseConverter01=OAuth2RevokeTokenResponseConverter()
-        var response01=oauth4cj.OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),"body")
+        var response01=OAuth4cjResponse(Int32(200),"message",HashMap<String,String>(),"body")
         var flag=1
         oAuth2RevokeTokenResponseConverter01.convert(response01)
         try{
@@ -31,7 +31,7 @@ public class TestOAuth2RevokeTokenResponseConverterB004{
         var sub01=SubResource(File("temp.cj",OpenOption.CreateOrTruncate(true)))
         var inputStream=ByteArrayStream()
         inputStream.write("hello cangjie".toArray())
-        var response02=oauth4cj.OAuth4cjResponse(Int32(400),"message",HashMap<String,String>(),inputStream,ArrayList<Resource>([sub01]))
+        var response02=OAuth4cjResponse(Int32(400),"message",HashMap<String,String>(),inputStream,ArrayList<Resource>([sub01]))
         var flag=1
         try{
             oAuth2RevokeTokenResponseConverter02.convert(response02)

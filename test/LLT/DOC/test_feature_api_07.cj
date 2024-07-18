@@ -2,9 +2,9 @@
 // EXEC: ./main
 
 //1.7.2 示例
-from std import collection.*
-from std import time.*
-from oauth4cj import oauth4cj.*
+import std.collection.*
+import std.time.*
+public import oauth4cj.*
 
 main() {
     var apiA: A = A()

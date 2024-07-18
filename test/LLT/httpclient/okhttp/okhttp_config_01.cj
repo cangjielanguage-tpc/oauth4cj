@@ -1,12 +1,13 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from std import collection.*
-from oauth4cj import oauth4cj.*
+import std.collection.*
+public import oauth4cj.*
 
-from httpclient4cj import httpclient4cj.*
+import httpclient4cj.*
 
-type OAuth4cjHttpClient = oauth4cj.HttpClient
+public import oauth4cj.HttpClient as OAuth4cjHttpClient
+internal import httpclient4cj.HttpClient as Httpclient4cjHttpClient
 
 main() {
 
@@ -30,7 +31,7 @@ main() {
 
 public func testOkHttpHttpClientConfig_01(): Int32 {
     let bp: OkHttpProvider = OkHttpProvider()
-    let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(httpclient4cj.HttpClient.builder())
+    let config: OkHttpHttpClientConfig = OkHttpHttpClientConfig(Httpclient4cjHttpClient.builder())
     let client: Option<OAuth4cjHttpClient> = bp.createClient(config)
     match(client) {
         case Some(v) => println(v is OkHttpHttpClient)

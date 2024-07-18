@@ -1,21 +1,27 @@
-from std import sync.*
-from std import time.*
-from std import math.*
-from std import unittest.*
-from std import unittest.testmacro.*
-from oauth4cj import oauth4cj.*
-from std import io.*
-from std import fs.*
-from std import collection.*
-from std import unicode.*
+import std.sync.*
+import std.time.*
+import std.math.*
+import std.unittest.*
+import std.unittest.testmacro.*
+public import oauth4cj.*
+import std.io.*
+import std.fs.*
+import std.collection.*
+import std.unicode.*
 
-from httpclient4cj import httpclient4cj.*
-from net import tls.*
-from net import http.*
-from std import socket.*
-from std import random.*
+import httpclient4cj.*
+import net.tls.*
+import net.http.*
+import std.socket.*
+import std.random.*
 
-type OAuth4cjHttpClient = oauth4cj.HttpClient
+public import oauth4cj.HttpClient as OAuth4cjHttpClient
+
+public import httpclient4cj.HttpClient as Httpclient4cjHttpClient
+public import httpclient4cj.Request as Httpclient4cjRequest
+public import httpclient4cj.Response as Httpclient4cjResponse
+public import httpclient4cj.RequestBuilder as Httpclient4cjRequestBuilder
+public import httpclient4cj.ResponseBuilder as Httpclient4cjResponseBuilder
 
 /*****   字符串等价类
 1. 空字符串--strEmpty
@@ -146,7 +152,7 @@ public func getExpByteArrayStream(multipartPayload:MultipartPayload):ByteArraySt
 }
 //获取HttpClientConfig
 public func getOkHttpHttpClientConfig():OkHttpHttpClientConfig{
-    var okhttpClientBuilder=httpclient4cj.HttpClient.builder()
+    var okhttpClientBuilder=Httpclient4cjHttpClient.builder()
     var okhttpHttpClientConfig=OkHttpHttpClientConfig(okhttpClientBuilder)
     return okhttpHttpClientConfig
 }
@@ -446,19 +452,19 @@ public func serve20(){
 
 
 class MyInterceptor <: Interceptor {
-    var client: Option<httpclient4cj.HttpClient> = Option<httpclient4cj.HttpClient>.None
-    public func setClient(client: httpclient4cj.HttpClient) {
+    var client: Option<Httpclient4cjHttpClient> = Option<Httpclient4cjHttpClient>.None
+    public func setClient(client: Httpclient4cjHttpClient) {
         this.client = client
     }
 
-    public func intercept(chain: Chain): httpclient4cj.Response {
+    public func intercept(chain: Chain): Httpclient4cjResponse {
         let dispatcher = client.getOrThrow().getDispatcher()
         dispatcher.runningCalls()
-        let request: httpclient4cj.Request = chain.getRequest()
-        let requestBuilder: httpclient4cj.RequestBuilder  = request.newBuilder()
+        let request: Httpclient4cjRequest = chain.getRequest()
+        let requestBuilder: Httpclient4cjRequestBuilder  = request.newBuilder()
         //let header: Header = request.getHeaders()
-        var response: httpclient4cj.Response =  chain.proceed(requestBuilder.build())
-        let responseBuilder: httpclient4cj.ResponseBuilder = response.newBuilder().request(request)
+        var response: Httpclient4cjResponse =  chain.proceed(requestBuilder.build())
+        let responseBuilder: Httpclient4cjResponseBuilder = response.newBuilder().request(request)
         return responseBuilder.build()
     }
 }
@@ -604,7 +610,7 @@ public class HuaweiApi <: DefaultApi20 {
     }
 }
 public class SubResponseConverter<: ResponseConverter{
-     public func convert(response: oauth4cj.OAuth4cjResponse): OAuth2AccessToken {
+     public func convert(response: OAuth4cjResponse): OAuth2AccessToken {
          let accessToken: OAuth2AccessToken = OAuth2AccessToken("123")
          response.close()
          return accessToken

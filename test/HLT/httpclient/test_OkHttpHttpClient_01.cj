@@ -32,11 +32,11 @@ public class TestOkHttpHttpClientB008{
          okhttpHttpClient.close()
          @Assert(okhttpHttpClient.isClosed(),true)
     }
-    //public init(client: httpclient4cj.HttpClient)
+    //public init(client: Httpclient4cjHttpClient)
     @TestCase
     func testOkHttpHttpClientClose0103(): Unit {
-         var re_okhttpClientBuilder=httpclient4cj.HttpClient.builder()
-         var okhttpClient=httpclient4cj.HttpClient(re_okhttpClientBuilder)
+         var re_okhttpClientBuilder=Httpclient4cjHttpClient.builder()
+         var okhttpClient=Httpclient4cjHttpClient(re_okhttpClientBuilder)
          var okhttpHttpClient=OkHttpHttpClient(okhttpClient)
          @Assert(okhttpHttpClient.isClosed(),false)
          okhttpHttpClient.close()
@@ -87,7 +87,7 @@ public class TestOkHttpHttpClientB008{
          var re_flag=1
          try{
              okhttpHttpClient.execute(userAgent,headers,httpVerb,completeUrl,bodyContents)
-         }catch(e:httpclient4cj.HttpException){
+         }catch(e:Httpclient4cjHttpException){
              if(e.toString().contains("HttpException: parse domain = www.123.com fail")){
                   re_flag=0
              }
@@ -132,7 +132,7 @@ public class TestOkHttpHttpClientB008{
          var re_flag=1
          try{
              okhttpHttpClient.execute(userAgent,headers,httpVerb,completeUrl,bodyContents)
-         }catch(e:httpclient4cj.HttpException){
+         }catch(e:Httpclient4cjHttpException){
              if(e.toString().contains("HttpException: parse domain = www.123.com fail")){
                   re_flag=0
              }
@@ -171,7 +171,7 @@ public class TestOkHttpHttpClientB008{
          var re_flag=1
          try{
              okhttpHttpClient.execute(userAgent,headers,httpVerb,completeUrl,bodyContents)
-         }catch(e:httpclient4cj.HttpException){
+         }catch(e:Httpclient4cjHttpException){
              if(e.toString().contains("HttpException: parse domain = www.123.com fail")){
                   re_flag=0
              }
@@ -226,7 +226,7 @@ public class TestOkHttpHttpClientB008{
          let response_any=okhttpHttpClient.executeAsync(userAgent,headers,httpVerb,completeUrl,bodyContents,callback,converter).get()
          var reflag=1
          try{
-             (response_any as oauth4cj.OAuth4cjResponse).getOrThrow()
+             (response_any as OAuth4cjResponse).getOrThrow()
          }catch(e:NoneValueException){
              reflag=0
          }
@@ -305,7 +305,7 @@ public class TestOkHttpHttpClientB008{
          let response_any=okhttpHttpClient.executeAsync(userAgent,headers,httpVerb,completeUrl,bodyContents,callback,converter).get()
          var reflag=1
          try{
-             (response_any as oauth4cj.OAuth4cjResponse).getOrThrow()
+             (response_any as OAuth4cjResponse).getOrThrow()
          }catch(e:NoneValueException){
              reflag=0
          }
@@ -356,7 +356,7 @@ public class TestOkHttpHttpClientB008{
          let response_any=okhttpHttpClient.executeAsync(userAgent,headers,httpVerb,completeUrl,bodyContents,callback,converter).get()
          var reflag=1
          try{
-             (response_any as oauth4cj.OAuth4cjResponse).getOrThrow()
+             (response_any as OAuth4cjResponse).getOrThrow()
              @Assert(subOAuthAsyncRequestCallback.getFlagOnCompleted(),"fail")
              @Assert(subOAuthAsyncRequestCallback.getFlagOnThrowable(),"pass")
          }catch(e:NoneValueException){

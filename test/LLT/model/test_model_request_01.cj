@@ -1,7 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 // public init(verb: Verb, url: String)   public func addOAuthParameter(key: String, value: String)
 // public func getOauthParameters() 

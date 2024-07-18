@@ -1,10 +1,10 @@
 
 //from std import console.*
-from std import random.*
-from std import collection.*
-from encoding import json.*
+import std.random.*
+import std.collection.*
+import encoding.json.*
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 main() {
 

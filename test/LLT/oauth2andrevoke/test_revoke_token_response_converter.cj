@@ -1,9 +1,9 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from std import collection.*
-from oauth4cj import oauth4cj.*
-from std import io.*
+import std.collection.*
+public import oauth4cj.*
+import std.io.*
 
 func testTokenReponseConverter_01(): Int32 {
     var headers:HashMap<String, String> = HashMap<String, String>()
@@ -58,7 +58,7 @@ func testTokenReponseConverter_04(): Int32 {
     var converter=OAuth2RevokeTokenResponseConverter()
     var inputStream=ByteArrayStream()
     inputStream.write("hello cangjie".toArray())
-    println(inputStream.isEmpty())
+    //println(inputStream.isEmpty())
     var response=OAuth4cjResponse(Int32(400),"message",HashMap<String,String>(),inputStream,ArrayList<Resource>())
     try {
         converter.convert(response)

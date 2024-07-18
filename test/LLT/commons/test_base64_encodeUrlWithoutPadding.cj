@@ -1,7 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 main (){
     let bytes: Array<UInt8> = Array<UInt8>([116, 24, 223, 180, 151, 153,

@@ -1,9 +1,9 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
-from std import collection.*
-from oauth4cj import oauth4cj.*
+import std.collection.*
+public import oauth4cj.*
 
-type OAuth4cjHttpClient = oauth4cj.HttpClient
+public import oauth4cj.HttpClient as OAuth4cjHttpClient
 
 func testAuthorizationURL_01(): Int32 {
     var mapAdditional = HashMap<String, String>()

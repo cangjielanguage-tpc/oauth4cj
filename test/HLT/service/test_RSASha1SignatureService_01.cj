@@ -1,12 +1,12 @@
 // 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
 // 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 
-from crypto import keys.*
-from crypto import digest.*
-from std import crypto.digest.*
-from std import fs.*
+import crypto.keys.*
+import crypto.digest.*
+import std.crypto.digest.*
+import std.fs.*
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 @Test
 public class TestRSASha1SignatureServiceB004{

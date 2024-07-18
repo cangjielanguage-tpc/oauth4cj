@@ -2,10 +2,10 @@
 // EXEC: cjc %import-path %L %l %f ./oauth10a_api.cj
 // EXEC: ./main
 
-from std import collection.*
-from std import time.*
-from std import io.*
-from oauth4cj import oauth4cj.*
+import std.collection.*
+import std.time.*
+import std.io.*
+public import oauth4cj.*
 
 
 func testOAuth10aService09(service: OAuth10aService): Int32 {

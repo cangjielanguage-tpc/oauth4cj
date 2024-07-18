@@ -7,8 +7,10 @@
  */
 package oauth4cj
 
-from net import http.HttpHeaders 
+import net.http.HttpHeaders 
 
+internal import httpclient4cj.*
+internal import httpclient4cj.HttpClient as Httpclient4cjHttpClient
 
 enum BodyType {
     | BYTE_ARRAY
@@ -31,7 +33,7 @@ public class OkHttpHttpClient <: HttpClient {
 
     private static let DEFAULT_CONTENT_TYPE_MEDIA_TYPE: Option<MediaType> = MediaType.parse(OAuthConstants.DEFAULT_CONTENT_TYPE)
 
-    private let client: httpclient4cj.HttpClient
+    private let client: Httpclient4cjHttpClient
 
     private var closed: Bool = false
 
@@ -58,15 +60,15 @@ public class OkHttpHttpClient <: HttpClient {
     /**
      * Create a OkHttpHttpClient instance according to the parameter.
      *
-     * @param client of httpclient4cj.HttpClient.
+     * @param client of HttpClient.
      * @since 0.38.2
      */
-    public init(client: httpclient4cj.HttpClient) {
+    public init(client: Httpclient4cjHttpClient) {
         this.client = client
     }
 
     /**
-     * Close resources in httpclient4cj.HttpClient.
+     * Close resources in HttpClient.
      *
      * @since 0.38.2
      */
@@ -305,7 +307,7 @@ public class OkHttpHttpClient <: HttpClient {
         return client.newCall(requestBuilder.build())
     }
 
-    static func convertResponse(okHttpResponse: httpclient4cj.Response): OAuth4cjResponse {
+    static func convertResponse(okHttpResponse: Response): OAuth4cjResponse {
         let headers: Header = okHttpResponse.getHeaders()
         let headersMap: HashMap<String, String> = HashMap<String, String>()
         for ((k, v) in headers) {

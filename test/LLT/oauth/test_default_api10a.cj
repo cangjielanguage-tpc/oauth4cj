@@ -1,9 +1,9 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from std import collection.*
-from std import time.*
-from oauth4cj import oauth4cj.*
+import std.collection.*
+import std.time.*
+public import oauth4cj.*
 
 func testAPI10a_01(): Int32 {
     var apiA: A = A()

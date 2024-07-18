@@ -2,12 +2,12 @@
 // EXEC: cjc %import-path %L %l %f ./oauth10a_api.cj
 // EXEC: ./main
 
-from std import collection.*
-from std import time.*
-from std import io.*
-from oauth4cj import oauth4cj.*
+import std.collection.*
+import std.time.*
+import std.io.*
+public import oauth4cj.*
 
-type OAuth4cjHttpClient = oauth4cj.HttpClient
+public import oauth4cj.HttpClient as OAuth4cjHttpClient
 
 func testOAuth10aService01(): Int32 {
     var oauth10aApi = OAuth10aApi(false)

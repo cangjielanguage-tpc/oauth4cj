@@ -36,14 +36,14 @@ public class TestOkHttpProviderB008{
 }
 
 public func getOtherHttpClientConfig():OtherHttpClientConfig{
-    var okhttpClientBuilder=httpclient4cj.HttpClient.builder()
+    var okhttpClientBuilder=Httpclient4cjHttpClient.builder()
     var otherHttpClientConfig=OtherHttpClientConfig(okhttpClientBuilder)
     return otherHttpClientConfig
 }
 
 public class OtherHttpClientConfig <: HttpClientConfig {
-    private var clientBuilder=httpclient4cj.HttpClient.builder()
-    public init(clientBuilder:httpclient4cj.HttpClientBuilder) {
+    private var clientBuilder=Httpclient4cjHttpClient.builder()
+    public init(clientBuilder: HttpClientBuilder) {
         this.clientBuilder = clientBuilder
     }
     public func getClientBuilder(): HttpClientBuilder {
@@ -53,6 +53,6 @@ public class OtherHttpClientConfig <: HttpClientConfig {
         return defaultConfig()
     }
     public static func defaultConfig():OtherHttpClientConfig {
-        return OtherHttpClientConfig(httpclient4cj.HttpClient.builder());
+        return OtherHttpClientConfig(Httpclient4cjHttpClient.builder());
     }
 }

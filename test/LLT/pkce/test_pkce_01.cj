@@ -2,8 +2,8 @@
 // EXEC: ./main
 
 
-from encoding import base64.*
-from oauth4cj import oauth4cj.*
+import encoding.base64.*
+public import oauth4cj.*
 
 // public init()  public func setCodeChallenge(codeChallenge: String) public func getCodeChallenge()
 public func testPKCE_01():Int32 {

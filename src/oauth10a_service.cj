@@ -4,7 +4,6 @@
 
 package oauth4cj
 
-from std import fs.*
 
 public class OAuth10aService <: OAuthService {
     private static let VERSION: String = "1.0"

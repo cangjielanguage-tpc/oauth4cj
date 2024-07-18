@@ -7,10 +7,9 @@
  */
 package oauth4cj
 
-from std import regex.*
-from std import collection.*
-from encoding import json.*
-from encoding import url.*
+internal import std.collection.*
+internal import encoding.json.*
+internal import encoding.url.*
 
 
 /**

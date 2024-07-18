@@ -1,9 +1,9 @@
 
 //from std import console.*
-from std import random.*
-from std import collection.*
+import std.random.*
+import std.collection.*
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 main() {
 

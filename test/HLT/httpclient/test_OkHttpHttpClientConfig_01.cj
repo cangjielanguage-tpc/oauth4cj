@@ -15,7 +15,7 @@ public class TestOkHttpHttpClientConfigB008{
         var okhttpHttpClientConfig=getOkHttpHttpClientConfig()
         var re_okhttpHttpClientConfig=okhttpHttpClientConfig.createDefaultConfig()
         var re_okhttpClientBuilder=re_okhttpHttpClientConfig.getClientBuilder()
-        var re_okhttpClient=httpclient4cj.HttpClient(re_okhttpClientBuilder)
+        var re_okhttpClient=Httpclient4cjHttpClient(re_okhttpClientBuilder)
         var re_tlsClientConfig=re_okhttpClient.getTlsConfig().getOrThrow()
         var flag = false
         try {
@@ -26,8 +26,8 @@ public class TestOkHttpHttpClientConfigB008{
         @Assert(flag)
         let re_verifyMode=re_tlsClientConfig.verifyMode
 
-        var exp_okhttpClientBuilder=httpclient4cj.HttpClient.builder()
-        var exp_okhttpClient=httpclient4cj.HttpClient(exp_okhttpClientBuilder)
+        var exp_okhttpClientBuilder=Httpclient4cjHttpClient.builder()
+        var exp_okhttpClient=Httpclient4cjHttpClient(exp_okhttpClientBuilder)
         var exp_tlsClientConfig=exp_okhttpClient.getTlsConfig().getOrThrow()
         flag = false
         try {
@@ -49,7 +49,7 @@ public class TestOkHttpHttpClientConfigB008{
     func testOkHttpHttpClientConfigGetClientBuilder02(): Unit {
         var re_okhttpHttpClientConfig=OkHttpHttpClientConfig.defaultConfig()
         var re_okhttpClientBuilder=re_okhttpHttpClientConfig.getClientBuilder()
-        var re_okhttpClient=httpclient4cj.HttpClient(re_okhttpClientBuilder)
+        var re_okhttpClient=Httpclient4cjHttpClient(re_okhttpClientBuilder)
         var re_tlsClientConfig=re_okhttpClient.getTlsConfig().getOrThrow()
         var flag = false
         try {
@@ -60,8 +60,8 @@ public class TestOkHttpHttpClientConfigB008{
         @Assert(flag)
         let re_verifyMode=re_tlsClientConfig.verifyMode
 
-        var exp_okhttpClientBuilder=httpclient4cj.HttpClient.builder()
-        var exp_okhttpClient=httpclient4cj.HttpClient(exp_okhttpClientBuilder)
+        var exp_okhttpClientBuilder=Httpclient4cjHttpClient.builder()
+        var exp_okhttpClient=Httpclient4cjHttpClient(exp_okhttpClientBuilder)
         var exp_tlsClientConfig=exp_okhttpClient.getTlsConfig().getOrThrow()
         flag = false
         try {
@@ -83,9 +83,9 @@ public class TestOkHttpHttpClientConfigB008{
     func testOkHttpHttpClientConfigGetClientBuilder03(): Unit {
         var okhttpHttpClientConfig=getOkHttpHttpClientConfig()
         var re_okhttpClientBuilder=okhttpHttpClientConfig.getClientBuilder()
-        var exp_okhttpClientBuilder=httpclient4cj.HttpClient.builder()
-        var re_okhttpClient=httpclient4cj.HttpClient(re_okhttpClientBuilder)
-        var exp_okhttpClient=httpclient4cj.HttpClient(exp_okhttpClientBuilder)
+        var exp_okhttpClientBuilder=Httpclient4cjHttpClient.builder()
+        var re_okhttpClient=Httpclient4cjHttpClient(re_okhttpClientBuilder)
+        var exp_okhttpClient=Httpclient4cjHttpClient(exp_okhttpClientBuilder)
 
         var re_tlsClientConfig=re_okhttpClient.getTlsConfig().getOrThrow()
         var exp_tlsClientConfig=exp_okhttpClient.getTlsConfig().getOrThrow()

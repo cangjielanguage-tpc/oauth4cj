@@ -1,8 +1,8 @@
 // EXEC: cjc %import-path %L %l %f
 
 //密码模式授权
-from std import collection.*
-from oauth4cj import oauth4cj.*
+import std.collection.*
+public import oauth4cj.*
 
 main() {
     var test_01 = testPassword_01()

@@ -3,7 +3,6 @@
  */
 package oauth4cj
 
-from std import io.OutputStream
 
 /**
  * Default Api 1.0a

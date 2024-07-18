@@ -1,44 +1,12 @@
 ## 0.0.1
 
-1. 提供 URL 编解码功能和处理Streams的工具：
-- OAuthEncoder 提供字符串特定格式编解码功能（当前仅支持UTF-8）
-- StreamUtils 提供以 UTF-8 编码字符串的形式返回流内容的功能和从 gzip 流返回字符串内容的功能
-
-2. 提供 OAuth4cj 的请求/响应/令牌对象：
-- 提供 OAuth4cj HttpRequest的表示形式，OAuth4cjRequest
-- 提供 OAuth4cj 请求或访问令牌 Token
-- 提供 OAuth4cj 的 HTTP响应表示形式，Response
-
-3. 提供 base64 编码功能
-- 支持使用 Base64 编码方案将指定的字节数组编码为字符串
-
-4. 提供用于通过 OAuth4cj 公共客户端实现代码交换的证明密钥
-- 提供用于通过 OAuth4cj 公共客户端实现代码交换的证明密钥
-
-5. 提供对基字符串使用算法进行签名，返回 OAuth4cj 签名，提供 unix 时间戳生成器
-- 对基字符串进行签名，返回 OAuth4cj 签名
-- 提供 unix 时间戳生成器
-
-6. 提供从 OAuth4cj 的请求/响应中，解析 base 字符串，生成指定签名请求，获取响应中令牌
-- 从 OAuth4cjRequest 中提取 url 编码的基字符串
-- 生成 OAuth4cj “Authorization” Http 标头，以作为签名包含在请求中
-- 从 Http Response 的内容中提取具体类型的令牌
-
-7. Builder模式实现，提供创建OAuthService的流畅接口、OAuth协议1.0a/2.0版的默认实现
-- Builder模式实现，提供创建OAuthService的流畅接口
-- 提供OAuth协议1.0a/2.0版的默认实现
-
-8. Builder模式的实现，提供 OAuth 和 OAuthService 的接口
-- 提供 oauth2 签名、客户端验证和撤销请求相关接口
-
-9. HttpClient：提供同步和异步调用接口
-- 提供 BodyPartPayload 及多种子类型的数据结构创建，请求字段补充，数据存储，读取并封装成特定类型。
-
-## 0.0.2
-
-- 提供同步和异步的客户端 OkHttp
-
-- 提供 gitee、github、华为、微博、腾讯qq的的授权 api，及应用示例，见 README.md 文档
-- 提供 RFC 6749、RFC 6750、RFC 7009、RFC 7636、RFC 8628 的应用示例，见 README.md 文档
-
-- 修复 HttpClient 异步获取，Future<Any> 中 Any 的值无法直接获取问题
+支持以下协议和附加功能:    
+- RFC 5849 OAuth 1.0协议；
+- RFC 6749 OAuth 2.0授权框架，授权代码授权授予；
+- RFC 6749 OAuth 2.0授权框架，资源所有者密码凭据授权授予；
+- RFC 6749 OAuth 2.0授权框架，客户端凭据授权授予；
+- RFC 6749 OAuth 2.0授权框架，刷新访问令牌；
+- RFC 6750 OAuth 2.0授权框架：承载令牌使用；
+- RFC 7009 OAuth 2.0令牌吊销；
+- RFC 7636 OAuth公共客户端（PKCE）代码交换的证明密钥；
+- RFC 8628 OAuth 2.0设备授权授予。

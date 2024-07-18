@@ -1,11 +1,11 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
-from std import collection.HashMap
-from std import collection.ArrayList
-from std import io.*
+import std.collection.HashMap
+import std.collection.ArrayList
+import std.io.*
 
 // Response
 

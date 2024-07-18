@@ -2,8 +2,8 @@
 // EXEC: ./main
 
 //1.2.2 示例
-from oauth4cj import oauth4cj.*
-from std import io.*
+public import oauth4cj.*
+import std.io.*
 main (){
     let str: String = "Hello World"
     let bytes: Array<UInt8> = str.toArray()

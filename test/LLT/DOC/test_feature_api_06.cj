@@ -2,8 +2,8 @@
 // EXEC: ./main
 
 //1.6.2 示例
-from std import collection.*
-from oauth4cj import oauth4cj.*
+import std.collection.*
+public import oauth4cj.*
 main() {
     var scopeString: ArrayList<String> = ArrayList<String>()
     scopeString.append("scope_1")

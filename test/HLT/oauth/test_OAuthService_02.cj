@@ -53,7 +53,7 @@ public class TestOAuthServiceB008{
          let oauth10aService=OAuthServiceTest.getOAuth10aService()
          var oauth4cjRequest=OAuth4cjRequest(Verb.GET,url)
          let response_any=oauth10aService.executeAsync(oauth4cjRequest).get()
-         let response= (response_any as oauth4cj.OAuth4cjResponse ).getOrThrow()
+         let response= (response_any as OAuth4cjResponse ).getOrThrow()
          @Assert(response.getCode(),200)
     }
     /***
@@ -67,7 +67,7 @@ public class TestOAuthServiceB008{
          let response_any=oauth10aService.executeAsync(oauth4cjRequest).get()
          var reflag=1
          try{
-             (response_any as oauth4cj.OAuth4cjResponse ).getOrThrow()
+             (response_any as OAuth4cjResponse ).getOrThrow()
          }catch(e:NoneValueException){
              reflag=0
          }

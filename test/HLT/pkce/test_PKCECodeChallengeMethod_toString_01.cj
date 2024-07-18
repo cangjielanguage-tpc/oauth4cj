@@ -1,12 +1,17 @@
 // 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
 // 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 
-from crypto import keys.*
-from crypto import digest.*
-from std import crypto.digest.*
+import crypto.keys.*
+import crypto.digest.*
+import std.crypto.digest.*
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
+public import httpclient4cj.HttpClient as Httpclient4cjHttpClient
+public import httpclient4cj.Request as Httpclient4cjRequest
+public import httpclient4cj.Response as Httpclient4cjResponse
+public import httpclient4cj.RequestBuilder as Httpclient4cjRequestBuilder
+public import httpclient4cj.ResponseBuilder as Httpclient4cjResponseBuilder
 
 public var strEmpty=""
 public  var strBlank=" "

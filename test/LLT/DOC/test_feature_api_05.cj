@@ -2,7 +2,7 @@
 // EXEC: ./main
 
 //1.5.2 示例
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 public func createSampleOAuthRequest(): OAuth4cjRequest {
     let request: OAuth4cjRequest = OAuth4cjRequest(Verb.GET, "http://example.com")
