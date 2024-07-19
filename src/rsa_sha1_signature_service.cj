@@ -7,11 +7,10 @@
  */
 package oauth4cj
 
-from std import collection.*
 
-from crypto import keys.*
-from crypto import digest.*
-from std import crypto.digest.*
+internal import crypto.keys.*
+internal import crypto.digest.*
+internal import std.crypto.digest.*
 
 /**
  * RSA-SHA1 implementation of the SignatureService interface.

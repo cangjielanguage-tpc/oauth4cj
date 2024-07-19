@@ -7,7 +7,6 @@
  */
 package oauth4cj
 
-from httpclient4cj import httpclient4cj.*
 
 /**
  * Provide HttpClient based on HttpClient configuration.

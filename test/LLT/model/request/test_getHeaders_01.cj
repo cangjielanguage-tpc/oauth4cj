@@ -1,9 +1,9 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from std import collection.*
+import std.collection.*
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 public func testAddHeader_01():Int32 {
     let url: String = "http://test/test"

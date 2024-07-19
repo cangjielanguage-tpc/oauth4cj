@@ -2,17 +2,18 @@
 // EXEC: cjc %import-path %L %l %f ./oauth10a_api.cj
 // EXEC: ./main
 
-from std import collection.*
-from std import time.*
-from std import io.*
-from oauth4cj import oauth4cj.*
+import std.collection.*
+import std.time.*
+import std.io.*
+public import oauth4cj.*
 
-type OAuth4cjHttpClient = oauth4cj.HttpClient
+//type HttpClient = HttpClient
 
 func testOAuth10aService05(): Int32 {
     var oauth10aApi = OAuth10aApi(false)
     var httpClientConfig = Option<HttpClientConfig>.None
-    var httpClient = Option<OAuth4cjHttpClient>.None
+    //var httpClient = Option<OAuth4cjHttpClient>.None
+    var httpClient = Option<HttpClient>.None
     var httpClientProvider = Option<HttpClientProvider>.None
     var stream = ByteArrayStream()
     var service = OAuth10aService(oauth10aApi, "apiKey", "apiSecret", "callback", 
@@ -30,7 +31,7 @@ func testOAuth10aService05(): Int32 {
 func testOAuth10aService06(): Int32 {
     var oauth10aApi = OAuth10aApi(false)
     var httpClientConfig = Option<HttpClientConfig>.None
-    var httpClient = Option<OAuth4cjHttpClient>.None
+    var httpClient = Option<HttpClient>.None
     var httpClientProvider = Option<HttpClientProvider>.None
     var stream = ByteArrayStream()
     var service = OAuth10aService(oauth10aApi, "apiKey", "apiSecret", "callback", 
@@ -49,7 +50,7 @@ func testOAuth10aService06(): Int32 {
 func testOAuth10aService07(): Int32 {
     var oauth10aApi = OAuth10aApi(true)
     var httpClientConfig = OkHttpHttpClientConfig.defaultConfig()
-    var httpClient = Option<OAuth4cjHttpClient>.None
+    var httpClient = Option<HttpClient>.None
     var httpClientProvider = OkHttpProvider()
     var stream = ByteArrayStream()
     var service = OAuth10aService(oauth10aApi, "apiKey", "apiSecret", "callback", 
@@ -72,7 +73,7 @@ func testOAuth10aService07(): Int32 {
 func testOAuth10aService08(): Int32 {
     var oauth10aApi = OAuth10aApi(true)
     var httpClientConfig = Option<HttpClientConfig>.None
-    var httpClient: OAuth4cjHttpClient = OkHttpHttpClient(OkHttpHttpClientConfig.defaultConfig())
+    var httpClient: HttpClient = OkHttpHttpClient(OkHttpHttpClientConfig.defaultConfig())
     var httpClientProvider = Option<HttpClientProvider>.None
     var stream = ByteArrayStream()
     var service = OAuth10aService(oauth10aApi, "apiKey", "apiSecret", "callback", 

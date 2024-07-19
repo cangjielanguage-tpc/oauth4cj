@@ -1,17 +1,23 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from std import collection.*
-// from std import io.*
-from httpclient4cj import httpclient4cj.*
-from std import sync.*
-from std import time.*
-from net import http.*
-from std import socket.*
-from std import unicode.*
-// from encoding import url.*
+import std.collection.*
+// import std.io.*
+import httpclient4cj.*
+import std.sync.*
+import std.time.*
+import net.http.*
+import std.socket.*
+import std.unicode.*
+// import encoding.url.*
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
+
+internal import httpclient4cj.HttpClient as Httpclient4cjHttpClient
+internal import httpclient4cj.Request as Httpclient4cjRequest
+internal import httpclient4cj.Response as Httpclient4cjResponse
+internal import httpclient4cj.RequestBuilder as Httpclient4cjRequestBuilder
+internal import httpclient4cj.ResponseBuilder as Httpclient4cjResponseBuilder
 
 // RFC5849文档中的示例
 
@@ -92,7 +98,7 @@ main() {
     let PROTECTED_RESOURCE_URL: String = "http://127.0.0.1:${port}/ready"
 
     let myInterceptor = MyInterceptor()
-    let client: httpclient4cj.HttpClient = httpclient4cj.HttpClient.builder().addInterceptor(myInterceptor).build()
+    let client: Httpclient4cjHttpClient = Httpclient4cjHttpClient.builder().addInterceptor(myInterceptor).build()
     myInterceptor.setClient(client)
     let myClient: OkHttpHttpClient = OkHttpHttpClient(client)
 
@@ -363,22 +369,22 @@ func serve(){
 }
 
 class MyInterceptor <: Interceptor {
-    var client: Option<httpclient4cj.HttpClient> = Option<httpclient4cj.HttpClient>.None
-    public func setClient(client: httpclient4cj.HttpClient) {
+    var client: Option<Httpclient4cjHttpClient> = Option<Httpclient4cjHttpClient>.None
+    public func setClient(client: Httpclient4cjHttpClient) {
         this.client = client
     }
 
-    public func intercept(chain: Chain): httpclient4cj.Response {
+    public func intercept(chain: Chain): Httpclient4cjResponse {
         let dispatcher = client.getOrThrow().getDispatcher()
         dispatcher.runningCalls()
         //let run = dispatcher.runningCalls()
         // println(run.size)
 
-        let request: httpclient4cj.Request = chain.getRequest()
-        let requestBuilder: httpclient4cj.RequestBuilder  = request.newBuilder()
+        let request: Httpclient4cjRequest = chain.getRequest()
+        let requestBuilder: Httpclient4cjRequestBuilder  = request.newBuilder()
         //let header: Header = request.getHeaders()
-        var response: httpclient4cj.Response =  chain.proceed(requestBuilder.build())
-        let responseBuilder: httpclient4cj.ResponseBuilder = response.newBuilder().request(request)
+        var response: Httpclient4cjResponse =  chain.proceed(requestBuilder.build())
+        let responseBuilder: Httpclient4cjResponseBuilder = response.newBuilder().request(request)
         println("")
         println("-----interceptor message------")
         

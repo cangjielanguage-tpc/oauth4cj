@@ -2,7 +2,7 @@
 // EXEC: ./main
 
 //1.4.2 示例
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 public func testHMACSha1SignatureService_01(): Int32 {
     let hmac: HMACSha1SignatureService = HMACSha1SignatureService()

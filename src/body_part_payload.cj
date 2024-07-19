@@ -7,7 +7,6 @@
  */
 package oauth4cj
 
-from std import collection.*
 
 public open class BodyPartPayload {
 

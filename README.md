@@ -3,9 +3,9 @@
 </div>
 
 <p align="center">
-<img alt="" src="https://img.shields.io/badge/release-v0.0.2-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjc-v0.51.4-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjc-v0.53.4-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjcov-91.2%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
@@ -95,31 +95,27 @@ OAuth 定义了四种角色：
 ### 编译构建
 拉取代码和依赖进行编译构建，步骤如下：
 
-#### 1.拉取 oauth4cj 代码，和两个依赖库 httpclient4cj 和 crypto4cj 的代码
+#### 1.拉取 oauth4cj 代码，和依赖库 httpclient4cj 的代码
 
 ```shell
-git clone https://gitee.com/HW-PLLab/oauth4cj.git
-cd oauth4cj   # 进入到oauth4cj目录下, 再拉取两个依赖库                                           
-git clone https://gitee.com/HW-PLLab/httpclient4cj.git  
-git clone https://gitee.com/HW-PLLab/crypto4cj.git      
+git clone https://gitcode.com/Cangjie-TPC/oauth4cj.git
+cd oauth4cj   # 进入到oauth4cj目录下, 再拉取依赖库                                           
+git clone https://gitcode.com/Cangjie-TPC/httpclient4cj.git
 ```
 
-#### 2.获取 crypto4cj 的两个依赖文件 libcrypto 和 libmycrypto，放到 oauth4cj/crypto4cj/lib 目录下
-crypto4cj 需要依赖 libcrypto.so 和 libmycrypto.so (windows 系统是 libcrypto.dll 和 libmycrypto.dll)    
+#### 2.获取四个依赖文件 libcrypto 和 libssl，放到 oauth4cj/lib 目录下
+oauth4cj 需要依赖 libcrypto.so 和 libcrypto.so.3 和 libssl.so 和 libssl.so.3 (windows 系统是对应的 xxx.dll)    
 
-##### 2.1 获取 crypto4cj 的两个依赖文件 libcrypto 和 libmycrypto
-两种获取方式：1.自己编译；2.直接获取。    
-获取方式和途径详见 https://gitee.com/HW-PLLab/crypto4cj 中，[使用说明]->[编译] 部分的操作或者命令。    
-
-##### 2.2 复制 libcrypto 和 libmycrypto 的两个.so/.dll 文件，到指定目录 oauth4cj/crypto4cj/lib 下
-进入到oauth4cj/crypto4cj目录下, 创建 lib 文件夹，并将获取到的两个.so/.dll 文件, 复制到新创建的 oauth4cj/crypto4cj/lib 目录下
+##### 2.1 获取路径：
+在 https://gitee.com/HW-PLLab/ci_lib.git 的 lib_oauth4cj 分支中，按照环境找包，获取对应依赖文件。
 
 ```shell
-cd crypto4cj 
-mkdir lib # 在 oauth4cj/crypto4cj 目录下，创建 lib 目录
-# 将获取的两个.so/.dll 文件，复制到创建好的oauth4cj/crypto4cj/lib 目录下
+mkdir lib # 在 oauth4cj 目录下，创建 lib 目录
+# 将获取的四个.so/.dll 文件，复制到创建好的oauth4cj/lib 目录下
 cp -r so库存放地址/libcrypto.so ./lib
-cp -r so库存放地址/libmycrypto.so ./lib
+cp -r so库存放地址/libcrypto.so.3 ./lib
+cp -r so库存放地址/libssl.so ./lib
+cp -r so库存放地址/libssl.so.3 ./lib
 ```
 
 #### 3.返回到 oauth4cj 目录下进行编译
@@ -232,9 +228,9 @@ https://open.weibo.com/wiki/%E6%96%B0%E6%89%8B%E6%8C%87%E5%8D%97
 示例代码如下（gitee为例）：
 
 ```cangjie
-from std import random.*
-from std import collection.*
-from oauth4cj import oauth4cj.*
+import std.random.*
+import std.collection.*
+public import oauth4cj.*
 
 main() {
     //将这些替换为在【授权服务器-gitee】中生成的 client_id 和 client_secret
@@ -364,8 +360,8 @@ public class GiteeApi <: DefaultApi20 {
 示例代码如下（gitee为例）：
 
 ```cangjie
-from std import collection.*
-from oauth4cj import oauth4cj.*
+import std.collection.*
+public import oauth4cj.*
 
 main() {
     var test_01 = testPassword_01()
@@ -483,9 +479,9 @@ public class GiteeApi <: DefaultApi20 {
 示例代码如下（华为示例）：
 
 ```cangjie
-from std import collection.*
+import std.collection.*
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 main() {
     //将这些替换为在【授权服务器-华为】中生成的 client_id 和 client_secret
@@ -596,9 +592,9 @@ func getDeviceBaseUrl(userCode: String): String {
 示例代码如下（腾讯为例）：
 
 ```cangjie
-from std import collection.*
+import std.collection.*
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 main() {
     //将这些替换为在【授权服务器-腾讯】中生成的 client_id 和 client_secret
@@ -682,7 +678,7 @@ ${redirect_uri}?#access_token=...&expires_in=7776000&state=secret630343
 ```
 
 ## 开源协议
-The MIT License
+本项目基于 [The MIT License](./LICENSE)，请自由的享受和参与开源。
 
 ## 参与贡献
 

@@ -7,7 +7,6 @@
  */
 package oauth4cj
 
-from std import collection.*
 
 /**
  * hold code_challenge, code_challenge_method and code_verifier.

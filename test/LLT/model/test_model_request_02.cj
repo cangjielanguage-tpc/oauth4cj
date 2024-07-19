@@ -1,9 +1,9 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
-// from encoding import url.*
+// import encoding.url.*
 
 // public func addBodyParameter(key: String, value: String)  public func getBodyParams()
 // public func addParameter(key: String, value: String)

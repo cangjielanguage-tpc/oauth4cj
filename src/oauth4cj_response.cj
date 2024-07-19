@@ -4,10 +4,6 @@
  */
 package oauth4cj
 
-from std import io.InputStream
-from std import io.IOException
-from std import io.ByteArrayStream
-
 /**
  * Response
  * @since 0.37.2

@@ -1,11 +1,11 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
-from compress import zlib.*
-from std import io.*
-from std import collection.*
+import compress.zlib.*
+import std.io.*
+import std.collection.*
 
 main (){
 

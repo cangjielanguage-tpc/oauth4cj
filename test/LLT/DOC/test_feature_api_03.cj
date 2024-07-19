@@ -2,10 +2,10 @@
 // EXEC: ./main
 
 //1.3.2 示例
-from oauth4cj import oauth4cj.*
-from std import collection.HashMap
-from std import collection.ArrayList
-from std import io.*
+public import oauth4cj.*
+import std.collection.HashMap
+import std.collection.ArrayList
+import std.io.*
 
 main (){
     var headers:HashMap<String, String> = HashMap<String, String>()

@@ -1,9 +1,9 @@
 // EXEC: cjc %import-path %L %l %f
 
 //客户端模式授权
-from std import collection.*
+import std.collection.*
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 main() {
     //将这些替换为在【授权服务器-华为】中生成的 client_id 和 client_secret

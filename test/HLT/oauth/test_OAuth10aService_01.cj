@@ -85,7 +85,7 @@ public class TestOAuth10aServiceB008{
         let appSecret: String = "123456789"
 
         let myInterceptor = MyInterceptor()
-        let client: httpclient4cj.HttpClient = httpclient4cj.HttpClient.builder().addInterceptor(myInterceptor).build()
+        let client: Httpclient4cjHttpClient = Httpclient4cjHttpClient.builder().addInterceptor(myInterceptor).build()
         myInterceptor.setClient(client)
 
         let myClient: OkHttpHttpClient = OkHttpHttpClient(client)
@@ -115,7 +115,7 @@ public class TestOAuth10aServiceB008{
         let appSecret: String = "123456789"
 
         let myInterceptor = MyInterceptor()
-        let client: httpclient4cj.HttpClient = httpclient4cj.HttpClient.builder().addInterceptor(myInterceptor).build()
+        let client: Httpclient4cjHttpClient = Httpclient4cjHttpClient.builder().addInterceptor(myInterceptor).build()
         myInterceptor.setClient(client)
 
         let myClient: OkHttpHttpClient = OkHttpHttpClient(client)
@@ -144,7 +144,7 @@ public class TestOAuth10aServiceB008{
         let appSecret: String = "123456789"
 
         let myInterceptor = MyInterceptor()
-        let client: httpclient4cj.HttpClient = httpclient4cj.HttpClient.builder().addInterceptor(myInterceptor).build()
+        let client: Httpclient4cjHttpClient = Httpclient4cjHttpClient.builder().addInterceptor(myInterceptor).build()
         myInterceptor.setClient(client)
 
         let myClient: OkHttpHttpClient = OkHttpHttpClient(client)

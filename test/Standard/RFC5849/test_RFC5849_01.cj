@@ -1,14 +1,14 @@
 // 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
 // 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 
-from std import collection.*
-from httpclient4cj import httpclient4cj.*
-from std import sync.*
-from std import unicode.*
-from std import time.*
-from net import http.*
-from std import socket.*
-from oauth4cj import oauth4cj.*
+import std.collection.*
+import httpclient4cj.*
+import std.sync.*
+import std.unicode.*
+import std.time.*
+import net.http.*
+import std.socket.*
+public import oauth4cj.*
 
 var port: UInt16 = 0
 
@@ -24,7 +24,7 @@ public class TestRFC5849{
         let clientSecret: String = "kd94hf93k423kf4"
         let PROTECTED_RESOURCE_URL: String = "http://127.0.0.1:${port}/ready"
         let myInterceptor = MyInterceptor()
-        let client: httpclient4cj.HttpClient = httpclient4cj.HttpClient.builder().addInterceptor(myInterceptor).build()
+        let client: Httpclient4cjHttpClient = Httpclient4cjHttpClient.builder().addInterceptor(myInterceptor).build()
         myInterceptor.setClient(client)
         let myClient: OkHttpHttpClient = OkHttpHttpClient(client)
         let service: OAuth10aService = ServiceBuilderOAuth10a(clientId).
@@ -239,22 +239,22 @@ func serve(){
 }
 
 class MyInterceptor <: Interceptor {
-    var client: Option<httpclient4cj.HttpClient> = Option<httpclient4cj.HttpClient>.None
-    public func setClient(client: httpclient4cj.HttpClient) {
+    var client: Option<Httpclient4cjHttpClient> = Option<Httpclient4cjHttpClient>.None
+    public func setClient(client: Httpclient4cjHttpClient) {
         this.client = client
     }
 
-    public func intercept(chain: Chain): httpclient4cj.Response {
+    public func intercept(chain: Chain): Httpclient4cjResponse {
         let dispatcher = client.getOrThrow().getDispatcher()
         dispatcher.runningCalls()
         //let run = dispatcher.runningCalls()
         // println(run.size)
 
-        let request: httpclient4cj.Request = chain.getRequest()
-        let requestBuilder: httpclient4cj.RequestBuilder  = request.newBuilder()
+        let request: Httpclient4cjRequest = chain.getRequest()
+        let requestBuilder: Httpclient4cjRequestBuilder  = request.newBuilder()
         //let header: Header = request.getHeaders()
-        var response: httpclient4cj.Response =  chain.proceed(requestBuilder.build())
-        let responseBuilder: httpclient4cj.ResponseBuilder = response.newBuilder().request(request)
+        var response: Httpclient4cjResponse =  chain.proceed(requestBuilder.build())
+        let responseBuilder: Httpclient4cjResponseBuilder = response.newBuilder().request(request)
         println("")
         println("-----interceptor message------")
 

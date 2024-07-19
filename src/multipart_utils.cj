@@ -7,9 +7,10 @@
  */
 package oauth4cj
 
-from std import regex.*
-from std import time.*
-from std import io.*
+internal import std.regex.*
+internal import std.time.*
+internal import std.io.*
+
 
 public class MultipartUtils {
 

@@ -3,7 +3,6 @@
  */
 package oauth4cj
 
-from std import collection.HashMap
 
 /**
  * Default Api 2.0

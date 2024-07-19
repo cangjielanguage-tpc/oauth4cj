@@ -1,7 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 let RANDOM_BYTES: Array<UInt8> = Array<UInt8>([116, 24, 223, 180, 151, 153,
             224, 37, 79, 250, 96, 125, 216, 173, 187, 186, 22, 212, 37, 77,

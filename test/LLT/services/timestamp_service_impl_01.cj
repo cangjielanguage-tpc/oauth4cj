@@ -1,7 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
-from oauth4cj import oauth4cj.*
-from std import time.*
+public import oauth4cj.*
+import std.time.*
 
 func getCurrentTimeMillis(): Int64 {
     let res: Duration = DateTime.now() - DateTime.of(year: 1970, month: Month.January, dayOfMonth: 1)

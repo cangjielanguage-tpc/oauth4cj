@@ -3,7 +3,6 @@
  */
 package oauth4cj
 
-from std import collection.*
 
 /**
  * Scope Builder
@@ -91,7 +90,7 @@ public class ScopeBuilder {
                 scopeBuilder.append(scope)
                 continue
             }
-            scopeBuilder.append(' ')
+            scopeBuilder.append(r' ')
             scopeBuilder.append(scope)
         }
         var scopeString = scopeBuilder.toString()

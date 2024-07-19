@@ -7,7 +7,7 @@
  */
 package oauth4cj
 
-from std import sync.*
+internal import std.sync.*
 
 /**
  * The class is CharArrayStream
@@ -16,10 +16,10 @@ from std import sync.*
 class CharArrayStream {
     private static let DEFAULT_CAPACITY: Int64 = 1024
 
-    private var myData: Array<Char>
+    private var myData: Array<Rune>
     private var start: Int64
     private var length_: Int64
-    private let item: Char = ' '
+    private let item: Rune = r' '
 
     protected let mu: ReentrantMutex = ReentrantMutex()
 
@@ -28,16 +28,16 @@ class CharArrayStream {
     }
 
     init(size: Int64) {
-        this.myData = Array<Char>(size, item: item)
+        this.myData = Array<Rune>(size, item: item)
         this.start = 0
         this.length_ = 0
     }
 
-    func write(item: Char): Unit {
+    func write(item: Rune): Unit {
         this.append(item)
     }
 
-    func append(item: Char): Unit {
+    func append(item: Rune): Unit {
         synchronized(this.mu) {
             this.reserve(1)
             this.myData[this.length_] = item
@@ -58,7 +58,7 @@ class CharArrayStream {
         if (newCapacity < minCapacity) {
             newCapacity = minCapacity
         }
-        let newData: Array<Char> = Array<Char>(newCapacity, item: ' ')
+        let newData: Array<Rune> = Array<Rune>(newCapacity, item: r' ')
 
         this.myData.copyTo(newData, 0, 0, this.start + this.length_)
         this.myData = newData
@@ -67,10 +67,10 @@ class CharArrayStream {
     /**
      * Returns a copy of unread data.
      *
-     * @return Type of Array<Char>, Returns a copy of unread data.
+     * @return Type of Array<Rune>, Returns a copy of unread data.
      * @since 0.37.2
      */
-    func toCharArray(): Array<Char> {
+    func toCharArray(): Array<Rune> {
         synchronized (this.mu) {
             return this.myData[this.start..(this.start + this.length_)]
         }

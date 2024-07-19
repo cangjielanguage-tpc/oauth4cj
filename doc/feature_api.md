@@ -52,7 +52,7 @@ public open class Base64Utils {
 ##### 1.1.2 示例
 
 ```cangjie
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 main(): Int64 {
     let bytes: Array<UInt8> = "Hello World".toArray()
     let encoded: String = "SGVsbG8gV29ybGQ="
@@ -200,8 +200,8 @@ public class Preconditions {
 ##### 1.2.2 示例
 
 ```cangjie
-from oauth4cj import oauth4cj.*
-from std import io.*
+public import oauth4cj.*
+import std.io.*
 main (){
     let str: String = "Hello World"
     let bytes: Array<UInt8> = str.toArray()
@@ -1471,10 +1471,10 @@ public class OAuth2AccessTokenErrorResponseException <: OAuth4cjResponseExceptio
 ##### 1.3.2 示例
 
 ```cangjie
-from oauth4cj import oauth4cj.*
-from std import collection.HashMap
-from std import collection.ArrayList
-from std import io.*
+public import oauth4cj.*
+import std.collection.HashMap
+import std.collection.ArrayList
+import std.io.*
 
 main (){
     var headers:HashMap<String, String> = HashMap<String, String>()
@@ -1685,7 +1685,7 @@ public class TimestampServiceImpl <: TimestampService {
 ##### 1.4.2 示例
 
 ```cangjie
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 public func testHMACSha1SignatureService_01(): Int32 {
     let hmac: HMACSha1SignatureService = HMACSha1SignatureService()
@@ -2046,7 +2046,7 @@ public class OAuth2AccessTokenJsonExtractor <: AbstractJsonExtractor & TokenExtr
 ##### 1.5.2 示例
 
 ```cangjie
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 public func createSampleOAuthRequest(): OAuth4cjRequest {
     let request: OAuth4cjRequest = OAuth4cjRequest(Verb.GET, "http://example.com")
@@ -2810,8 +2810,8 @@ public class AuthorizationUrlBuilder {
 ##### 1.6.2 示例
 
 ```cangjie
-from std import collection.*
-from oauth4cj import oauth4cj.*
+import std.collection.*
+public import oauth4cj.*
 main() {
     var scopeString: ArrayList<String> = ArrayList<String>()
     scopeString.append("scope_1")
@@ -3812,9 +3812,9 @@ public class OAuth20Service <: OAuthService {
 
 ##### 1.7.2 示例
 ```cangjie
-from std import collection.*
-from std import time.*
-from oauth4cj import oauth4cj.*
+import std.collection.*
+import std.time.*
+public import oauth4cj.*
 
 main() {
     var apiA: A = A()
@@ -4445,12 +4445,12 @@ public class OkHttpHttpClient <: HttpClient {
     /**
      * 根据参数创建一个 OkHttpHttpClient 实例。
      * 
-     * @参数 client - httpclient4cj.HttpClient 数据类型, Call 的工厂类。
+     * @参数 client - Httpclient4cjHttpClient 数据类型, Call 的工厂类。
      */
-    public init(client: httpclient4cj.HttpClient)
+    public init(client: Httpclient4cjHttpClient)
     
     /**
-     * 关闭 httpclient4cj.HttpClient 中的资源。
+     * 关闭 Httpclient4cjHttpClient 中的资源。
      */
     public func close(): Unit
     
@@ -4597,14 +4597,14 @@ public class OkHttpHttpClientConfig <: HttpClientConfig {
     /**
      * 根据参数创建一个 OkHttpClientConfig 实例。
      * 
-     * @参数 clientBuilder - httpclient4cj.HttpClient 的生成器。
+     * @参数 clientBuilder - Httpclient4cjHttpClient 的生成器。
      */
     public init(clientBuilder: HttpClientBuilder)
     
     /**
-     * 获取 httpclient4cj.HttpClient 的生成器。
+     * 获取 Httpclient4cjHttpClient 的生成器。
      * 
-     * @返回值 HttpClientBuilder - httpclient4cj.HttpClient 的生成器。
+     * @返回值 HttpClientBuilder - Httpclient4cjHttpClient 的生成器。
      */
     public func getClientBuilder(): HttpClientBuilder
     
@@ -4647,8 +4647,8 @@ public class OkHttpProvider <: HttpClientProvider {
 ##### 1.8.2 示例
 
 ```cangjie
-from std import collection.*
-from oauth4cj import oauth4cj.*
+import std.collection.*
+public import oauth4cj.*
 
 main() {
     let headers: HashMap<String, String> = HashMap<String, String>()
@@ -4803,7 +4803,7 @@ public open class OAuth4cjSignatureException <: OAuth4cjException {
 ##### 1.9.2 示例
 
 ```cangjie
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 main (){
 
@@ -4970,7 +4970,7 @@ public class PKCEService {
 ##### 2.0.2 示例
 
 ```cangjie
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 let RANDOM_BYTES: Array<UInt8> = Array<UInt8>([116, 24, 223, 180, 151, 153,
             224, 37, 79, 250, 96, 125, 216, 173, 187, 186, 22, 212, 37, 77,

@@ -1,10 +1,10 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from oauth4cj import oauth4cj.*
-from std import collection.HashMap
-from std import collection.ArrayList
-from std import io.*
+public import oauth4cj.*
+import std.collection.HashMap
+import std.collection.ArrayList
+import std.io.*
 
 // public init(rawResponse: Response) public func getResponse()
 public func testException_01():Int32 {

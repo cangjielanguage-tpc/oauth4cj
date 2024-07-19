@@ -2,7 +2,7 @@
 // EXEC: ./main
 
 //1.9.2 示例
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 main (){
 

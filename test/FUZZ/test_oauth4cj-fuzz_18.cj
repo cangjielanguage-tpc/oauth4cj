@@ -1,8 +1,8 @@
 // 3rd_party_lib:oauth4cj/build/oauth4cj:oauth4cj/build/httpclient4cj
 
 from fuzz import fuzz.*
-from oauth4cj import oauth4cj.*
-from std import collection.*
+public import oauth4cj.*
+import std.collection.*
 
 public func fuzzFunc_URLEncoder_decode(dp:DataProvider):Int32 {
     try{

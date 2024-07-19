@@ -1,9 +1,9 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from std import fs.*
+import std.fs.*
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 main() {
     var test_01 = testRSASha1SignatureServiceGetSignature04()

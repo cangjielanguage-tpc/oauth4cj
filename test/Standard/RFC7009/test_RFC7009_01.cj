@@ -2,10 +2,10 @@
 // 3rd_party_lib_ohos:oauth4cj/build/aarch64-linux-ohos/oauth4cj:oauth4cj/build/aarch64-linux-ohos/httpclient4cj
 // dependence: ../common_Values.cj
 
-from std import random.*
-from std import collection.*
-from encoding import json.*
-from oauth4cj import oauth4cj.*
+import std.random.*
+import std.collection.*
+import encoding.json.*
+public import oauth4cj.*
 
 @Test
 public class TestRFC7009{

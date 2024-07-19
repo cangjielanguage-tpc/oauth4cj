@@ -4,8 +4,6 @@
 
 package oauth4cj
 
-from std import sync.*
-from std import time.*
 
 /**
  * OAuth 2.0 Service

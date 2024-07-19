@@ -2,8 +2,8 @@
 // EXEC: ./main
 
 //1.8.2 示例
-from std import collection.*
-from oauth4cj import oauth4cj.*
+import std.collection.*
+public import oauth4cj.*
 
 main() {
     let headers: HashMap<String, String> = HashMap<String, String>()

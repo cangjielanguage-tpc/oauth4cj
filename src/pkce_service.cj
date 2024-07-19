@@ -7,7 +7,7 @@
  */
 package oauth4cj
 
-from std import random.*
+import std.random.*
 
 
 /**

@@ -2,9 +2,9 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from std import collection.*
+import std.collection.*
 
-from oauth4cj import oauth4cj.*
+public import oauth4cj.*
 
 func ok(body: String): OAuth4cjResponse {
     return OAuth4cjResponse (400, "", HashMap<String, String>(), body)

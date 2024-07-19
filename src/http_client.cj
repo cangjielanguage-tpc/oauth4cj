@@ -7,8 +7,7 @@
  */
 package oauth4cj
 
-from std import collection.*
-from std import fs.*
+internal import std.fs.*
 
 public interface HttpClient <: Resource {
 

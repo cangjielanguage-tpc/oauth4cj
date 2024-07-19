@@ -3,7 +3,7 @@
  */
 package oauth4cj
 
-from std import unicode.*
+import std.unicode.*
 
 /**
  * OAuth token

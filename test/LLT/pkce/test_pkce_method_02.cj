@@ -2,8 +2,8 @@
 // EXEC: ./main
 
 
-from encoding import base64.*
-from oauth4cj import oauth4cj.*
+import encoding.base64.*
+public import oauth4cj.*
 
 main () {
     let str: String = "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"

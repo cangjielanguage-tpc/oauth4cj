@@ -7,7 +7,7 @@
  */
 package oauth4cj
 
-from std import convert.*
+internal import std.convert.*
 
 /**
  * Utility class for HTML form encoding.
@@ -97,15 +97,15 @@ public class URLEncoder {
         let out: StringBuilder = StringBuilder()
         let cas: CharArrayStream = CharArrayStream(512)
 
-        let charBuf: Array<Char> = s.toRuneArray()
+        let charBuf: Array<Rune> = s.toRuneArray()
         let len: Int64 = charBuf.size
         var i: Int64 = 0
         while (i < len) {
-            var ch: Char = charBuf[i]
+            var ch: Rune = charBuf[i]
             var c: Int64 = Int64(UInt32(ch))
             if (DONT_NEED_ENCODING.get(c)) {
-                if (ch == ' ') {
-                    ch = '+'
+                if (ch == r' ') {
+                    ch = r'+'
                     needToChange = true
                 }
                 out.append(ch)
@@ -124,15 +124,15 @@ public class URLEncoder {
     }
 
     // Convert to external encoding before hexadecimal conversion.
-    private static func convertToExternalEncoding(cas: CharArrayStream, char: Char, numCh: Int64,
-                                                len: Int64, i: Int64, charBuf: Array<Char>): Int64 {
+    private static func convertToExternalEncoding(cas: CharArrayStream, char: Rune, numCh: Int64,
+                                                len: Int64, i: Int64, charBuf: Array<Rune>): Int64 {
         var index: Int64 = i
-        var ch: Char = char
+        var ch: Rune = char
         var numChar: Int64 = numCh
         do {
             cas.write(ch)
             if (numChar >= 0xD800 && numChar <= 0xDBFF && (index + 1) < len) {
-                var dChar: Char = charBuf[index + 1]
+                var dChar: Rune = charBuf[index + 1]
                 let dNum: Int64 = Int64(UInt32(dChar))
                 if (dNum >= 0xDC00 && dNum <= 0xDFFF) {
                     cas.write(dChar)
@@ -157,23 +157,23 @@ public class URLEncoder {
 
         for (j in 0 .. ba.size) {
             out.append('%')
-            var baChar: Char = CharacterUtil.forDigit(Int64((ba[j] >> 4) & 0xF), 16)
+            var baChar: Rune = CharacterUtil.forDigit(Int64((ba[j] >> 4) & 0xF), 16)
             // If ch is a letter, convert to using uppercase letters as part of the hexadecimal value.
             if (isLetter(baChar)) {
-                baChar = Char(UInt32(baChar) - CASE_DIFF)
+                baChar = Rune(UInt32(baChar) - CASE_DIFF)
             }
             out.append(baChar)
             baChar = CharacterUtil.forDigit(Int64(ba[j] & 0xF), 16)
             if (isLetter(baChar)) {
-                baChar = Char(UInt32(baChar) - CASE_DIFF)
+                baChar = Rune(UInt32(baChar) - CASE_DIFF)
             }
             out.append(baChar)
         }
         cas.reset()
     }
 
-    private static func isLetter(ch: Char): Bool {
-        return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')
+    private static func isLetter(ch: Rune): Bool {
+        return (ch >= r'a' && ch <= r'z') || (ch >= r'A' && ch <= r'Z')
     }
 
     /**
@@ -218,10 +218,10 @@ public class URLEncoder {
         let sb: StringBuilder = StringBuilder()
         var i: Int64 = 0
 
-        var c: Char = ' '
+        var c: Rune = ' '
         var bytes: Array<UInt8> = Array<UInt8>()
 
-        let charBuf: Array<Char> = s.toRuneArray()
+        let charBuf: Array<Rune> = s.toRuneArray()
         while (i < numChars) {
             c = charBuf[i]
             match (c) {
@@ -254,12 +254,12 @@ public class URLEncoder {
         return s
     }
 
-    private static func handlePercentageSign(s: String, index: Int64, numChars: Int64, char: Char,
-                                            bytes: Array<UInt8>, charBuf: Array<Char>, sb: StringBuilder): Int64 {
+    private static func handlePercentageSign(s: String, index: Int64, numChars: Int64, char: Rune,
+                                            bytes: Array<UInt8>, charBuf: Array<Rune>, sb: StringBuilder): Int64 {
         var pos: Int64 = 0
         var i: Int64 = index
-        var c: Char = char
-        while ( ((i + 2) < numChars) && (c == '%')) {
+        var c: Rune = char
+        while ( ((i + 2) < numChars) && (c == r'%')) {
             let strNum: String = "0X" + s[(i+1)..(i+3)]
             let v: Int64 = Int64.parse(strNum)
 
@@ -276,7 +276,7 @@ public class URLEncoder {
         }
 
         // Trailing, incomplete byte encoding (such as "%x") will cause an exception to be thrown.
-        if (i < numChars && c == '%') {
+        if (i < numChars && c == r'%') {
             throw IllegalArgumentException("Incomplete trailing escape (%) pattern.")
         }
 

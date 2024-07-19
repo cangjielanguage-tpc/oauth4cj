@@ -3,8 +3,6 @@
  */
 package oauth4cj
 
-from std import io.*
-
 /**
  * ServiceBuilderOAuth10a
  */

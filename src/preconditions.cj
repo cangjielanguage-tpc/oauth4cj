@@ -7,7 +7,6 @@
  */
 package oauth4cj
 
-from std import unicode.*
 
 /**
  * blank judgment tools.
@@ -46,7 +45,7 @@ public class Preconditions {
         }
         let array = str.toRuneArray()
         for (c in array) {
-            if (!c.isWhiteSpace()) {
+            if (!c.isAsciiWhiteSpace()) {
                 return true
             }
         }

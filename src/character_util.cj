@@ -52,19 +52,19 @@ class CharacterUtil  {
      * @param the number to convert to characters.
      * @param the radix.
      *
-     * @return The return type of Char
+     * @return The return type of Rune
      * @since 0.37.2
      */
-    protected static func forDigit(digit: Int64, radix: Int64): Char {
+    protected static func forDigit(digit: Int64, radix: Int64): Rune {
         if ((digit >= radix) || (digit < 0)) {
-            return '\0' // NUT - control character, first bit of ASK code table.
+            return r'\0' // NUT - control character, first bit of ASK code table.
         }
         if ((radix < CharacterUtil.MIN_RADIX) || (radix > CharacterUtil.MAX_RADIX)) {
-            return '\0'
+            return r'\0'
         }
         if (digit < 10) {
-            return Char(CHAR_0 + digit)
+            return Rune(CHAR_0 + digit)
         }
-        return Char(CHAR_a - 10 + digit)
+        return Rune(CHAR_a - 10 + digit)
     }
 }
