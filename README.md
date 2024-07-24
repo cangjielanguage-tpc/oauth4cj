@@ -14,10 +14,6 @@
 
 OAuth4cj 支持协议 OAuth1.0 和 OAuth2.0，允许第三方程序通过访问令牌访问受保护的资源，而无需暴露用户的凭据。支持授权码模式，简化模式，密码模式，客户端模式四种模式。
 
-代码参考:
-1. https://github.com/scribejava/scribejava 版本8.3.3
-
-
 ### 特性
 
 - 💡 授权码模式授权
@@ -28,7 +24,7 @@ OAuth4cj 支持协议 OAuth1.0 和 OAuth2.0，允许第三方程序通过访问�
 
 - 🛠️ 客户端模式授权
 
-- 🌍 提供常用网站授权api封装
+- 🌍 提供网站授权api封装使用示例
 
 ### 支持以下协议和附加功能
 - RFC 5849 OAuth 1.0协议，[示例](./test/LLT/RFC/RFC5849/test_oauth10a_service_01.cj) 
