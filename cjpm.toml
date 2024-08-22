@@ -1,8 +1,8 @@
 [dependencies]
   httpclient4cj = {branch = "v0.0.1.B001", git = "https://gitcode.com/Cangjie-TPC/httpclient4cj.git", version = "0.0.1"}
      
-[ffi.c] 
-  cj_rdb.z = {path = "./lib/"}
+[ffi.c]
+  crypto = {path = "./lib/"}
 
 [package]
   cjc-version = "0.53.4"
