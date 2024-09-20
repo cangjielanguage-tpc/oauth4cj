@@ -197,7 +197,7 @@ public class OAuth10aService <: OAuthService {
         request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken())
         request.addOAuthParameter(OAuthConstants.VERIFIER, oauthVerifier)
         if (isDebug()) {
-            let logMessages = Array<String>([requestToken.getToken(), oauthVerifier])
+            let logMessages = [requestToken.getToken(), oauthVerifier]
             log("setting token to: %s and verifier to: ", logMessages)
         }
         addOAuthParams(request, requestToken.getTokenSecret())

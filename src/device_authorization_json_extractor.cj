@@ -119,7 +119,7 @@ func asIntOfJsonValue(jsonValue: JsonValue, defaultNum: Int32): Int32 {
                                         str.startsWith("0x") || str.startsWith("0X")) {
                 return num
             }
-            num = Int32.parse(str.trimLeft("+").trimLeft("+"))
+            num = Int32.parse(str.removePrefix("+").removePrefix("+"))
         } catch (ex: Exception) {
             num = defaultNum
         }

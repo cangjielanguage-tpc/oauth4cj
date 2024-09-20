@@ -28,7 +28,7 @@ class CharArrayStream {
     }
 
     init(size: Int64) {
-        this.myData = Array<Rune>(size, item: item)
+        this.myData = Array<Rune>(size, repeat: item)
         this.start = 0
         this.length_ = 0
     }
@@ -58,7 +58,7 @@ class CharArrayStream {
         if (newCapacity < minCapacity) {
             newCapacity = minCapacity
         }
-        let newData: Array<Rune> = Array<Rune>(newCapacity, item: r' ')
+        let newData: Array<Rune> = Array<Rune>(newCapacity, repeat: r' ')
 
         this.myData.copyTo(newData, 0, 0, this.start + this.length_)
         this.myData = newData
