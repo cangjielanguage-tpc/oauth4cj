@@ -233,7 +233,7 @@ public class URLEncoder {
                     try {
                         // (numChars-i)/3 is the upper limit of the remaining bytes.
                         if (bytes.size == 0) {
-                            bytes = Array<UInt8>((numChars - i) / 3, item: 0)
+                            bytes = Array<UInt8>((numChars - i) / 3, repeat: 0)
                         }
                         i = handlePercentageSign(s, i, numChars, c, bytes, charBuf, sb)
                     } catch (e: IllegalArgumentException) {

@@ -63,7 +63,7 @@ public class PKCEService {
      * @since 0.38.2
      */
     public func generatePKCE(): PKCE {
-        let bytes: Array<UInt8> = Array<UInt8>(Int64(numberOFOctets), item: 0)
+        let bytes: Array<UInt8> = Array<UInt8>(Int64(numberOFOctets), repeat: 0)
         setArrayByRandom(bytes)
         return generatePKCE(bytes)
     }

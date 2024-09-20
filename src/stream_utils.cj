@@ -27,7 +27,7 @@ public class StreamUtils  {
      * @since 0.37.2
      */
     public static func getStreamContents(ins: InputStream, isGzipStream!: Bool = false): String {
-        let buffer: Array<Byte> = Array<Byte>(DEFAULT_NUM, item: 0)
+        let buffer: Array<Byte> = Array<Byte>(DEFAULT_NUM, repeat: 0)
         let out: ByteArrayStream = ByteArrayStream(DEFAULT_NUM * 5)
         try {
             var len: Int64 = 0

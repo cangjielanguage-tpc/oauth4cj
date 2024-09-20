@@ -133,10 +133,10 @@ public class ParameterList {
     public func addQuerystring(queryStr: String): Unit {
         var queryString: String = queryStr
         while (queryString.endsWith(PARAM_SEPARATOR)) {
-            queryString = queryString.trimRight(PARAM_SEPARATOR)
+            queryString = queryString.removeSuffix(PARAM_SEPARATOR)
         }
         if (!queryString.isEmpty()) {
-            var paramsBuf: Array<String> = Array<String>([queryString])
+            var paramsBuf: Array<String> = [queryString]
             if (queryString.contains(PARAM_SEPARATOR)) {
                 paramsBuf = queryString.split(PARAM_SEPARATOR)
             }
@@ -144,7 +144,7 @@ public class ParameterList {
             for (i in 0..paramsBuf.size) {
                 let param: String = paramsBuf[i]
 
-                var pair: Array<String> = Array<String>([param])
+                var pair: Array<String> = [param]
                 let num: Int64 = queryString.count("=")
                 if (num == queryString.size && queryString.contains(PAIR_SEPARATOR)) {
                     pair = Array<String>()
