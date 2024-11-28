@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
  */
 
 /**
@@ -28,7 +28,7 @@ class CharArrayStream {
     }
 
     init(size: Int64) {
-        this.myData = Array<Rune>(size, repeat: item)
+        this.myData = Array<Rune>(size, item: item)
         this.start = 0
         this.length_ = 0
     }
@@ -58,7 +58,7 @@ class CharArrayStream {
         if (newCapacity < minCapacity) {
             newCapacity = minCapacity
         }
-        let newData: Array<Rune> = Array<Rune>(newCapacity, repeat: r' ')
+        let newData: Array<Rune> = Array<Rune>(newCapacity, item: r' ')
 
         this.myData.copyTo(newData, 0, 0, this.start + this.length_)
         this.myData = newData

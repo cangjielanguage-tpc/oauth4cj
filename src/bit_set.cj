@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
  */
 
 /**
@@ -25,7 +25,7 @@ class BitSet {
             throw OAuth4cjException("nbits < 0: ${nbits}")
         }
         this.sizeIsSticky = true
-        this.words = Array<Int64>(wordIndex(nbits - 1) + 1, repeat: 0)
+        this.words = Array<Int64>(wordIndex(nbits - 1) + 1, item: 0)
     }
 
     // Given a bit index, returns the word index that contains it.
@@ -93,7 +93,7 @@ class BitSet {
             if (request < wordsRequired) {
                 request = wordsRequired
             }
-            let arr: Array<Int64> = Array<Int64>(request, repeat: 0)
+            let arr: Array<Int64> = Array<Int64>(request, item: 0)
             this.words.copyTo(arr, 0, 0, len)
             this.words = arr
             this.sizeIsSticky = false

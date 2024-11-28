@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
  */
 package oauth4cj
 

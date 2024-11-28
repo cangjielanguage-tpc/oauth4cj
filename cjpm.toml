@@ -1,11 +1,11 @@
 [dependencies]
-  httpclient4cj = {branch = "v0.0.1.B003", git = "https://gitcode.com/Cangjie-TPC/httpclient4cj.git", version = "0.0.1"}
+  httpclient4cj = {branch = "cjc_0.53.13", git = "https://gitcode.com/Cangjie-TPC/httpclient4cj.git", version = "0.0.6"}
      
 [ffi.c]
   crypto = {path = "./lib/"}
 
 [package]
-  cjc-version = "0.55.3"
+  cjc-version = "0.53.13"
   compile-option = "-O2 --fno-chir-function-inlining"
   description = "nothing here"
   link-option = ""
@@ -13,5 +13,5 @@
   output-type = "dynamic"
   src-dir = "src"
   target-dir = ""
-  version = "0.0.1"
+  version = "1.0.0"
   package-configuration = {}

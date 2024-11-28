@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
  */
 
 /**
@@ -119,7 +119,7 @@ func asIntOfJsonValue(jsonValue: JsonValue, defaultNum: Int32): Int32 {
                                         str.startsWith("0x") || str.startsWith("0X")) {
                 return num
             }
-            num = Int32.parse(str.removePrefix("+").removePrefix("+"))
+            num = Int32.parse(str.trimLeft("+").trimLeft("+"))
         } catch (ex: Exception) {
             num = defaultNum
         }

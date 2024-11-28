@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
  */
 
 /**
@@ -133,7 +133,7 @@ public class ParameterList {
     public func addQuerystring(queryStr: String): Unit {
         var queryString: String = queryStr
         while (queryString.endsWith(PARAM_SEPARATOR)) {
-            queryString = queryString.removeSuffix(PARAM_SEPARATOR)
+            queryString = queryString.trimRight(PARAM_SEPARATOR)
         }
         if (!queryString.isEmpty()) {
             var paramsBuf: Array<String> = [queryString]
