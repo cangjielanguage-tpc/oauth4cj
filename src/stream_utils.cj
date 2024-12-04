@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
  */
 
 /**
@@ -28,7 +28,7 @@ public class StreamUtils  {
      */
     public static func getStreamContents(ins: InputStream, isGzipStream!: Bool = false): String {
         let buffer: Array<Byte> = Array<Byte>(DEFAULT_NUM, repeat: 0)
-        let out: ByteArrayStream = ByteArrayStream(DEFAULT_NUM * 5)
+        let out: ByteBuffer = ByteBuffer(DEFAULT_NUM * 5)
         try {
             var len: Int64 = 0
             while (true) {
@@ -49,8 +49,8 @@ public class StreamUtils  {
         if (!isGzipStream && out.length <= 0) {
             throw OAuth4cjException("Cannot get String from a Null InputStream.")
         }
-        let res: Array<Byte> = out.readToEnd()
-
+        // let res: Array<Byte> = out.readToEnd()
+        let res: Array<Byte> = readToEnd(out)
         out.clear()
         return String.fromUtf8(res)
     }

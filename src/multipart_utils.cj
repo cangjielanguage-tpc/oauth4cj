@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
  */
 
 /**
@@ -79,15 +79,15 @@ public class MultipartUtils {
     }
 
     /**
-     * Process the information in the MultipartPayload, encapsulate it into a ByteArrayStream, and return it。
+     * Process the information in the MultipartPayload, encapsulate it into a ByteBuffer, and return it。
      *
      * @param multipartPayload of MultipartPayload, process the information in the MultipartPayload.
      *
-     * @return Type of ByteArrayStream
+     * @return Type of ByteBuffer
      * @since 0.37.2
      */
-    public static func getPayload(multipartPayload: MultipartPayload): ByteArrayStream {
-        let os: ByteArrayStream = ByteArrayStream()
+    public static func getPayload(multipartPayload: MultipartPayload): ByteBuffer {
+        let os: ByteBuffer = ByteBuffer()
 
         let preamble: String = multipartPayload.getPreamble()
         if (!preamble.isEmpty()) {
@@ -110,7 +110,7 @@ public class MultipartUtils {
 
                 os.write("\r\n".toArray())
                 if (bodyPart is MultipartPayload) {
-                    getPayload((bodyPart as MultipartPayload).getOrThrow()).copyTo(os)
+                    copy(getPayload((bodyPart as MultipartPayload).getOrThrow()), to: os)
                 } else if (bodyPart is ByteArrayBodyPartPayload) {
                     let byteArrayBodyPart: ByteArrayBodyPartPayload =
                                             (bodyPart as ByteArrayBodyPartPayload).getOrThrow()

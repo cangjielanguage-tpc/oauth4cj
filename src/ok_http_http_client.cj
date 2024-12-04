@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
  */
 
 /**
@@ -317,7 +317,7 @@ public class OkHttpHttpClient <: HttpClient {
         let body: ResponseBody = okHttpResponse.getBody().getOrThrow()
 
         let source: Source = body.getSource()
-        let bodyStream: ByteArrayStream = ByteArrayStream(4096)
+        let bodyStream: ByteBuffer = ByteBuffer(4096)
         try (r = source) {
             while (source.read(bodyStream, 4096) > 0) {}
         } catch (e: EOFException) {}

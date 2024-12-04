@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
  */
 
 package oauth4cj
@@ -150,18 +150,26 @@ public abstract class OAuthService <: Resource {
     public func execute(request: OAuth4cjRequest, callback: Option<OAuthAsyncRequestCallback>,
             converter: Option<ResponseConverter>): Future<Any> {
 
-        let filePayload: Option<File> = request.getFilePayload()
+        let filePayload: Path = request.getFilePayload()
         let stringPayload: String = request.getStringPayload()
 
         var hasFile: Bool = false
-        match (filePayload) {
-            case None => hasFile = false
-            case Some(data) => hasFile = true
+        if (!filePayload.isEmpty()) {
+            try{
+                var file = File.openRead(filePayload)
+                if (file.canRead()) {
+                    hasFile = true
+                } else {
+                    hasFile = false
+                }
+            } catch (e: FSException | IllegalArgumentException) {
+                hasFile = false
+            }
         }
-
+        
         if (hasFile) {
             return httpClient.getOrThrow().executeAsync(userAgent, request.getHeaders(), request.getVerb(),
-                request.getCompleteUrl(), filePayload.getOrThrow().readToEnd(), callback, converter)
+                request.getCompleteUrl(), File.readFrom(filePayload), callback, converter)
         } else if (!stringPayload.isEmpty()) {
             return httpClient.getOrThrow().executeAsync(userAgent, request.getHeaders(), request.getVerb(),
                 request.getCompleteUrl(), stringPayload.toArray(), callback, converter)
@@ -178,16 +186,24 @@ public abstract class OAuthService <: Resource {
      * @return Response response data
      */
     public func execute(request: OAuth4cjRequest): OAuth4cjResponse {
-        let filePayload: Option<File> = request.getFilePayload()
+        let filePayload: Path = request.getFilePayload()
         let stringPayload: String = request.getStringPayload()
         let multipartPayload: Option<MultipartPayload> = request.getMultipartPayload()
 
         var hasFile: Bool = false
-        match (filePayload) {
-            case None => hasFile = false
-            case Some(data) => hasFile = true
+        if (!filePayload.isEmpty()) {
+            try{
+                var file = File.openRead(filePayload)
+                if (file.canRead()) {
+                    hasFile = true
+                } else {
+                    hasFile = false
+                }
+            } catch (e: FSException | IllegalArgumentException) {
+                hasFile = false
+            }
         }
-
+        
         var hasMultipart: Bool = false
         match (multipartPayload) {
             case None => hasMultipart = false
@@ -196,7 +212,7 @@ public abstract class OAuthService <: Resource {
 
         if (hasFile) {
             return httpClient.getOrThrow().execute(userAgent, request.getHeaders(), request.getVerb(),
-                request.getCompleteUrl(), filePayload.getOrThrow().readToEnd())
+                request.getCompleteUrl(), File.readFrom(filePayload))
         } else if (!stringPayload.isEmpty()) {
             return httpClient.getOrThrow().execute(userAgent, request.getHeaders(), request.getVerb(),
                 request.getCompleteUrl(), stringPayload.toArray())
