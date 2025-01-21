@@ -102,7 +102,7 @@ func build(oauth20Service: OAuth20Service, state: Option<String>,
     match (pkce) {
         case Some(x) =>
             params = HashMap<String, String>(additionalParams)
-            params.putAll(x.getAuthorizationUrlParams())
+            params.add(all: x.getAuthorizationUrlParams())
         case _ => params = additionalParams
     }
 

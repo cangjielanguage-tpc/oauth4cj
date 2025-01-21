@@ -75,7 +75,7 @@ public class AccessTokenRequestParams {
         if (extraParameters.isEmpty()) {
             return this
         }
-        this.extraParameters.putAll(extraParameters)
+        this.extraParameters.add(all: extraParameters)
         return this
     }
 
@@ -87,7 +87,7 @@ public class AccessTokenRequestParams {
      * @return AccessTokenRequestParams AccessTokenRequestParams instance
      */
     public func addExtraParameter(name: String, value: String): AccessTokenRequestParams {
-        this.extraParameters.put(name, value)
+        this.extraParameters.add(name, value)
         return this
     }
 

@@ -57,7 +57,7 @@ public open class OAuth4cjRequest {
      * @since 0.37.2
      */
     public func addOAuthParameter(key: String, value: String): Unit {
-        this.oauthParameters.put(checkKey(key), value);
+        this.oauthParameters.add(checkKey(key), value)
     }
 
     private func checkKey(key: String): String {
@@ -122,10 +122,10 @@ public open class OAuth4cjRequest {
     public func addHeader(key: String, value: String): Unit {
         let keyUpper: String = key.toAsciiUpper()
         if (this.headersKey.contains(keyUpper)) {
-            this.headers.put(this.headersKey[keyUpper], value)
+            this.headers.add(this.headersKey[keyUpper], value)
         } else {
-            this.headers.put(key, value)
-            this.headersKey.put(keyUpper, key)
+            this.headers.add(key, value)
+            this.headersKey.add(keyUpper, key)
         }
     }
     
