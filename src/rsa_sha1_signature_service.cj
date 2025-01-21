@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
  */
 
 /**
@@ -46,7 +46,7 @@ public class RSASha1SignatureService <: SignatureService {
     public func getSignature(baseString: String, apiSecret: String, tokenSecret: String): String {
         var pemPri: String = ""
         try {
-            pemPri = String.fromUtf8(File(privateKey, OpenOption.Open(true, false)).readToEnd())
+            pemPri = String.fromUtf8(File.readFrom(Path(privateKey)))
         } catch (e: Exception) {
             throw OAuth4cjSignatureException("Illegal private key file!" + e.message)
         }

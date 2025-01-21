@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
  * 
  */
 package oauth4cj
@@ -33,7 +33,7 @@ public class OAuth4cjResponse <: Resource {
         this.message = message
         this.headers = headers
         this.body = body
-        this.stream = ByteArrayStream()
+        this.stream = ByteBuffer()
         this.hasBody = true
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
  */
 
 /**
@@ -29,7 +29,7 @@ public open class OAuth4cjRequest {
     private var stringPayload: String = ""
     private var byteArrayPayload: Array<UInt8> = Array<UInt8>()
 
-    private var filePayload: ?File = None
+    private var filePayload: Path = Path("")
 
     private var multipartPayload: Option<MultipartPayload> = Option<MultipartPayload>.None
 
@@ -301,20 +301,20 @@ public open class OAuth4cjRequest {
     }
 
     /**
-     * Overloaded version for File.
+     * Overloaded version for Path.
      *
-     * @param payload of File
+     * @param payload of Path
      * @since 0.37.2
      */
-    public func setPayload(payload: File): Unit {
+    public func setPayload(payload: Path): Unit {
         resetPayload()
-        filePayload = Some(payload)
+        filePayload = payload
     }
 
     private func resetPayload(): Unit {
         this.stringPayload = ""
         this.byteArrayPayload = Array<UInt8>()
-        this.filePayload = None
+        this.filePayload = Path("")
         this.multipartPayload = Option<MultipartPayload>.None
     }
 
@@ -417,7 +417,7 @@ public open class OAuth4cjRequest {
      * @return Type of Option<File>
      * @since 0.37.2
      */
-    public func getFilePayload(): Option<File> {
+    public func getFilePayload(): Path {
         return this.filePayload
     }
 

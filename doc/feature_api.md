@@ -205,7 +205,7 @@ import std.io.*
 main (){
     let str: String = "Hello World"
     let bytes: Array<UInt8> = str.toArray()
-    let bas: ByteArrayStream = ByteArrayStream(526)
+    let bas: ByteBuffer = ByteBuffer(526)
     bas.write(bytes)
     let decoded: String = StreamUtils.getStreamContents(bas)
     if(decoded == str){
@@ -1477,16 +1477,16 @@ import std.collection.ArrayList
 import std.io.*
 
 main (){
-    var headers:HashMap<String, String> = HashMap<String, String>()
-    var stream:ByteArrayStream = ByteArrayStream()
-    var closeables:ArrayList<Resource> = ArrayList<Resource>()
+    var headers: HashMap<String, String> = HashMap<String, String>()
+    var stream: ByteBuffer = ByteBuffer()
+    var closeables: ArrayList<Resource> = ArrayList<Resource>()
     stream.write("abcdefg".toArray()) // 向流中写入测试数据
-    var response:OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, stream, closeables)
+    var response: OAuth4cjResponse = OAuth4cjResponse(200, "message", headers, stream, closeables)
     var responseStream = response.getStream()
-    var buffer:Array<Byte> = Array<Byte>(7, item:0)
+    var buffer: Array<Byte> = Array<Byte>(7, item:0)
     responseStream.read(buffer)
     var str_1 = String.fromUtf8(buffer)
-    var str_2:String = response.toString()
+    var str_2: String = response.toString()
     if ("abcdefg"!=str_1){
        return -1
     }
@@ -4649,6 +4649,7 @@ public class OkHttpProvider <: HttpClientProvider {
 ```cangjie
 import std.collection.*
 public import oauth4cj.*
+import std.io.*
 
 main() {
     let headers: HashMap<String, String> = HashMap<String, String>()
@@ -4687,7 +4688,7 @@ main() {
     }
     println(str == result)
 
-    str = String.fromUtf8(MultipartUtils.getPayload(mp).readToEnd())
+    str = String.fromUtf8(readToEnd(MultipartUtils.getPayload(mp)))
     result = "This is the preamble.  It is to be ignored, though it\n" +
              "is a handy place for composition agents to include an\n" +
              "explanatory note to non-MIME conformant readers." +
