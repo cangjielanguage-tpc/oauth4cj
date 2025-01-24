@@ -40,7 +40,7 @@ public class ParameterList {
         this.params = ArrayList<OAuth4cjParameter>(map.size)
         if (map.size > 0) {
             for ((k, v) in map) {
-                params.append(OAuth4cjParameter(k, v))
+                params.add(OAuth4cjParameter(k, v))
             }
         }
     }
@@ -53,7 +53,7 @@ public class ParameterList {
      * @since 0.37.2
      */
     public func add(key: String, value: String): Unit {
-        params.append(OAuth4cjParameter(key, value))
+        params.add(OAuth4cjParameter(key, value))
     }
 
     /**
@@ -121,7 +121,7 @@ public class ParameterList {
      * @since 0.37.2
      */
     public func addAll(other: ParameterList): Unit {
-        params.appendAll(other.getParams())
+        params.add(all: other.getParams())
     }
 
     /**
@@ -157,7 +157,7 @@ public class ParameterList {
                 if (pair.size > 1) {
                     value = OAuthEncoder.decode(pair[1])
                 }
-                params.append(OAuth4cjParameter(key, value))
+                params.add(OAuth4cjParameter(key, value))
             }
         }
     }

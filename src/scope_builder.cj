@@ -50,7 +50,7 @@ public class ScopeBuilder {
      * @return ScopeBuilder ScopeBuilder instance
      */
     public func withScope(scope: String): ScopeBuilder {
-        scopes.put(scope)
+        scopes.add(scope)
         return this
     }
 
@@ -61,7 +61,7 @@ public class ScopeBuilder {
      * @return ScopeBuilder ScopeBuilder instance
      */
     public func withScopes(scopes: Array<String>): ScopeBuilder {
-        this.scopes.putAll(scopes)
+        this.scopes.add(all: scopes)
         return this
     }
 
@@ -72,7 +72,7 @@ public class ScopeBuilder {
      * @return ScopeBuilder ScopeBuilder instance
      */
     public func withScopes(scopes: Collection<String>): ScopeBuilder {
-        this.scopes.putAll(scopes)
+        this.scopes.add(all: scopes)
         return this
     }
 

@@ -156,7 +156,7 @@ public abstract class OAuthService <: Resource {
         var hasFile: Bool = false
         if (!filePayload.isEmpty()) {
             try{
-                var file = File.openRead(filePayload)
+                var file = File(filePayload, OpenMode.Read)
                 if (file.canRead()) {
                     hasFile = true
                 } else {
@@ -193,7 +193,7 @@ public abstract class OAuthService <: Resource {
         var hasFile: Bool = false
         if (!filePayload.isEmpty()) {
             try{
-                var file = File.openRead(filePayload)
+                var file = File(filePayload, OpenMode.Read)
                 if (file.canRead()) {
                     hasFile = true
                 } else {

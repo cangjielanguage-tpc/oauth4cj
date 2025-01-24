@@ -180,12 +180,12 @@ public class FileByteArrayBodyPartPayload <: ByteArrayBodyPartPayload {
         let headers: HashMap<String, String> = HashMap<String, String>()
 
         if (contentTypeNull) {
-            headers.put("Content-Disposition", contentDispositionHeader)
+            headers.add("Content-Disposition", contentDispositionHeader)
             return headers
         }
 
-        headers.put(OAuthConstants.CONTENT_TYPE, contentType)
-        headers.put("Content-Disposition", contentDispositionHeader)
+        headers.add(OAuthConstants.CONTENT_TYPE, contentType)
+        headers.add("Content-Disposition", contentDispositionHeader)
         return headers
     }
 }
