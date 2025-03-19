@@ -34,14 +34,13 @@ public abstract class AbstractOAuth1TokenExtractor<T> <: TokenExtractor<T> where
     }
 
     private func extract(response: String, p: Regex): String {
-        let matcher: Matcher = p.matcher(response)
-        let res: Option<MatchData> = matcher.find()
+        let res: Option<MatchData> = p.find(response, group: true)
         match (res) {
             case Some(md) =>
-                if (md.groupNumber() == 0) {
+                if (md.groupCount() == 0) {
                     return OAuthEncoder.decode("")
                 }
-                return OAuthEncoder.decode(md.matchStr(1))
+                return OAuthEncoder.decode(md.matchString(1))
             case None =>
                 let err: String = "Response body is incorrect. Can't extract token and secret from this: '${response}'"
                 throw OAuth4cjException(err)

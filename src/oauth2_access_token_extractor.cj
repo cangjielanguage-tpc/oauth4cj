@@ -63,10 +63,9 @@ public class OAuth2AccessTokenExtractor <: TokenExtractor<OAuth2AccessToken> {
 
     private static func extractParameter(response: String, regexPattern: Regex, required: Bool): String {
 
-        let matcher: Matcher = regexPattern.matcher(response)
-        let res: Option<MatchData> = matcher.find()
+        let res: Option<MatchData> = regexPattern.find(response, group: true)
         match (res) {
-            case Some(md) => return OAuthEncoder.decode(md.matchStr(1))
+            case Some(md) => return OAuthEncoder.decode(md.matchString(1))
             case None =>
                 if (required) {
                     let err: String =

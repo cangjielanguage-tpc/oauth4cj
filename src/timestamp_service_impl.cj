@@ -55,17 +55,18 @@ public class TimestampServiceImpl <: TimestampService {
  */
 class ServiceTimer {
 
-    private let RANDOM: Random = Random()
+    private let RANDOM: Random
     private let DEFAULT_NUM: UInt64 = 32
 
-    init() {}
+    init() {
+        this.RANDOM = Random(DEFAULT_NUM)
+    }
 
     func getMilis(): Int64 {
         return getCurrentTimeMillis()
     }
 
     func getRandomInteger(): Int32 {
-        RANDOM.seed = DEFAULT_NUM
         return RANDOM.nextInt32()
     }
 }

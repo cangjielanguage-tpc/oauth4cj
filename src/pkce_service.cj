@@ -15,7 +15,7 @@ import std.random.*
  */
 public class PKCEService {
 
-    private static let RANDOM: Random = Random()
+    private let RANDOM: Random
     private static let DEFAULT_NUM: Int32 = 32
 
     /**
@@ -34,6 +34,7 @@ public class PKCEService {
             throw OAuth4cjException("The number of octets cannot be negative")
         }
         this.numberOFOctets = numberOFOctets
+        this.RANDOM = Random(UInt64(numberOFOctets))
     }
 
     /**
@@ -69,7 +70,6 @@ public class PKCEService {
     }
 
     private func setArrayByRandom(bytes: Array<UInt8>): Unit {
-        RANDOM.seed = UInt64(numberOFOctets)
         for (i in 0..bytes.size) {
             bytes[i] = RANDOM.nextUInt8()
         }
