@@ -57,11 +57,10 @@ public class MultipartUtils {
         if (contentTypeHeader.isEmpty()) {
             return ""
         }
-        let matcher: Matcher = BOUNDARY_FROM_HEADER_REGEXP.matcher(contentTypeHeader)
+        let res: Option<MatchData> = BOUNDARY_FROM_HEADER_REGEXP.find(contentTypeHeader, group: true)
 
-        let res: Option<MatchData> = matcher.find()
         match (res) {
-            case Some(md) => return md.matchStr(1)
+            case Some(md) => return md.matchString(1)
             case None => return ""
         }
     }
