@@ -8,8 +8,8 @@
 package oauth4cj
 
 internal import std.collection.*
-internal import encoding.json.*
-internal import encoding.url.*
+internal import stdx.encoding.json.*
+internal import stdx.encoding.url.*
 
 
 /**

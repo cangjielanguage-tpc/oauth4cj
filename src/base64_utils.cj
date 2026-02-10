@@ -7,7 +7,7 @@
  */
 package oauth4cj
 
-import encoding.base64.*
+import stdx.encoding.base64.*
 
 public open class Base64Utils {
 

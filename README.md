@@ -3,9 +3,9 @@
 </div>
 
 <p align="center">
-<img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/release-v0.0.2-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjc-v0.59.6-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjc-v1.0.0-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjcov-91.2%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
@@ -103,7 +103,7 @@ git clone https://gitcode.com/Cangjie-TPC/httpclient4cj.git
 oauth4cj 需要依赖 libcrypto.so 和 libcrypto.so.3 和 libssl.so 和 libssl.so.3 (windows 系统是对应的 xxx.dll)    
 
 ##### 2.1 获取路径：
-在 https://gitee.com/HW-PLLab/ci_lib.git 的 lib_oauth4cj 分支中，按照环境找包，获取对应依赖文件。
+在 https://gitcode.com/Cangjie-TPC/ci_lib.git 的 lib_oauth4cj 分支中，按照环境找包，获取对应依赖文件。
 
 ```shell
 mkdir lib # 在 oauth4cj 目录下，创建 lib 目录

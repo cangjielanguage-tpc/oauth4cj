@@ -7,7 +7,7 @@
  */
 package oauth4cj
 
-import compress.zlib.*
+import stdx.compress.zlib.*
 
 // Used to process streams.
 public class StreamUtils  {

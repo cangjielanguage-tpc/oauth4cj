@@ -7,7 +7,7 @@
  */
 package oauth4cj
 
-import net.http.HttpHeaders 
+import stdx.net.http.HttpHeaders 
 
 internal import httpclient4cj.*
 internal import httpclient4cj.HttpClient as Httpclient4cjHttpClient

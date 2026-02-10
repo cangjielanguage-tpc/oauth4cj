@@ -8,9 +8,8 @@
 package oauth4cj
 
 
-internal import crypto.keys.*
-internal import crypto.digest.*
-internal import std.crypto.digest.*
+internal import stdx.crypto.keys.*
+internal import stdx.crypto.digest.*
 
 /**
  * RSA-SHA1 implementation of the SignatureService interface.
@@ -53,7 +52,9 @@ public class RSASha1SignatureService <: SignatureService {
         try {
             let rsaPri: RSAPrivateKey = RSAPrivateKey.decodeFromPem(pemPri)
             let sha1Instance: SHA1 = SHA1()
-            let md: Array<Byte> = digest(sha1Instance, baseString)
+            // let md: Array<Byte> = digest(sha1Instance, baseString)
+            sha1Instance.write(baseString.toArray())
+            let md: Array<Byte> = sha1Instance.finish()
             let signArray: Array<Byte> = rsaPri.sign(sha1Instance, md, padType: PKCS1)
             if (signArray.size == 0) {
                 throw OAuth4cjSignatureException("RSA-SHA1 algorithm signature failed.")
