@@ -5,7 +5,7 @@
   crypto = {path = "./lib/"}
 
 [package]
-  cjc-version = "1.1.3"
+  cjc-version = "1.2.0"
   compile-option = "-O2"
   description = "oauth4cj"
   link-option = ""
@@ -13,7 +13,7 @@
   output-type = "dynamic"
   src-dir = "src"
   target-dir = ""
-  version = "1.0.0"
+  version = "1.0.1"
   package-configuration = {}
 
 [profile]
