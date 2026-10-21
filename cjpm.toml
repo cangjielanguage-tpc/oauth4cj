@@ -1,5 +1,5 @@
 [dependencies]
-  httpclient4cj = {tag = "v1.0.9", git = "https://gitcode.com/Cangjie-TPC/httpclient4cj.git"}
+  httpclient4cj = {tag = "v1.0.10", git = "https://gitcode.com/Cangjie-TPC/httpclient4cj.git"}
      
 [ffi.c]
   crypto = {path = "./lib/"}
